@@ -1,0 +1,184 @@
+% Created 2019-08-01 jeu. 17:56
+% Intended LaTeX compiler: pdflatex
+\documentclass[9pt, technote, a4paper]{ieeeconf}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{amsmath,amssymb,amsfonts, cases}
+\usepackage{algorithmic, graphicx, textcomp}
+\usepackage{xcolor, import, hyperref}
+\usepackage[USenglish, english]{babel}
+\setcounter{footnote}{1}
+\input{config.tex}
+\author{\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}}
+\date{2019-08-01}
+\title{On the Design of Complementary Filters for Control}
+\hypersetup{
+ pdfauthor={\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}},
+ pdftitle={On the Design of Complementary Filters for Control},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.5)},
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\bibliographystyle{IEEEtran}
+
+\begin{abstract}
+Abstract text to be done
+\end{abstract}
+
+\begin{IEEEkeywords}
+complementary filters, h-infinity, feedback control
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:org9c365b8}
+\label{sec:introduction}
+
+Complementary filters: \cite{hua05_low_ligo}.
+
+\section{H-Infinity synthesis of complementary filters}
+\label{sec:org23f9d38}
+  \label{sec:hinf_filters}
+First order complementary filters are easy to synthesize. For instance, one can use the following filters
+\begin{equation}
+H_H(s) = \frac{s/\w_0}{1 + s/\w_0}; \quad H_L(s) = \frac{1}{1 + s/\w_0}
+\end{equation}
+with \(\w_0\) is the tuning parameter corresponding to the crossover frequency of the filters.
+
+However, the manual design of higher order complementary filters is far more complex and we have to use an automatic synthesis technique.
+
+
+As shown in Sec. \ref{sec:trans_perf}, most of the performance requirements can be expressed as upper bounds on the magnitude of the complementary filters.
+
+Thus, the \(\mathcal{H}_\infty\) framework seems adapted and we here propose a technique to synthesis complementary filters while specifying uppers bounds on their magnitudes.
+
+\subsection{\(\hinf\) problem formulation}
+\label{sec:org3034ecb}
+   \label{sec:hinf_conf}
+In this section, we formulate the \(\hinf\) problem for the synthesis of complementary filters.
+
+The synthesis objective is to shape an high pass filter \(H_H\) and a low pass filter \(H_L\) while ensuring their complementary property (\(H_H + H_L = 1\)).
+
+To do so, we define two weighting functions \(w_L\) and \(w_H\) that will respectively used to shape \(H_L\) and \(H_H\).
+
+The synthesis problem is then
+\begin{subnumcases}{\text{Find } H_L, H_H \text{ such that}}
+  H_L \text{ and } H_H \text{ are stable} \label{eq:hinf_cond_stability}\\
+  H_L + H_H = 1 \label{eq:hinf_cond_complementarity} \\
+  |w_L H_L| \le 1 \quad \forall\omega \label{eq:hinf_cond_hl} \\
+  |w_H H_H| \le 1 \quad \forall\omega \label{eq:hinf_cond_hh}
+\end{subnumcases}
+
+
+To express this synthesis problem into an \(\hinf\) synthesis problem, we define the following generalized plant \(P\) (also shown on Fig. \ref{fig:sf_hinf_filters_plant_b}):
+\begin{equation}
+\label{eq:generalized_plant}
+  \colvec{w\\u} = P \colvec{z_H \\ z_L \\ v}; \quad P = \begin{bmatrix} w_H & -w_H \\ 0 & w_L \\ 1 & 0 \end{bmatrix}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{./figs/sf_hinf_filters_plant_b.pdf}
+\caption{\label{fig:sf_hinf_filters_plant_b}
+Generalized plant for the synthesis of the complementary filters}
+\end{figure}
+
+The \(\hinf\) synthesis objective is then to design a stable filter \(H_L\) (Fig. \ref{fig:sf_hinf_filters_b}) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_H, \ z_L]\) is less than \(1\):
+\begin{equation}
+  \hnorm{\begin{matrix} (1 - H_L) w_H \\ H_L w_L \end{matrix}} \le 1
+\end{equation}
+Which is equivalent to
+\begin{equation}
+\label{eq:hinf_problem}
+  \hnorm{\begin{matrix} H_H w_H \\ H_L w_L \end{matrix}} < 1 \text{ by choosing } H_H = 1 - H_L
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1]{./figs/sf_hinf_filters_b.pdf}
+\caption{\label{fig:sf_hinf_filters_b}
+\(\hinf\text{-synthesis}\) of complementary filters}
+\end{figure}
+
+Performance conditions \eqref{eq:hinf_cond_hl} and \eqref{eq:hinf_cond_hl} are satisfied by \eqref{eq:hinf_problem}.
+Complementary condition \eqref{eq:hinf_cond_complementarity} is satisfied by design: \(H_H = 1 - H_L\) and thus \(H_L + H_H = 1\).
+The stability condition \eqref{eq:hinf_cond_stability} is guaranteed by the \(H_\infty\) synthesis (\textbf{reference}).
+
+
+Using this synthesis method, we are then able to shape at the same time the high pass and low pass filters while ensuring their complementary.
+
+\subsection{Control requirements as \(\mathcal{H}_\infty\) norm of complementary filters}
+\label{sec:org6b171b3}
+As presented in Sec. \ref{sec:trans_perf}, almost all the requirements can be specified with upper bounds on the complementary filters.
+However, robust performance condition \eqref{eq:robust_perf_a} is not.
+
+With the \(\mathcal{H}_\infty\) synthesis the condition \eqref{eq:hinf_problem} only ensure
+\begin{align*}
+  \hnorm{\begin{matrix} H_H w_H \\ H_L w_L \end{matrix}} \le 1 &\Leftrightarrow \max_\omega \sqrt{|w_L H_L|^2 + |w_H H_H|^2} \le 1\\
+                                                             &\Rightarrow |w_L H_L| + |w_H H_H| \le \sqrt{2} \quad \forall\omega
+\end{align*}
+
+And thus we have almost robust stability.
+
+\subsection{Choice of the weighting functions}
+\label{sec:orgced69fd}
+   \label{sec:hinf_weighting_func}
+We here give some advice on the choice of the weighting functions used for the synthesis of the complementary filters.
+
+The shape should be such that the performance requirements are met as explain in Sec. \ref{sec:trans_perf}.
+
+However, one should be careful when designing the complementary filters, and should only use stable and minimum phase transfer functions.
+The order of the weights should stay reasonably small as this will increase the complexity of the optimization problem.
+
+One should not forget the fundamental limitations of feedback control such that \(S + T = 1\).
+Similarly, we here have that \(H_L + H_H = 1\) which implies that \(H_L\) and \(H_H\) cannot be made small at the same time.
+
+\subsection{Trade-off between performance and robustness}
+\label{sec:orgafc6c17}
+
+\subsection{Analytical formula of complementary filters}
+\label{sec:orgd297585}
+  \label{sec:analytical_complementary_filters}
+To simplify the synthesis, one can use already synthesized filters
+
+\begin{align}
+  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
+  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
+\end{align}
+
+\begin{align}
+  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
+\end{align}
+
+\begin{align}
+  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
+\end{align}
+
+\section{Discussion}
+\label{sec:orgcc9e8fe}
+\section{Conclusion}
+\label{sec:org7919028}
+\label{sec:conclusion}
+
+\section{Acknowledgment}
+\label{sec:orgecc7116}
+
+\bibliography{ref}
+\end{document}

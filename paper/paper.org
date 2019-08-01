@@ -1,0 +1,198 @@
+#+TITLE: On the Design of Complementary Filters for Control
+:DRAWER:
+#+LATEX_CLASS: ieeeconf
+#+LATEX_CLASS_OPTIONS: [9pt, technote, a4paper]
+#+OPTIONS: toc:nil
+#+STARTUP: overview
+
+#+DATE: {{{time(%Y-%m-%d)}}}
+#+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\@@
+#+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}@@
+
+#+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
+#+LATEX_HEADER: \usepackage{algorithmic, graphicx, textcomp}
+#+LATEX_HEADER: \usepackage{xcolor, import, hyperref}
+#+LATEX_HEADER: \usepackage[USenglish]{babel}
+#+LATEX_HEADER: \setcounter{footnote}{1}
+#+LATEX_HEADER: \input{config.tex}
+
+\bibliographystyle{IEEEtran}
+:END:
+
+* LaTeX Config                                                     :noexport:
+#+begin_src latex :tangle config.tex
+  % H Infini
+  \newcommand{\hinf}{\mathcal{H}_\infty}
+
+  % H 2
+  \newcommand{\htwo}{\mathcal{H}_2}
+
+  % Omega
+  \newcommand{\w}{\omega}
+
+  % H-Infinity Norm
+  \newcommand{\hnorm}[1]{\left\|#1\right\|_{\infty}}
+
+  % H-2 Norm
+  \newcommand{\normtwo}[1]{\left\|#1\right\|_{2}}
+
+  % Norm
+  \newcommand{\norm}[1]{\left\|#1\right\|}
+
+  % Absolute value
+  \newcommand{\abs}[1]{\left\lvert #1 \right\lvert}
+
+  % Minimum Subscript
+  \newcommand{\smin}{_{\text{min}}}
+
+  % Maximum Subscript
+  \newcommand{\smax}{_{\text{max}}}
+
+  \newcommand*\colvec[1]{\begin{bmatrix}#1\end{bmatrix}}
+#+end_src
+
+* Build                                                            :noexport:
+#+BEGIN_SRC emacs-lisp :results none
+  (add-to-list 'org-latex-classes
+               '("ieeeconf"
+                 "\\documentclass{ieeeconf}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+               )
+#+END_SRC
+
+* Abstract                                                           :ignore:
+#+begin_abstract
+Abstract text to be done
+#+end_abstract
+
+#+begin_IEEEkeywords
+complementary filters, h-infinity, feedback control
+#+end_IEEEkeywords
+
+* Introduction
+  <<sec:introduction>>
+
+Complementary filters: cite:hua05_low_ligo.
+
+* H-Infinity synthesis of complementary filters
+  <<sec:hinf_filters>>
+First order complementary filters are easy to synthesize. For instance, one can use the following filters
+\begin{equation}
+H_H(s) = \frac{s/\w_0}{1 + s/\w_0}; \quad H_L(s) = \frac{1}{1 + s/\w_0}
+\end{equation}
+with $\w_0$ is the tuning parameter corresponding to the crossover frequency of the filters.
+
+However, the manual design of higher order complementary filters is far more complex and we have to use an automatic synthesis technique.
+
+
+As shown in Sec. ref:sec:trans_perf, most of the performance requirements can be expressed as upper bounds on the magnitude of the complementary filters.
+
+Thus, the $\mathcal{H}_\infty$ framework seems adapted and we here propose a technique to synthesis complementary filters while specifying uppers bounds on their magnitudes.
+
+** $\hinf$ problem formulation
+   <<sec:hinf_conf>>
+In this section, we formulate the $\hinf$ problem for the synthesis of complementary filters.
+
+The synthesis objective is to shape an high pass filter $H_H$ and a low pass filter $H_L$ while ensuring their complementary property ($H_H + H_L = 1$).
+
+To do so, we define two weighting functions $w_L$ and $w_H$ that will respectively used to shape $H_L$ and $H_H$.
+
+The synthesis problem is then
+\begin{subnumcases}{\text{Find } H_L, H_H \text{ such that}}
+  H_L \text{ and } H_H \text{ are stable} \label{eq:hinf_cond_stability}\\
+  H_L + H_H = 1 \label{eq:hinf_cond_complementarity} \\
+  |w_L H_L| \le 1 \quad \forall\omega \label{eq:hinf_cond_hl} \\
+  |w_H H_H| \le 1 \quad \forall\omega \label{eq:hinf_cond_hh}
+\end{subnumcases}
+
+
+To express this synthesis problem into an $\hinf$ synthesis problem, we define the following generalized plant $P$ (also shown on Fig. ref:fig:sf_hinf_filters_plant_b):
+#+NAME: eq:generalized_plant
+\begin{equation}
+  \colvec{w\\u} = P \colvec{z_H \\ z_L \\ v}; \quad P = \begin{bmatrix} w_H & -w_H \\ 0 & w_L \\ 1 & 0 \end{bmatrix}
+\end{equation}
+
+#+name: fig:sf_hinf_filters_plant_b
+#+caption: Generalized plant for the synthesis of the complementary filters
+#+attr_latex: :float t :scale 1
+file:./figs/sf_hinf_filters_plant_b.pdf
+
+The $\hinf$ synthesis objective is then to design a stable filter $H_L$ (Fig. ref:fig:sf_hinf_filters_b) such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_H, \ z_L]$ is less than $1$:
+\begin{equation}
+  \hnorm{\begin{matrix} (1 - H_L) w_H \\ H_L w_L \end{matrix}} \le 1
+\end{equation}
+Which is equivalent to
+#+NAME: eq:hinf_problem
+\begin{equation}
+  \hnorm{\begin{matrix} H_H w_H \\ H_L w_L \end{matrix}} < 1 \text{ by choosing } H_H = 1 - H_L
+\end{equation}
+
+#+name: fig:sf_hinf_filters_b
+#+caption: $\hinf\text{-synthesis}$ of complementary filters
+#+attr_latex: :float t :scale 1
+file:./figs/sf_hinf_filters_b.pdf
+
+Performance conditions eqref:eq:hinf_cond_hl and eqref:eq:hinf_cond_hl are satisfied by eqref:eq:hinf_problem.
+Complementary condition eqref:eq:hinf_cond_complementarity is satisfied by design: $H_H = 1 - H_L$ and thus $H_L + H_H = 1$.
+The stability condition eqref:eq:hinf_cond_stability is guaranteed by the $H_\infty$ synthesis (*reference*).
+
+
+Using this synthesis method, we are then able to shape at the same time the high pass and low pass filters while ensuring their complementary.
+
+** Control requirements as $\mathcal{H}_\infty$ norm of complementary filters
+As presented in Sec. ref:sec:trans_perf, almost all the requirements can be specified with upper bounds on the complementary filters.
+However, robust performance condition eqref:eq:robust_perf_a is not.
+
+With the $\mathcal{H}_\infty$ synthesis the condition eqref:eq:hinf_problem only ensure
+\begin{align*}
+  \hnorm{\begin{matrix} H_H w_H \\ H_L w_L \end{matrix}} \le 1 &\Leftrightarrow \max_\omega \sqrt{|w_L H_L|^2 + |w_H H_H|^2} \le 1\\
+                                                             &\Rightarrow |w_L H_L| + |w_H H_H| \le \sqrt{2} \quad \forall\omega
+\end{align*}
+
+And thus we have almost robust stability.
+
+** Choice of the weighting functions
+   <<sec:hinf_weighting_func>>
+We here give some advice on the choice of the weighting functions used for the synthesis of the complementary filters.
+
+The shape should be such that the performance requirements are met as explain in Sec. ref:sec:trans_perf.
+
+However, one should be careful when designing the complementary filters, and should only use stable and minimum phase transfer functions.
+The order of the weights should stay reasonably small as this will increase the complexity of the optimization problem.
+
+One should not forget the fundamental limitations of feedback control such that $S + T = 1$.
+Similarly, we here have that $H_L + H_H = 1$ which implies that $H_L$ and $H_H$ cannot be made small at the same time.
+
+** Trade-off between performance and robustness
+
+** Analytical formula of complementary filters
+  <<sec:analytical_complementary_filters>>
+To simplify the synthesis, one can use already synthesized filters
+
+\begin{align}
+  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
+  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
+\end{align}
+
+\begin{align}
+  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
+\end{align}
+
+\begin{align}
+  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
+\end{align}
+
+* Discussion
+* Conclusion
+  <<sec:conclusion>>
+
+* Acknowledgment
+
+* Bibliography                                                       :ignore:
+\bibliography{ref}

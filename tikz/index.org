@@ -1,0 +1,146 @@
+#+TITLE: On the Design of Complementary Filters for Control - Tikz Figures
+:DRAWER:
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
+#+HTML_HEAD: <script src="../js/jquery.min.js"></script>
+#+HTML_HEAD: <script src="../js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script src="../js/readtheorg.js"></script>
+
+#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/MEGA/These/Papers/dehaeze18_design_compl_filte/tikz/}{config.tex}")
+#+PROPERTY: header-args:latex+ :imagemagick t :fit yes
+#+PROPERTY: header-args:latex+ :iminoptions -scale 100% -density 150
+#+PROPERTY: header-args:latex+ :imoutoptions -quality 100
+#+PROPERTY: header-args:latex+ :results raw replace :buffer no
+#+PROPERTY: header-args:latex+ :eval no-export
+#+PROPERTY: header-args:latex+ :exports both
+#+PROPERTY: header-args:latex+ :mkdirp yes
+#+PROPERTY: header-args:latex+ :noweb yes
+#+PROPERTY: header-args:latex+ :output-dir figs
+#+PROPERTY: header-args:latex+ :post pdf2svg(file=*this*, ext="png")
+:END:
+
+Configuration file is accessible [[file:config.org][here]].
+
+* Change some default
+#+NAME: tikz_default
+#+begin_src latex :eval no
+  \tikzset{block/.default={0.8cm}{0.6cm}}
+  \tikzset{addb/.append style={scale=0.7}}
+  \tikzset{node distance=0.6}
+  \def\cdist{0.7}
+
+  \definecolor{T}{rgb}{0.230, 0.299, 0.754}%
+  \definecolor{S}{rgb}{0.706, 0.016, 0.150}%
+#+end_src
+
+* H-Infinity - Complementary filters - Generalized plant
+#+begin_src latex :file sf_hinf_filters_plant_b.pdf :tangle figs/sf_hinf_filters_plant_b.tex
+  <<tikz_default>>
+  \begin{tikzpicture}
+     \node[block={4.0cm}{3.0cm}, dashed] (P) {};
+     \node[above] at (P.north) {$P$};
+
+     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
+
+     \coordinate[] (outputh) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
+
+     \node[block, left=2*\cdist of outputl] (WL){$w_L$};
+     \node[block, left=2*\cdist of outputh] (WH){$w_H$};
+     \node[addb={+}{}{}{}{-}, left=of WH] (sub) {};
+
+     \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
+     \draw[->] (inputu) node[above right]{$u$} -- (WL.west);
+     \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
+     \draw[->] (sub.east) -- (WH.west);
+     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- (outputv) node[above left]{$v$};
+     \draw[->] (WH.east) -- (outputh)node[above left]{$z_H$};
+     \draw[->] (WL.east) -- (outputl)node[above left]{$z_L$};
+   \end{tikzpicture}
+#+end_src
+
+#+name: fig:sf_hinf_filters_plant_b
+#+caption: H-Infinity - Complementary filters - Generalized plant ([[./figs/sf_hinf_filters_plant_b.png][png]], [[./figs/sf_hinf_filters_plant_b.pdf][pdf]], [[./figs/sf_hinf_filters_plant_b.tex][tex]]).
+#+RESULTS:
+[[file:figs/sf_hinf_filters_plant_b.png]]
+
+* H-Infinity - Complementary filters
+#+begin_src latex :file sf_hinf_filters_b.pdf :tangle figs/sf_hinf_filters_b.tex
+  <<tikz_default>>
+  \begin{tikzpicture}
+     \node[block={4.0cm}{3.0cm}, dashed] (P) {};
+     \node[above] at (P.north) {$P$};
+
+     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
+
+     \coordinate[] (outputh) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
+
+     \node[block, left=2*\cdist of outputl] (WL){$w_L$};
+     \node[block, left=2*\cdist of outputh] (WH){$w_H$};
+     \node[addb={+}{}{}{}{-}, left=of WH] (sub) {};
+
+     \node[block, below=\cdist of P] (HL) {$H_L$};
+
+     \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
+     \draw[->] (HL.west) -| ($(inputu)+(0.5*\cdist, 0)$) -- (WL.west);
+     \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
+     \draw[->] (sub.east) -- (WH.west);
+     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) |- (HL.east);
+     \draw[->] (WH.east) -- (outputh)node[above left]{$z_H$};
+     \draw[->] (WL.east) -- (outputl)node[above left]{$z_L$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:sf_hinf_filters_b
+#+caption: H-Infinity - Complementary filters ([[./figs/sf_hinf_filters_b.png][png]], [[./figs/sf_hinf_filters_b.pdf][pdf]], [[./figs/sf_hinf_filters_b.tex][tex]]).
+#+RESULTS:
+[[file:figs/sf_hinf_filters_b.png]]
+
+* H-Infinity - 3 Complementary filters
+#+begin_src latex :file comp_filter_three_hinf.pdf :tangle figs/comp_filter_three_hinf.tex
+  <<tikz_default>>
+  \begin{tikzpicture}
+     \node[block={5.0cm}{4.0cm}, dashed] (P) {};
+     \node[above] at (P.north) {$P$};
+
+     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
+
+     \coordinate[] (output3) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output2) at ($(P.south east)!0.6!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output1) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
+
+     \node[block, left=2*\cdist of output1] (W1){$w_1$};
+     \node[block, left=2*\cdist of output2] (W2){$w_2$};
+     \node[block, left=2*\cdist of output3] (W3){$w_3$};
+     \node[addb={+}{}{}{}{-}, left=of W3] (sub1) {};
+     \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
+
+     \node[block, below=\cdist of P] (H) {$\begin{bmatrix}H_1 \\ H_2\end{bmatrix}$};
+
+     \draw[->] (inputw) node[above right]{$w$} -- (sub2.west);
+     \draw[->] (W1-|sub1)node[branch]{} -- (sub1.south);
+     \draw[->] (W2-|sub2)node[branch]{} -- (sub2.south);
+     \draw[->] ($(sub2.west)+(-0.5, 0)$) node[branch]{} |- (outputv) |- (H.east);
+     \draw[->] ($(H.south west)!0.7!(H.north west)$) -| ($(inputu|-W1)+(0.4, 0)$) -- (W1.west);
+     \draw[->] ($(H.south west)!0.3!(H.north west)$) -| (inputu|-W2) -- (W2.west);
+
+     \draw[->] (sub2.east) -- (sub1.west);
+     \draw[->] (sub1.east) -- (W3.west);
+     \draw[->] (W1.east) -- (output1)node[above left]{$z_1$};
+     \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
+     \draw[->] (W3.east) -- (output3)node[above left]{$z_3$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:comp_filter_three_hinf
+#+caption: H-Infinity - Complementary filters ([[./figs/comp_filter_three_hinf.png][png]], [[./figs/comp_filter_three_hinf.pdf][pdf]], [[./figs/comp_filter_three_hinf.tex][tex]]).
+#+RESULTS:
+[[file:figs/comp_filter_three_hinf.png]]

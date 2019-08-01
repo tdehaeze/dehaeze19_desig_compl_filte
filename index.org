@@ -1,0 +1,18 @@
+#+TITLE: On the Design of Complementary Filters for Control - Computation with Matlab
+:DRAWER:
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/readtheorg.css"/>
+#+HTML_HEAD: <script src="js/jquery.min.js"></script>
+#+HTML_HEAD: <script src="js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script src="js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script src="js/readtheorg.js"></script>
+:END:
+
+* Paper
+The current version of the paper is accessible [[file:paper/paper.pdf][here]].
+
+* Computation - Matlab
+The Matlab computation files that permits to obtain all the paper results are accessible [[file:matlab/index.org][here]].
+
+* Figures
+The figures are generated using [[https://sourceforge.net/projects/pgf/][TikZ]]. The code to generate the figures inside the paper are accessible [[file:tikz/index.org][here]].
