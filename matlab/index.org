@@ -23,6 +23,7 @@
 #+PROPERTY: header-args:matlab+ :output-dir figs
 :END:
 
+* Introduction                                                       :ignore:
 * H-Infinity synthesis of complementary filters
   <<sec:h_infinity>>
 
@@ -422,6 +423,7 @@ The complementary filters obtained with the $\mathcal{H}_\infty$ will be used fo
   :END:
   <<sec:three_comp_filters>>
 
+** Introduction                                                      :ignore:
 ** ZIP file containing the data and matlab files                     :ignore:
 #+begin_src bash :exports none :results none
   if [ matlab/three_comp_filters.m -nt data/three_comp_filters.zip ]; then
@@ -592,6 +594,7 @@ The obtained filters are:
   :END:
   <<sec:complementary_filters_order>>
 
+** Introduction                                                      :ignore:
 ** ZIP file containing the data and matlab files                     :ignore:
 #+begin_src bash :exports none :results none
   if [ matlab/complementary_filters_order.m -nt data/complementary_filters_order.zip ]; then
@@ -1431,6 +1434,11 @@ Compare performance when having similar stability margins.
   :END:
   <<sec:feedback_generate_comp_filters>>
 
+** Introduction                                                      :ignore:
+The idea is here to use the fact that in a classical feedback architecture, $S + T = 1$, in order to design complementary filters.
+
+Thus, all the tools that has been developed for classical feedback control can be used for complementary filter design.
+
 ** ZIP file containing the data and matlab files                     :ignore:
 #+begin_src bash :exports none :results none
   if [ matlab/feedback_generate_comp_filters.m -nt data/feedback_generate_comp_filters.zip ]; then
@@ -1570,7 +1578,6 @@ Hua, W., Low frequency vibration isolation and alignment system for advanced lig
   if [ matlab/comp_filters_ligo.m -nt data/comp_filters_ligo.zip ]; then
     cp matlab/comp_filters_ligo.m comp_filters_ligo.m;
     zip data/comp_filters_ligo \
-        mat/data.mat \
         comp_filters_ligo.m
     rm comp_filters_ligo.m;
   fi
@@ -1685,21 +1692,27 @@ And we do the $\mathcal{H}_\infty$ synthesis using the =hinfsyn= command.
 
 #+RESULTS:
 #+begin_example
-if ischar(ans), fid = fopen('/tmp/babel-zcxrOJ/matlab-HmZpNk', 'w'); fprintf(fid, '%s\n', ans); fclose(fid);
-else, dlmwrite('/tmp/babel-zcxrOJ/matlab-HmZpNk', ans, '\t')
-end
-'org_babel_eoe'
-ans =
-    'org_babel_eoe'
-P = [0   wL;
-     wH -wH;
-     1   0];
-if ischar(ans), fid = fopen('/tmp/babel-zcxrOJ/matlab-7rj2Aw', 'w'); fprintf(fid, '%s\n', ans); fclose(fid);
-else, dlmwrite('/tmp/babel-zcxrOJ/matlab-7rj2Aw', ans, '\t')
-end
-'org_babel_eoe'
-ans =
-    'org_babel_eoe'
+[Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+Resetting value of Gamma min based on D_11, D_12, D_21 terms
+
+Test bounds:      0.2899 <  gamma  <=      3.6841
+
+  gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
+    3.684   6.2e-02   5.3e-05   2.1e-02   -2.8e-36    0.0000    p
+    1.987   5.9e-02   5.4e-05   2.1e-02   -1.1e-12    0.0000    p
+    1.138   5.2e-02 -5.1e-01#  2.1e-02   -3.7e-13    0.0000    f
+    1.563   5.7e-02 -1.8e+00#  2.1e-02    0.0e+00    0.0000    f
+    1.775   5.8e-02 -4.9e+00#  2.1e-02    0.0e+00    0.0000    f
+    1.881   5.9e-02 -1.3e+01#  2.1e-02    0.0e+00    0.0000    f
+    1.934   5.9e-02 -4.3e+01#  2.1e-02    0.0e+00    0.0000    f
+    1.960   5.9e-02   5.4e-05   2.1e-02    0.0e+00    0.0000    p
+    1.947   5.9e-02 -9.9e+01#  2.1e-02   -2.2e-16    0.0000    f
+    1.954   5.9e-02 -2.7e+02#  2.1e-02    0.0e+00    0.0000    f
+    1.957   5.9e-02 -2.0e+03#  2.1e-02   -1.1e-12    0.0000    f
+    1.959   5.9e-02   5.4e-05   2.1e-02    0.0e+00    0.0000    p
+    1.958   5.9e-02   5.4e-05   2.1e-02   -1.1e-12    0.0000    p
+
+ Gamma value achieved:     1.9580
 #+end_example
 
 #+begin_src matlab
@@ -1985,4 +1998,8 @@ The optimal sensor fusion has permitted to reduced the RMS value of the estimati
 #+name: tab:rms_results
 #+caption: RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters
 #+RESULTS:
-|   |
+|                       | rms value |
+|-----------------------+-----------|
+| Sensor 1              |   1.1e-02 |
+| Sensor 2              |   1.3e-03 |
+| Optimal Sensor Fusion |   1.5e-04 |
