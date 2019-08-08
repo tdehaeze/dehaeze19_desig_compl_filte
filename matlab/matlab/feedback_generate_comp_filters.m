@@ -6,7 +6,7 @@ s = zpk('s');
 
 freqs = logspace(-2, 2, 1000);
 
-% Loop Gain
+% Loop Gain Design
 % Let's first define the loop gain $L$.
 
 wc = 2*pi*1;
@@ -33,13 +33,7 @@ linkaxes([ax1,ax2],'x');
 xlim([freqs(1), freqs(end)]);
 xticks([0.1, 1, 10, 100, 1000]);
 
-
-
-% #+NAME: fig:loop_gain_bode_plot
-% #+CAPTION: Bode plot of the loop gain $L$ ([[./figs/loop_gain_bode_plot.png][png]], [[./figs/loop_gain_bode_plot.pdf][pdf]])
-% [[file:figs/loop_gain_bode_plot.png]]
-
-
+% Complementary Filters Obtained
 % We then compute the resulting low pass and high pass filters.
 
 Hl = L/(L + 1);

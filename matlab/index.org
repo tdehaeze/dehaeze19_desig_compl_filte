@@ -24,151 +24,94 @@
 :END:
 
 * Introduction                                                       :ignore:
-* H-Infinity synthesis of complementary filters
-  <<sec:h_infinity>>
-
-We here synthesize the complementary filters using the $\mathcal{H}_\infty$ synthesis.
-The goal is to specify upper bounds on the norms of $H_L$ and $H_H$ while ensuring their complementary property ($H_L + H_H = 1$).
-
-In order to do so, we use the generalized plant shown on figure [[fig:sf_hinf_filters_plant_b]] where $w_L$ and $w_H$ weighting transfer functions that will be used to shape $H_L$ and $H_H$ respectively.
-
-#+name: fig:sf_hinf_filters_plant_b
-#+caption: Generalized plant used for the $\mathcal{H}_\infty$ synthesis of the complementary filters
-[[file:figs/sf_hinf_filters_plant_b.png]]
-
-The $\mathcal{H}_\infty$ synthesis applied on this generalized plant will give a transfer function $H_L$ (figure [[fig:sf_hinf_filters_b]]) such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_H,\ z_L]$ is less than one:
-\[ \left\| \begin{array}{c} H_L w_L \\ (1 - H_L) w_H \end{array} \right\|_\infty < 1 \]
-
-Thus, if the above condition is verified, we can define $H_H = 1 - H_L$ and we have that:
-\[ \left\| \begin{array}{c} H_L w_L \\ H_H w_H \end{array} \right\|_\infty < 1 \]
-Which is almost (with an maximum error of $\sqrt{2}$) equivalent to:
-\begin{align*}
-  |H_L| &< \frac{1}{|w_L|}, \quad \forall \omega \\
-  |H_H| &< \frac{1}{|w_H|}, \quad \forall \omega
-\end{align*}
-
-We then see that $w_L$ and $w_H$ can be used to shape both $H_L$ and $H_H$ while ensuring (by definition of $H_H = 1 - H_L$) their complementary property.
-
-#+name: fig:sf_hinf_filters_b
-#+caption: $\mathcal{H}_\infty$ synthesis of the complementary filters
-[[file:figs/sf_hinf_filters_b.png]]
-
-
-#+begin_src matlab
-  omegab = 2*pi*9;
-  wH = (omegab)^2/(s + omegab*sqrt(1e-5))^2;
-  omegab = 2*pi*28;
-  wL = (s + omegab/(4.5)^(1/3))^3/(s*(1e-4)^(1/3) + omegab)^3;
-#+end_src
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wT, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wT, freqs, 'Hz'))) .* (1 + abs(squeeze(freqresp(wI, freqs, 'Hz')))) + abs(squeeze(freqresp(wI, freqs, 'Hz')))), ':', 'DisplayName', 'RP for T - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wI, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), '-.', 'DisplayName', 'RS - $H_L$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wS, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_H$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, (1 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))./(abs(squeeze(freqresp(wS, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), ':', 'DisplayName', 'RP for S - $H_H$');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '-', 'DisplayName', '$w_L$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '-', 'DisplayName', '$w_H$');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
-  xticks([0.1, 1, 10, 100, 1000]);
-  legend('location', 'northeast');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/weights_wl_wh.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:weights_wl_wh
-#+CAPTION: Weights on the complementary filters $w_L$ and $w_H$ and the associated performance weights ([[./figs/weights_wl_wh.png][png]], [[./figs/weights_wl_wh.pdf][pdf]])
-[[file:figs/weights_wl_wh.png]]
-
-We define the generalized plant $P$ on matlab.
-#+begin_src matlab
-  P = [0   wL;
-       wH -wH;
-       1   0];
-#+end_src
-
-And we do the $\mathcal{H}_\infty$ synthesis using the =hinfsyn= command.
-#+begin_src matlab :results output replace :exports both
-  [Hl_hinf, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
-#+end_src
-
-#+RESULTS:
-#+begin_example
-[Hl_hinf, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
-Test bounds:      0.0000 <  gamma  <=      1.7285
-
-  gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
-    1.729   4.1e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
-    0.864   3.9e+01 -5.8e-02#  1.8e-01    0.0e+00    0.0000    f
-    1.296   4.0e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
-    1.080   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.972   3.9e+01 -4.2e-01#  1.8e-01    0.0e+00    0.0000    f
-    1.026   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.999   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.986   3.9e+01 -1.2e+00#  1.8e-01    0.0e+00    0.0000    f
-    0.993   3.9e+01 -8.2e+00#  1.8e-01    0.0e+00    0.0000    f
-    0.996   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.994   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.993   3.9e+01 -3.2e+01#  1.8e-01    0.0e+00    0.0000    f
-
- Gamma value achieved:     0.9942
-#+end_example
-
-We then define the high pass filter $H_H = 1 - H_L$. The bode plot of both $H_L$ and $H_H$ is shown on figure [[fig:hinf_filters_results]].
-#+begin_src matlab
-  Hh_hinf = 1 - Hl_hinf;
-#+end_src
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '--', 'DisplayName', '$w_L$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '--', 'DisplayName', '$w_H$');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hl_hinf, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - $\mathcal{H}_\infty$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hh_hinf, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - $\mathcal{H}_\infty$');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
-  xticks([0.1, 1, 10, 100, 1000]);
-  legend('location', 'northeast');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/hinf_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:hinf_filters_results
-#+CAPTION: Obtained complementary filters using $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_filters_results.png][png]], [[./figs/hinf_filters_results.pdf][pdf]])
-[[file:figs/hinf_filters_results.png]]
-
 * Complementary filters using analytical formula
-  <<sec:analytical_formula>>
+  :PROPERTIES:
+  :header-args:matlab+: :tangle matlab/comp_filters_analytical.m
+  :header-args:matlab+: :comments org :mkdirp yes
+  :END:
+  <<sec:comp_filters_analytical>>
 
+** Introduction                                                      :ignore:
+** ZIP file containing the data and matlab files                     :ignore:
+#+begin_src bash :exports none :results none
+  if [ matlab/comp_filters_analytical.m -nt data/comp_filters_analytical.zip ]; then
+    cp matlab/comp_filters_analytical.m comp_filters_analytical.m;
+    zip data/comp_filters_analytical \
+        comp_filters_analytical.m
+    rm comp_filters_analytical.m;
+  fi
+#+end_src
+
+#+begin_note
+  All the files (data and Matlab scripts) are accessible [[file:data/comp_filters_analytical.zip][here]].
+#+end_note
+
+** Matlab Init                                              :noexport:ignore:
+#+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
+  <<matlab-dir>>
+#+end_src
+
+#+begin_src matlab :exports none :results silent :noweb yes
+  <<matlab-init>>
+#+end_src
+
+#+begin_src matlab
+  freqs = logspace(-1, 3, 1000);
+#+end_src
+
+** Analytical 1st order complementary filters
+First order complementary filters are defined with following equations:
+\begin{align}
+  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
+  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
+\end{align}
+
+Their bode plot is shown figure [[fig:comp_filter_1st_order]].
+
+#+begin_src matlab
+  w0 = 2*pi; % [rad/s]
+
+  Hh1 = (s/w0)/((s/w0)+1);
+  Hl1 = 1/((s/w0)+1);
+#+end_src
+
+#+begin_src matlab :exports none
+  freqs = logspace(-2, 2, 1000);
+
+  figure;
+  % Magnitude
+  ax1 = subaxis(2,1,1);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hh1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hl1, freqs, 'Hz'))));
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  set(gca, 'XTickLabel',[]);
+  ylabel('Magnitude');
+  hold off;
+  % Phase
+  ax2 = subaxis(2,1,2);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hh1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1, freqs, 'Hz'))));
+  set(gca,'xscale','log');
+  yticks(-180:90:180);
+  ylim([-180 180]);
+  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
+  hold off;
+  linkaxes([ax1,ax2],'x');
+  xlim([freqs(1), freqs(end)]);
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/comp_filter_1st_order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:comp_filter_1st_order
+#+CAPTION: Bode plot of first order complementary filter ([[./figs/comp_filter_1st_order.png][png]], [[./figs/comp_filter_1st_order.pdf][pdf]])
+[[file:figs/comp_filter_1st_order.png]]
+
+** Second Order Complementary Filters
 We here use analytical formula for the complementary filters $H_L$ and $H_H$.
 
 The first two formulas that are used to generate complementary filters are:
@@ -183,7 +126,6 @@ where:
   - A large $\alpha$ will do the opposite
 
 This is illustrated on figure [[fig:comp_filters_param_alpha]].
-As it is usually wanted to have the $\| S \|_\infty < 2$, $\alpha$ between $0.5$ and $1$ gives a good trade-off between the performance and the robustness.
 The slope of those filters at high and low frequencies is $-2$ and $2$ respectively for $H_L$ and $H_H$.
 
 #+begin_src matlab :exports none
@@ -239,57 +181,7 @@ The slope of those filters at high and low frequencies is $-2$ and $2$ respectiv
 #+CAPTION: Effect of the parameter $\alpha$ on the shape of the generated second order complementary filters ([[./figs/comp_filters_param_alpha.png][png]], [[./figs/comp_filters_param_alpha.pdf][pdf]])
 [[file:figs/comp_filters_param_alpha.png]]
 
-
-The parameters $\alpha$ and $\omega_0$ are chosen in order to have that the complementary filters stay below the defined upper bounds.
-
-The obtained complementary filters are shown on figure [[fig:complementary_filters_second_order]].
-The Robust Performance is not fulfilled for $T$, and we see that the RP condition as a slop of $-3$. We thus have to use different formula for the complementary filters here.
-
-#+begin_src matlab
-  w0 = 2*pi*13;
-  alpha = 0.8;
-
-  Hh2_ana = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-  Hl2_ana = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-#+end_src
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wT, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wT, freqs, 'Hz'))) .* (1 + abs(squeeze(freqresp(wI, freqs, 'Hz')))) + abs(squeeze(freqresp(wI, freqs, 'Hz')))), ':', 'DisplayName', 'RP for T - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wI, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), '-.', 'DisplayName', 'RS - $H_L$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wS, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_H$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, (1 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))./(abs(squeeze(freqresp(wS, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), ':', 'DisplayName', 'RP for S - $H_H$');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hl2_ana, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - Analytical');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hh2_ana, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - Analytical');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
-  xticks([0.1, 1, 10, 100, 1000]);
-  legend('location', 'northeast');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/complementary_filters_second_order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:complementary_filters_second_order
-#+CAPTION: Second order complementary filters using the analytical formula ([[./figs/complementary_filters_second_order.png][png]], [[./figs/complementary_filters_second_order.pdf][pdf]])
-[[file:figs/complementary_filters_second_order.png]]
-
-
+** Third Order Complementary Filters
 The following formula gives complementary filters with slopes of $-3$ and $3$:
 \begin{align*}
   H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
@@ -300,7 +192,7 @@ The parameters are:
 - $\omega_0$ is the blending frequency in rad/s
 - $\alpha$ and $\beta$ that are used to change the shape of the filters similarly to the parameter $\alpha$ for the second order complementary filters
 
-The filters are defined below and the result is shown on figure [[fig:complementary_filters_third_order]] where we can see that the complementary filters are below the defined upper bounds.
+The filters are defined below and the result is shown on figure [[fig:complementary_filters_third_order]].
 
 #+begin_src matlab
   alpha = 1;
@@ -314,17 +206,6 @@ The filters are defined below and the result is shown on figure [[fig:complement
 #+begin_src matlab :exports none
   figure;
   hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wT, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wT, freqs, 'Hz'))) .* (1 + abs(squeeze(freqresp(wI, freqs, 'Hz')))) + abs(squeeze(freqresp(wI, freqs, 'Hz')))), ':', 'DisplayName', 'RP for T - $H_L$');
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./(abs(squeeze(freqresp(wI, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), '-.', 'DisplayName', 'RS - $H_L$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wS, freqs, 'Hz'))), '--', 'DisplayName', 'NP - $H_H$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, (1 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))./(abs(squeeze(freqresp(wS, freqs, 'Hz'))) .* (2 + abs(squeeze(freqresp(wI, freqs, 'Hz'))))), ':', 'DisplayName', 'RP for S - $H_H$');
-
   set(gca,'ColorOrderIndex',1)
   plot(freqs, abs(squeeze(freqresp(Hl3_ana, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - Analytical');
   set(gca,'ColorOrderIndex',2)
@@ -347,95 +228,26 @@ The filters are defined below and the result is shown on figure [[fig:complement
 #+CAPTION: Third order complementary filters using the analytical formula ([[./figs/complementary_filters_third_order.png][png]], [[./figs/complementary_filters_third_order.pdf][pdf]])
 [[file:figs/complementary_filters_third_order.png]]
 
-* Comparison of complementary filters
-  <<sec:comp_filters>>
-The generated complementary filters using $\mathcal{H}_\infty$ and the analytical formulas are compared on figure [[fig:comp_hinf_analytical]].
-
-Although they are very close to each other, there is some difference to note here:
-- the analytical formula provides a very simple way to generate the complementary filters (and thus the controller), they could even be used to tune the controller online using the parameters $\alpha$ and $\omega_0$. However, these formula have the property that $|H_H|$ and $|H_L|$ are symmetrical with the frequency $\omega_0$ which may not be desirable.
-- while the $\mathcal{H}_\infty$ synthesis of the complementary filters is not as straightforward as using the analytical formula, it provides a more optimized procedure to obtain the complementary filters
-
-The complementary filters obtained with the $\mathcal{H}_\infty$ will be used for further analysis.
-
-#+begin_src matlab :exports none
-  figure;
-
-  ax1 = subplot(2,1,1);
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hl_hinf, freqs, 'Hz'))), '--');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hh_hinf, freqs, 'Hz'))), '--');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hl2_ana, freqs, 'Hz'))), '-');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hh2_ana, freqs, 'Hz'))), '-');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hl3_ana, freqs, 'Hz'))), ':');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hh3_ana, freqs, 'Hz'))), ':');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  ylabel('Magnitude');
-  hold off;
-  ylim([1e-4, 10]);
-
-  ax2 = subplot(2,1,2);
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hl_hinf, freqs, 'Hz'))), '--', 'DisplayName', '$H_L$ - $\mathcal{H}_\infty$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hh_hinf, freqs, 'Hz'))), '--', 'DisplayName', '$H_H$ - $\mathcal{H}_\infty$');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hl2_ana, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - $2$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hh2_ana, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - $2$');
-
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hl3_ana, freqs, 'Hz'))), ':', 'DisplayName', '$H_L$ - $3$');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, 180/pi*phase(squeeze(freqresp(Hh3_ana, freqs, 'Hz')))+360, ':', 'DisplayName', '$H_H$ - $3$');
-  set(gca, 'XScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
-  hold off;
-  yticks([-360:90:360]);
-  legend('location', 'northeast');
-
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-  xticks([0.1, 1, 10, 100, 1000]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_hinf_analytical.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_hinf_analytical
-#+CAPTION: Comparison of the complementary filters obtained with $\mathcal{H}_\infty$ synthesis and with the analytical formula ([[./figs/comp_hinf_analytical.png][png]], [[./figs/comp_hinf_analytical.pdf][pdf]])
-[[file:figs/comp_hinf_analytical.png]]
-* Generating 3 complementary filters
+* H-Infinity synthesis of complementary filters
   :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/three_comp_filters.m
+  :header-args:matlab+: :tangle matlab/h_inf_synthesis_complementary_filters.m
   :header-args:matlab+: :comments org :mkdirp yes
   :END:
-  <<sec:three_comp_filters>>
+  <<sec:h_inf_synthesis_complementary_filters>>
 
 ** Introduction                                                      :ignore:
 ** ZIP file containing the data and matlab files                     :ignore:
 #+begin_src bash :exports none :results none
-  if [ matlab/three_comp_filters.m -nt data/three_comp_filters.zip ]; then
-    cp matlab/three_comp_filters.m three_comp_filters.m;
-    zip data/three_comp_filters \
-        three_comp_filters.m
-    rm three_comp_filters.m;
+  if [ matlab/h_inf_synthesis_complementary_filters.m -nt data/h_inf_synthesis_complementary_filters.zip ]; then
+    cp matlab/h_inf_synthesis_complementary_filters.m h_inf_synthesis_complementary_filters.m;
+    zip data/h_inf_synthesis_complementary_filters \
+        h_inf_synthesis_complementary_filters.m
+    rm h_inf_synthesis_complementary_filters.m;
   fi
 #+end_src
 
 #+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/three_comp_filters.zip][here]].
+  All the files (data and Matlab scripts) are accessible [[file:data/h_inf_synthesis_complementary_filters.zip][here]].
 #+end_note
 
 ** Matlab Init                                              :noexport:ignore:
@@ -448,985 +260,144 @@ The complementary filters obtained with the $\mathcal{H}_\infty$ will be used fo
 #+end_src
 
 #+begin_src matlab
-  freqs = logspace(-2, 4, 1000);
+  freqs = logspace(-1, 3, 1000);
 #+end_src
 
-** Theory
-We want:
+** Synthesis Architecture
+We here synthesize the complementary filters using the $\mathcal{H}_\infty$ synthesis.
+The goal is to specify upper bounds on the norms of $H_L$ and $H_H$ while ensuring their complementary property ($H_L + H_H = 1$).
+
+In order to do so, we use the generalized plant shown on figure [[fig:sf_hinf_filters_plant_b]] where $w_L$ and $w_H$ weighting transfer functions that will be used to shape $H_L$ and $H_H$ respectively.
+
+#+name: fig:sf_hinf_filters_plant_b
+#+caption: Generalized plant used for the $\mathcal{H}_\infty$ synthesis of the complementary filters
+[[file:figs/sf_hinf_filters_plant_b.png]]
+
+The $\mathcal{H}_\infty$ synthesis applied on this generalized plant will give a transfer function $H_L$ (figure [[fig:sf_hinf_filters_b]]) such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_H,\ z_L]$ is less than one:
+\[ \left\| \begin{array}{c} H_L w_L \\ (1 - H_L) w_H \end{array} \right\|_\infty < 1 \]
+
+Thus, if the above condition is verified, we can define $H_H = 1 - H_L$ and we have that:
+\[ \left\| \begin{array}{c} H_L w_L \\ H_H w_H \end{array} \right\|_\infty < 1 \]
+Which is almost (with an maximum error of $\sqrt{2}$) equivalent to:
 \begin{align*}
-  & |H_1 w_1| < 1, \quad \forall\omega\\
-  & |H_2 w_2| < 1, \quad \forall\omega\\
-  & |H_3 w_3| < 1, \quad \forall\omega\\
-  & H_1 + H_2 + H_3 = 1
+  |H_L| &< \frac{1}{|w_L|}, \quad \forall \omega \\
+  |H_H| &< \frac{1}{|w_H|}, \quad \forall \omega
 \end{align*}
 
-For that, we use the $\mathcal{H}_\infty$ synthesis with the architecture shown on figure [[fig:comp_filter_three_hinf]].
+We then see that $w_L$ and $w_H$ can be used to shape both $H_L$ and $H_H$ while ensuring (by definition of $H_H = 1 - H_L$) their complementary property.
 
-#+name: fig:comp_filter_three_hinf
-#+caption: Generalized architecture for generating 3 complementary filters
-[[file:figs/comp_filter_three_hinf.png]]
+#+name: fig:sf_hinf_filters_b
+#+caption: $\mathcal{H}_\infty$ synthesis of the complementary filters
+[[file:figs/sf_hinf_filters_b.png]]
 
-The $\mathcal{H}_\infty$ objective is:
-\begin{align*}
-  & |H_1 w_1| < 1, \quad \forall\omega\\
-  & |H_2 w_2| < 1, \quad \forall\omega\\
-  & |(1 - H_1 - H_2) w_3| < 1, \quad \forall\omega\\
-\end{align*}
+** Weights
 
-And thus if we choose $H_3 = 1 - H_1 - H_2$ we have solved the problem.
-
-** Matlab Implementation
-First we define the weights.
 #+begin_src matlab
-  w1 = 0.35*(1 + s/2/pi/1)^2/(1 + s/2/pi/100)^2;
-  w2 = 0.35*(1 + s/2/pi/1)^2/(sqrt(1e-4) + s/2/pi/1)^2*(1 + s/2/pi/100)^2/(1 + s/2/pi/10000)^2;
-  w3 = 0.35*(1 + s/2/pi/100)^2/(sqrt(1e-4) + s/2/pi/100)^2;
+  omegab = 2*pi*9;
+  wH = (omegab)^2/(s + omegab*sqrt(1e-5))^2;
+  omegab = 2*pi*28;
+  wL = (s + omegab/(4.5)^(1/3))^3/(s*(1e-4)^(1/3) + omegab)^3;
 #+end_src
 
 #+begin_src matlab :exports none
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '-', 'DisplayName', '$w_L$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
-  set(gca,'ColorOrderIndex',3)
-  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '-', 'DisplayName', '$w_H$');
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
   xlim([freqs(1), freqs(end)]);
-  xticks([0.01, 0.1, 1, 10, 100, 1000]);
+  ylim([1e-3, 10]);
+  xticks([0.1, 1, 10, 100, 1000]);
   legend('location', 'northeast');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/three_weighting_functions.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+#+begin_src matlab :var filepath="figs/weights_wl_wh.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
   <<plt-matlab>>
 #+end_src
 
-#+NAME: fig:three_weighting_functions
-#+CAPTION: Three weighting functions used for the $\mathcal{H}_\infty$ synthesis of the complementary filters ([[./figs/three_weighting_functions.png][png]], [[./figs/three_weighting_functions.pdf][pdf]])
-[[file:figs/three_weighting_functions.png]]
+#+NAME: fig:weights_wl_wh
+#+CAPTION: Weights on the complementary filters $w_L$ and $w_H$ and the associated performance weights ([[./figs/weights_wl_wh.png][png]], [[./figs/weights_wl_wh.pdf][pdf]])
+[[file:figs/weights_wl_wh.png]]
 
-
-Then we create the generalized plant =P=.
+** H-Infinity Synthesis
+We define the generalized plant $P$ on matlab.
 #+begin_src matlab
-  P = [w3 -w3 -w3;
-       0   w2  0 ;
-       0   0   w1;
-       1   0   0];
+  P = [0   wL;
+       wH -wH;
+       1   0];
 #+end_src
 
-And we do the $\mathcal{H}_\infty$ synthesis.
+And we do the $\mathcal{H}_\infty$ synthesis using the =hinfsyn= command.
 #+begin_src matlab :results output replace :exports both
-  [H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+  [Hl_hinf, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 #+end_src
 
 #+RESULTS:
 #+begin_example
-[H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
-Resetting value of Gamma min based on D_11, D_12, D_21 terms
-
-Test bounds:      0.3500 <  gamma  <=      2.5115
+[Hl_hinf, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+Test bounds:      0.0000 <  gamma  <=      1.7285
 
   gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
-    2.512   4.4e+00   2.7e-15   6.3e-02   -8.0e-09    0.0000    p
-    1.431   4.3e+00 -7.5e-11   6.3e-02    0.0e+00    0.0000    p
-    0.890   4.0e+00 -2.4e+01#  6.3e-02    0.0e+00    0.0000    f
-    1.161   4.2e+00 -1.7e-13   6.3e-02   -8.1e-09    0.0000    p
-    1.025   4.1e+00 -2.0e-01#  6.3e-02   -8.1e-09    0.0000    f
-    1.093   4.2e+00 -2.0e+01#  6.3e-02    0.0e+00    0.0000    f
-    1.127   4.2e+00 -1.4e+02#  6.3e-02    0.0e+00    0.0000    f
-    1.144   4.2e+00 -2.2e+04#  6.3e-02   -1.9e-10    0.0000    f
-    1.152   4.2e+00   3.5e-15   6.3e-02    0.0e+00    0.0000    p
-    1.148   4.2e+00   8.7e-15   6.3e-02   -1.9e-10    0.0000    p
-    1.146   4.2e+00   5.0e-15   6.3e-02    0.0e+00    0.0000    p
-    1.145   4.2e+00   5.5e-15   6.3e-02    0.0e+00    0.0000    p
-    1.144   4.2e+00   5.5e-16   6.3e-02   -8.0e-09    0.0000    p
+    1.729   4.1e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
+    0.864   3.9e+01 -5.8e-02#  1.8e-01    0.0e+00    0.0000    f
+    1.296   4.0e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
+    1.080   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
+    0.972   3.9e+01 -4.2e-01#  1.8e-01    0.0e+00    0.0000    f
+    1.026   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
+    0.999   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
+    0.986   3.9e+01 -1.2e+00#  1.8e-01    0.0e+00    0.0000    f
+    0.993   3.9e+01 -8.2e+00#  1.8e-01    0.0e+00    0.0000    f
+    0.996   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
+    0.994   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
+    0.993   3.9e+01 -3.2e+01#  1.8e-01    0.0e+00    0.0000    f
 
- Gamma value achieved:     1.1442
+ Gamma value achieved:     0.9942
 #+end_example
 
-The obtained filters are:
+We then define the high pass filter $H_H = 1 - H_L$. The bode plot of both $H_L$ and $H_H$ is shown on figure [[fig:hinf_filters_results]].
 #+begin_src matlab
-  H1 = tf(H(2));
-  H2 = tf(H(1));
-  H3 = 1 - H1 - H2;
+  Hh_hinf = 1 - Hl_hinf;
 #+end_src
+
+** Obtained Complementary Filters
+
+The obtained complementary filters are shown on figure [[fig:hinf_filters_results]].
 
 #+begin_src matlab :exports none
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '--', 'DisplayName', '$w_L$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
-  set(gca,'ColorOrderIndex',3)
-  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '--', 'DisplayName', '$w_H$');
+
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(H1, freqs, 'Hz'))), '-', 'DisplayName', '$H_1$');
+  plot(freqs, abs(squeeze(freqresp(Hl_hinf, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - $\mathcal{H}_\infty$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(H2, freqs, 'Hz'))), '-', 'DisplayName', '$H_2$');
-  set(gca,'ColorOrderIndex',3)
-  plot(freqs, abs(squeeze(freqresp(H3, freqs, 'Hz'))), '-', 'DisplayName', '$H_3$');
+  plot(freqs, abs(squeeze(freqresp(Hh_hinf, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - $\mathcal{H}_\infty$');
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
   xlim([freqs(1), freqs(end)]);
-  xticks([0.01, 0.1, 1, 10, 100, 1000]);
+  ylim([1e-3, 10]);
+  xticks([0.1, 1, 10, 100, 1000]);
   legend('location', 'northeast');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/three_complementary_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+#+begin_src matlab :var filepath="figs/hinf_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
   <<plt-matlab>>
 #+end_src
 
-#+NAME: fig:three_complementary_filters_results
-#+CAPTION: The three complementary filters obtained after $\mathcal{H}_\infty$ synthesis ([[./figs/three_complementary_filters_results.png][png]], [[./figs/three_complementary_filters_results.pdf][pdf]])
-[[file:figs/three_complementary_filters_results.png]]
+#+NAME: fig:hinf_filters_results
+#+CAPTION: Obtained complementary filters using $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_filters_results.png][png]], [[./figs/hinf_filters_results.pdf][pdf]])
+[[file:figs/hinf_filters_results.png]]
 
-* Complementary filter order
-  :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/complementary_filters_order.m
-  :header-args:matlab+: :comments org :mkdirp yes
-  :END:
-  <<sec:complementary_filters_order>>
-
-** Introduction                                                      :ignore:
-** ZIP file containing the data and matlab files                     :ignore:
-#+begin_src bash :exports none :results none
-  if [ matlab/complementary_filters_order.m -nt data/complementary_filters_order.zip ]; then
-    cp matlab/complementary_filters_order.m complementary_filters_order.m;
-    zip data/complementary_filters_order \
-        complementary_filters_order.m
-    rm complementary_filters_order.m;
-  fi
-#+end_src
-
-#+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/complementary_filters_order.zip][here]].
-#+end_note
-
-** Matlab Init                                              :noexport:ignore:
-#+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
-  <<matlab-dir>>
-#+end_src
-
-#+begin_src matlab :exports none :results silent :noweb yes
-  <<matlab-init>>
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  freqs = logspace(-1, 3, 1000);
-#+end_src
-
-** Generate Complementary filters with different order               :noexport:
-The weights are generated automatically base on the wanted blending frequency and the order.
-For each weight, the synthesis of the filter is made and the result are displayed figure [[fig:order_filter]].
-
-#+begin_src matlab :exports none :results silent
-  n_array = 1:3;
-  Hhs = {zeros(1, length(n_array))};
-  gammas = zeros(1, length(n_array));
-
-  for i = 1:length(n_array)
-      f0 = 10; n = n_array(i); alpha = 1;
-
-      G0 = 1e7;
-      b = 2*pi*f0/(sqrt((G0/sqrt(2))^(2/n)-1));
-      Wh = alpha*G0/(1+s/b)^n;
-      b = 2*pi*f0/2^(1/2/n)*sqrt(G0^(2/n)-2^(1/n));
-      Wl = alpha*G0*((s/b)/(s/b + 1))^n;
-      P = [0   Wh;
-           Wl -Wl;
-           1   0];
-      [Hh, ~, gamma, ~] = hinfsyn(minreal(P), 1, 1,'TOLGAM', 0.001, 'GMAX', 10, 'GMIN', 0.01, 'METHOD', 'ric', 'DISPLAY', 'on');
-      Hhs(i) = {Hh};
-      gammas(i) = gamma;
-  end
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  % Magnitude
-  ax1 = subaxis(2,1,1);
-  hold on;
-  for i = 1:length(n_array)
-      set(gca,'ColorOrderIndex',i);
-      plot(freqs, abs(squeeze(freqresp(Hhs{i}, freqs, 'Hz'))));
-      set(gca,'ColorOrderIndex',i);
-      plot(freqs, abs(squeeze(freqresp(1-Hhs{i}, freqs, 'Hz'))), '--');
-  end
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude [m/N]');
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  for i = 1:length(n_array)
-      set(gca,'ColorOrderIndex',i);
-      plot(freqs, 180/pi*unwrap(angle(squeeze(freqresp(Hhs{i}, freqs, 'Hz')))), 'DisplayName', sprintf('n = %i', n_array(i)));
-      set(gca,'ColorOrderIndex',i);
-      plot(freqs, 180/pi*unwrap(angle(squeeze(freqresp(1-Hhs{i}, freqs, 'Hz')))), '--', 'HandleVisibility', 'off');
-  end
-  set(gca,'xscale','log');
-  yticks(-270:90:270);
-  ylim([-270 270]);
-  xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
-  legend('Location', 'northeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/hinf-filter-order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:hinf-filter-order
-#+CAPTION: Bode plot of complementary filters with order 1, 2 and 3 ([[./figs/hinf-filter-order.png][png]], [[./figs/hinf-filter-order.pdf][pdf]])
-[[file:figs/hinf-filter-order.png]]
-
-** Analytical formula for complementary filters of 1st, 2nd and 3rd order :noexport:
-The approximate analytical formula for complementary filters of 1st, 2nd and 3rd orders are defined below.
-Their bode plot are shown on figure ref:fig:comp_filters_order.
-
-#+begin_src matlab :results silent :exports code
-  f0 = 1; % [Hz]
-
-  Hh1 = (s/2/pi/f0)/((s/2/pi/f0)+1);
-  Hl1 = 1/((s/2/pi/f0)+1);
-
-  Hh2 = (s/f0)^2*((s/f0)+14.3)/(((s/f0)+2*pi)*((s/f0)^2 + 8*(s/f0) + 40));
-  Hl2 = 90.4*((s/f0)+2.78)/(((s/f0)+2*pi)*((s/f0)^2 + 8*(s/f0) + 40));
-
-  Hh3 = (s/f0)^3*((s/f0)^2 + 20*(s/f0) + 200)/(((s/f0)+2*pi)*((s/f0)^2 + 10*(s/f0) + 40)*((s/f0)^2 + 4*(s/f0) + 40));
-  Hl3 = 2*pi*200*((s/f0)^2 + 4*(s/f0) + 8)/(((s/f0)+2*pi)*((s/f0)^2 + 10*(s/f0) + 40)*((s/f0)^2 + 4*(s/f0) + 40));
-#+end_src
-
-#+begin_src matlab :results silent :exports code
-  w0 = 2*pi; % [Hz]
-
-  Hh1 = (s/w0)/((s/w0)+1);
-  Hl1 = 1/((s/w0)+1);
-
-  Hh2 = (s/w0)^2*((s/w0)+3)/(((s/w0)+1)*((s/w0)^2 + 2*(s/w0) + 1));
-  Hl2 = (3*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + 2*(s/w0) + 1));
-
-  Hh3 = (s/f0)^3*((s/f0)^2 + 20*(s/f0) + 200)/(((s/f0)+2*pi)*((s/f0)^2 + 10*(s/f0) + 40)*((s/f0)^2 + 4*(s/f0) + 40));
-  Hl3 = 2*pi*200*((s/f0)^2 + 4*(s/f0) + 8)/(((s/f0)+2*pi)*((s/f0)^2 + 10*(s/f0) + 40)*((s/f0)^2 + 4*(s/f0) + 40));
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  % Magnitude
-  ax1 = subaxis(2,1,1);
-  hold on;
-  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hh1, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hl1, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(Hh2, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(Hl2, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',3); plot(freqs, abs(squeeze(freqresp(Hh3, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',3); plot(freqs, abs(squeeze(freqresp(Hl3, freqs, 'Hz'))));
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude [m/N]');
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hh1, freqs, 'Hz'))), 'DisplayName', '1st order');
-  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(Hh2, freqs, 'Hz'))), 'DisplayName', '2nd order');
-  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',3); plot(freqs, 180/pi*angle(squeeze(freqresp(Hh3, freqs, 'Hz'))), 'DisplayName', '3rd order');
-  set(gca,'ColorOrderIndex',3); plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
-  legend('Location', 'northeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filters_order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filters_order
-#+CAPTION: Bode plot of complementary filters of order 1, 2 and 3 ([[./figs/comp_filters_order.png][png]], [[./figs/comp_filters_order.pdf][pdf]])
-[[file:figs/comp_filters_order.png]]
-
-For each order, we plot the low pass filter, the high pass filter and the sum of the two to check their complementary properties.
-#+begin_src matlab :results silent
-  freqs = logspace(-2, 2, 1000);
-
-  figure;
-  ax1=subaxis(1, 3, 1);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl1, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hh1, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl1+Hh1, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  ylabel('Magnitude');
-  title('1st Order');
-
-  ax2=subaxis(1, 3, 2);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl2, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hh2, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl2+Hh2, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'YTickLabel',[]);
-  xlabel('Frequency [Hz]');
-  title('2nd Order');
-
-  ax3=subaxis(1, 3, 3);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl3, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hh3, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl3+Hh3, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  title('3rd Order');
-
-  linkaxes([ax1,ax2,ax3],'x');
-  linkaxes([ax1,ax2,ax3],'y');
-  set(gca, 'YTickLabel',[]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filters_magnitude.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filters_magnitude
-#+CAPTION: Magnitude of complementary filters with order 1, 2 and 3 ([[./figs/comp_filters_magnitude.png][png]], [[./figs/comp_filters_magnitude.pdf][pdf]])
-[[file:figs/comp_filters_magnitude.png]]
-
-
-#+begin_src matlab :results silent
-  freqs = logspace(-2, 2, 1000);
-
-  figure;
-  ax1=subaxis(1, 3, 1);
-  hold on;
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh1, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1+Hh1, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  ylabel('Phase [deg]');
-  title('1st Order');
-
-  ax2=subaxis(1, 3, 2);
-  hold on;
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh2, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2+Hh2, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log');
-  set(gca, 'YTickLabel',[]);
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Frequency [Hz]');
-  title('2nd Order');
-
-  ax3=subaxis(1, 3, 3);
-  hold on;
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh3, freqs, 'Hz'))));
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3+Hh3, freqs, 'Hz'))), 'k--');
-  hold off;
-  set(gca, 'XScale', 'log');
-  set(gca, 'YTickLabel',[]);
-  title('3rd Order');
-
-  yticks(-180:90:180);
-  ylim([-180 180]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filters_phase.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filters_phase
-#+CAPTION: Phase of complementary filters with order 1, 2 and 3 ([[./figs/comp_filters_phase.png][png]], [[./figs/comp_filters_phase.pdf][pdf]])
-[[file:figs/comp_filters_phase.png]]
-
-We then plot the loop gain obtained for each filter in the nominal case $K G^\prime H_L = H_H^{-1} H_L$ (figure ref:fig:comp_filters_loop_gain).
-
-#+begin_src matlab :results silent
-  freqs = logspace(-2, 2, 1000);
-
-  figure;
-  % Magnitude
-  ax1 = subaxis(2,1,1);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl1/Hh1, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))));
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude [m/N]');
-  ylim([1e-5 1e5]);
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  plot(freqs, 180/pi*unwrap(angle(squeeze(freqresp(Hl1/Hh1, freqs, 'Hz')))), 'DisplayName', '1st order');
-  plot(freqs, 180/pi*unwrap(angle(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz')))), 'DisplayName', '2nd order');
-  plot(freqs, 180/pi*unwrap(angle(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))))-360, 'DisplayName', '3rd order');
-  set(gca,'xscale','log');
-  yticks(-270:90:90);
-  ylim([-270 90]);
-  xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
-  legend('Location', 'northeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filters_loop_gain.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filters_loop_gain
-#+CAPTION: Loop gain ${H_H}^{-1}H_L$ for complementary filters with order 1, 2 and 3 ([[./figs/comp_filters_loop_gain.png][png]], [[./figs/comp_filters_loop_gain.pdf][pdf]])
-[[file:figs/comp_filters_loop_gain.png]]
-
-Obtained stability margins are display on table ref:tab:GM_PM_comp_filters.
-
-#+begin_src matlab :results value table :exports results :post addhdr(*this*)
-  [gm1, pm1] = margin(Hl1/Hh1);
-  [gm2, pm2] = margin(Hl2/Hh2);
-  [gm3, pm3] = margin(Hl3/Hh3);
-  data = [abs(20*log10(gm1)), pm1;
-          abs(20*log10(gm2)), pm2;
-          abs(20*log10(gm3)), pm3];
-
-  data2orgtable(data, {'1', '2', '3'}, {'Order', 'GM [db]', 'PM [deg]'}, ' %.1f ');
-#+end_src
-
-#+LABEL: tab:GM_PM_comp_filters
-#+CAPTION: Gain Margins (GM) and Phase Margins (PM) obtain with complementary filters of order 1, 2 and 3
-#+RESULTS:
-| Order | GM [db] | PM [deg] |
-|-------+---------+----------|
-|     1 |     Inf |     90.0 |
-|     2 |     Inf |     42.4 |
-|     3 |     5.7 |     13.3 |
-
-** Analytical 1st order complementary filters
-*** Equations
-First order complementary filters are defined with following equations:
-\begin{align}
-  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
-  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
-\end{align}
-
-*** Result
-Their bode plot is shown Fig. ref:fig:comp_filter_1st_order.
-
-#+begin_src matlab :results silent
-  w0 = 2*pi; % [rad/s]
-
-  Hh1 = (s/w0)/((s/w0)+1);
-  Hl1 = 1/((s/w0)+1);
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  freqs = logspace(-2, 2, 1000);
-
-  figure;
-  % Magnitude
-  ax1 = subaxis(2,1,1);
-  hold on;
-  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hh1, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(Hl1, freqs, 'Hz'))));
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hh1, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1, freqs, 'Hz'))));
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_1st_order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_1st_order
-#+CAPTION: Bode plot of first order complementary filter ([[./figs/comp_filter_1st_order.png][png]], [[./figs/comp_filter_1st_order.pdf][pdf]])
-[[file:figs/comp_filter_1st_order.png]]
-
-
-The obtain loop gain $L = H_L{H_H}^{-1}$ is shown Fig. ref:fig:comp_filter_1st_order_loop_gain.
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl1/Hh1, freqs, 'Hz'))));
-  hold off;
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl1/Hh1, freqs, 'Hz'))));
-  hold off;
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_1st_order_loop_gain.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_1st_order_loop_gain
-#+CAPTION: Loop gain using first order complementary filter ([[./figs/comp_filter_1st_order_loop_gain.png][png]], [[./figs/comp_filter_1st_order_loop_gain.pdf][pdf]])
-[[file:figs/comp_filter_1st_order_loop_gain.png]]
-
-** Analytical 2nd order complementary filters
-*** Equations
-The formula used for generating second order filters are defined below.
-\begin{align}
-  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
-\end{align}
-
-The parameters are:
-- $\omega_0$ is the blending frequency in rad/s.
-- $\alpha$ is used to change the shape of the filters as it will be shown after
-
-*** Result
-Bode plots of those filters for multiple values of $\alpha$ are displayed on figure ref:fig:comp_filter_2nd_order_alphas.
-
-We also plot the loop gain obtained for different values of $\alpha$: $L = H_L{H_H}^{-1}$ (figure ref:fig:comp_filter_2nd_order_loop_gain)
-
-#+begin_src matlab :exports none :results silent
-  alphas = [0.1, 1, 10, 100];
-  w0 = 2*pi*1;
-
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, abs(squeeze(freqresp(Hh2, freqs, 'Hz'))));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, abs(squeeze(freqresp(Hl2, freqs, 'Hz'))));
-  end
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  hold off;
-  ylim([1e-4, 20]);
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hh2, freqs, 'Hz'))), 'DisplayName', sprintf('$\\alpha = %g$', alpha));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  end
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  legend('Location', 'northeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_2nd_order_alphas.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_2nd_order_alphas
-#+CAPTION: Second order complementary filters ([[./figs/comp_filter_2nd_order_alphas.png][png]], [[./figs/comp_filter_2nd_order_alphas.pdf][pdf]])
-[[file:figs/comp_filter_2nd_order_alphas.png]]
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, abs(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz'))));
-  end
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz'))), 'DisplayName', sprintf('$\\alpha = %g$', alpha));
-  end
-  hold off;
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  legend('Location', 'northeast');
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_2nd_order_loop_gain.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_2nd_order_loop_gain
-#+CAPTION: Loop gain $\frac{H_L}{H_H}$ for multiple values of $\alpha$ ([[./figs/comp_filter_2nd_order_loop_gain.png][png]], [[./figs/comp_filter_2nd_order_loop_gain.pdf][pdf]])
-[[file:figs/comp_filter_2nd_order_loop_gain.png]]
-
-*** Parameter Study
-We then study the effect of $\alpha$ on the obtained performance and stability margins (figure ref:fig:comp_filter_2nd_order_study_alphas).
-
-#+begin_src matlab :results silent :exports none
-  alphas = logspace(-1, 1, 10);
-
-  Ms = zeros(1, length(alphas));
-  dist_reject_w_10 = zeros(1, length(alphas));
-
-  for i=1:length(alphas)
-    alpha = alphas(i);
-    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-    Ms(i) = hinfnorm(Hh2);
-    dist_reject_w_10(i) = abs(freqresp(Hh2, w0/10));
-  end
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  ax1 = subplot(1, 2, 1);
-  plot(alphas, 20*log10(Ms./(Ms-1)));
-  xlabel('$\alpha$'); ylabel('Guaranted GM $\frac{M_S}{M_S-1}$ [dB]');
-  set(gca, 'XScale', 'log');
-  ax2 = subplot(1, 2, 2);
-  plot(alphas, (360/2/pi)./Ms);
-  xlabel('$\alpha$'); ylabel('Guaranted PM $\frac{1}{M_S}$ [deg]');
-  set(gca, 'XScale', 'log');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_2nd_order_study_alpha.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_2nd_order_study_alpha
-#+CAPTION: Guaranted GM and PM as a function of $\alpha$ ([[./figs/comp_filter_2nd_order_study_alpha.png][png]], [[./figs/comp_filter_2nd_order_study_alpha.pdf][pdf]])
-[[file:figs/comp_filter_2nd_order_study_alpha.png]]
-
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  plot(alphas, 20*log10(1./dist_reject_w_10));
-  xlabel('$\alpha$'); ylabel('Disturbance Rejection at $\frac{\omega_0}{10} [dB]$');
-  set(gca, 'XScale', 'log');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_2nd_order_dist_reject.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_2nd_order_dist_reject
-#+CAPTION: Disturbance rejection at $\frac{\omega_0}{10}$ as a function of $\alpha$ ([[./figs/comp_filter_2nd_order_dist_reject.png][png]], [[./figs/comp_filter_2nd_order_dist_reject.pdf][pdf]])
-[[file:figs/comp_filter_2nd_order_dist_reject.png]]
-
-** Analytical 3rd order complementary filters
-*** Equations
-The formula used for generating second order filters are defined below
-\begin{align}
-  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
-\end{align}
-
-The parameters are:
-- $\omega_0$ is the blending frequency in rad/s.
-- $\alpha$ and $\beta$ that are used to change the shape of the filters as it will be shown after
-
-*** Results
-#+begin_src matlab :results silent :exports none
-  alpha = 1;
-  beta = 10;
-  w0 = 2*pi*1;
-
-  Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-  Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-#+end_src
-
-
-#+begin_src matlab :exports none :results silent
-  alphas = [0.1, 1, 10, 100];
-  beta = 10;
-  w0 = 2*pi*1;
-
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, abs(squeeze(freqresp(Hh3, freqs, 'Hz'))));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, abs(squeeze(freqresp(Hl3, freqs, 'Hz'))));
-  end
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  ylim([1e-5, 20]);
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hh3, freqs, 'Hz'))), 'DisplayName', sprintf('$\\alpha = %g$', alpha));
-    set(gca,'ColorOrderIndex',i);
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  end
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  legend('Location', 'southeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/compt_filter_3rd_order.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:compt_filter_3rd_order
-#+CAPTION: Bode plot of 3rd order complementary filters, $\beta = 10$ ([[./figs/compt_filter_3rd_order.png][png]], [[./figs/compt_filter_3rd_order.pdf][pdf]])
-[[file:figs/compt_filter_3rd_order.png]]
-
-#+begin_src matlab :results silent :exports none
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    plot(freqs, abs(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))));
-  end
-  hold off;
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  for i = 1:length(alphas)
-    alpha = alphas(i);
-    Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))), 'DisplayName', sprintf('$\\alpha = %g$', alpha));
-  end
-  hold off;
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  legend('Location', 'northeast');
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_filter_3rd_order_loop_gain.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_filter_3rd_order_loop_gain
-#+CAPTION: Loop gain using 3rd order complementary filters, $\beta = 10$ ([[./figs/comp_filter_3rd_order_loop_gain.png][png]], [[./figs/comp_filter_3rd_order_loop_gain.pdf][pdf]])
-[[file:figs/comp_filter_3rd_order_loop_gain.png]]
-
-*** Parametric Study
-#+begin_src matlab :results silent :exports code
-  alphas = logspace(-1, 1, 10);
-  Ms = zeros(1, length(alphas));
-  noise_reject_w_10 = zeros(1, length(alphas));
-
-  for i=1:length(alphas)
-    alpha = alphas(i);
-    beta = 5*alphas(i);
-    Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-    Ms(i) = hinfnorm(Hh3);
-    noise_reject_w_10(i) = abs(freqresp(Hh3, w0/10));
-  end
-#+end_src
-
-#+begin_src matlab :exports none :results silent
-  figure;
-  ax1 = subplot(1, 3, 1);
-  plot(alphas, 20*log10(Ms./(Ms-1)));
-  xlabel('$\alpha$'); ylabel('Guaranted Gain Margin $\frac{M_S}{M_S-1}$ [dB]');
-  set(gca, 'XScale', 'log');
-  ax2 = subplot(1, 3, 2);
-  plot(alphas, (360/2/pi)./Ms);
-  xlabel('$\alpha$'); ylabel('Guaranted Phase Margin $\frac{1}{M_S}$ [deg]');
-  set(gca, 'XScale', 'log');
-  ax3 = subplot(1, 3, 3);
-  plot(alphas, 20*log10(1./noise_reject_w_10));
-  xlabel('$\alpha$'); ylabel('Disturbance Rejection at $\frac{\omega_0}{10}$ [dB]');
-  set(gca, 'XScale', 'log');
-#+end_src
-
-** Compare 2nd and 3rd order filters
-Compare performance when having similar stability margins.
-
-#+begin_src matlab :results silent :exports none
-  alpha = 1.7;
-  beta = 5*1.7;
-  Hh3 = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-  Hl3 = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-
-  alpha = 1.4;
-  Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-  Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
-#+end_src
-
-#+begin_src matlab :results silent
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  set(gca,'ColorOrderIndex',1);
-  plot(freqs, abs(squeeze(freqresp(Hh2, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',1);
-  plot(freqs, abs(squeeze(freqresp(Hl2, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',2);
-  plot(freqs, abs(squeeze(freqresp(Hh3, freqs, 'Hz'))));
-  set(gca,'ColorOrderIndex',2);
-  plot(freqs, abs(squeeze(freqresp(Hl3, freqs, 'Hz'))));
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  ylim([1e-5, 20]);
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  set(gca,'ColorOrderIndex',1);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh2, freqs, 'Hz'))), 'DisplayName', '2nd order');
-  set(gca,'ColorOrderIndex',1);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',2);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh3, freqs, 'Hz'))), 'DisplayName', '3rd order');
-  set(gca,'ColorOrderIndex',2);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3, freqs, 'Hz'))), 'HandleVisibility', 'off');
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  legend('Location', 'southeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/filter_order_bode_plot.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:filter_order_bode_plot
-#+CAPTION: Bode Plot ([[./figs/filter_order_bode_plot.png][png]], [[./figs/filter_order_bode_plot.pdf][pdf]])
-[[file:figs/filter_order_bode_plot.png]]
-
-#+begin_src matlab :results silent
-  figure;
-  ax1 = subaxis(2,1,1);
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz'))));
-  plot(freqs, abs(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))));
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  set(gca, 'XTickLabel',[]);
-  ylabel('Magnitude');
-  hold off;
-  % Phase
-  ax2 = subaxis(2,1,2);
-  hold on;
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl2/Hh2, freqs, 'Hz'))), 'DisplayName', '2nd order');
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl3/Hh3, freqs, 'Hz'))), 'DisplayName', '3rd order');
-  set(gca,'xscale','log');
-  yticks(-180:90:180);
-  ylim([-180 180]);
-  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
-  legend('Location', 'southeast');
-  hold off;
-  linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/filter_order_loop_gain.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:filter_order_loop_gain
-#+CAPTION: Loop Gain ([[./figs/filter_order_loop_gain.png][png]], [[./figs/filter_order_loop_gain.pdf][pdf]])
-[[file:figs/filter_order_loop_gain.png]]
 * Feedback Control Architecture to generate Complementary Filters
   :PROPERTIES:
   :header-args:matlab+: :tangle matlab/feedback_generate_comp_filters.m
@@ -1482,7 +453,7 @@ A simple choice is:
 
 Which contains two integrator and a lead. $\omega_c$ is used to tune the crossover frequency and $\alpha$ the trade-off "bump" around blending frequency and filtering away from blending frequency.
 
-** Loop Gain
+** Loop Gain Design
 Let's first define the loop gain $L$.
 #+begin_src matlab
   wc = 2*pi*1;
@@ -1521,7 +492,7 @@ Let's first define the loop gain $L$.
 #+CAPTION: Bode plot of the loop gain $L$ ([[./figs/loop_gain_bode_plot.png][png]], [[./figs/loop_gain_bode_plot.pdf][pdf]])
 [[file:figs/loop_gain_bode_plot.png]]
 
-
+** Complementary Filters Obtained
 We then compute the resulting low pass and high pass filters.
 #+begin_src matlab
   Hl = L/(L + 1);
@@ -1556,6 +527,177 @@ We then compute the resulting low pass and high pass filters.
 #+NAME: fig:low_pass_high_pass_filters
 #+CAPTION: Low pass and High pass filters $H_L$ and $H_H$ for different values of $\alpha$ ([[./figs/low_pass_high_pass_filters.png][png]], [[./figs/low_pass_high_pass_filters.pdf][pdf]])
 [[file:figs/low_pass_high_pass_filters.png]]
+
+* Generating 3 complementary filters
+  :PROPERTIES:
+  :header-args:matlab+: :tangle matlab/three_comp_filters.m
+  :header-args:matlab+: :comments org :mkdirp yes
+  :END:
+  <<sec:three_comp_filters>>
+** Introduction                                                      :ignore:
+** ZIP file containing the data and matlab files                     :ignore:
+#+begin_src bash :exports none :results none
+  if [ matlab/three_comp_filters.m -nt data/three_comp_filters.zip ]; then
+    cp matlab/three_comp_filters.m three_comp_filters.m;
+    zip data/three_comp_filters \
+        three_comp_filters.m
+    rm three_comp_filters.m;
+  fi
+#+end_src
+
+#+begin_note
+  All the files (data and Matlab scripts) are accessible [[file:data/three_comp_filters.zip][here]].
+#+end_note
+
+** Matlab Init                                              :noexport:ignore:
+#+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
+  <<matlab-dir>>
+#+end_src
+
+#+begin_src matlab :exports none :results silent :noweb yes
+  <<matlab-init>>
+#+end_src
+
+#+begin_src matlab
+  freqs = logspace(-2, 4, 1000);
+#+end_src
+
+** Theory
+We want:
+\begin{align*}
+  & |H_1 w_1| < 1, \quad \forall\omega\\
+  & |H_2 w_2| < 1, \quad \forall\omega\\
+  & |H_3 w_3| < 1, \quad \forall\omega\\
+  & H_1 + H_2 + H_3 = 1
+\end{align*}
+
+For that, we use the $\mathcal{H}_\infty$ synthesis with the architecture shown on figure [[fig:comp_filter_three_hinf]].
+
+#+name: fig:comp_filter_three_hinf
+#+caption: Generalized architecture for generating 3 complementary filters
+[[file:figs/comp_filter_three_hinf.png]]
+
+The $\mathcal{H}_\infty$ objective is:
+\begin{align*}
+  & |H_1 w_1| < 1, \quad \forall\omega\\
+  & |H_2 w_2| < 1, \quad \forall\omega\\
+  & |(1 - H_1 - H_2) w_3| < 1, \quad \forall\omega\\
+\end{align*}
+
+And thus if we choose $H_3 = 1 - H_1 - H_2$ we have solved the problem.
+
+** Weights
+First we define the weights.
+#+begin_src matlab
+  w1 = 0.35*(1 + s/2/pi/1)^2/(1 + s/2/pi/100)^2;
+  w2 = 0.35*(1 + s/2/pi/1)^2/(sqrt(1e-4) + s/2/pi/1)^2*(1 + s/2/pi/100)^2/(1 + s/2/pi/10000)^2;
+  w3 = 0.35*(1 + s/2/pi/100)^2/(sqrt(1e-4) + s/2/pi/100)^2;
+#+end_src
+
+#+begin_src matlab :exports none
+  figure;
+  hold on;
+  set(gca,'ColorOrderIndex',1)
+  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  set(gca,'ColorOrderIndex',2)
+  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
+  set(gca,'ColorOrderIndex',3)
+  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  hold off;
+  xlim([freqs(1), freqs(end)]);
+  xticks([0.01, 0.1, 1, 10, 100, 1000]);
+  legend('location', 'northeast');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/three_weighting_functions.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:three_weighting_functions
+#+CAPTION: Three weighting functions used for the $\mathcal{H}_\infty$ synthesis of the complementary filters ([[./figs/three_weighting_functions.png][png]], [[./figs/three_weighting_functions.pdf][pdf]])
+[[file:figs/three_weighting_functions.png]]
+
+** H-Infinity Synthesis
+Then we create the generalized plant =P=.
+#+begin_src matlab
+  P = [w3 -w3 -w3;
+       0   w2  0 ;
+       0   0   w1;
+       1   0   0];
+#+end_src
+
+And we do the $\mathcal{H}_\infty$ synthesis.
+#+begin_src matlab :results output replace :exports both
+  [H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+Resetting value of Gamma min based on D_11, D_12, D_21 terms
+
+Test bounds:      0.3500 <  gamma  <=      2.5115
+
+  gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
+    2.512   4.4e+00   2.7e-15   6.3e-02   -8.0e-09    0.0000    p
+    1.431   4.3e+00 -7.5e-11   6.3e-02    0.0e+00    0.0000    p
+    0.890   4.0e+00 -2.4e+01#  6.3e-02    0.0e+00    0.0000    f
+    1.161   4.2e+00 -1.7e-13   6.3e-02   -8.1e-09    0.0000    p
+    1.025   4.1e+00 -2.0e-01#  6.3e-02   -8.1e-09    0.0000    f
+    1.093   4.2e+00 -2.0e+01#  6.3e-02    0.0e+00    0.0000    f
+    1.127   4.2e+00 -1.4e+02#  6.3e-02    0.0e+00    0.0000    f
+    1.144   4.2e+00 -2.2e+04#  6.3e-02   -1.9e-10    0.0000    f
+    1.152   4.2e+00   3.5e-15   6.3e-02    0.0e+00    0.0000    p
+    1.148   4.2e+00   8.7e-15   6.3e-02   -1.9e-10    0.0000    p
+    1.146   4.2e+00   5.0e-15   6.3e-02    0.0e+00    0.0000    p
+    1.145   4.2e+00   5.5e-15   6.3e-02    0.0e+00    0.0000    p
+    1.144   4.2e+00   5.5e-16   6.3e-02   -8.0e-09    0.0000    p
+
+ Gamma value achieved:     1.1442
+#+end_example
+
+** Obtained Complementary Filters
+The obtained filters are:
+#+begin_src matlab
+  H1 = tf(H(2));
+  H2 = tf(H(1));
+  H3 = 1 - H1 - H2;
+#+end_src
+
+#+begin_src matlab :exports none
+  figure;
+  hold on;
+  set(gca,'ColorOrderIndex',1)
+  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  set(gca,'ColorOrderIndex',2)
+  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
+  set(gca,'ColorOrderIndex',3)
+  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  set(gca,'ColorOrderIndex',1)
+  plot(freqs, abs(squeeze(freqresp(H1, freqs, 'Hz'))), '-', 'DisplayName', '$H_1$');
+  set(gca,'ColorOrderIndex',2)
+  plot(freqs, abs(squeeze(freqresp(H2, freqs, 'Hz'))), '-', 'DisplayName', '$H_2$');
+  set(gca,'ColorOrderIndex',3)
+  plot(freqs, abs(squeeze(freqresp(H3, freqs, 'Hz'))), '-', 'DisplayName', '$H_3$');
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  hold off;
+  xlim([freqs(1), freqs(end)]);
+  xticks([0.01, 0.1, 1, 10, 100, 1000]);
+  legend('location', 'northeast');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/three_complementary_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:three_complementary_filters_results
+#+CAPTION: The three complementary filters obtained after $\mathcal{H}_\infty$ synthesis ([[./figs/three_complementary_filters_results.png][png]], [[./figs/three_complementary_filters_results.pdf][pdf]])
+[[file:figs/three_complementary_filters_results.png]]
 
 * Try to implement complementary filters for LIGO
   :PROPERTIES:
@@ -1933,7 +1075,7 @@ We define the generalized plant $P$ on matlab as shown on figure [[fig:h_infinit
 
 And we do the $\mathcal{H}_2$ synthesis using the =h2syn= command.
 #+begin_src matlab
-  [H1, ~, gamma] = h2syn(P, 1, 1)
+  [H1, ~, gamma] = h2syn(P, 1, 1);
 #+end_src
 
 What is minimized is =norm([W1*H1,W2*H2], 2)=.
@@ -2003,3 +1145,7 @@ The optimal sensor fusion has permitted to reduced the RMS value of the estimati
 | Sensor 1              |   1.1e-02 |
 | Sensor 2              |   1.3e-03 |
 | Optimal Sensor Fusion |   1.5e-04 |
+* Comparison of the different methods of synthesis
+The generated complementary filters using $\mathcal{H}_\infty$ and the analytical formulas are very close to each other. However there is some difference to note here:
+- the analytical formula provides a very simple way to generate the complementary filters (and thus the controller), they could even be used to tune the controller online using the parameters $\alpha$ and $\omega_0$. However, these formula have the property that $|H_H|$ and $|H_L|$ are symmetrical with the frequency $\omega_0$ which may not be desirable.
+- while the $\mathcal{H}_\infty$ synthesis of the complementary filters is not as straightforward as using the analytical formula, it provides a more optimized procedure to obtain the complementary filters

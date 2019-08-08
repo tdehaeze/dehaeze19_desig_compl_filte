@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-08-08 jeu. 18:31 -->
+<!-- 2019-08-08 jeu. 18:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On the Design of Complementary Filters for Control - Computation with Matlab</title>
@@ -275,91 +275,221 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge839cbc">1. H-Infinity synthesis of complementary filters</a></li>
-<li><a href="#org1a63f77">2. Complementary filters using analytical formula</a></li>
-<li><a href="#orge307042">3. Comparison of complementary filters</a></li>
-<li><a href="#org84b9a21">4. Generating 3 complementary filters</a>
+<li><a href="#org81fbbd9">1. Complementary filters using analytical formula</a>
 <ul>
-<li><a href="#orgd92c0e7">4.1. Theory</a></li>
-<li><a href="#org3dbc173">4.2. Matlab Implementation</a></li>
+<li><a href="#org0e2998d">1.1. Analytical 1st order complementary filters</a></li>
+<li><a href="#org26930b3">1.2. Second Order Complementary Filters</a></li>
+<li><a href="#orgcc78086">1.3. Third Order Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#orgf826616">5. Complementary filter order</a>
+<li><a href="#org5d33b05">2. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#orgdfa7b95">5.1. Analytical 1st order complementary filters</a>
-<ul>
-<li><a href="#orgd0347a3">5.1.1. Equations</a></li>
-<li><a href="#org653fa8b">5.1.2. Result</a></li>
+<li><a href="#orgd493949">2.1. Synthesis Architecture</a></li>
+<li><a href="#orgedf6133">2.2. Weights</a></li>
+<li><a href="#org661441d">2.3. H-Infinity Synthesis</a></li>
+<li><a href="#org73b4005">2.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org45353b9">5.2. Analytical 2nd order complementary filters</a>
+<li><a href="#org3895321">3. Feedback Control Architecture to generate Complementary Filters</a>
 <ul>
-<li><a href="#org5bdbcd0">5.2.1. Equations</a></li>
-<li><a href="#org569663e">5.2.2. Result</a></li>
-<li><a href="#orge0a875b">5.2.3. Parameter Study</a></li>
+<li><a href="#org8ccea99">3.1. Architecture</a></li>
+<li><a href="#org4e25a2e">3.2. Loop Gain Design</a></li>
+<li><a href="#orge2e158a">3.3. Complementary Filters Obtained</a></li>
 </ul>
 </li>
-<li><a href="#org7288c73">5.3. Analytical 3rd order complementary filters</a>
+<li><a href="#org00be799">4. Generating 3 complementary filters</a>
 <ul>
-<li><a href="#org54ee7b9">5.3.1. Equations</a></li>
-<li><a href="#orgce340bc">5.3.2. Results</a></li>
-<li><a href="#orgfb0c2c7">5.3.3. Parametric Study</a></li>
+<li><a href="#orgbe5eaea">4.1. Theory</a></li>
+<li><a href="#org359c020">4.2. Weights</a></li>
+<li><a href="#orgcd8f906">4.3. H-Infinity Synthesis</a></li>
+<li><a href="#org292e057">4.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#orgd085c2e">5.4. Compare 2nd and 3rd order filters</a></li>
-</ul>
-</li>
-<li><a href="#orgf43d5b4">6. Feedback Control Architecture to generate Complementary Filters</a>
+<li><a href="#org082d638">5. Try to implement complementary filters for LIGO</a>
 <ul>
-<li><a href="#org127ea30">6.1. Architecture</a></li>
-<li><a href="#org3ad8109">6.2. Loop Gain</a></li>
+<li><a href="#org75d0682">5.1. Specifications</a></li>
+<li><a href="#org8ef31d1">5.2. Weights</a></li>
+<li><a href="#org7901851">5.3. H-Infinity Synthesis</a></li>
+<li><a href="#orge15ea97">5.4. Using Analytical Formula</a></li>
 </ul>
 </li>
-<li><a href="#org95577c8">7. Try to implement complementary filters for LIGO</a>
+<li><a href="#org1845e6a">6. Optimal Sensor Fusion for noise characteristics</a>
 <ul>
-<li><a href="#org6d14ac7">7.1. Specifications</a></li>
-<li><a href="#orga3b22b8">7.2. Weights</a></li>
-<li><a href="#org5cbacc3">7.3. H-Infinity Synthesis</a></li>
-<li><a href="#org3e8d576">7.4. Using Analytical Formula</a></li>
+<li><a href="#orgcb51100">6.1. Architecture</a></li>
+<li><a href="#org1a9b09e">6.2. Noise of the sensors</a></li>
+<li><a href="#orgf01312f">6.3. H-Two Synthesis</a></li>
+<li><a href="#org3f478e9">6.4. Analysis</a></li>
 </ul>
 </li>
-<li><a href="#org39fb716">8. Optimal Sensor Fusion for noise characteristics</a>
-<ul>
-<li><a href="#orge611944">8.1. Architecture</a></li>
-<li><a href="#org81df058">8.2. Noise of the sensors</a></li>
-<li><a href="#org5d6dd46">8.3. H-Two Synthesis</a></li>
-<li><a href="#orgb6159a0">8.4. Analysis</a></li>
-</ul>
-</li>
+<li><a href="#org5829e59">7. Comparison of the different methods of synthesis</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge839cbc" class="outline-2">
-<h2 id="orge839cbc"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div id="outline-container-org81fbbd9" class="outline-2">
+<h2 id="org81fbbd9"><span class="section-number-2">1</span> Complementary filters using analytical formula</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org11820e9"></a>
+<a id="org6cafc6a"></a>
+</p>
+<div class="note">
+<p>
+All the files (data and Matlab scripts) are accessible <a href="data/comp_filters_analytical.zip">here</a>.
 </p>
 
+</div>
+</div>
+
+<div id="outline-container-org0e2998d" class="outline-3">
+<h3 id="org0e2998d"><span class="section-number-3">1.1</span> Analytical 1st order complementary filters</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+First order complementary filters are defined with following equations:
+</p>
+\begin{align}
+  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
+  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
+\end{align}
+
+<p>
+Their bode plot is shown figure <a href="#org726e8f8">1</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-matlab">w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; <span class="org-comment">% [rad/s]</span>
+
+Hh1 = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+Hl1 = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+
+<div id="org726e8f8" class="figure">
+<p><img src="figs/comp_filter_1st_order.png" alt="comp_filter_1st_order.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Bode plot of first order complementary filter (<a href="./figs/comp_filter_1st_order.png">png</a>, <a href="./figs/comp_filter_1st_order.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org26930b3" class="outline-3">
+<h3 id="org26930b3"><span class="section-number-3">1.2</span> Second Order Complementary Filters</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We here use analytical formula for the complementary filters \(H_L\) and \(H_H\).
+</p>
+
+<p>
+The first two formulas that are used to generate complementary filters are:
+</p>
+\begin{align*}
+  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
+\end{align*}
+<p>
+where:
+</p>
+<ul class="org-ul">
+<li>\(\omega_0\) is the blending frequency in rad/s.</li>
+<li>\(\alpha\) is used to change the shape of the filters:
+<ul class="org-ul">
+<li>Small values for \(\alpha\) will produce high magnitude of the filters \(|H_L(j\omega)|\) and \(|H_H(j\omega)|\) near \(\omega_0\) but smaller value for \(|H_L(j\omega)|\) above \(\approx 1.5 \omega_0\) and for \(|H_H(j\omega)|\) below \(\approx 0.7 \omega_0\)</li>
+<li>A large \(\alpha\) will do the opposite</li>
+</ul></li>
+</ul>
+
+<p>
+This is illustrated on figure <a href="#orgf4d440c">2</a>.
+The slope of those filters at high and low frequencies is \(-2\) and \(2\) respectively for \(H_L\) and \(H_H\).
+</p>
+
+
+<div id="orgf4d440c" class="figure">
+<p><img src="figs/comp_filters_param_alpha.png" alt="comp_filters_param_alpha.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Effect of the parameter \(\alpha\) on the shape of the generated second order complementary filters (<a href="./figs/comp_filters_param_alpha.png">png</a>, <a href="./figs/comp_filters_param_alpha.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc78086" class="outline-3">
+<h3 id="orgcc78086"><span class="section-number-3">1.3</span> Third Order Complementary Filters</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The following formula gives complementary filters with slopes of \(-3\) and \(3\):
+</p>
+\begin{align*}
+  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
+  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
+\end{align*}
+
+<p>
+The parameters are:
+</p>
+<ul class="org-ul">
+<li>\(\omega_0\) is the blending frequency in rad/s</li>
+<li>\(\alpha\) and \(\beta\) that are used to change the shape of the filters similarly to the parameter \(\alpha\) for the second order complementary filters</li>
+</ul>
+
+<p>
+The filters are defined below and the result is shown on figure <a href="#org73eb8d3">3</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-matlab">alpha = <span class="org-highlight-numbers-number">1</span>;
+beta = <span class="org-highlight-numbers-number">10</span>;
+w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">14</span>;
+
+Hh3_ana = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span> <span class="org-type">*</span> <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-type">+</span>beta<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span><span class="org-rainbow-delimiters-depth-3">(</span>alpha<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>beta<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>beta<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+Hl3_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span><span class="org-rainbow-delimiters-depth-3">(</span>alpha<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>beta<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-type">+</span>beta<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>beta<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+
+<div id="org73eb8d3" class="figure">
+<p><img src="figs/complementary_filters_third_order.png" alt="complementary_filters_third_order.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Third order complementary filters using the analytical formula (<a href="./figs/complementary_filters_third_order.png">png</a>, <a href="./figs/complementary_filters_third_order.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5d33b05" class="outline-2">
+<h2 id="org5d33b05"><span class="section-number-2">2</span> H-Infinity synthesis of complementary filters</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<a id="org2e0867f"></a>
+</p>
+<div class="note">
+<p>
+All the files (data and Matlab scripts) are accessible <a href="data/h_inf_synthesis_complementary_filters.zip">here</a>.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-orgd493949" class="outline-3">
+<h3 id="orgd493949"><span class="section-number-3">2.1</span> Synthesis Architecture</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
 We here synthesize the complementary filters using the \(\mathcal{H}_\infty\) synthesis.
 The goal is to specify upper bounds on the norms of \(H_L\) and \(H_H\) while ensuring their complementary property (\(H_L + H_H = 1\)).
 </p>
 
 <p>
-In order to do so, we use the generalized plant shown on figure <a href="#orgd51187e">1</a> where \(w_L\) and \(w_H\) weighting transfer functions that will be used to shape \(H_L\) and \(H_H\) respectively.
+In order to do so, we use the generalized plant shown on figure <a href="#org7362f49">4</a> where \(w_L\) and \(w_H\) weighting transfer functions that will be used to shape \(H_L\) and \(H_H\) respectively.
 </p>
 
 
-<div id="orgd51187e" class="figure">
+<div id="org7362f49" class="figure">
 <p><img src="figs/sf_hinf_filters_plant_b.png" alt="sf_hinf_filters_plant_b.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>Generalized plant used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
+<p><span class="figure-number">Figure 4: </span>Generalized plant used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 
 <p>
-The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_L\) (figure <a href="#org6772121">2</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_H,\ z_L]\) is less than one:
+The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_L\) (figure <a href="#org22d7f1d">5</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_H,\ z_L]\) is less than one:
 \[ \left\| \begin{array}{c} H_L w_L \\ (1 - H_L) w_H \end{array} \right\|_\infty < 1 \]
 </p>
 
@@ -378,13 +508,17 @@ We then see that \(w_L\) and \(w_H\) can be used to shape both \(H_L\) and \(H_H
 </p>
 
 
-<div id="org6772121" class="figure">
+<div id="org22d7f1d" class="figure">
 <p><img src="figs/sf_hinf_filters_b.png" alt="sf_hinf_filters_b.png" />
 </p>
-<p><span class="figure-number">Figure 2: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
+<p><span class="figure-number">Figure 5: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
+</div>
+</div>
 </div>
 
-
+<div id="outline-container-orgedf6133" class="outline-3">
+<h3 id="orgedf6133"><span class="section-number-3">2.2</span> Weights</h3>
+<div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-matlab">omegab = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">9</span>;
 wH = <span class="org-rainbow-delimiters-depth-1">(</span>omegab<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s <span class="org-type">+</span> omegab<span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">5</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
@@ -394,12 +528,17 @@ wL = <span class="org-rainbow-delimiters-depth-1">(</span>s <span class="org-typ
 </div>
 
 
-<div id="orgabd8cc5" class="figure">
+<div id="org47dae90" class="figure">
 <p><img src="figs/weights_wl_wh.png" alt="weights_wl_wh.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>Weights on the complementary filters \(w_L\) and \(w_H\) and the associated performance weights (<a href="./figs/weights_wl_wh.png">png</a>, <a href="./figs/weights_wl_wh.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 6: </span>Weights on the complementary filters \(w_L\) and \(w_H\) and the associated performance weights (<a href="./figs/weights_wl_wh.png">png</a>, <a href="./figs/weights_wl_wh.pdf">pdf</a>)</p>
+</div>
+</div>
 </div>
 
+<div id="outline-container-org661441d" class="outline-3">
+<h3 id="org661441d"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
 We define the generalized plant \(P\) on matlab.
 </p>
@@ -440,164 +579,134 @@ Test bounds:      0.0000 &lt;  gamma  &lt;=      1.7285
 </pre>
 
 <p>
-We then define the high pass filter \(H_H = 1 - H_L\). The bode plot of both \(H_L\) and \(H_H\) is shown on figure <a href="#org9e53a3d">4</a>.
+We then define the high pass filter \(H_H = 1 - H_L\). The bode plot of both \(H_L\) and \(H_H\) is shown on figure <a href="#org52d44fe">7</a>.
 </p>
 <div class="org-src-container">
 <pre class="src src-matlab">Hh_hinf = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> Hl_hinf;
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org73b4005" class="outline-3">
+<h3 id="org73b4005"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+The obtained complementary filters are shown on figure <a href="#org52d44fe">7</a>.
+</p>
 
 
-<div id="org9e53a3d" class="figure">
+<div id="org52d44fe" class="figure">
 <p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 7: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
 </div>
-</div>
-</div>
-
-<div id="outline-container-org1a63f77" class="outline-2">
-<h2 id="org1a63f77"><span class="section-number-2">2</span> Complementary filters using analytical formula</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-<a id="org7345778"></a>
-</p>
-
-<p>
-We here use analytical formula for the complementary filters \(H_L\) and \(H_H\).
-</p>
-
-<p>
-The first two formulas that are used to generate complementary filters are:
-</p>
-\begin{align*}
-  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
-\end{align*}
-<p>
-where:
-</p>
-<ul class="org-ul">
-<li>\(\omega_0\) is the blending frequency in rad/s.</li>
-<li>\(\alpha\) is used to change the shape of the filters:
-<ul class="org-ul">
-<li>Small values for \(\alpha\) will produce high magnitude of the filters \(|H_L(j\omega)|\) and \(|H_H(j\omega)|\) near \(\omega_0\) but smaller value for \(|H_L(j\omega)|\) above \(\approx 1.5 \omega_0\) and for \(|H_H(j\omega)|\) below \(\approx 0.7 \omega_0\)</li>
-<li>A large \(\alpha\) will do the opposite</li>
-</ul></li>
-</ul>
-
-<p>
-This is illustrated on figure <a href="#org9bc881e">5</a>.
-As it is usually wanted to have the \(\| S \|_\infty < 2\), \(\alpha\) between \(0.5\) and \(1\) gives a good trade-off between the performance and the robustness.
-The slope of those filters at high and low frequencies is \(-2\) and \(2\) respectively for \(H_L\) and \(H_H\).
-</p>
-
-
-<div id="org9bc881e" class="figure">
-<p><img src="figs/comp_filters_param_alpha.png" alt="comp_filters_param_alpha.png" />
-</p>
-<p><span class="figure-number">Figure 5: </span>Effect of the parameter \(\alpha\) on the shape of the generated second order complementary filters (<a href="./figs/comp_filters_param_alpha.png">png</a>, <a href="./figs/comp_filters_param_alpha.pdf">pdf</a>)</p>
-</div>
-
-
-<p>
-The parameters \(\alpha\) and \(\omega_0\) are chosen in order to have that the complementary filters stay below the defined upper bounds.
-</p>
-
-<p>
-The obtained complementary filters are shown on figure <a href="#org10a9622">6</a>.
-The Robust Performance is not fulfilled for \(T\), and we see that the RP condition as a slop of \(-3\). We thus have to use different formula for the complementary filters here.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-matlab">w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">13</span>;
-alpha = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">8</span>;
-
-Hh2_ana = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-Hl2_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="org10a9622" class="figure">
-<p><img src="figs/complementary_filters_second_order.png" alt="complementary_filters_second_order.png" />
-</p>
-<p><span class="figure-number">Figure 6: </span>Second order complementary filters using the analytical formula (<a href="./figs/complementary_filters_second_order.png">png</a>, <a href="./figs/complementary_filters_second_order.pdf">pdf</a>)</p>
-</div>
-
-
-<p>
-The following formula gives complementary filters with slopes of \(-3\) and \(3\):
-</p>
-\begin{align*}
-  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
-\end{align*}
-
-<p>
-The parameters are:
-</p>
-<ul class="org-ul">
-<li>\(\omega_0\) is the blending frequency in rad/s</li>
-<li>\(\alpha\) and \(\beta\) that are used to change the shape of the filters similarly to the parameter \(\alpha\) for the second order complementary filters</li>
-</ul>
-
-<p>
-The filters are defined below and the result is shown on figure <a href="#org47274ac">7</a> where we can see that the complementary filters are below the defined upper bounds.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-matlab">alpha = <span class="org-highlight-numbers-number">1</span>;
-beta = <span class="org-highlight-numbers-number">10</span>;
-w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">14</span>;
-
-Hh3_ana = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span> <span class="org-type">*</span> <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-type">+</span>beta<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span><span class="org-rainbow-delimiters-depth-3">(</span>alpha<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>beta<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>beta<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-Hl3_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span><span class="org-rainbow-delimiters-depth-3">(</span>alpha<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>beta<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-type">+</span>beta<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>beta<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="org47274ac" class="figure">
-<p><img src="figs/complementary_filters_third_order.png" alt="complementary_filters_third_order.png" />
-</p>
-<p><span class="figure-number">Figure 7: </span>Third order complementary filters using the analytical formula (<a href="./figs/complementary_filters_third_order.png">png</a>, <a href="./figs/complementary_filters_third_order.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge307042" class="outline-2">
-<h2 id="orge307042"><span class="section-number-2">3</span> Comparison of complementary filters</h2>
+<div id="outline-container-org3895321" class="outline-2">
+<h2 id="org3895321"><span class="section-number-2">3</span> Feedback Control Architecture to generate Complementary Filters</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-  <a id="orgba68682"></a>
-The generated complementary filters using \(\mathcal{H}_\infty\) and the analytical formulas are compared on figure <a href="#org99d27e8">8</a>.
+<a id="org89c024e"></a>
+</p>
+<p>
+The idea is here to use the fact that in a classical feedback architecture, \(S + T = 1\), in order to design complementary filters.
 </p>
 
 <p>
-Although they are very close to each other, there is some difference to note here:
+Thus, all the tools that has been developed for classical feedback control can be used for complementary filter design.
 </p>
-<ul class="org-ul">
-<li>the analytical formula provides a very simple way to generate the complementary filters (and thus the controller), they could even be used to tune the controller online using the parameters \(\alpha\) and \(\omega_0\). However, these formula have the property that \(|H_H|\) and \(|H_L|\) are symmetrical with the frequency \(\omega_0\) which may not be desirable.</li>
-<li>while the \(\mathcal{H}_\infty\) synthesis of the complementary filters is not as straightforward as using the analytical formula, it provides a more optimized procedure to obtain the complementary filters</li>
-</ul>
+<div class="note">
+<p>
+All the files (data and Matlab scripts) are accessible <a href="data/feedback_generate_comp_filters.zip">here</a>.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-org8ccea99" class="outline-3">
+<h3 id="org8ccea99"><span class="section-number-3">3.1</span> Architecture</h3>
+<div class="outline-text-3" id="text-3-1">
+
+<div id="orgb1c999c" class="figure">
+<p><img src="figs/complementary_filters_feedback_architecture.png" alt="complementary_filters_feedback_architecture.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>Architecture used to generate the complementary filters</p>
+</div>
 
 <p>
-The complementary filters obtained with the \(\mathcal{H}_\infty\) will be used for further analysis.
+We have:
+\[ y = \underbrace{\frac{L}{L + 1}}_{H_L} y_1 + \underbrace{\frac{1}{L + 1}}_{H_H} y_2 \]
+with \(H_L + H_H = 1\).
 </p>
 
-
-<div id="org99d27e8" class="figure">
-<p><img src="figs/comp_hinf_analytical.png" alt="comp_hinf_analytical.png" />
+<p>
+The only thing to design is \(L\) such that the complementary filters are stable with the wanted shape.
 </p>
-<p><span class="figure-number">Figure 8: </span>Comparison of the complementary filters obtained with \(\mathcal{H}_\infty\) synthesis and with the analytical formula (<a href="./figs/comp_hinf_analytical.png">png</a>, <a href="./figs/comp_hinf_analytical.pdf">pdf</a>)</p>
+
+<p>
+A simple choice is:
+\[ L = \left(\frac{\omega_c}{s}\right)^2 \frac{\frac{s}{\omega_c / \alpha} + 1}{\frac{s}{\omega_c} + \alpha} \]
+</p>
+
+<p>
+Which contains two integrator and a lead. \(\omega_c\) is used to tune the crossover frequency and \(\alpha\) the trade-off "bump" around blending frequency and filtering away from blending frequency.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4e25a2e" class="outline-3">
+<h3 id="org4e25a2e"><span class="section-number-3">3.2</span> Loop Gain Design</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Let's first define the loop gain \(L\).
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab">wc = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">1</span>;
+alpha = <span class="org-highlight-numbers-number">2</span>;
+
+L = <span class="org-rainbow-delimiters-depth-1">(</span>wc<span class="org-type">/</span>s<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">*</span> <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span>wc<span class="org-type">/</span>alpha<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>wc <span class="org-type">+</span> alpha<span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+
+<div id="orgca4eba4" class="figure">
+<p><img src="figs/loop_gain_bode_plot.png" alt="loop_gain_bode_plot.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>Bode plot of the loop gain \(L\) (<a href="./figs/loop_gain_bode_plot.png">png</a>, <a href="./figs/loop_gain_bode_plot.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
-<div id="outline-container-org84b9a21" class="outline-2">
-<h2 id="org84b9a21"><span class="section-number-2">4</span> Generating 3 complementary filters</h2>
+
+<div id="outline-container-orge2e158a" class="outline-3">
+<h3 id="orge2e158a"><span class="section-number-3">3.3</span> Complementary Filters Obtained</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+We then compute the resulting low pass and high pass filters.
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab">Hl = L<span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>L <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+Hh = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>L <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+
+<div id="org6587f68" class="figure">
+<p><img src="figs/low_pass_high_pass_filters.png" alt="low_pass_high_pass_filters.png" />
+</p>
+<p><span class="figure-number">Figure 10: </span>Low pass and High pass filters \(H_L\) and \(H_H\) for different values of \(\alpha\) (<a href="./figs/low_pass_high_pass_filters.png">png</a>, <a href="./figs/low_pass_high_pass_filters.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org00be799" class="outline-2">
+<h2 id="org00be799"><span class="section-number-2">4</span> Generating 3 complementary filters</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org08af7c3"></a>
+<a id="orgaf38b67"></a>
 </p>
 <div class="note">
 <p>
@@ -606,9 +715,8 @@ All the files (data and Matlab scripts) are accessible <a href="data/three_comp_
 
 </div>
 </div>
-
-<div id="outline-container-orgd92c0e7" class="outline-3">
-<h3 id="orgd92c0e7"><span class="section-number-3">4.1</span> Theory</h3>
+<div id="outline-container-orgbe5eaea" class="outline-3">
+<h3 id="orgbe5eaea"><span class="section-number-3">4.1</span> Theory</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 We want:
@@ -621,14 +729,14 @@ We want:
 \end{align*}
 
 <p>
-For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org20eb1cc">9</a>.
+For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#orgfaa1b6d">11</a>.
 </p>
 
 
-<div id="org20eb1cc" class="figure">
+<div id="orgfaa1b6d" class="figure">
 <p><img src="figs/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
-<p><span class="figure-number">Figure 9: </span>Generalized architecture for generating 3 complementary filters</p>
+<p><span class="figure-number">Figure 11: </span>Generalized architecture for generating 3 complementary filters</p>
 </div>
 
 <p>
@@ -646,8 +754,8 @@ And thus if we choose \(H_3 = 1 - H_1 - H_2\) we have solved the problem.
 </div>
 </div>
 
-<div id="outline-container-org3dbc173" class="outline-3">
-<h3 id="org3dbc173"><span class="section-number-3">4.2</span> Matlab Implementation</h3>
+<div id="outline-container-org359c020" class="outline-3">
+<h3 id="org359c020"><span class="section-number-3">4.2</span> Weights</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 First we define the weights.
@@ -660,13 +768,17 @@ w3 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highli
 </div>
 
 
-<div id="orgbf10998" class="figure">
+<div id="orge78f96b" class="figure">
 <p><img src="figs/three_weighting_functions.png" alt="three_weighting_functions.png" />
 </p>
-<p><span class="figure-number">Figure 10: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 12: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
+</div>
+</div>
 </div>
 
-
+<div id="outline-container-orgcd8f906" class="outline-3">
+<h3 id="orgcd8f906"><span class="section-number-3">4.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-4-3">
 <p>
 Then we create the generalized plant <code>P</code>.
 </p>
@@ -709,7 +821,12 @@ Test bounds:      0.3500 &lt;  gamma  &lt;=      2.5115
 
  Gamma value achieved:     1.1442
 </pre>
+</div>
+</div>
 
+<div id="outline-container-org292e057" class="outline-3">
+<h3 id="org292e057"><span class="section-number-3">4.4</span> Obtained Complementary Filters</h3>
+<div class="outline-text-3" id="text-4-4">
 <p>
 The obtained filters are:
 </p>
@@ -721,404 +838,20 @@ H3 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">
 </div>
 
 
-<div id="org7c3145f" class="figure">
+<div id="org74ab838" class="figure">
 <p><img src="figs/three_complementary_filters_results.png" alt="three_complementary_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 11: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 13: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf826616" class="outline-2">
-<h2 id="orgf826616"><span class="section-number-2">5</span> Complementary filter order</h2>
+<div id="outline-container-org082d638" class="outline-2">
+<h2 id="org082d638"><span class="section-number-2">5</span> Try to implement complementary filters for LIGO</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-<a id="org3af897e"></a>
-</p>
-<div class="note">
-<p>
-All the files (data and Matlab scripts) are accessible <a href="data/complementary_filters_order.zip">here</a>.
-</p>
-
-</div>
-</div>
-
-<div id="outline-container-orgdfa7b95" class="outline-3">
-<h3 id="orgdfa7b95"><span class="section-number-3">5.1</span> Analytical 1st order complementary filters</h3>
-<div class="outline-text-3" id="text-5-1">
-</div>
-<div id="outline-container-orgd0347a3" class="outline-4">
-<h4 id="orgd0347a3"><span class="section-number-4">5.1.1</span> Equations</h4>
-<div class="outline-text-4" id="text-5-1-1">
-<p>
-First order complementary filters are defined with following equations:
-</p>
-\begin{align}
-  H_L(s) = \frac{1}{1 + \frac{s}{\omega_0}}\\
-  H_H(s) = \frac{\frac{s}{\omega_0}}{1 + \frac{s}{\omega_0}}
-\end{align}
-</div>
-</div>
-
-<div id="outline-container-org653fa8b" class="outline-4">
-<h4 id="org653fa8b"><span class="section-number-4">5.1.2</span> Result</h4>
-<div class="outline-text-4" id="text-5-1-2">
-<p>
-Their bode plot is shown Fig. <a href="#fig:comp_filter_1st_order">fig:comp_filter_1st_order</a>.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-matlab">w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; <span class="org-comment">% [rad/s]</span>
-
-Hh1 = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-Hl1 = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="org410c691" class="figure">
-<p><img src="figs/comp_filter_1st_order.png" alt="comp_filter_1st_order.png" />
-</p>
-<p><span class="figure-number">Figure 12: </span>Bode plot of first order complementary filter (<a href="./figs/comp_filter_1st_order.png">png</a>, <a href="./figs/comp_filter_1st_order.pdf">pdf</a>)</p>
-</div>
-
-
-<p>
-The obtain loop gain \(L = H_L{H_H}^{-1}\) is shown Fig. <a href="#fig:comp_filter_1st_order_loop_gain">fig:comp_filter_1st_order_loop_gain</a>.
-</p>
-
-
-<div id="org985ea61" class="figure">
-<p><img src="figs/comp_filter_1st_order_loop_gain.png" alt="comp_filter_1st_order_loop_gain.png" />
-</p>
-<p><span class="figure-number">Figure 13: </span>Loop gain using first order complementary filter (<a href="./figs/comp_filter_1st_order_loop_gain.png">png</a>, <a href="./figs/comp_filter_1st_order_loop_gain.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org45353b9" class="outline-3">
-<h3 id="org45353b9"><span class="section-number-3">5.2</span> Analytical 2nd order complementary filters</h3>
-<div class="outline-text-3" id="text-5-2">
-</div>
-<div id="outline-container-org5bdbcd0" class="outline-4">
-<h4 id="org5bdbcd0"><span class="section-number-4">5.2.1</span> Equations</h4>
-<div class="outline-text-4" id="text-5-2-1">
-<p>
-The formula used for generating second order filters are defined below.
-</p>
-\begin{align}
-  H_L(s) &= \frac{(1+\alpha) (\frac{s}{\omega_0})+1}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^2 \left((\frac{s}{\omega_0})+1+\alpha\right)}{\left((\frac{s}{\omega_0})+1\right) \left((\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1\right)}
-\end{align}
-
-<p>
-The parameters are:
-</p>
-<ul class="org-ul">
-<li>\(\omega_0\) is the blending frequency in rad/s.</li>
-<li>\(\alpha\) is used to change the shape of the filters as it will be shown after</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org569663e" class="outline-4">
-<h4 id="org569663e"><span class="section-number-4">5.2.2</span> Result</h4>
-<div class="outline-text-4" id="text-5-2-2">
-<p>
-Bode plots of those filters for multiple values of \(\alpha\) are displayed on figure <a href="#fig:comp_filter_2nd_order_alphas">fig:comp_filter_2nd_order_alphas</a>.
-</p>
-
-<p>
-We also plot the loop gain obtained for different values of \(\alpha\): \(L = H_L{H_H}^{-1}\) (figure <a href="#fig:comp_filter_2nd_order_loop_gain">fig:comp_filter_2nd_order_loop_gain</a>)
-</p>
-
-
-<div id="org40d00ac" class="figure">
-<p><img src="figs/comp_filter_2nd_order_alphas.png" alt="comp_filter_2nd_order_alphas.png" />
-</p>
-<p><span class="figure-number">Figure 14: </span>Second order complementary filters (<a href="./figs/comp_filter_2nd_order_alphas.png">png</a>, <a href="./figs/comp_filter_2nd_order_alphas.pdf">pdf</a>)</p>
-</div>
-
-
-<div id="org9bc5053" class="figure">
-<p><img src="figs/comp_filter_2nd_order_loop_gain.png" alt="comp_filter_2nd_order_loop_gain.png" />
-</p>
-<p><span class="figure-number">Figure 15: </span>Loop gain \(\frac{H_L}{H_H}\) for multiple values of \(\alpha\) (<a href="./figs/comp_filter_2nd_order_loop_gain.png">png</a>, <a href="./figs/comp_filter_2nd_order_loop_gain.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orge0a875b" class="outline-4">
-<h4 id="orge0a875b"><span class="section-number-4">5.2.3</span> Parameter Study</h4>
-<div class="outline-text-4" id="text-5-2-3">
-<p>
-We then study the effect of \(\alpha\) on the obtained performance and stability margins (figure <a href="#fig:comp_filter_2nd_order_study_alphas">fig:comp_filter_2nd_order_study_alphas</a>).
-</p>
-
-
-<div id="orgf78bac9" class="figure">
-<p><img src="figs/comp_filter_2nd_order_study_alpha.png" alt="comp_filter_2nd_order_study_alpha.png" />
-</p>
-<p><span class="figure-number">Figure 16: </span>Guaranted GM and PM as a function of \(\alpha\) (<a href="./figs/comp_filter_2nd_order_study_alpha.png">png</a>, <a href="./figs/comp_filter_2nd_order_study_alpha.pdf">pdf</a>)</p>
-</div>
-
-
-
-<div id="org0e988da" class="figure">
-<p><img src="figs/comp_filter_2nd_order_dist_reject.png" alt="comp_filter_2nd_order_dist_reject.png" />
-</p>
-<p><span class="figure-number">Figure 17: </span>Disturbance rejection at \(\frac{\omega_0}{10}\) as a function of \(\alpha\) (<a href="./figs/comp_filter_2nd_order_dist_reject.png">png</a>, <a href="./figs/comp_filter_2nd_order_dist_reject.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org7288c73" class="outline-3">
-<h3 id="org7288c73"><span class="section-number-3">5.3</span> Analytical 3rd order complementary filters</h3>
-<div class="outline-text-3" id="text-5-3">
-</div>
-<div id="outline-container-org54ee7b9" class="outline-4">
-<h4 id="org54ee7b9"><span class="section-number-4">5.3.1</span> Equations</h4>
-<div class="outline-text-4" id="text-5-3-1">
-<p>
-The formula used for generating second order filters are defined below
-</p>
-\begin{align}
-  H_L(s) &= \frac{\left(1+(\alpha+1)(\beta+1)\right) (\frac{s}{\omega_0})^2 + (1+\alpha+\beta)(\frac{s}{\omega_0}) + 1}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}\\
-  H_H(s) &= \frac{(\frac{s}{\omega_0})^3 \left( (\frac{s}{\omega_0})^2 + (1+\alpha+\beta) (\frac{s}{\omega_0}) + (1+(\alpha+1)(\beta+1)) \right)}{\left(\frac{s}{\omega_0} + 1\right) \left( (\frac{s}{\omega_0})^2 + \alpha (\frac{s}{\omega_0}) + 1 \right) \left( (\frac{s}{\omega_0})^2 + \beta (\frac{s}{\omega_0}) + 1 \right)}
-\end{align}
-
-<p>
-The parameters are:
-</p>
-<ul class="org-ul">
-<li>\(\omega_0\) is the blending frequency in rad/s.</li>
-<li>\(\alpha\) and \(\beta\) that are used to change the shape of the filters as it will be shown after</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orgce340bc" class="outline-4">
-<h4 id="orgce340bc"><span class="section-number-4">5.3.2</span> Results</h4>
-<div class="outline-text-4" id="text-5-3-2">
-
-<div id="org603307e" class="figure">
-<p><img src="figs/compt_filter_3rd_order.png" alt="compt_filter_3rd_order.png" />
-</p>
-<p><span class="figure-number">Figure 18: </span>Bode plot of 3rd order complementary filters, \(\beta = 10\) (<a href="./figs/compt_filter_3rd_order.png">png</a>, <a href="./figs/compt_filter_3rd_order.pdf">pdf</a>)</p>
-</div>
-
-
-<div id="org7503ebf" class="figure">
-<p><img src="figs/comp_filter_3rd_order_loop_gain.png" alt="comp_filter_3rd_order_loop_gain.png" />
-</p>
-<p><span class="figure-number">Figure 19: </span>Loop gain using 3rd order complementary filters, \(\beta = 10\) (<a href="./figs/comp_filter_3rd_order_loop_gain.png">png</a>, <a href="./figs/comp_filter_3rd_order_loop_gain.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgfb0c2c7" class="outline-4">
-<h4 id="orgfb0c2c7"><span class="section-number-4">5.3.3</span> Parametric Study</h4>
-<div class="outline-text-4" id="text-5-3-3">
-<div class="org-src-container">
-<pre class="src src-matlab">alphas = logspace<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">-</span><span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">10</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-Ms = zeros<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span>, length<span class="org-rainbow-delimiters-depth-2">(</span>alphas<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-noise_reject_w_10 = zeros<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span>, length<span class="org-rainbow-delimiters-depth-2">(</span>alphas<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-
-<span class="org-keyword">for</span> <span class="org-variable-name">i</span>=<span class="org-constant"><span class="org-highlight-numbers-number">1</span></span><span class="org-constant">:length</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-constant">alphas</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">)</span></span>
-  alpha = alphas<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">i</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  beta = <span class="org-highlight-numbers-number">5</span><span class="org-type">*</span>alphas<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">i</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  Hh3 = <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span> <span class="org-type">*</span> <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span>alpha<span class="org-type">+</span>beta<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">+</span><span class="org-rainbow-delimiters-depth-3">(</span>alpha<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>beta<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>w0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>alpha<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">+</span>beta<span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span>s<span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">+</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  Ms<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">i</span><span class="org-rainbow-delimiters-depth-1">)</span> = hinfnorm<span class="org-rainbow-delimiters-depth-1">(</span>Hh3<span class="org-rainbow-delimiters-depth-1">)</span>;
-  noise_reject_w_10<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">i</span><span class="org-rainbow-delimiters-depth-1">)</span> = abs<span class="org-rainbow-delimiters-depth-1">(</span>freqresp<span class="org-rainbow-delimiters-depth-2">(</span>Hh3, w0<span class="org-type">/</span><span class="org-highlight-numbers-number">10</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-keyword">end</span>
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgd085c2e" class="outline-3">
-<h3 id="orgd085c2e"><span class="section-number-3">5.4</span> Compare 2nd and 3rd order filters</h3>
-<div class="outline-text-3" id="text-5-4">
-<p>
-Compare performance when having similar stability margins.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-matlab"><span class="org-type">figure</span>;
-ax1 = subaxis<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span>,<span class="org-highlight-numbers-number">1</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold on;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hh2, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl2, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hh3, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl3, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>, <span class="org-string">'XScale', 'log'</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">)</span></span><span class="org-string">; set</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-string">gca, 'YScale', 'log'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>, <span class="org-string">'XTickLabel'</span>,<span class="org-rainbow-delimiters-depth-2">[]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-ylabel<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">'Magnitude'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-ylim<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">20</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold off;
-<span class="org-comment">% Phase</span>
-ax2 = subaxis<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span>,<span class="org-highlight-numbers-number">1</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold on;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hh2, freqs, 'Hz'<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>, 'DisplayName', '<span class="org-highlight-numbers-number">2nd</span> order'<span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl2, freqs, <span class="org-string">'Hz'</span><span class="org-string"><span class="org-rainbow-delimiters-depth-4">)</span></span><span class="org-string"><span class="org-rainbow-delimiters-depth-3">)</span></span><span class="org-string"><span class="org-rainbow-delimiters-depth-2">)</span></span><span class="org-string">, 'HandleVisibility', 'off'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hh3, freqs, 'Hz'<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>, 'DisplayName', '<span class="org-highlight-numbers-number">3rd</span> order'<span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'ColorOrderIndex'</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl3, freqs, <span class="org-string">'Hz'</span><span class="org-string"><span class="org-rainbow-delimiters-depth-4">)</span></span><span class="org-string"><span class="org-rainbow-delimiters-depth-3">)</span></span><span class="org-string"><span class="org-rainbow-delimiters-depth-2">)</span></span><span class="org-string">, 'HandleVisibility', 'off'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'xscale','log'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-yticks<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">-</span><span class="org-highlight-numbers-number">180</span><span class="org-type">:</span><span class="org-highlight-numbers-number">90</span><span class="org-type">:</span><span class="org-highlight-numbers-number">180</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-ylim<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-type">-</span><span class="org-highlight-numbers-number">180</span> <span class="org-highlight-numbers-number">180</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-xlabel<span class="org-rainbow-delimiters-depth-1">(</span>'Relative Frequency $<span class="org-type">\</span>frac<span class="org-rainbow-delimiters-depth-2">{</span><span class="org-type">\</span>omega<span class="org-rainbow-delimiters-depth-2">}{</span><span class="org-type">\</span>omega_0<span class="org-rainbow-delimiters-depth-2">}</span>$'<span class="org-rainbow-delimiters-depth-1">)</span>; ylabel<span class="org-rainbow-delimiters-depth-1">(</span>'Phase <span class="org-rainbow-delimiters-depth-2">[</span>deg<span class="org-rainbow-delimiters-depth-2">]</span>'<span class="org-rainbow-delimiters-depth-1">)</span>;
-legend<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">'Location', 'southeast'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold off;
-linkaxes<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span>ax1,ax2<span class="org-rainbow-delimiters-depth-2">]</span>,<span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-xlim<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span>freqs<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span>, freqs<span class="org-rainbow-delimiters-depth-3">(</span>end<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="org5d594b5" class="figure">
-<p><img src="figs/filter_order_bode_plot.png" alt="filter_order_bode_plot.png" />
-</p>
-<p><span class="figure-number">Figure 20: </span>Bode Plot (<a href="./figs/filter_order_bode_plot.png">png</a>, <a href="./figs/filter_order_bode_plot.pdf">pdf</a>)</p>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-matlab"><span class="org-type">figure</span>;
-ax1 = subaxis<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span>,<span class="org-highlight-numbers-number">1</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold on;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl2<span class="org-type">/</span>Hh2, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, abs<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl3<span class="org-type">/</span>Hh3, freqs, <span class="org-string">'Hz'</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>, <span class="org-string">'XScale', 'log'</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">)</span></span><span class="org-string">; set</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-string">gca, 'YScale', 'log'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>, <span class="org-string">'XTickLabel'</span>,<span class="org-rainbow-delimiters-depth-2">[]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-ylabel<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">'Magnitude'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold off;
-<span class="org-comment">% Phase</span>
-ax2 = subaxis<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span>,<span class="org-highlight-numbers-number">1</span>,<span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold on;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl2<span class="org-type">/</span>Hh2, freqs, 'Hz'<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>, 'DisplayName', '<span class="org-highlight-numbers-number">2nd</span> order'<span class="org-rainbow-delimiters-depth-1">)</span>;
-plot<span class="org-rainbow-delimiters-depth-1">(</span>freqs, <span class="org-highlight-numbers-number">180</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">*</span>angle<span class="org-rainbow-delimiters-depth-2">(</span>squeeze<span class="org-rainbow-delimiters-depth-3">(</span>freqresp<span class="org-rainbow-delimiters-depth-4">(</span>Hl3<span class="org-type">/</span>Hh3, freqs, 'Hz'<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>, 'DisplayName', '<span class="org-highlight-numbers-number">3rd</span> order'<span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>,<span class="org-string">'xscale','log'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-yticks<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">-</span><span class="org-highlight-numbers-number">180</span><span class="org-type">:</span><span class="org-highlight-numbers-number">90</span><span class="org-type">:</span><span class="org-highlight-numbers-number">180</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-ylim<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-type">-</span><span class="org-highlight-numbers-number">180</span> <span class="org-highlight-numbers-number">180</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-xlabel<span class="org-rainbow-delimiters-depth-1">(</span>'Relative Frequency $<span class="org-type">\</span>frac<span class="org-rainbow-delimiters-depth-2">{</span><span class="org-type">\</span>omega<span class="org-rainbow-delimiters-depth-2">}{</span><span class="org-type">\</span>omega_0<span class="org-rainbow-delimiters-depth-2">}</span>$'<span class="org-rainbow-delimiters-depth-1">)</span>; ylabel<span class="org-rainbow-delimiters-depth-1">(</span>'Phase <span class="org-rainbow-delimiters-depth-2">[</span>deg<span class="org-rainbow-delimiters-depth-2">]</span>'<span class="org-rainbow-delimiters-depth-1">)</span>;
-legend<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">'Location', 'southeast'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-hold off;
-linkaxes<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span>ax1,ax2<span class="org-rainbow-delimiters-depth-2">]</span>,<span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-xlim<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span>freqs<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-3">)</span>, freqs<span class="org-rainbow-delimiters-depth-3">(</span>end<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="orgc64ad7c" class="figure">
-<p><img src="figs/filter_order_loop_gain.png" alt="filter_order_loop_gain.png" />
-</p>
-<p><span class="figure-number">Figure 21: </span>Loop Gain (<a href="./figs/filter_order_loop_gain.png">png</a>, <a href="./figs/filter_order_loop_gain.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-orgf43d5b4" class="outline-2">
-<h2 id="orgf43d5b4"><span class="section-number-2">6</span> Feedback Control Architecture to generate Complementary Filters</h2>
-<div class="outline-text-2" id="text-6">
-<p>
-<a id="org5f26627"></a>
-</p>
-<div class="note">
-<p>
-All the files (data and Matlab scripts) are accessible <a href="data/feedback_generate_comp_filters.zip">here</a>.
-</p>
-
-</div>
-</div>
-
-<div id="outline-container-org127ea30" class="outline-3">
-<h3 id="org127ea30"><span class="section-number-3">6.1</span> Architecture</h3>
-<div class="outline-text-3" id="text-6-1">
-
-<div id="org4f52c40" class="figure">
-<p><img src="figs/complementary_filters_feedback_architecture.png" alt="complementary_filters_feedback_architecture.png" />
-</p>
-<p><span class="figure-number">Figure 22: </span>Architecture used to generate the complementary filters</p>
-</div>
-
-<p>
-We have:
-\[ y = \underbrace{\frac{L}{L + 1}}_{H_L} y_1 + \underbrace{\frac{1}{L + 1}}_{H_H} y_2 \]
-with \(H_L + H_H = 1\).
-</p>
-
-<p>
-The only thing to design is \(L\) such that the complementary filters are stable with the wanted shape.
-</p>
-
-<p>
-A simple choice is:
-\[ L = \left(\frac{\omega_c}{s}\right)^2 \frac{\frac{s}{\omega_c / \alpha} + 1}{\frac{s}{\omega_c} + \alpha} \]
-</p>
-
-<p>
-Which contains two integrator and a lead. \(\omega_c\) is used to tune the crossover frequency and \(\alpha\) the trade-off "bump" around blending frequency and filtering away from blending frequency.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org3ad8109" class="outline-3">
-<h3 id="org3ad8109"><span class="section-number-3">6.2</span> Loop Gain</h3>
-<div class="outline-text-3" id="text-6-2">
-<p>
-Let's first define the loop gain \(L\).
-</p>
-<div class="org-src-container">
-<pre class="src src-matlab">wc = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">1</span>;
-alpha = <span class="org-highlight-numbers-number">2</span>;
-
-L = <span class="org-rainbow-delimiters-depth-1">(</span>wc<span class="org-type">/</span>s<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span> <span class="org-type">*</span> <span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span>wc<span class="org-type">/</span>alpha<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>wc <span class="org-type">+</span> alpha<span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="orge8e45d9" class="figure">
-<p><img src="figs/loop_gain_bode_plot.png" alt="loop_gain_bode_plot.png" />
-</p>
-<p><span class="figure-number">Figure 23: </span>Bode plot of the loop gain \(L\) (<a href="./figs/loop_gain_bode_plot.png">png</a>, <a href="./figs/loop_gain_bode_plot.pdf">pdf</a>)</p>
-</div>
-
-
-<p>
-We then compute the resulting low pass and high pass filters.
-</p>
-<div class="org-src-container">
-<pre class="src src-matlab">Hl = L<span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>L <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-Hh = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>L <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-
-<div id="org6f8e32e" class="figure">
-<p><img src="figs/low_pass_high_pass_filters.png" alt="low_pass_high_pass_filters.png" />
-</p>
-<p><span class="figure-number">Figure 24: </span>Low pass and High pass filters \(H_L\) and \(H_H\) for different values of \(\alpha\) (<a href="./figs/low_pass_high_pass_filters.png">png</a>, <a href="./figs/low_pass_high_pass_filters.pdf">pdf</a>)</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org95577c8" class="outline-2">
-<h2 id="org95577c8"><span class="section-number-2">7</span> Try to implement complementary filters for LIGO</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-<a id="org9740f3a"></a>
+<a id="org9bbbd0f"></a>
 </p>
 <p>
 <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a>
@@ -1129,10 +862,10 @@ Hua, W., Low frequency vibration isolation and alignment system for advanced lig
 </p>
 
 
-<div id="org67d130d" class="figure">
+<div id="orga4cd276" class="figure">
 <p><img src="figs/fir_ligo_comp_filters.png" alt="fir_ligo_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 25: </span>Obtained complementary FIR filters</p>
+<p><span class="figure-number">Figure 14: </span>Obtained complementary FIR filters</p>
 </div>
 <div class="note">
 <p>
@@ -1142,9 +875,9 @@ All the files (data and Matlab scripts) are accessible <a href="data/comp_filter
 </div>
 </div>
 
-<div id="outline-container-org6d14ac7" class="outline-3">
-<h3 id="org6d14ac7"><span class="section-number-3">7.1</span> Specifications</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-org75d0682" class="outline-3">
+<h3 id="org75d0682"><span class="section-number-3">5.1</span> Specifications</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 The specifications are:
 </p>
@@ -1156,17 +889,17 @@ The specifications are:
 </ol>
 
 
-<div id="orge31f587" class="figure">
+<div id="org51d6305" class="figure">
 <p><img src="figs/ligo_specifications.png" alt="ligo_specifications.png" />
 </p>
-<p><span class="figure-number">Figure 26: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 15: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga3b22b8" class="outline-3">
-<h3 id="orga3b22b8"><span class="section-number-3">7.2</span> Weights</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-org8ef31d1" class="outline-3">
+<h3 id="org8ef31d1"><span class="section-number-3">5.2</span> Weights</h3>
+<div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-matlab">% wH = <span class="org-highlight-numbers-number">130</span><span class="org-type">*</span>(((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">06</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>)<span class="org-type">/</span>((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">008</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
 % wL = <span class="org-highlight-numbers-number">10000</span><span class="org-type">*</span>(((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">6</span>))<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>)<span class="org-type">/</span>((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">06</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
@@ -1177,17 +910,17 @@ wL = <span class="org-highlight-numbers-number">10</span><span class="org-type">
 </div>
 
 
-<div id="org4d6cca5" class="figure">
+<div id="org0607c01" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
-<p><span class="figure-number">Figure 27: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 16: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5cbacc3" class="outline-3">
-<h3 id="org5cbacc3"><span class="section-number-3">7.3</span> H-Infinity Synthesis</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-org7901851" class="outline-3">
+<h3 id="org7901851"><span class="section-number-3">5.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   wL;
      wH <span class="org-type">-</span>wH;
@@ -1233,17 +966,17 @@ Test bounds:      0.2899 &lt;  gamma  &lt;=      3.6841
 </div>
 
 
-<div id="orgd1fb54b" class="figure">
+<div id="orgde88ab3" class="figure">
 <p><img src="figs/hinf_synthesis_ligo_results.png" alt="hinf_synthesis_ligo_results.png" />
 </p>
-<p><span class="figure-number">Figure 28: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 17: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3e8d576" class="outline-3">
-<h3 id="org3e8d576"><span class="section-number-3">7.4</span> Using Analytical Formula</h3>
-<div class="outline-text-3" id="text-7-4">
+<div id="outline-container-orge15ea97" class="outline-3">
+<h3 id="orge15ea97"><span class="section-number-3">5.4</span> Using Analytical Formula</h3>
+<div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
 <pre class="src src-matlab">alpha = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">5</span>;
 beta = <span class="org-highlight-numbers-number">5</span>;
@@ -1255,19 +988,19 @@ Hl_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-r
 </div>
 
 
-<div id="org6dc5987" class="figure">
+<div id="orgd0ef367" class="figure">
 <p><img src="figs/ligo_analytical_formula_comp_filters.png" alt="ligo_analytical_formula_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 29: </span>Obtained complementary filters using the analytical formula (<a href="./figs/ligo_analytical_formula_comp_filters.png">png</a>, <a href="./figs/ligo_analytical_formula_comp_filters.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 18: </span>Obtained complementary filters using the analytical formula (<a href="./figs/ligo_analytical_formula_comp_filters.png">png</a>, <a href="./figs/ligo_analytical_formula_comp_filters.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org39fb716" class="outline-2">
-<h2 id="org39fb716"><span class="section-number-2">8</span> Optimal Sensor Fusion for noise characteristics</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-org1845e6a" class="outline-2">
+<h2 id="org1845e6a"><span class="section-number-2">6</span> Optimal Sensor Fusion for noise characteristics</h2>
+<div class="outline-text-2" id="text-6">
 <p>
-<a id="org24ecea3"></a>
+<a id="org3e2da1d"></a>
 </p>
 <p>
 The idea is to combine sensors that works in different frequency range using complementary filters.
@@ -1288,11 +1021,11 @@ All the files (data and Matlab scripts) are accessible <a href="data/optimal_com
 </div>
 </div>
 
-<div id="outline-container-orge611944" class="outline-3">
-<h3 id="orge611944"><span class="section-number-3">8.1</span> Architecture</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-orgcb51100" class="outline-3">
+<h3 id="orgcb51100"><span class="section-number-3">6.1</span> Architecture</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
-Let's consider the sensor fusion architecture shown on figure <a href="#orge62b5a3">30</a> where two sensors 1 and 2 are measuring the same quantity \(x\) with different noise characteristics determined by \(W_1\) and \(W_2\).
+Let's consider the sensor fusion architecture shown on figure <a href="#orge54a269">19</a> where two sensors 1 and 2 are measuring the same quantity \(x\) with different noise characteristics determined by \(W_1\) and \(W_2\).
 </p>
 
 <p>
@@ -1300,21 +1033,21 @@ Let's consider the sensor fusion architecture shown on figure <a href="#orge62b5
 </p>
 
 
-<div id="orge62b5a3" class="figure">
+<div id="orge54a269" class="figure">
 <p><img src="figs/fusion_two_noisy_sensors_with_dyn.png" alt="fusion_two_noisy_sensors_with_dyn.png" />
 </p>
-<p><span class="figure-number">Figure 30: </span>Fusion of two sensors</p>
+<p><span class="figure-number">Figure 19: </span>Fusion of two sensors</p>
 </div>
 
 <p>
-We consider that the two sensor dynamics \(G_1\) and \(G_2\) are ideal (\(G_1 = G_2 = 1\)). We obtain the architecture of figure <a href="#orgb9adf21">31</a>.
+We consider that the two sensor dynamics \(G_1\) and \(G_2\) are ideal (\(G_1 = G_2 = 1\)). We obtain the architecture of figure <a href="#org0dd245e">20</a>.
 </p>
 
 
-<div id="orgb9adf21" class="figure">
+<div id="org0dd245e" class="figure">
 <p><img src="figs/fusion_two_noisy_sensors.png" alt="fusion_two_noisy_sensors.png" />
 </p>
-<p><span class="figure-number">Figure 31: </span>Fusion of two sensors with ideal dynamics</p>
+<p><span class="figure-number">Figure 20: </span>Fusion of two sensors with ideal dynamics</p>
 </div>
 
 <p>
@@ -1346,9 +1079,9 @@ For that, we will use the \(\mathcal{H}_2\) Synthesis.
 </div>
 </div>
 
-<div id="outline-container-org81df058" class="outline-3">
-<h3 id="org81df058"><span class="section-number-3">8.2</span> Noise of the sensors</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-org1a9b09e" class="outline-3">
+<h3 id="org1a9b09e"><span class="section-number-3">6.2</span> Noise of the sensors</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 Let's define the noise characteristics of the two sensors by choosing \(W_1\) and \(W_2\):
 </p>
@@ -1367,26 +1100,26 @@ W2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainb
 </div>
 
 
-<div id="org396f2f9" class="figure">
+<div id="org1b561d1" class="figure">
 <p><img src="figs/nosie_characteristics_sensors.png" alt="nosie_characteristics_sensors.png" />
 </p>
-<p><span class="figure-number">Figure 32: </span>Noise Characteristics of the two sensors (<a href="./figs/nosie_characteristics_sensors.png">png</a>, <a href="./figs/nosie_characteristics_sensors.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 21: </span>Noise Characteristics of the two sensors (<a href="./figs/nosie_characteristics_sensors.png">png</a>, <a href="./figs/nosie_characteristics_sensors.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5d6dd46" class="outline-3">
-<h3 id="org5d6dd46"><span class="section-number-3">8.3</span> H-Two Synthesis</h3>
-<div class="outline-text-3" id="text-8-3">
+<div id="outline-container-orgf01312f" class="outline-3">
+<h3 id="orgf01312f"><span class="section-number-3">6.3</span> H-Two Synthesis</h3>
+<div class="outline-text-3" id="text-6-3">
 <p>
-We use the generalized plant architecture shown on figure <a href="#orge4bef8d">33</a>.
+We use the generalized plant architecture shown on figure <a href="#orgfdf6757">22</a>.
 </p>
 
 
-<div id="orge4bef8d" class="figure">
+<div id="orgfdf6757" class="figure">
 <p><img src="figs/h_infinity_optimal_comp_filters.png" alt="h_infinity_optimal_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 33: </span>\(\mathcal{H}_2\) Synthesis - Generalized plant used for the optimal generation of complementary filters</p>
+<p><span class="figure-number">Figure 22: </span>\(\mathcal{H}_2\) Synthesis - Generalized plant used for the optimal generation of complementary filters</p>
 </div>
 
 <p>
@@ -1401,7 +1134,7 @@ Thus, if we minimize the \(\mathcal{H}_2\) norm of this transfer function, we mi
 </p>
 
 <p>
-We define the generalized plant \(P\) on matlab as shown on figure <a href="#orge4bef8d">33</a>.
+We define the generalized plant \(P\) on matlab as shown on figure <a href="#orgfdf6757">22</a>.
 </p>
 <div class="org-src-container">
 <pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   W2  <span class="org-highlight-numbers-number">1</span>;
@@ -1413,7 +1146,7 @@ We define the generalized plant \(P\) on matlab as shown on figure <a href="#org
 And we do the \(\mathcal{H}_2\) synthesis using the <code>h2syn</code> command.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H1, <span class="org-type">~</span>, gamma<span class="org-rainbow-delimiters-depth-1">]</span> = h2syn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H1, <span class="org-type">~</span>, gamma<span class="org-rainbow-delimiters-depth-1">]</span> = h2syn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
 </pre>
 </div>
 
@@ -1431,30 +1164,30 @@ Finally, we define \(H_2 = 1 - H_1\).
 </div>
 </div>
 
-<div id="outline-container-orgb6159a0" class="outline-3">
-<h3 id="orgb6159a0"><span class="section-number-3">8.4</span> Analysis</h3>
-<div class="outline-text-3" id="text-8-4">
+<div id="outline-container-org3f478e9" class="outline-3">
+<h3 id="org3f478e9"><span class="section-number-3">6.4</span> Analysis</h3>
+<div class="outline-text-3" id="text-6-4">
 <p>
-The complementary filters obtained are shown on figure <a href="#orgf46c8c5">34</a>. The PSD of the <a href="#org979a216">35</a>.
-Finally, the RMS value of \(\hat{x}\) is shown on table <a href="#org8774f8e">1</a>.
+The complementary filters obtained are shown on figure <a href="#org35f3140">23</a>. The PSD of the <a href="#org99af3da">24</a>.
+Finally, the RMS value of \(\hat{x}\) is shown on table <a href="#org8ebf8a9">1</a>.
 The optimal sensor fusion has permitted to reduced the RMS value of the estimation error by a factor 6 compare to when using only one sensor.
 </p>
 
 
-<div id="orgf46c8c5" class="figure">
+<div id="org35f3140" class="figure">
 <p><img src="figs/htwo_comp_filters.png" alt="htwo_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 34: </span>Obtained complementary filters using the \(\mathcal{H}_2\) Synthesis (<a href="./figs/htwo_comp_filters.png">png</a>, <a href="./figs/htwo_comp_filters.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 23: </span>Obtained complementary filters using the \(\mathcal{H}_2\) Synthesis (<a href="./figs/htwo_comp_filters.png">png</a>, <a href="./figs/htwo_comp_filters.pdf">pdf</a>)</p>
 </div>
 
 
-<div id="org979a216" class="figure">
+<div id="org99af3da" class="figure">
 <p><img src="figs/psd_sensors_htwo_synthesis.png" alt="psd_sensors_htwo_synthesis.png" />
 </p>
-<p><span class="figure-number">Figure 35: </span>Power Spectral Density of the estimated \(\hat{x}\) using the two sensors alone and using the optimally fused signal (<a href="./figs/psd_sensors_htwo_synthesis.png">png</a>, <a href="./figs/psd_sensors_htwo_synthesis.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 24: </span>Power Spectral Density of the estimated \(\hat{x}\) using the two sensors alone and using the optimally fused signal (<a href="./figs/psd_sensors_htwo_synthesis.png">png</a>, <a href="./figs/psd_sensors_htwo_synthesis.pdf">pdf</a>)</p>
 </div>
 
-<table id="org8774f8e" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org8ebf8a9" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters</caption>
 
 <colgroup>
@@ -1488,10 +1221,22 @@ The optimal sensor fusion has permitted to reduced the RMS value of the estimati
 </div>
 </div>
 </div>
+<div id="outline-container-org5829e59" class="outline-2">
+<h2 id="org5829e59"><span class="section-number-2">7</span> Comparison of the different methods of synthesis</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The generated complementary filters using \(\mathcal{H}_\infty\) and the analytical formulas are very close to each other. However there is some difference to note here:
+</p>
+<ul class="org-ul">
+<li>the analytical formula provides a very simple way to generate the complementary filters (and thus the controller), they could even be used to tune the controller online using the parameters \(\alpha\) and \(\omega_0\). However, these formula have the property that \(|H_H|\) and \(|H_L|\) are symmetrical with the frequency \(\omega_0\) which may not be desirable.</li>
+<li>while the \(\mathcal{H}_\infty\) synthesis of the complementary filters is not as straightforward as using the analytical formula, it provides a more optimized procedure to obtain the complementary filters</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-08-08 jeu. 18:31</p>
+<p class="date">Created: 2019-08-08 jeu. 18:59</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

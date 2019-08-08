@@ -57,7 +57,7 @@ P = [0   W2  1;
 
 % And we do the $\mathcal{H}_2$ synthesis using the =h2syn= command.
 
-[H1, ~, gamma] = h2syn(P, 1, 1)
+[H1, ~, gamma] = h2syn(P, 1, 1);
 
 
 
