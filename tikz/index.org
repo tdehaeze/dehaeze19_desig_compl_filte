@@ -215,6 +215,28 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 #+caption: Fusion of two noisy sensors ([[./figs/fusion_two_noisy_sensors.png][png]], [[./figs/fusion_two_noisy_sensors.pdf][pdf]], [[./figs/fusion_two_noisy_sensors.tex][tex]]).
 #+RESULTS:
 [[file:figs/fusion_two_noisy_sensors.png]]
+* Fusion of two noisy signals
+The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals.png][png]], [[./figs/fusion_two_signals.pdf][pdf]] and [[./figs/fusion_two_signals.tex][tex]].
+
+#+begin_src latex :file fusion_two_signals.pdf :tangle figs/fusion_two_signals.tex
+  \begin{tikzpicture}
+    \node[addb] (add) at (0, 0){};
+    \node[block, above left=0.5 and 0.8 of add] (H1) {$H_1$};
+    \node[block, below left=0.5 and 0.8 of add] (H2) {$H_2$};
+
+    \draw[->] ($(H1.west)+(-1.5, 0)$)node[above right]{$x + n_1$} -- (H1.west);
+    \draw[->] ($(H2.west)+(-1.5, 0)$)node[above right]{$x + n_2$} -- (H2.west);
+    \draw[->] (H1) -| (add.north);
+    \draw[->] (H2) -| (add.south);
+    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:fusion_two_signals
+#+caption: Fusion of two noisy sensors ([[./figs/fusion_two_signals.png][png]], [[./figs/fusion_two_signals.pdf][pdf]], [[./figs/fusion_two_signals.tex][tex]]).
+#+RESULTS:
+[[file:figs/fusion_two_signals.png]]
+
 * Fusion of two noisy sensors with Dynamics
 The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn.tex][tex]].
 
@@ -252,6 +274,100 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 #+caption: Fusion of two noisy sensors_with_dyn ([[./figs/fusion_two_noisy_sensors_with_dyn.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn.pdf][pdf]], [[./figs/fusion_two_noisy_sensors_with_dyn.tex][tex]]).
 #+RESULTS:
 [[file:figs/fusion_two_noisy_sensors_with_dyn.png]]
+* Fusion of two noisy sensors with Dynamics - Bis
+The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
+
+#+begin_src latex :file fusion_two_noisy_sensors_with_dyn_bis.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_bis.tex
+  \begin{tikzpicture}
+    \node[branch] (x) at (0, 0);
+    \node[block, above right=0.5 and 0.5 of x](G1){$G_1$};
+    \node[block, below right=0.5 and 0.5 of x](G2){$G_2$};
+    \node[addb, right=1 of G1](add1){};
+    \node[addb, right=1 of G2](add2){};
+    \node[block, right=1 of add1](H1){$H_1$};
+    \node[block, right=1 of add2](H2){$H_2$};
+    \node[addb, right=6 of x](add){};
+
+    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
+    \draw[->] (x) |- (G1.west);
+    \draw[->] (x) |- (G2.west);
+    \draw[->] (G1.east) -- (add1.west);
+    \draw[->] (G2.east) -- (add2.west);
+    \draw[<-] (add1.north) -- ++(0, 0.8)node[below right]{$n_1$};
+    \draw[<-] (add2.north) -- ++(0, 0.8)node[below right]{$n_2$};
+    \draw[->] (add1.east) -- (H1.west);
+    \draw[->] (add2.east) -- (H2.west);
+    \draw[->] (H1) -| (add.north);
+    \draw[->] (H2) -| (add.south);
+    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:fusion_two_noisy_sensors_with_dyn_bis
+#+caption: Fusion of two noisy sensors_with_dyn_bis ([[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]]).
+#+RESULTS:
+[[file:figs/fusion_two_noisy_sensors_with_dyn_bis.png]]
+
+* Fusion of two sensors with mismatch dynamics
+The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals_with_dyn.png][png]], [[./figs/fusion_two_signals_with_dyn.pdf][pdf]] and [[./figs/fusion_two_signals_with_dyn.tex][tex]].
+
+#+begin_src latex :file fusion_gain_mismatch.pdf :tangle figs/fusion_gain_mismatch.tex
+  <<tikz_default>>
+  \begin{tikzpicture}
+    \node[branch] (x) at (0, 0);
+    \node[addb, above right=1 and 3.5 of x](add1){};
+    \node[addb, below right=1 and 3.5 of x](add2){};
+    \node[block, above left= of add1](delta1){$\Delta_1$};
+    \node[block, above left= of add2](delta2){$\Delta_2$};
+    \node[block, left= of delta1](W1){$W_1$};
+    \node[block, left= of delta2](W2){$W_2$};
+    \node[block, right= of add1](H1){$H_1$};
+    \node[block, right= of add2](H2){$H_2$};
+    \node[addb, right=5.5 of x](add){};
+
+    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
+    \draw[->] (x) |- (add1.west);
+    \draw[->] (x) |- (add2.west);
+    \draw[->] ($(add1-|W1.west)+(-0.5, 0)$)node[branch]{} |- (W1.west);
+    \draw[->] ($(add2-|W2.west)+(-0.5, 0)$)node[branch]{} |- (W2.west);
+    \draw[->] (W1.east) -- (delta1.west);
+    \draw[->] (W2.east) -- (delta2.west);
+    \draw[->] (delta1.east) -| (add1.north);
+    \draw[->] (delta2.east) -| (add2.north);
+    \draw[->] (add1.east) -- (H1.west);
+    \draw[->] (add2.east) -- (H2.west);
+    \draw[->] (H1.east) -| (add.north);
+    \draw[->] (H2.east) -| (add.south);
+    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:fusion_gain_mismatch
+#+caption: Fusion of two noisy sensors_with_dyn ([[./figs/fusion_gain_mismatch.png][png]], [[./figs/fusion_gain_mismatch.pdf][pdf]], [[./figs/fusion_gain_mismatch.tex][tex]]).
+#+RESULTS:
+[[file:figs/fusion_gain_mismatch.png]]
+
+* Uncertainty to Phase and Gain variation
+The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty_gain_phase_variation.png][png]], [[./figs/uncertainty_gain_phase_variation.pdf][pdf]] and [[./figs/uncertainty_gain_phase_variation.tex][tex]].
+
+#+begin_src latex :file uncertainty_gain_phase_variation.pdf :tangle figs/uncertainty_gain_phase_variation.tex :exports both
+  \begin{tikzpicture}
+    \draw[->] (-0.5, 0)   -- (7, 0) node[below left]{Real};
+    \draw[->] (0, -1) -- (0, 1) node[left]{Im};
+    \node[branch] (1) at (5, 0){};
+    \node[below] at (1){$1$};
+    \node[circle, draw] (c) at (1)[minimum size=2cm]{};
+    \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=2) -- node[midway, right]{$|H_i W_i|$} (1);
+    \draw[dashed] (2, 0) arc (0:23:1) node[midway, right]{$\Delta \phi$};
+    % \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=1) coordinate(cbot);
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:uncertainty_gain_phase_variation
+#+caption: Uncertainty to Phase and Gain variation ([[./figs/uncertainty_gain_phase_variation.png][png]], [[./figs/uncertainty_gain_phase_variation.pdf][pdf]], [[./figs/uncertainty_gain_phase_variation.tex][tex]]).
+#+RESULTS:
+[[file:figs/uncertainty_gain_phase_variation.png]]
+
 * Generate Complementary Filters using Feedback Control Architecture
 #+begin_src latex :file complementary_filters_feedback_architecture.pdf :tangle figs/complementary_filters_feedback_architecture.tex :exports both
   \begin{tikzpicture}
