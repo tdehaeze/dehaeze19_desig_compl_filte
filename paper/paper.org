@@ -6,8 +6,8 @@
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
-#+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\@@
-#+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}@@
+#+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*} and Collette Christophe} \\@@
+#+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
 #+LATEX_HEADER: \usepackage{algorithmic, graphicx, textcomp}
@@ -66,17 +66,94 @@
 
 * Abstract                                                           :ignore:
 #+begin_abstract
-Abstract text to be done
+  Abstract text to be done
 #+end_abstract
 
 #+begin_IEEEkeywords
-complementary filters, h-infinity, feedback control
+  complementary filters, h-infinity, feedback control
 #+end_IEEEkeywords
 
 * Introduction
   <<sec:introduction>>
+The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
+To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
 
-Complementary filters: cite:hua05_low_ligo.
+** Establish the importance of the research topic                    :ignore:
+# What are Complementary Filters
+A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies, (i.e.) its magnitude is one and its phase is zero.
+
+# Why Design of Complementary Filter is important
+The proper design of this particular kind of filter is of primary importance in a wide range of applications.
+
+** Descriptions of the applications of complementary filtering       :ignore:
+Often, multiple sensors with different noise or dynamical properties are used to measure the same physical quantity.
+In such case, complementary filters can be used to merge the sensors and forms a "super sensor" that has gives a better estimate of the physical quantity over a wider bandwidth.
+This is called sensor blending or sensor fusion.
+
+# List of all the applications
+
+# Increasing Sensor Bandwidth
+This is widely used for the attitude estimation of unmanned aerial vehicles using various kind of sensors (accelerometers, gyroscopes, vision sensors, inclinometer) cite:zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim.
+
+cite:shaw90_bandw_enhan_posit_measur_using_measur_accel Fast position measurement of flexible structure
+
+# Merging of different sensor types
+cite:matichard15_seism_isolat_advan_ligo (relative displacement measurement at low frequencies with inertial at high frequencies)
+
+# Reducing sensor noise
+cite:hua04_polyp_fir_compl_filter_contr_system
+
+# Improving the control robustness
+cite:collette15_sensor_fusion_method_high_perfor
+
+** Current research focus of the field / Literature review           :ignore:
+# Discuss the different approach to complementary filter design
+The design methods for such filters goes from simple analytical formulas
+
+# Analytical Formulas with limited number of parameter that let the designer choose the parameter value
+# First Order
+cite:corke04_inert_visual_sensin_system_small_auton_helic
+
+# Second Order
+cite:min15_compl_filter_desig_angle_estim
+cite:jensen13_basic_uas
+
+# Third Order and Higher orders
+cite:shaw90_bandw_enhan_posit_measur_using_measur_accel
+cite:zimmermann92_high_bandw_orien_measur_contr
+cite:matichard15_seism_isolat_advan_ligo
+cite:collette15_sensor_fusion_method_high_perfor
+
+# FIR Filters
+cite:hua05_low_ligo
+cite:hua04_polyp_fir_compl_filter_contr_system
+cite:matichard15_seism_isolat_advan_ligo
+
+# Non-linear methods
+cite:mahony08_nonlin_compl_filter_special_orthog_group
+
+# Time Varying
+cite:pascoal99_navig_system_desig_using_time
+
+# Alternate Formulation
+cite:jensen13_basic_uas (feedback system, P, PI, classical control theory for filter design)
+cite:brown72_integ_navig_system_kalman_filter
+
+# LMI / convex Optimization
+cite:pascoal99_navig_system_desig_using_time
+
+# Least Square method for finding the optimal filter coefficients
+cite:min15_compl_filter_desig_angle_estim
+
+** Describe a gap in the research                                    :ignore:
+# There is a need to design optimal complementary filters
+Although
+
+** Describe the paper itself / the problem which is addressed        :ignore:
+In this paper, we propose
+
+** Introduce Each part of the paper                                  :ignore:
+The body of the paper consists of five parts followed by a conclusion.
 
 * H-Infinity synthesis of complementary filters
   <<sec:hinf_filters>>

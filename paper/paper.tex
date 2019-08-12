@@ -1,4 +1,4 @@
-% Created 2019-08-01 jeu. 17:56
+% Created 2019-08-12 lun. 16:02
 % Intended LaTeX compiler: pdflatex
 \documentclass[9pt, technote, a4paper]{ieeeconf}
 \usepackage[utf8]{inputenc}
@@ -22,11 +22,11 @@
 \usepackage[USenglish, english]{babel}
 \setcounter{footnote}{1}
 \input{config.tex}
-\author{\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}}
-\date{2019-08-01}
+\author{\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}}
+\date{2019-08-12}
 \title{On the Design of Complementary Filters for Control}
 \hypersetup{
- pdfauthor={\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{1} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{1}dehaeze.thomas@gmail.com}},
+ pdfauthor={\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*} and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}},
  pdftitle={On the Design of Complementary Filters for Control},
  pdfkeywords={},
  pdfsubject={},
@@ -46,13 +46,58 @@ complementary filters, h-infinity, feedback control
 \end{IEEEkeywords}
 
 \section{Introduction}
-\label{sec:org9c365b8}
-\label{sec:introduction}
+\label{sec:orgb15ebed}
+  \label{sec:introduction}
+The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
+To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
+A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies, (i.e.) its magnitude is one and its phase is zero.
 
-Complementary filters: \cite{hua05_low_ligo}.
+The proper design of this particular kind of filter is of primary importance in a wide range of applications.
+Often, multiple sensors with different noise or dynamical properties are used to measure the same physical quantity.
+In such case, complementary filters can be used to merge the sensors and forms a "super sensor" that has gives a better estimate of the physical quantity over a wider bandwidth.
+This is called sensor blending or sensor fusion.
+
+This is widely used for the attitude estimation of unmanned aerial vehicles using various kind of sensors (accelerometers, gyroscopes, vision sensors, inclinometer) \cite{zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim}.
+
+\cite{shaw90_bandw_enhan_posit_measur_using_measur_accel} Fast position measurement of flexible structure
+
+\cite{matichard15_seism_isolat_advan_ligo} (relative displacement measurement at low frequencies with inertial at high frequencies)
+
+\cite{hua04_polyp_fir_compl_filter_contr_system}
+
+\cite{collette15_sensor_fusion_method_high_perfor}
+The design methods for such filters goes from simple analytical formulas
+
+\cite{corke04_inert_visual_sensin_system_small_auton_helic}
+
+\cite{min15_compl_filter_desig_angle_estim}
+\cite{jensen13_basic_uas}
+
+\cite{shaw90_bandw_enhan_posit_measur_using_measur_accel}
+\cite{zimmermann92_high_bandw_orien_measur_contr}
+\cite{matichard15_seism_isolat_advan_ligo}
+\cite{collette15_sensor_fusion_method_high_perfor}
+
+\cite{hua05_low_ligo}
+\cite{hua04_polyp_fir_compl_filter_contr_system}
+\cite{matichard15_seism_isolat_advan_ligo}
+
+\cite{mahony08_nonlin_compl_filter_special_orthog_group}
+
+\cite{pascoal99_navig_system_desig_using_time}
+
+\cite{jensen13_basic_uas} (feedback system, P, PI, classical control theory for filter design)
+\cite{brown72_integ_navig_system_kalman_filter}
+
+\cite{pascoal99_navig_system_desig_using_time}
+
+\cite{min15_compl_filter_desig_angle_estim}
+Although
+In this paper, we propose
+The body of the paper consists of five parts followed by a conclusion.
 
 \section{H-Infinity synthesis of complementary filters}
-\label{sec:org23f9d38}
+\label{sec:org303afb5}
   \label{sec:hinf_filters}
 First order complementary filters are easy to synthesize. For instance, one can use the following filters
 \begin{equation}
@@ -68,7 +113,7 @@ As shown in Sec. \ref{sec:trans_perf}, most of the performance requirements can 
 Thus, the \(\mathcal{H}_\infty\) framework seems adapted and we here propose a technique to synthesis complementary filters while specifying uppers bounds on their magnitudes.
 
 \subsection{\(\hinf\) problem formulation}
-\label{sec:org3034ecb}
+\label{sec:org9dcb2b1}
    \label{sec:hinf_conf}
 In this section, we formulate the \(\hinf\) problem for the synthesis of complementary filters.
 
@@ -123,7 +168,7 @@ The stability condition \eqref{eq:hinf_cond_stability} is guaranteed by the \(H_
 Using this synthesis method, we are then able to shape at the same time the high pass and low pass filters while ensuring their complementary.
 
 \subsection{Control requirements as \(\mathcal{H}_\infty\) norm of complementary filters}
-\label{sec:org6b171b3}
+\label{sec:orgb7d25ea}
 As presented in Sec. \ref{sec:trans_perf}, almost all the requirements can be specified with upper bounds on the complementary filters.
 However, robust performance condition \eqref{eq:robust_perf_a} is not.
 
@@ -136,7 +181,7 @@ With the \(\mathcal{H}_\infty\) synthesis the condition \eqref{eq:hinf_problem} 
 And thus we have almost robust stability.
 
 \subsection{Choice of the weighting functions}
-\label{sec:orgced69fd}
+\label{sec:org2d7aa5b}
    \label{sec:hinf_weighting_func}
 We here give some advice on the choice of the weighting functions used for the synthesis of the complementary filters.
 
@@ -149,10 +194,10 @@ One should not forget the fundamental limitations of feedback control such that 
 Similarly, we here have that \(H_L + H_H = 1\) which implies that \(H_L\) and \(H_H\) cannot be made small at the same time.
 
 \subsection{Trade-off between performance and robustness}
-\label{sec:orgafc6c17}
+\label{sec:org7af3efe}
 
 \subsection{Analytical formula of complementary filters}
-\label{sec:orgd297585}
+\label{sec:org477b4a4}
   \label{sec:analytical_complementary_filters}
 To simplify the synthesis, one can use already synthesized filters
 
@@ -172,13 +217,13 @@ To simplify the synthesis, one can use already synthesized filters
 \end{align}
 
 \section{Discussion}
-\label{sec:orgcc9e8fe}
+\label{sec:org4fb9d01}
 \section{Conclusion}
-\label{sec:org7919028}
+\label{sec:orgecd9d50}
 \label{sec:conclusion}
 
 \section{Acknowledgment}
-\label{sec:orgecc7116}
+\label{sec:org5cf5157}
 
 \bibliography{ref}
 \end{document}
