@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-08-08 jeu. 18:59 -->
+<!-- 2019-08-12 lun. 15:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On the Design of Complementary Filters for Control - Computation with Matlab</title>
@@ -275,62 +275,541 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org81fbbd9">1. Complementary filters using analytical formula</a>
+<li><a href="#org39451df">1. Optimal Sensor Fusion for noise characteristics</a>
 <ul>
-<li><a href="#org0e2998d">1.1. Analytical 1st order complementary filters</a></li>
-<li><a href="#org26930b3">1.2. Second Order Complementary Filters</a></li>
-<li><a href="#orgcc78086">1.3. Third Order Complementary Filters</a></li>
+<li><a href="#org7368517">1.1. Architecture</a></li>
+<li><a href="#orgf2b2c5d">1.2. Noise of the sensors</a></li>
+<li><a href="#org61d2922">1.3. H-Two Synthesis</a></li>
+<li><a href="#org11addc8">1.4. Analysis</a></li>
 </ul>
 </li>
-<li><a href="#org5d33b05">2. H-Infinity synthesis of complementary filters</a>
+<li><a href="#org2d4864a">2. Robustness to sensor dynamics uncertainty</a>
 <ul>
-<li><a href="#orgd493949">2.1. Synthesis Architecture</a></li>
-<li><a href="#orgedf6133">2.2. Weights</a></li>
-<li><a href="#org661441d">2.3. H-Infinity Synthesis</a></li>
-<li><a href="#org73b4005">2.4. Obtained Complementary Filters</a></li>
+<li><a href="#org36a1309">2.1. Unknown sensor dynamics dynamics</a></li>
+<li><a href="#org6fc6a13">2.2. Design the complementary filters in order to limit the phase and gain uncertainty of the super sensor</a></li>
+<li><a href="#orge579575">2.3. First Basic Example with gain mismatch</a></li>
+<li><a href="#org7151ac9">2.4. <span class="todo TODO">TODO</span> More Complete example with model uncertainty</a></li>
 </ul>
 </li>
-<li><a href="#org3895321">3. Feedback Control Architecture to generate Complementary Filters</a>
+<li><a href="#org44eed5f">3. Complementary filters using analytical formula</a>
 <ul>
-<li><a href="#org8ccea99">3.1. Architecture</a></li>
-<li><a href="#org4e25a2e">3.2. Loop Gain Design</a></li>
-<li><a href="#orge2e158a">3.3. Complementary Filters Obtained</a></li>
+<li><a href="#org577bc49">3.1. Analytical 1st order complementary filters</a></li>
+<li><a href="#org6914a51">3.2. Second Order Complementary Filters</a></li>
+<li><a href="#org6d9258b">3.3. Third Order Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org00be799">4. Generating 3 complementary filters</a>
+<li><a href="#orgc7d05bd">4. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#orgbe5eaea">4.1. Theory</a></li>
-<li><a href="#org359c020">4.2. Weights</a></li>
-<li><a href="#orgcd8f906">4.3. H-Infinity Synthesis</a></li>
-<li><a href="#org292e057">4.4. Obtained Complementary Filters</a></li>
+<li><a href="#org790ee6d">4.1. Synthesis Architecture</a></li>
+<li><a href="#orgec15fec">4.2. Weights</a></li>
+<li><a href="#orgada67cf">4.3. H-Infinity Synthesis</a></li>
+<li><a href="#org9ec053d">4.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org082d638">5. Try to implement complementary filters for LIGO</a>
+<li><a href="#orgf8ae44e">5. Feedback Control Architecture to generate Complementary Filters</a>
 <ul>
-<li><a href="#org75d0682">5.1. Specifications</a></li>
-<li><a href="#org8ef31d1">5.2. Weights</a></li>
-<li><a href="#org7901851">5.3. H-Infinity Synthesis</a></li>
-<li><a href="#orge15ea97">5.4. Using Analytical Formula</a></li>
+<li><a href="#org8059a1b">5.1. Architecture</a></li>
+<li><a href="#org60939ce">5.2. Loop Gain Design</a></li>
+<li><a href="#orgd841e78">5.3. Complementary Filters Obtained</a></li>
 </ul>
 </li>
-<li><a href="#org1845e6a">6. Optimal Sensor Fusion for noise characteristics</a>
+<li><a href="#org15d808a">6. Generating 3 complementary filters</a>
 <ul>
-<li><a href="#orgcb51100">6.1. Architecture</a></li>
-<li><a href="#org1a9b09e">6.2. Noise of the sensors</a></li>
-<li><a href="#orgf01312f">6.3. H-Two Synthesis</a></li>
-<li><a href="#org3f478e9">6.4. Analysis</a></li>
+<li><a href="#org39cb339">6.1. Theory</a></li>
+<li><a href="#orgfe9b122">6.2. Weights</a></li>
+<li><a href="#orgf554093">6.3. H-Infinity Synthesis</a></li>
+<li><a href="#orge9b4e2a">6.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org5829e59">7. Comparison of the different methods of synthesis</a></li>
+<li><a href="#orge7af880">7. Try to implement complementary filters for LIGO</a>
+<ul>
+<li><a href="#org1ca8498">7.1. Specifications</a></li>
+<li><a href="#org38e40b5">7.2. Weights</a></li>
+<li><a href="#org1d5f512">7.3. H-Infinity Synthesis</a></li>
+<li><a href="#org17b8f6c">7.4. Using Analytical Formula</a></li>
+</ul>
+</li>
+<li><a href="#org8c08574">8. Analytical Formula found in the literature</a>
+<ul>
+<li><a href="#org905a472">8.1. Analytical Formula</a></li>
+<li><a href="#org11dc063">8.2. Matlab</a></li>
+<li><a href="#org8740364">8.3. Discussion</a></li>
+</ul>
+</li>
+<li><a href="#org7eac94e">9. Comparison of the different methods of synthesis</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org81fbbd9" class="outline-2">
-<h2 id="org81fbbd9"><span class="section-number-2">1</span> Complementary filters using analytical formula</h2>
+<p>
+In this document, the design of complementary filters is studied.
+</p>
+
+<p>
+One use of complementary filter is described below:
+</p>
+<blockquote>
+<p>
+The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor, and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
+To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>in section <a href="#orgf3e4021">1</a>, the optimal design of the complementary filters in order to obtain the lowest resulting "super sensor" noise is studied</li>
+</ul>
+
+<p>
+When blending two sensors using complementary filters with unknown dynamics, phase lag may be introduced that renders the close-loop system unstable.
+</p>
+<ul class="org-ul">
+<li>in section <a href="#org829b542">2</a>, the blending robustness to sensor dynamic uncertainty is studied.</li>
+</ul>
+
+<p>
+Then, three design methods for generating two complementary filters are proposed:
+</p>
+<ul class="org-ul">
+<li>in section <a href="#orgcf29b71">3</a>, analytical formulas are proposed</li>
+<li>in section <a href="#orgcea33d1">4</a>, the \(\mathcal{H}_\infty\) synthesis is used</li>
+<li>in section <a href="#org9f440f5">5</a>, the classical feedback architecture is used</li>
+<li>in section <a href="#org8b8a1a1">6</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
+</ul>
+
+<p>
+Finally:
+</p>
+<ul class="org-ul">
+<li>in section <a href="#orgfdf3442">7</a>, some design methods are used and compared with FIR complementary filters used for LIGO</li>
+<li>in section <a href="#org3bf98c2">8</a>, analytical formulas found in the literature are listed</li>
+<li>in section <a href="#org13ae7bc">9</a>, we discuss the findings</li>
+</ul>
+
+<div id="outline-container-org39451df" class="outline-2">
+<h2 id="org39451df"><span class="section-number-2">1</span> Optimal Sensor Fusion for noise characteristics</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org6cafc6a"></a>
+<a id="orgf3e4021"></a>
+</p>
+<p>
+The idea is to combine sensors that works in different frequency range using complementary filters.
+</p>
+
+<p>
+Doing so, one "super sensor" is obtained that can have better noise characteristics than the individual sensors over a large frequency range.
+</p>
+
+<p>
+The complementary filters have to be designed in order to minimize the effect noise of each sensor on the super sensor noise.
+</p>
+<div class="note">
+<p>
+All the files (data and Matlab scripts) are accessible <a href="data/optimal_comp_filters.zip">here</a>.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-org7368517" class="outline-3">
+<h3 id="org7368517"><span class="section-number-3">1.1</span> Architecture</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Let's consider the sensor fusion architecture shown on figure <a href="#orgf0a735d">1</a> where two sensors 1 and 2 are measuring the same quantity \(x\) with different noise characteristics determined by \(W_1\) and \(W_2\).
+</p>
+
+<p>
+\(n_1\) and \(n_2\) are white noise (constant power spectral density over all frequencies).
+</p>
+
+
+<div id="orgf0a735d" class="figure">
+<p><img src="figs/fusion_two_noisy_sensors_with_dyn.png" alt="fusion_two_noisy_sensors_with_dyn.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Fusion of two sensors</p>
+</div>
+
+<p>
+We consider that the two sensor dynamics \(G_1\) and \(G_2\) are ideal (\(G_1 = G_2 = 1\)). We obtain the architecture of figure <a href="#org03728b5">2</a>.
+</p>
+
+
+<div id="org03728b5" class="figure">
+<p><img src="figs/fusion_two_noisy_sensors.png" alt="fusion_two_noisy_sensors.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Fusion of two sensors with ideal dynamics</p>
+</div>
+
+<p>
+\(H_1\) and \(H_2\) are complementary filters (\(H_1 + H_2 = 1\)). The goal is to design \(H_1\) and \(H_2\) such that the effect of the noise sources \(n_1\) and \(n_2\) has the smallest possible effect on the estimation \(\hat{x}\).
+</p>
+
+<p>
+We have that the Power Spectral Density (PSD) of \(\hat{x}\) is:
+\[ \Gamma_{\hat{x}} = |H_1 W_1|^2 \Gamma_{n_1} + |H_2 W_2|^2 \Gamma_{n_2} \]
+</p>
+
+<p>
+And the goal is the minimize the Root Mean Square (RMS) value of \(\hat{x}\):
+\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty \Gamma_{\hat{x}}(\omega) d\omega} \]
+</p>
+
+<p>
+As \(n_1\) and \(n_2\) are white noise: \(\Gamma_{n_1} = \Gamma_{n_2} = 1\) and we have:
+\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty |H_1 W_1|^2(\omega) + |H_2 W_2|^2(\omega) d\omega} = \left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2 \]
+</p>
+
+<p>
+Thus, the goal is to design \(H_1\) and \(H_2\) such that \(H_1 + H_2 = 1\) and such that \(\left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2\) is minimized.
+</p>
+
+<p>
+For that, we will use the \(\mathcal{H}_2\) Synthesis.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf2b2c5d" class="outline-3">
+<h3 id="orgf2b2c5d"><span class="section-number-3">1.2</span> Noise of the sensors</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Let's define the noise characteristics of the two sensors by choosing \(W_1\) and \(W_2\):
+</p>
+<ul class="org-ul">
+<li>Sensor 1 characterized by \(W_1\) has low noise at low frequency (for instance a geophone)</li>
+<li>Sensor 2 characterized by \(W_2\) has low noise at high frequency (for instance an accelerometer)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-matlab">omegac = <span class="org-highlight-numbers-number">100</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; G0 = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">5</span>; Ginf = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span>;
+W1 = <span class="org-rainbow-delimiters-depth-1">(</span>Ginf<span class="org-type">*</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> G0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">4000</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+
+omegac = <span class="org-highlight-numbers-number">1</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; G0 = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">3</span>; Ginf = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">8</span>;
+W2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span>Ginf<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> sqrt<span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">4000</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
+</pre>
+</div>
+
+
+<div id="orga7e99c7" class="figure">
+<p><img src="figs/nosie_characteristics_sensors.png" alt="nosie_characteristics_sensors.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Noise Characteristics of the two sensors (<a href="./figs/nosie_characteristics_sensors.png">png</a>, <a href="./figs/nosie_characteristics_sensors.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org61d2922" class="outline-3">
+<h3 id="org61d2922"><span class="section-number-3">1.3</span> H-Two Synthesis</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+We use the generalized plant architecture shown on figure <a href="#org7ed6868">4</a>.
+</p>
+
+
+<div id="org7ed6868" class="figure">
+<p><img src="figs/h_infinity_optimal_comp_filters.png" alt="h_infinity_optimal_comp_filters.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>\(\mathcal{H}_2\) Synthesis - Generalized plant used for the optimal generation of complementary filters</p>
+</div>
+
+<p>
+The transfer function from \([n_1, n_2]\) to \(\hat{x}\) is:
+\[ \begin{bmatrix} W_1 H_1 \\ W_2 (1 - H_1) \end{bmatrix} \]
+If we define \(H_2 = 1 - H_1\), we obtain:
+\[ \begin{bmatrix} W_1 H_1 \\ W_2 H_2 \end{bmatrix} \]
+</p>
+
+<p>
+Thus, if we minimize the \(\mathcal{H}_2\) norm of this transfer function, we minimize the RMS value of \(\hat{x}\).
+</p>
+
+<p>
+We define the generalized plant \(P\) on matlab as shown on figure <a href="#org7ed6868">4</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   W2  <span class="org-highlight-numbers-number">1</span>;
+     W1 <span class="org-type">-</span>W2  <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+</pre>
+</div>
+
+<p>
+And we do the \(\mathcal{H}_2\) synthesis using the <code>h2syn</code> command.
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H1, <span class="org-type">~</span>, gamma<span class="org-rainbow-delimiters-depth-1">]</span> = h2syn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+<p>
+What is minimized is <code>norm([W1*H1,W2*H2], 2)</code>.
+</p>
+
+<p>
+Finally, we define \(H_2 = 1 - H_1\).
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab">H2 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> H1;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org11addc8" class="outline-3">
+<h3 id="org11addc8"><span class="section-number-3">1.4</span> Analysis</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The complementary filters obtained are shown on figure <a href="#org114c2b7">5</a>. The PSD of the <a href="#org6dc6036">6</a>.
+Finally, the RMS value of \(\hat{x}\) is shown on table <a href="#org8e95176">1</a>.
+The optimal sensor fusion has permitted to reduced the RMS value of the estimation error by a factor 8 compare to when using only one sensor.
+</p>
+
+
+<div id="org114c2b7" class="figure">
+<p><img src="figs/htwo_comp_filters.png" alt="htwo_comp_filters.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Obtained complementary filters using the \(\mathcal{H}_2\) Synthesis (<a href="./figs/htwo_comp_filters.png">png</a>, <a href="./figs/htwo_comp_filters.pdf">pdf</a>)</p>
+</div>
+
+
+<div id="org6dc6036" class="figure">
+<p><img src="figs/psd_sensors_htwo_synthesis.png" alt="psd_sensors_htwo_synthesis.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Power Spectral Density of the estimated \(\hat{x}\) using the two sensors alone and using the optimally fused signal (<a href="./figs/psd_sensors_htwo_synthesis.png">png</a>, <a href="./figs/psd_sensors_htwo_synthesis.pdf">pdf</a>)</p>
+</div>
+
+<table id="org8e95176" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">rms value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Sensor 1</td>
+<td class="org-right">1.1e-02</td>
+</tr>
+
+<tr>
+<td class="org-left">Sensor 2</td>
+<td class="org-right">1.3e-03</td>
+</tr>
+
+<tr>
+<td class="org-left">Optimal Sensor Fusion</td>
+<td class="org-right">1.5e-04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d4864a" class="outline-2">
+<h2 id="org2d4864a"><span class="section-number-2">2</span> Robustness to sensor dynamics uncertainty</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<a id="org829b542"></a>
+</p>
+<p>
+Let's first consider ideal sensors where \(G_1 = 1\) and \(G_2 = 1\) (figure <a href="#orgdfa4f52">7</a>).
+</p>
+
+
+<div id="orgdfa4f52" class="figure">
+<p><img src="figs/fusion_two_noisy_sensors_with_dyn_bis.png" alt="fusion_two_noisy_sensors_with_dyn_bis.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>Fusion of two sensors</p>
+</div>
+
+<p>
+We then have:
+</p>
+\begin{align*}
+  \hat{x} &= (x + n_1) H_1 + (x + n_2) H_2 \\
+          &= x + n_1 H_1 + n_2 H_2
+\end{align*}
+
+<p>
+So the estimation error is
+\[ \delta_x = \hat{x} - x = n_1 H_1 + n_2 H_2 \]
+</p>
+
+<p>
+And we see that the complementary filters are only shaping the noise and that they do not impact the transfer function from \(x\) to \(\hat{x}\) that is in the feedback path.
+</p>
+<div class="note">
+<p>
+All the files (data and Matlab scripts) are accessible <a href="data/comp_filter_robustness.zip">here</a>.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-org36a1309" class="outline-3">
+<h3 id="org36a1309"><span class="section-number-3">2.1</span> Unknown sensor dynamics dynamics</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+In practical systems, the sensor dynamics has always some level of uncertainty.
+Let's represent that with multiplicative input uncertainty as shown on figure <a href="#orgad9e140">8</a>.
+</p>
+
+
+<div id="orgad9e140" class="figure">
+<p><img src="figs/fusion_gain_mismatch.png" alt="fusion_gain_mismatch.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>Fusion of two sensors with input multiplicative uncertainty</p>
+</div>
+
+<p>
+We have:
+</p>
+\begin{align*}
+  \frac{\hat{x}}{x} &= (1 + W_1 \Delta_1) H_1 + (1 + W_2 \Delta_2) H_2 \\
+                    &= 1 + W_1 H_1 \Delta_1 + W_2 H_2 \Delta_2
+\end{align*}
+<p>
+With \(\Delta_i\) is any transfer function satisfying \(\| \Delta_i \|_\infty < 1\).
+</p>
+
+<p>
+We see that as soon as we have some uncertainty in the sensor dynamics, we have that the complementary filters have some effect on the transfer function from \(x\) to \(\hat{x}\).
+</p>
+
+<p>
+We want that the super sensor transfer function has a gain of 1 and no phase variation over all the frequencies:
+\[ \frac{\hat{x}}{x} \approx 1 \]
+</p>
+
+<p>
+Thus, we want that
+</p>
+\begin{align*}
+                      & |W_1 H_1 \Delta_1 + W_2 H_2 \Delta_2| < \epsilon \quad \forall \omega,  \forall \Delta_i, \|\Delta_i\|_\infty < 1 \\
+  \Longleftrightarrow & |W_1 H_1| + |W_2 H_2| < \epsilon \quad \forall \omega
+\end{align*}
+
+<p>
+Which is approximately the same as requiring
+\[ \left\| \begin{matrix} W_1 H_1 \\ W_2 H_2 \end{matrix} \right\|_\infty < \epsilon  \]
+</p>
+
+
+<p>
+<b>How small should we choose \(\epsilon\)?</b>
+</p>
+
+<p>
+The uncertainty set of the transfer function from \(\hat{x}\) to \(x\) is bounded in the complex plane by a circle centered on 1 and with a radius equal to \(\epsilon\) (figure <a href="#org57c3872">9</a>).
+</p>
+
+<p>
+We then have that the angle introduced by the super sensor is bounded by \(\arcsin(\epsilon)\):
+\[ \angle \frac{\hat{x}}{x} \le \arcsin (\epsilon) \quad \forall \omega \]
+</p>
+
+
+<div id="org57c3872" class="figure">
+<p><img src="figs/uncertainty_gain_phase_variation.png" alt="uncertainty_gain_phase_variation.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>Maximum phase variation</p>
+</div>
+
+<p>
+Thus, we choose should choose \(\epsilon\) so that the maximum phase uncertainty introduced by the sensors is of an acceptable value.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6fc6a13" class="outline-3">
+<h3 id="org6fc6a13"><span class="section-number-3">2.2</span> Design the complementary filters in order to limit the phase and gain uncertainty of the super sensor</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Let's say the two sensors dynamics \(H_1\) and \(H_2\) have been identified with the associated uncertainty weights \(W_1\) and \(W_2\).
+</p>
+
+<p>
+If we want to have a maximum phase introduced by the sensors of 20 degrees, we have to design \(H_1\) and \(H_2\) such that:
+</p>
+\begin{align*}
+                      & arcsin(|H_1 W_1| + |H_2 W_2|) < 20 \text{ deg} \\
+  \Longleftrightarrow & |H_1 W_1| + |H_2 W_2| < 0.34
+\end{align*}
+
+<p>
+We can do that with the \(\mathcal{H}_\infty\) synthesis by setting upper bounds on the complementary filters using weights that corresponds to the sensor dynamics uncertainty.
+</p>
+
+<p>
+For simplicity, let's suppose \(W_1(s) = W_2(s) = 0.1\) (\(10\%\) uncertainty in the sensor gain).
+\[ |H_1 W_1| + |H_2 W_2| < 3.4 \]
+</p>
+
+<p>
+Thus, by limiting the norm of the complementary filters, we can limit the maximum unwanted phase introduced by the uncertainty on the sensors dynamics.
+</p>
+
+<p>
+This is of primary importance in order to ensure the stability of the feedback loop using the super sensor signal.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge579575" class="outline-3">
+<h3 id="orge579575"><span class="section-number-3">2.3</span> First Basic Example with gain mismatch</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Let's consider two ideal sensors except one sensor has not an expected gain of one but a gain of \(0.6\).
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab">G1 = <span class="org-highlight-numbers-number">1</span>;
+G2 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">6</span>;
+</pre>
+</div>
+
+<p>
+Let's design two complementary filters as shown on figure <a href="#orga593c90">10</a>.
+The complementary filters shown in blue does not present a bump as the red ones but provides less sensor separation at high and low frequencies.
+</p>
+
+
+<div id="orga593c90" class="figure">
+<p><img src="figs/comp_filters_robustness_test.png" alt="comp_filters_robustness_test.png" />
+</p>
+<p><span class="figure-number">Figure 10: </span>The two complementary filters designed for the robustness test (<a href="./figs/comp_filters_robustness_test.png">png</a>, <a href="./figs/comp_filters_robustness_test.pdf">pdf</a>)</p>
+</div>
+
+<p>
+We then compute the bode plot of the super sensor transfer function \(H_1*G_1 + H_2*G_2\) for both complementary filters pair (figure <a href="#org7290a26">11</a>).
+</p>
+
+<p>
+We see that the blue complementary filters with a lower maximum norm permits to limit the phase lag introduced by the gain mismatch.
+</p>
+
+
+<div id="org7290a26" class="figure">
+<p><img src="figs/tf_super_sensor_comp.png" alt="tf_super_sensor_comp.png" />
+</p>
+<p><span class="figure-number">Figure 11: </span>Comparison of the obtained super sensor transfer functions (<a href="./figs/tf_super_sensor_comp.png">png</a>, <a href="./figs/tf_super_sensor_comp.pdf">pdf</a>)</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7151ac9" class="outline-3">
+<h3 id="org7151ac9"><span class="section-number-3">2.4</span> <span class="todo TODO">TODO</span> More Complete example with model uncertainty</h3>
+</div>
+</div>
+<div id="outline-container-org44eed5f" class="outline-2">
+<h2 id="org44eed5f"><span class="section-number-2">3</span> Complementary filters using analytical formula</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<a id="orgcf29b71"></a>
 </p>
 <div class="note">
 <p>
@@ -340,9 +819,9 @@ All the files (data and Matlab scripts) are accessible <a href="data/comp_filter
 </div>
 </div>
 
-<div id="outline-container-org0e2998d" class="outline-3">
-<h3 id="org0e2998d"><span class="section-number-3">1.1</span> Analytical 1st order complementary filters</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-org577bc49" class="outline-3">
+<h3 id="org577bc49"><span class="section-number-3">3.1</span> Analytical 1st order complementary filters</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 First order complementary filters are defined with following equations:
 </p>
@@ -352,7 +831,7 @@ First order complementary filters are defined with following equations:
 \end{align}
 
 <p>
-Their bode plot is shown figure <a href="#org726e8f8">1</a>.
+Their bode plot is shown figure <a href="#orge420c81">12</a>.
 </p>
 
 <div class="org-src-container">
@@ -364,17 +843,17 @@ Hl1 = <span class="org-highlight-numbers-number">1</span><span class="org-type">
 </div>
 
 
-<div id="org726e8f8" class="figure">
+<div id="orge420c81" class="figure">
 <p><img src="figs/comp_filter_1st_order.png" alt="comp_filter_1st_order.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>Bode plot of first order complementary filter (<a href="./figs/comp_filter_1st_order.png">png</a>, <a href="./figs/comp_filter_1st_order.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 12: </span>Bode plot of first order complementary filter (<a href="./figs/comp_filter_1st_order.png">png</a>, <a href="./figs/comp_filter_1st_order.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org26930b3" class="outline-3">
-<h3 id="org26930b3"><span class="section-number-3">1.2</span> Second Order Complementary Filters</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-org6914a51" class="outline-3">
+<h3 id="org6914a51"><span class="section-number-3">3.2</span> Second Order Complementary Filters</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
 We here use analytical formula for the complementary filters \(H_L\) and \(H_H\).
 </p>
@@ -399,22 +878,40 @@ where:
 </ul>
 
 <p>
-This is illustrated on figure <a href="#orgf4d440c">2</a>.
+This is illustrated on figure <a href="#org8f48056">13</a>.
 The slope of those filters at high and low frequencies is \(-2\) and \(2\) respectively for \(H_L\) and \(H_H\).
 </p>
 
 
-<div id="orgf4d440c" class="figure">
+<div id="org8f48056" class="figure">
 <p><img src="figs/comp_filters_param_alpha.png" alt="comp_filters_param_alpha.png" />
 </p>
-<p><span class="figure-number">Figure 2: </span>Effect of the parameter \(\alpha\) on the shape of the generated second order complementary filters (<a href="./figs/comp_filters_param_alpha.png">png</a>, <a href="./figs/comp_filters_param_alpha.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 13: </span>Effect of the parameter \(\alpha\) on the shape of the generated second order complementary filters (<a href="./figs/comp_filters_param_alpha.png">png</a>, <a href="./figs/comp_filters_param_alpha.pdf">pdf</a>)</p>
+</div>
+
+<p>
+We know study the maximum norm of the filters function of the parameter \(\alpha\). As we saw that the maximum norm of the filters is important for the robust merging of filters.
+</p>
+<div class="org-src-container">
+<pre class="src src-matlab"><span class="org-type">figure</span>;
+plot<span class="org-rainbow-delimiters-depth-1">(</span>alphas, infnorms<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-type">set</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-variable-name">gca</span>, <span class="org-string">'xscale', 'log'</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">)</span></span><span class="org-string">; set</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-string">gca, 'yscale', 'log'</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+xlabel<span class="org-rainbow-delimiters-depth-1">(</span>'$<span class="org-type">\</span>alpha$'<span class="org-rainbow-delimiters-depth-1">)</span>; ylabel<span class="org-rainbow-delimiters-depth-1">(</span>'$<span class="org-type">\|</span>H_1<span class="org-type">\|</span>_<span class="org-type">\</span>infty$'<span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+
+
+<div id="orgf1591b6" class="figure">
+<p><img src="figs/param_alpha_hinf_norm.png" alt="param_alpha_hinf_norm.png" />
+</p>
+<p><span class="figure-number">Figure 14: </span>Evolution of the H-Infinity norm of the complementary filters with the parameter \(\alpha\) (<a href="./figs/param_alpha_hinf_norm.png">png</a>, <a href="./figs/param_alpha_hinf_norm.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcc78086" class="outline-3">
-<h3 id="orgcc78086"><span class="section-number-3">1.3</span> Third Order Complementary Filters</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-org6d9258b" class="outline-3">
+<h3 id="org6d9258b"><span class="section-number-3">3.3</span> Third Order Complementary Filters</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
 The following formula gives complementary filters with slopes of \(-3\) and \(3\):
 </p>
@@ -432,7 +929,7 @@ The parameters are:
 </ul>
 
 <p>
-The filters are defined below and the result is shown on figure <a href="#org73eb8d3">3</a>.
+The filters are defined below and the result is shown on figure <a href="#org7fafaa4">15</a>.
 </p>
 
 <div class="org-src-container">
@@ -446,20 +943,20 @@ Hl3_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-
 </div>
 
 
-<div id="org73eb8d3" class="figure">
+<div id="org7fafaa4" class="figure">
 <p><img src="figs/complementary_filters_third_order.png" alt="complementary_filters_third_order.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>Third order complementary filters using the analytical formula (<a href="./figs/complementary_filters_third_order.png">png</a>, <a href="./figs/complementary_filters_third_order.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 15: </span>Third order complementary filters using the analytical formula (<a href="./figs/complementary_filters_third_order.png">png</a>, <a href="./figs/complementary_filters_third_order.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5d33b05" class="outline-2">
-<h2 id="org5d33b05"><span class="section-number-2">2</span> H-Infinity synthesis of complementary filters</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgc7d05bd" class="outline-2">
+<h2 id="orgc7d05bd"><span class="section-number-2">4</span> H-Infinity synthesis of complementary filters</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-<a id="org2e0867f"></a>
+<a id="orgcea33d1"></a>
 </p>
 <div class="note">
 <p>
@@ -469,27 +966,27 @@ All the files (data and Matlab scripts) are accessible <a href="data/h_inf_synth
 </div>
 </div>
 
-<div id="outline-container-orgd493949" class="outline-3">
-<h3 id="orgd493949"><span class="section-number-3">2.1</span> Synthesis Architecture</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org790ee6d" class="outline-3">
+<h3 id="org790ee6d"><span class="section-number-3">4.1</span> Synthesis Architecture</h3>
+<div class="outline-text-3" id="text-4-1">
 <p>
 We here synthesize the complementary filters using the \(\mathcal{H}_\infty\) synthesis.
 The goal is to specify upper bounds on the norms of \(H_L\) and \(H_H\) while ensuring their complementary property (\(H_L + H_H = 1\)).
 </p>
 
 <p>
-In order to do so, we use the generalized plant shown on figure <a href="#org7362f49">4</a> where \(w_L\) and \(w_H\) weighting transfer functions that will be used to shape \(H_L\) and \(H_H\) respectively.
+In order to do so, we use the generalized plant shown on figure <a href="#org6724ae9">16</a> where \(w_L\) and \(w_H\) weighting transfer functions that will be used to shape \(H_L\) and \(H_H\) respectively.
 </p>
 
 
-<div id="org7362f49" class="figure">
+<div id="org6724ae9" class="figure">
 <p><img src="figs/sf_hinf_filters_plant_b.png" alt="sf_hinf_filters_plant_b.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>Generalized plant used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
+<p><span class="figure-number">Figure 16: </span>Generalized plant used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 
 <p>
-The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_L\) (figure <a href="#org22d7f1d">5</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_H,\ z_L]\) is less than one:
+The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_L\) (figure <a href="#org50f24be">17</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_H,\ z_L]\) is less than one:
 \[ \left\| \begin{array}{c} H_L w_L \\ (1 - H_L) w_H \end{array} \right\|_\infty < 1 \]
 </p>
 
@@ -508,17 +1005,17 @@ We then see that \(w_L\) and \(w_H\) can be used to shape both \(H_L\) and \(H_H
 </p>
 
 
-<div id="org22d7f1d" class="figure">
+<div id="org50f24be" class="figure">
 <p><img src="figs/sf_hinf_filters_b.png" alt="sf_hinf_filters_b.png" />
 </p>
-<p><span class="figure-number">Figure 5: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
+<p><span class="figure-number">Figure 17: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgedf6133" class="outline-3">
-<h3 id="orgedf6133"><span class="section-number-3">2.2</span> Weights</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-orgec15fec" class="outline-3">
+<h3 id="orgec15fec"><span class="section-number-3">4.2</span> Weights</h3>
+<div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
 <pre class="src src-matlab">omegab = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">9</span>;
 wH = <span class="org-rainbow-delimiters-depth-1">(</span>omegab<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s <span class="org-type">+</span> omegab<span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">5</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
@@ -528,17 +1025,17 @@ wL = <span class="org-rainbow-delimiters-depth-1">(</span>s <span class="org-typ
 </div>
 
 
-<div id="org47dae90" class="figure">
+<div id="org1989084" class="figure">
 <p><img src="figs/weights_wl_wh.png" alt="weights_wl_wh.png" />
 </p>
-<p><span class="figure-number">Figure 6: </span>Weights on the complementary filters \(w_L\) and \(w_H\) and the associated performance weights (<a href="./figs/weights_wl_wh.png">png</a>, <a href="./figs/weights_wl_wh.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 18: </span>Weights on the complementary filters \(w_L\) and \(w_H\) and the associated performance weights (<a href="./figs/weights_wl_wh.png">png</a>, <a href="./figs/weights_wl_wh.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org661441d" class="outline-3">
-<h3 id="org661441d"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-orgada67cf" class="outline-3">
+<h3 id="orgada67cf"><span class="section-number-3">4.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-4-3">
 <p>
 We define the generalized plant \(P\) on matlab.
 </p>
@@ -579,7 +1076,7 @@ Test bounds:      0.0000 &lt;  gamma  &lt;=      1.7285
 </pre>
 
 <p>
-We then define the high pass filter \(H_H = 1 - H_L\). The bode plot of both \(H_L\) and \(H_H\) is shown on figure <a href="#org52d44fe">7</a>.
+We then define the high pass filter \(H_H = 1 - H_L\). The bode plot of both \(H_L\) and \(H_H\) is shown on figure <a href="#org8885661">19</a>.
 </p>
 <div class="org-src-container">
 <pre class="src src-matlab">Hh_hinf = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> Hl_hinf;
@@ -588,28 +1085,28 @@ We then define the high pass filter \(H_H = 1 - H_L\). The bode plot of both \(H
 </div>
 </div>
 
-<div id="outline-container-org73b4005" class="outline-3">
-<h3 id="org73b4005"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-org9ec053d" class="outline-3">
+<h3 id="org9ec053d"><span class="section-number-3">4.4</span> Obtained Complementary Filters</h3>
+<div class="outline-text-3" id="text-4-4">
 <p>
-The obtained complementary filters are shown on figure <a href="#org52d44fe">7</a>.
+The obtained complementary filters are shown on figure <a href="#org8885661">19</a>.
 </p>
 
 
-<div id="org52d44fe" class="figure">
+<div id="org8885661" class="figure">
 <p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 7: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 19: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3895321" class="outline-2">
-<h2 id="org3895321"><span class="section-number-2">3</span> Feedback Control Architecture to generate Complementary Filters</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgf8ae44e" class="outline-2">
+<h2 id="orgf8ae44e"><span class="section-number-2">5</span> Feedback Control Architecture to generate Complementary Filters</h2>
+<div class="outline-text-2" id="text-5">
 <p>
-<a id="org89c024e"></a>
+<a id="org9f440f5"></a>
 </p>
 <p>
 The idea is here to use the fact that in a classical feedback architecture, \(S + T = 1\), in order to design complementary filters.
@@ -626,14 +1123,14 @@ All the files (data and Matlab scripts) are accessible <a href="data/feedback_ge
 </div>
 </div>
 
-<div id="outline-container-org8ccea99" class="outline-3">
-<h3 id="org8ccea99"><span class="section-number-3">3.1</span> Architecture</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org8059a1b" class="outline-3">
+<h3 id="org8059a1b"><span class="section-number-3">5.1</span> Architecture</h3>
+<div class="outline-text-3" id="text-5-1">
 
-<div id="orgb1c999c" class="figure">
+<div id="org8864b62" class="figure">
 <p><img src="figs/complementary_filters_feedback_architecture.png" alt="complementary_filters_feedback_architecture.png" />
 </p>
-<p><span class="figure-number">Figure 8: </span>Architecture used to generate the complementary filters</p>
+<p><span class="figure-number">Figure 20: </span>Architecture used to generate the complementary filters</p>
 </div>
 
 <p>
@@ -657,9 +1154,9 @@ Which contains two integrator and a lead. \(\omega_c\) is used to tune the cross
 </div>
 </div>
 
-<div id="outline-container-org4e25a2e" class="outline-3">
-<h3 id="org4e25a2e"><span class="section-number-3">3.2</span> Loop Gain Design</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-org60939ce" class="outline-3">
+<h3 id="org60939ce"><span class="section-number-3">5.2</span> Loop Gain Design</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 Let's first define the loop gain \(L\).
 </p>
@@ -672,17 +1169,17 @@ L = <span class="org-rainbow-delimiters-depth-1">(</span>wc<span class="org-type
 </div>
 
 
-<div id="orgca4eba4" class="figure">
+<div id="orgc664892" class="figure">
 <p><img src="figs/loop_gain_bode_plot.png" alt="loop_gain_bode_plot.png" />
 </p>
-<p><span class="figure-number">Figure 9: </span>Bode plot of the loop gain \(L\) (<a href="./figs/loop_gain_bode_plot.png">png</a>, <a href="./figs/loop_gain_bode_plot.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 21: </span>Bode plot of the loop gain \(L\) (<a href="./figs/loop_gain_bode_plot.png">png</a>, <a href="./figs/loop_gain_bode_plot.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge2e158a" class="outline-3">
-<h3 id="orge2e158a"><span class="section-number-3">3.3</span> Complementary Filters Obtained</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-orgd841e78" class="outline-3">
+<h3 id="orgd841e78"><span class="section-number-3">5.3</span> Complementary Filters Obtained</h3>
+<div class="outline-text-3" id="text-5-3">
 <p>
 We then compute the resulting low pass and high pass filters.
 </p>
@@ -693,20 +1190,20 @@ Hh = <span class="org-highlight-numbers-number">1</span><span class="org-type">/
 </div>
 
 
-<div id="org6587f68" class="figure">
+<div id="org6274b82" class="figure">
 <p><img src="figs/low_pass_high_pass_filters.png" alt="low_pass_high_pass_filters.png" />
 </p>
-<p><span class="figure-number">Figure 10: </span>Low pass and High pass filters \(H_L\) and \(H_H\) for different values of \(\alpha\) (<a href="./figs/low_pass_high_pass_filters.png">png</a>, <a href="./figs/low_pass_high_pass_filters.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 22: </span>Low pass and High pass filters \(H_L\) and \(H_H\) for different values of \(\alpha\) (<a href="./figs/low_pass_high_pass_filters.png">png</a>, <a href="./figs/low_pass_high_pass_filters.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org00be799" class="outline-2">
-<h2 id="org00be799"><span class="section-number-2">4</span> Generating 3 complementary filters</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org15d808a" class="outline-2">
+<h2 id="org15d808a"><span class="section-number-2">6</span> Generating 3 complementary filters</h2>
+<div class="outline-text-2" id="text-6">
 <p>
-<a id="orgaf38b67"></a>
+<a id="org8b8a1a1"></a>
 </p>
 <div class="note">
 <p>
@@ -715,9 +1212,10 @@ All the files (data and Matlab scripts) are accessible <a href="data/three_comp_
 
 </div>
 </div>
-<div id="outline-container-orgbe5eaea" class="outline-3">
-<h3 id="orgbe5eaea"><span class="section-number-3">4.1</span> Theory</h3>
-<div class="outline-text-3" id="text-4-1">
+
+<div id="outline-container-org39cb339" class="outline-3">
+<h3 id="org39cb339"><span class="section-number-3">6.1</span> Theory</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
 We want:
 </p>
@@ -729,14 +1227,14 @@ We want:
 \end{align*}
 
 <p>
-For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#orgfaa1b6d">11</a>.
+For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org4b5fc2c">23</a>.
 </p>
 
 
-<div id="orgfaa1b6d" class="figure">
+<div id="org4b5fc2c" class="figure">
 <p><img src="figs/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
-<p><span class="figure-number">Figure 11: </span>Generalized architecture for generating 3 complementary filters</p>
+<p><span class="figure-number">Figure 23: </span>Generalized architecture for generating 3 complementary filters</p>
 </div>
 
 <p>
@@ -754,9 +1252,9 @@ And thus if we choose \(H_3 = 1 - H_1 - H_2\) we have solved the problem.
 </div>
 </div>
 
-<div id="outline-container-org359c020" class="outline-3">
-<h3 id="org359c020"><span class="section-number-3">4.2</span> Weights</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-orgfe9b122" class="outline-3">
+<h3 id="orgfe9b122"><span class="section-number-3">6.2</span> Weights</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 First we define the weights.
 </p>
@@ -768,17 +1266,17 @@ w3 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highli
 </div>
 
 
-<div id="orge78f96b" class="figure">
+<div id="org5ccc979" class="figure">
 <p><img src="figs/three_weighting_functions.png" alt="three_weighting_functions.png" />
 </p>
-<p><span class="figure-number">Figure 12: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 24: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcd8f906" class="outline-3">
-<h3 id="orgcd8f906"><span class="section-number-3">4.3</span> H-Infinity Synthesis</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-orgf554093" class="outline-3">
+<h3 id="orgf554093"><span class="section-number-3">6.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-6-3">
 <p>
 Then we create the generalized plant <code>P</code>.
 </p>
@@ -824,9 +1322,9 @@ Test bounds:      0.3500 &lt;  gamma  &lt;=      2.5115
 </div>
 </div>
 
-<div id="outline-container-org292e057" class="outline-3">
-<h3 id="org292e057"><span class="section-number-3">4.4</span> Obtained Complementary Filters</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-orge9b4e2a" class="outline-3">
+<h3 id="orge9b4e2a"><span class="section-number-3">6.4</span> Obtained Complementary Filters</h3>
+<div class="outline-text-3" id="text-6-4">
 <p>
 The obtained filters are:
 </p>
@@ -838,20 +1336,20 @@ H3 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">
 </div>
 
 
-<div id="org74ab838" class="figure">
+<div id="orgf59a929" class="figure">
 <p><img src="figs/three_complementary_filters_results.png" alt="three_complementary_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 13: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 25: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org082d638" class="outline-2">
-<h2 id="org082d638"><span class="section-number-2">5</span> Try to implement complementary filters for LIGO</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orge7af880" class="outline-2">
+<h2 id="orge7af880"><span class="section-number-2">7</span> Try to implement complementary filters for LIGO</h2>
+<div class="outline-text-2" id="text-7">
 <p>
-<a id="org9bbbd0f"></a>
+<a id="orgfdf3442"></a>
 </p>
 <p>
 <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a>
@@ -862,10 +1360,10 @@ Hua, W., Low frequency vibration isolation and alignment system for advanced lig
 </p>
 
 
-<div id="orga4cd276" class="figure">
+<div id="orgefa0724" class="figure">
 <p><img src="figs/fir_ligo_comp_filters.png" alt="fir_ligo_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 14: </span>Obtained complementary FIR filters</p>
+<p><span class="figure-number">Figure 26: </span>Obtained complementary FIR filters</p>
 </div>
 <div class="note">
 <p>
@@ -875,9 +1373,9 @@ All the files (data and Matlab scripts) are accessible <a href="data/comp_filter
 </div>
 </div>
 
-<div id="outline-container-org75d0682" class="outline-3">
-<h3 id="org75d0682"><span class="section-number-3">5.1</span> Specifications</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-org1ca8498" class="outline-3">
+<h3 id="org1ca8498"><span class="section-number-3">7.1</span> Specifications</h3>
+<div class="outline-text-3" id="text-7-1">
 <p>
 The specifications are:
 </p>
@@ -889,17 +1387,17 @@ The specifications are:
 </ol>
 
 
-<div id="org51d6305" class="figure">
+<div id="orga605932" class="figure">
 <p><img src="figs/ligo_specifications.png" alt="ligo_specifications.png" />
 </p>
-<p><span class="figure-number">Figure 15: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 27: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8ef31d1" class="outline-3">
-<h3 id="org8ef31d1"><span class="section-number-3">5.2</span> Weights</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-org38e40b5" class="outline-3">
+<h3 id="org38e40b5"><span class="section-number-3">7.2</span> Weights</h3>
+<div class="outline-text-3" id="text-7-2">
 <div class="org-src-container">
 <pre class="src src-matlab">% wH = <span class="org-highlight-numbers-number">130</span><span class="org-type">*</span>(((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">06</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>)<span class="org-type">/</span>((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">008</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
 % wL = <span class="org-highlight-numbers-number">10000</span><span class="org-type">*</span>(((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">6</span>))<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>)<span class="org-type">/</span>((s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">06</span>)<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>)<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
@@ -910,17 +1408,17 @@ wL = <span class="org-highlight-numbers-number">10</span><span class="org-type">
 </div>
 
 
-<div id="org0607c01" class="figure">
+<div id="org0664f26" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
-<p><span class="figure-number">Figure 16: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 28: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7901851" class="outline-3">
-<h3 id="org7901851"><span class="section-number-3">5.3</span> H-Infinity Synthesis</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org1d5f512" class="outline-3">
+<h3 id="org1d5f512"><span class="section-number-3">7.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-7-3">
 <div class="org-src-container">
 <pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   wL;
      wH <span class="org-type">-</span>wH;
@@ -966,17 +1464,17 @@ Test bounds:      0.2899 &lt;  gamma  &lt;=      3.6841
 </div>
 
 
-<div id="orgde88ab3" class="figure">
+<div id="org77cbdef" class="figure">
 <p><img src="figs/hinf_synthesis_ligo_results.png" alt="hinf_synthesis_ligo_results.png" />
 </p>
-<p><span class="figure-number">Figure 17: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 29: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge15ea97" class="outline-3">
-<h3 id="orge15ea97"><span class="section-number-3">5.4</span> Using Analytical Formula</h3>
-<div class="outline-text-3" id="text-5-4">
+<div id="outline-container-org17b8f6c" class="outline-3">
+<h3 id="org17b8f6c"><span class="section-number-3">7.4</span> Using Analytical Formula</h3>
+<div class="outline-text-3" id="text-7-4">
 <div class="org-src-container">
 <pre class="src src-matlab">alpha = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">5</span>;
 beta = <span class="org-highlight-numbers-number">5</span>;
@@ -988,243 +1486,114 @@ Hl_ana = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-r
 </div>
 
 
-<div id="orgd0ef367" class="figure">
+<div id="org4949ee5" class="figure">
 <p><img src="figs/ligo_analytical_formula_comp_filters.png" alt="ligo_analytical_formula_comp_filters.png" />
 </p>
-<p><span class="figure-number">Figure 18: </span>Obtained complementary filters using the analytical formula (<a href="./figs/ligo_analytical_formula_comp_filters.png">png</a>, <a href="./figs/ligo_analytical_formula_comp_filters.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 30: </span>Obtained complementary filters using the analytical formula (<a href="./figs/ligo_analytical_formula_comp_filters.png">png</a>, <a href="./figs/ligo_analytical_formula_comp_filters.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org1845e6a" class="outline-2">
-<h2 id="org1845e6a"><span class="section-number-2">6</span> Optimal Sensor Fusion for noise characteristics</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-org8c08574" class="outline-2">
+<h2 id="org8c08574"><span class="section-number-2">8</span> Analytical Formula found in the literature</h2>
+<div class="outline-text-2" id="text-8">
 <p>
-<a id="org3e2da1d"></a>
+<a id="org3bf98c2"></a>
 </p>
+</div>
+
+<div id="outline-container-org905a472" class="outline-3">
+<h3 id="org905a472"><span class="section-number-3">8.1</span> Analytical Formula</h3>
+<div class="outline-text-3" id="text-8-1">
 <p>
-The idea is to combine sensors that works in different frequency range using complementary filters.
+<a class='org-ref-reference' href="#min15_compl_filter_desig_angle_estim">min15_compl_filter_desig_angle_estim</a>
 </p>
+\begin{align*}
+  H_L(s) = \frac{K_p s + K_i}{s^2 + K_p s + K_i} \\
+  H_H(s) = \frac{s^2}{s^2 + K_p s + K_i}
+\end{align*}
 
 <p>
-Doing so, one "super sensor" is obtained that can have better noise characteristics than the individual sensors over a large frequency range.
+<a class='org-ref-reference' href="#corke04_inert_visual_sensin_system_small_auton_helic">corke04_inert_visual_sensin_system_small_auton_helic</a>
 </p>
+\begin{align*}
+  H_L(s) = \frac{1}{s/p + 1} \\
+  H_H(s) = \frac{s/p}{s/p + 1}
+\end{align*}
 
 <p>
-The complementary filters have to be designed in order to minimize the effect noise of each sensor on the super sensor noise.
+<a class='org-ref-reference' href="#jensen13_basic_uas">jensen13_basic_uas</a>
 </p>
-<div class="note">
-<p>
-All the files (data and Matlab scripts) are accessible <a href="data/optimal_comp_filters.zip">here</a>.
-</p>
+\begin{align*}
+  H_L(s) = \frac{2 \omega_0 s + \omega_0^2}{(s + \omega_0)^2} \\
+  H_H(s) = \frac{s^2}{(s + \omega_0)^2}
+\end{align*}
 
+\begin{align*}
+  H_L(s) = \frac{C(s)}{C(s) + s} \\
+  H_H(s) = \frac{s}{C(s) + s}
+\end{align*}
+
+<p>
+<a class='org-ref-reference' href="#shaw90_bandw_enhan_posit_measur_using_measur_accel">shaw90_bandw_enhan_posit_measur_using_measur_accel</a>
+</p>
+\begin{align*}
+  H_L(s) = \frac{3 \tau s + 1}{(\tau s + 1)^3} \\
+  H_H(s) = \frac{\tau^3 s^3 + 3 \tau^2 s^2}{(\tau s + 1)^3}
+\end{align*}
+
+<p>
+<a class='org-ref-reference' href="#baerveldt97_low_cost_low_weigh_attit">baerveldt97_low_cost_low_weigh_attit</a>
+</p>
+\begin{align*}
+  H_L(s) = \frac{2 \tau s + 1}{(\tau s + 1)^2} \\
+  H_H(s) = \frac{\tau^2 s^2}{(\tau s + 1)^2}
+\end{align*}
 </div>
 </div>
 
-<div id="outline-container-orgcb51100" class="outline-3">
-<h3 id="orgcb51100"><span class="section-number-3">6.1</span> Architecture</h3>
-<div class="outline-text-3" id="text-6-1">
-<p>
-Let's consider the sensor fusion architecture shown on figure <a href="#orge54a269">19</a> where two sensors 1 and 2 are measuring the same quantity \(x\) with different noise characteristics determined by \(W_1\) and \(W_2\).
-</p>
-
-<p>
-\(n_1\) and \(n_2\) are white noise (constant power spectral density over all frequencies).
-</p>
-
-
-<div id="orge54a269" class="figure">
-<p><img src="figs/fusion_two_noisy_sensors_with_dyn.png" alt="fusion_two_noisy_sensors_with_dyn.png" />
-</p>
-<p><span class="figure-number">Figure 19: </span>Fusion of two sensors</p>
-</div>
-
-<p>
-We consider that the two sensor dynamics \(G_1\) and \(G_2\) are ideal (\(G_1 = G_2 = 1\)). We obtain the architecture of figure <a href="#org0dd245e">20</a>.
-</p>
-
-
-<div id="org0dd245e" class="figure">
-<p><img src="figs/fusion_two_noisy_sensors.png" alt="fusion_two_noisy_sensors.png" />
-</p>
-<p><span class="figure-number">Figure 20: </span>Fusion of two sensors with ideal dynamics</p>
-</div>
-
-<p>
-\(H_1\) and \(H_2\) are complementary filters (\(H_1 + H_2 = 1\)). The goal is to design \(H_1\) and \(H_2\) such that the effect of the noise sources \(n_1\) and \(n_2\) has the smallest possible effect on the estimation \(\hat{x}\).
-</p>
-
-<p>
-We have that the Power Spectral Density (PSD) of \(\hat{x}\) is:
-\[ \Gamma_{\hat{x}} = |H_1 W_1|^2 \Gamma_{n_1} + |H_2 W_2|^2 \Gamma_{n_2} \]
-</p>
-
-<p>
-And the goal is the minimize the Root Mean Square (RMS) value of \(\hat{x}\):
-\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty \Gamma_{\hat{x}}(\omega) d\omega} \]
-</p>
-
-<p>
-As \(n_1\) and \(n_2\) are white noise: \(\Gamma_{n_1} = \Gamma_{n_2} = 1\) and we have:
-\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty |H_1 W_1|^2(\omega) + |H_2 W_2|^2(\omega) d\omega} = \left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2 \]
-</p>
-
-<p>
-Thus, the goal is to design \(H_1\) and \(H_2\) such that \(H_1 + H_2 = 1\) and such that \(\left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2\) is minimized.
-</p>
-
-<p>
-For that, we will use the \(\mathcal{H}_2\) Synthesis.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org1a9b09e" class="outline-3">
-<h3 id="org1a9b09e"><span class="section-number-3">6.2</span> Noise of the sensors</h3>
-<div class="outline-text-3" id="text-6-2">
-<p>
-Let's define the noise characteristics of the two sensors by choosing \(W_1\) and \(W_2\):
-</p>
-<ul class="org-ul">
-<li>Sensor 1 characterized by \(W_1\) has low noise at low frequency (for instance a geophone)</li>
-<li>Sensor 2 characterized by \(W_2\) has low noise at high frequency (for instance an accelerometer)</li>
-</ul>
-
+<div id="outline-container-org11dc063" class="outline-3">
+<h3 id="org11dc063"><span class="section-number-3">8.2</span> Matlab</h3>
+<div class="outline-text-3" id="text-8-2">
 <div class="org-src-container">
-<pre class="src src-matlab">omegac = <span class="org-highlight-numbers-number">100</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; G0 = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">5</span>; Ginf = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span>;
-W1 = <span class="org-rainbow-delimiters-depth-1">(</span>Ginf<span class="org-type">*</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> G0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">4000</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-matlab">omega0 = <span class="org-highlight-numbers-number">1</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; <span class="org-comment">% [rad/s]</span>
+tau = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>omega0; <span class="org-comment">% [s]</span>
 
-omegac = <span class="org-highlight-numbers-number">1</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>; G0 = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">3</span>; Ginf = <span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">8</span>;
-W2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span>Ginf<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> sqrt<span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span>s<span class="org-type">/</span>omegac <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">4000</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
+<span class="org-comment">% From cite:corke04_inert_visual_sensin_system_small_auton_helic</span>
+HL1 = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>omega0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>; HH1 = s<span class="org-type">/</span>omega0<span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">/</span>omega0 <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+
+<span class="org-comment">% From cite:jensen13_basic_uas</span>
+HL2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span>omega0<span class="org-type">*</span>s <span class="org-type">+</span> omega0<span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">+</span>omega0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>; HH2 = s<span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>s<span class="org-type">+</span>omega0<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
+
+<span class="org-comment">% From cite:shaw90_bandw_enhan_posit_measur_using_measur_accel</span>
+HL3 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">3</span><span class="org-type">*</span>tau<span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>tau<span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>; HH3 = <span class="org-rainbow-delimiters-depth-1">(</span>tau<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span><span class="org-type">*</span>s<span class="org-type">^</span><span class="org-highlight-numbers-number">3</span> <span class="org-type">+</span> <span class="org-highlight-numbers-number">3</span><span class="org-type">*</span>tau<span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span>s<span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>tau<span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
 </pre>
 </div>
 
 
-<div id="org1b561d1" class="figure">
-<p><img src="figs/nosie_characteristics_sensors.png" alt="nosie_characteristics_sensors.png" />
+<div id="org447c899" class="figure">
+<p><img src="figs/comp_filters_literature.png" alt="comp_filters_literature.png" />
 </p>
-<p><span class="figure-number">Figure 21: </span>Noise Characteristics of the two sensors (<a href="./figs/nosie_characteristics_sensors.png">png</a>, <a href="./figs/nosie_characteristics_sensors.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 31: </span>Comparison of some complementary filters found in the literature (<a href="./figs/comp_filters_literature.png">png</a>, <a href="./figs/comp_filters_literature.pdf">pdf</a>)</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf01312f" class="outline-3">
-<h3 id="orgf01312f"><span class="section-number-3">6.3</span> H-Two Synthesis</h3>
-<div class="outline-text-3" id="text-6-3">
+<div id="outline-container-org8740364" class="outline-3">
+<h3 id="org8740364"><span class="section-number-3">8.3</span> Discussion</h3>
+<div class="outline-text-3" id="text-8-3">
 <p>
-We use the generalized plant architecture shown on figure <a href="#orgfdf6757">22</a>.
+Analytical Formula found in the literature provides either no parameter for tuning the robustness / performance trade-off.
 </p>
-
-
-<div id="orgfdf6757" class="figure">
-<p><img src="figs/h_infinity_optimal_comp_filters.png" alt="h_infinity_optimal_comp_filters.png" />
-</p>
-<p><span class="figure-number">Figure 22: </span>\(\mathcal{H}_2\) Synthesis - Generalized plant used for the optimal generation of complementary filters</p>
+</div>
+</div>
 </div>
 
+<div id="outline-container-org7eac94e" class="outline-2">
+<h2 id="org7eac94e"><span class="section-number-2">9</span> Comparison of the different methods of synthesis</h2>
+<div class="outline-text-2" id="text-9">
 <p>
-The transfer function from \([n_1, n_2]\) to \(\hat{x}\) is:
-\[ \begin{bmatrix} W_1 H_1 \\ W_2 (1 - H_1) \end{bmatrix} \]
-If we define \(H_2 = 1 - H_1\), we obtain:
-\[ \begin{bmatrix} W_1 H_1 \\ W_2 H_2 \end{bmatrix} \]
-</p>
-
-<p>
-Thus, if we minimize the \(\mathcal{H}_2\) norm of this transfer function, we minimize the RMS value of \(\hat{x}\).
-</p>
-
-<p>
-We define the generalized plant \(P\) on matlab as shown on figure <a href="#orgfdf6757">22</a>.
-</p>
-<div class="org-src-container">
-<pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   W2  <span class="org-highlight-numbers-number">1</span>;
-     W1 <span class="org-type">-</span>W2  <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-</pre>
-</div>
-
-<p>
-And we do the \(\mathcal{H}_2\) synthesis using the <code>h2syn</code> command.
-</p>
-<div class="org-src-container">
-<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H1, <span class="org-type">~</span>, gamma<span class="org-rainbow-delimiters-depth-1">]</span> = h2syn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-</pre>
-</div>
-
-<p>
-What is minimized is <code>norm([W1*H1,W2*H2], 2)</code>.
-</p>
-
-<p>
-Finally, we define \(H_2 = 1 - H_1\).
-</p>
-<div class="org-src-container">
-<pre class="src src-matlab">H2 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> H1;
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org3f478e9" class="outline-3">
-<h3 id="org3f478e9"><span class="section-number-3">6.4</span> Analysis</h3>
-<div class="outline-text-3" id="text-6-4">
-<p>
-The complementary filters obtained are shown on figure <a href="#org35f3140">23</a>. The PSD of the <a href="#org99af3da">24</a>.
-Finally, the RMS value of \(\hat{x}\) is shown on table <a href="#org8ebf8a9">1</a>.
-The optimal sensor fusion has permitted to reduced the RMS value of the estimation error by a factor 6 compare to when using only one sensor.
-</p>
-
-
-<div id="org35f3140" class="figure">
-<p><img src="figs/htwo_comp_filters.png" alt="htwo_comp_filters.png" />
-</p>
-<p><span class="figure-number">Figure 23: </span>Obtained complementary filters using the \(\mathcal{H}_2\) Synthesis (<a href="./figs/htwo_comp_filters.png">png</a>, <a href="./figs/htwo_comp_filters.pdf">pdf</a>)</p>
-</div>
-
-
-<div id="org99af3da" class="figure">
-<p><img src="figs/psd_sensors_htwo_synthesis.png" alt="psd_sensors_htwo_synthesis.png" />
-</p>
-<p><span class="figure-number">Figure 24: </span>Power Spectral Density of the estimated \(\hat{x}\) using the two sensors alone and using the optimally fused signal (<a href="./figs/psd_sensors_htwo_synthesis.png">png</a>, <a href="./figs/psd_sensors_htwo_synthesis.pdf">pdf</a>)</p>
-</div>
-
-<table id="org8ebf8a9" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 1:</span> RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-right">rms value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Sensor 1</td>
-<td class="org-right">1.1e-02</td>
-</tr>
-
-<tr>
-<td class="org-left">Sensor 2</td>
-<td class="org-right">1.3e-03</td>
-</tr>
-
-<tr>
-<td class="org-left">Optimal Sensor Fusion</td>
-<td class="org-right">1.5e-04</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="outline-container-org5829e59" class="outline-2">
-<h2 id="org5829e59"><span class="section-number-2">7</span> Comparison of the different methods of synthesis</h2>
-<div class="outline-text-2" id="text-7">
-<p>
+  <a id="org13ae7bc"></a>
 The generated complementary filters using \(\mathcal{H}_\infty\) and the analytical formulas are very close to each other. However there is some difference to note here:
 </p>
 <ul class="org-ul">
@@ -1236,7 +1605,7 @@ The generated complementary filters using \(\mathcal{H}_\infty\) and the analyti
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-08-08 jeu. 18:59</p>
+<p class="date">Created: 2019-08-12 lun. 15:54</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

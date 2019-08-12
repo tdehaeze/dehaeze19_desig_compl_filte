@@ -24,6 +24,474 @@
 :END:
 
 * Introduction                                                       :ignore:
+In this document, the design of complementary filters is studied.
+
+One use of complementary filter is described below:
+#+begin_quote
+  The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor, and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
+  To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
+#+end_quote
+
+- in section [[sec:optimal_comp_filters]], the optimal design of the complementary filters in order to obtain the lowest resulting "super sensor" noise is studied
+
+When blending two sensors using complementary filters with unknown dynamics, phase lag may be introduced that renders the close-loop system unstable.
+- in section [[sec:comp_filter_robustness]], the blending robustness to sensor dynamic uncertainty is studied.
+
+Then, three design methods for generating two complementary filters are proposed:
+- in section [[sec:comp_filters_analytical]], analytical formulas are proposed
+- in section [[sec:h_inf_synthesis_complementary_filters]], the $\mathcal{H}_\infty$ synthesis is used
+- in section [[sec:feedback_generate_comp_filters]], the classical feedback architecture is used
+- in section [[sec:three_comp_filters]], a method using the $\mathcal{H}_\infty$ synthesis is proposed to shape three of more complementary filters
+
+Finally:
+- in section [[sec:comp_filters_ligo]], some design methods are used and compared with FIR complementary filters used for LIGO
+- in section [[sec:analytical_formula_literature]], analytical formulas found in the literature are listed
+- in section [[sec:discussion]], we discuss the findings
+
+* Optimal Sensor Fusion for noise characteristics
+  :PROPERTIES:
+  :header-args:matlab+: :tangle matlab/optimal_comp_filters.m
+  :header-args:matlab+: :comments org :mkdirp yes
+  :END:
+  <<sec:optimal_comp_filters>>
+
+** Introduction                                                      :ignore:
+The idea is to combine sensors that works in different frequency range using complementary filters.
+
+Doing so, one "super sensor" is obtained that can have better noise characteristics than the individual sensors over a large frequency range.
+
+The complementary filters have to be designed in order to minimize the effect noise of each sensor on the super sensor noise.
+
+** ZIP file containing the data and matlab files                     :ignore:
+#+begin_src bash :exports none :results none
+  if [ matlab/optimal_comp_filters.m -nt data/optimal_comp_filters.zip ]; then
+    cp matlab/optimal_comp_filters.m optimal_comp_filters.m;
+    zip data/optimal_comp_filters \
+        optimal_comp_filters.m
+    rm optimal_comp_filters.m;
+  fi
+#+end_src
+
+#+begin_note
+  All the files (data and Matlab scripts) are accessible [[file:data/optimal_comp_filters.zip][here]].
+#+end_note
+
+** Matlab Init                                              :noexport:ignore:
+#+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
+  <<matlab-dir>>
+#+end_src
+
+#+begin_src matlab :exports none :results silent :noweb yes
+  <<matlab-init>>
+#+end_src
+
+#+begin_src matlab
+  freqs = logspace(-1, 3, 1000);
+#+end_src
+
+** Architecture
+Let's consider the sensor fusion architecture shown on figure [[fig:fusion_two_noisy_sensors_with_dyn]] where two sensors 1 and 2 are measuring the same quantity $x$ with different noise characteristics determined by $W_1$ and $W_2$.
+
+$n_1$ and $n_2$ are white noise (constant power spectral density over all frequencies).
+
+#+name: fig:fusion_two_noisy_sensors_with_dyn
+#+caption: Fusion of two sensors
+[[file:figs/fusion_two_noisy_sensors_with_dyn.png]]
+
+We consider that the two sensor dynamics $G_1$ and $G_2$ are ideal ($G_1 = G_2 = 1$). We obtain the architecture of figure [[fig:fusion_two_noisy_sensors]].
+
+#+name: fig:fusion_two_noisy_sensors
+#+caption: Fusion of two sensors with ideal dynamics
+[[file:figs/fusion_two_noisy_sensors.png]]
+
+$H_1$ and $H_2$ are complementary filters ($H_1 + H_2 = 1$). The goal is to design $H_1$ and $H_2$ such that the effect of the noise sources $n_1$ and $n_2$ has the smallest possible effect on the estimation $\hat{x}$.
+
+We have that the Power Spectral Density (PSD) of $\hat{x}$ is:
+\[ \Gamma_{\hat{x}} = |H_1 W_1|^2 \Gamma_{n_1} + |H_2 W_2|^2 \Gamma_{n_2} \]
+
+And the goal is the minimize the Root Mean Square (RMS) value of $\hat{x}$:
+\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty \Gamma_{\hat{x}}(\omega) d\omega} \]
+
+As $n_1$ and $n_2$ are white noise: $\Gamma_{n_1} = \Gamma_{n_2} = 1$ and we have:
+\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty |H_1 W_1|^2(\omega) + |H_2 W_2|^2(\omega) d\omega} = \left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2 \]
+
+Thus, the goal is to design $H_1$ and $H_2$ such that $H_1 + H_2 = 1$ and such that $\left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2$ is minimized.
+
+For that, we will use the $\mathcal{H}_2$ Synthesis.
+
+** Noise of the sensors
+Let's define the noise characteristics of the two sensors by choosing $W_1$ and $W_2$:
+- Sensor 1 characterized by $W_1$ has low noise at low frequency (for instance a geophone)
+- Sensor 2 characterized by $W_2$ has low noise at high frequency (for instance an accelerometer)
+
+#+begin_src matlab :exports none
+  omegac = 2*pi; G0 = 1e-2; Ginf = 1e-6;
+  W1 = ((sqrt(G0))/(s/omegac + 1))^2;
+
+  omegac = 100*2*pi; G0 = 1e-6; Ginf = 1e-2;
+  W2 = ((sqrt(Ginf)*s/omegac + sqrt(G0))/(s/omegac + 1))^2/(1 + s/2/pi/4000)^2;
+#+end_src
+
+#+begin_src matlab
+  omegac = 100*2*pi; G0 = 1e-5; Ginf = 1e-4;
+  W1 = (Ginf*s/omegac + G0)/(s/omegac + 1)/(1 + s/2/pi/4000);
+
+  omegac = 1*2*pi; G0 = 1e-3; Ginf = 1e-8;
+  W2 = ((sqrt(Ginf)*s/omegac + sqrt(G0))/(s/omegac + 1))^2/(1 + s/2/pi/4000)^2;
+#+end_src
+
+#+begin_src matlab :exports none
+  figure;
+  hold on;
+  plot(freqs, abs(squeeze(freqresp(W1, freqs, 'Hz'))), '-', 'DisplayName', '$W_1$');
+  plot(freqs, abs(squeeze(freqresp(W2, freqs, 'Hz'))), '-', 'DisplayName', '$W_2$');
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  hold off;
+  xlim([freqs(1), freqs(end)]);
+  legend('location', 'northeast');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/nosie_characteristics_sensors.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:nosie_characteristics_sensors
+#+CAPTION: Noise Characteristics of the two sensors ([[./figs/nosie_characteristics_sensors.png][png]], [[./figs/nosie_characteristics_sensors.pdf][pdf]])
+[[file:figs/nosie_characteristics_sensors.png]]
+
+** H-Two Synthesis
+We use the generalized plant architecture shown on figure [[fig:h_infinity_optimal_comp_filters]].
+
+#+name: fig:h_infinity_optimal_comp_filters
+#+caption: $\mathcal{H}_2$ Synthesis - Generalized plant used for the optimal generation of complementary filters
+[[file:figs/h_infinity_optimal_comp_filters.png]]
+
+The transfer function from $[n_1, n_2]$ to $\hat{x}$ is:
+\[ \begin{bmatrix} W_1 H_1 \\ W_2 (1 - H_1) \end{bmatrix} \]
+If we define $H_2 = 1 - H_1$, we obtain:
+\[ \begin{bmatrix} W_1 H_1 \\ W_2 H_2 \end{bmatrix} \]
+
+Thus, if we minimize the $\mathcal{H}_2$ norm of this transfer function, we minimize the RMS value of $\hat{x}$.
+
+We define the generalized plant $P$ on matlab as shown on figure [[fig:h_infinity_optimal_comp_filters]].
+#+begin_src matlab
+  P = [0   W2  1;
+       W1 -W2  0];
+#+end_src
+
+And we do the $\mathcal{H}_2$ synthesis using the =h2syn= command.
+#+begin_src matlab
+  [H1, ~, gamma] = h2syn(P, 1, 1);
+#+end_src
+
+What is minimized is =norm([W1*H1,W2*H2], 2)=.
+
+Finally, we define $H_2 = 1 - H_1$.
+#+begin_src matlab
+  H2 = 1 - H1;
+#+end_src
+
+** Analysis
+The complementary filters obtained are shown on figure [[fig:htwo_comp_filters]]. The PSD of the [[fig:psd_sensors_htwo_synthesis]].
+Finally, the RMS value of $\hat{x}$ is shown on table [[tab:rms_results]].
+The optimal sensor fusion has permitted to reduced the RMS value of the estimation error by a factor 8 compare to when using only one sensor.
+
+#+begin_src matlab :exports none
+  figure;
+  hold on;
+  plot(freqs, abs(squeeze(freqresp(H1, freqs, 'Hz'))), '-', 'DisplayName', '$H_1$');
+  plot(freqs, abs(squeeze(freqresp(H2, freqs, 'Hz'))), '-', 'DisplayName', '$H_2$');
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  hold off;
+  xlim([freqs(1), freqs(end)]);
+  legend('location', 'northeast');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/htwo_comp_filters.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:htwo_comp_filters
+#+CAPTION: Obtained complementary filters using the $\mathcal{H}_2$ Synthesis ([[./figs/htwo_comp_filters.png][png]], [[./figs/htwo_comp_filters.pdf][pdf]])
+[[file:figs/htwo_comp_filters.png]]
+
+#+begin_src matlab :exports none
+  figure;
+  hold on;
+  plot(freqs, abs(squeeze(freqresp(W1, freqs, 'Hz'))).^2, '-',  'DisplayName', '$|W_1|^2$');
+  plot(freqs, abs(squeeze(freqresp(W2, freqs, 'Hz'))).^2, '-',  'DisplayName', '$|W_2|^2$');
+  plot(freqs, abs(squeeze(freqresp(W1*H1, freqs, 'Hz'))).^2+abs(squeeze(freqresp(W2*H2, freqs, 'Hz'))).^2, 'k-', 'DisplayName', '$|W_1H_1|^2+|W_2H_2|^2$');
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  hold off;
+  xlim([freqs(1), freqs(end)]);
+  legend('location', 'northeast');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/psd_sensors_htwo_synthesis.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:psd_sensors_htwo_synthesis
+#+CAPTION: Power Spectral Density of the estimated $\hat{x}$ using the two sensors alone and using the optimally fused signal ([[./figs/psd_sensors_htwo_synthesis.png][png]], [[./figs/psd_sensors_htwo_synthesis.pdf][pdf]])
+[[file:figs/psd_sensors_htwo_synthesis.png]]
+
+#+begin_src matlab :exports results :results value table replace :tangle no :post addhdr(*this*)
+  data2orgtable([norm([W1], 2);norm([W2], 2);norm([W1*H1 + W2*H2], 2)], {'Sensor 1', 'Sensor 2', 'Optimal Sensor Fusion'}, {'rms value'}, ' %.1e');
+#+end_src
+
+#+name: tab:rms_results
+#+caption: RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters
+#+RESULTS:
+|                       | rms value |
+|-----------------------+-----------|
+| Sensor 1              |   1.1e-02 |
+| Sensor 2              |   1.3e-03 |
+| Optimal Sensor Fusion |   1.5e-04 |
+* Robustness to sensor dynamics uncertainty
+  :PROPERTIES:
+  :header-args:matlab+: :tangle matlab/comp_filter_robustness.m
+  :header-args:matlab+: :comments org :mkdirp yes
+  :END:
+  <<sec:comp_filter_robustness>>
+
+** Introduction                                                      :ignore:
+Let's first consider ideal sensors where $G_1 = 1$ and $G_2 = 1$ (figure [[fig:fusion_two_noisy_sensors_with_dyn_bis]]).
+
+#+name: fig:fusion_two_noisy_sensors_with_dyn_bis
+#+caption: Fusion of two sensors
+[[file:figs/fusion_two_noisy_sensors_with_dyn_bis.png]]
+
+# #+name: fig:fusion_two_signals
+# #+caption: Fusion of two noisy measurements of $x$
+# [[file:figs/fusion_two_signals.png]]
+
+We then have:
+\begin{align*}
+  \hat{x} &= (x + n_1) H_1 + (x + n_2) H_2 \\
+          &= x + n_1 H_1 + n_2 H_2
+\end{align*}
+
+So the estimation error is
+\[ \delta_x = \hat{x} - x = n_1 H_1 + n_2 H_2 \]
+
+And we see that the complementary filters are only shaping the noise and that they do not impact the transfer function from $x$ to $\hat{x}$ that is in the feedback path.
+
+** ZIP file containing the data and matlab files                     :ignore:
+#+begin_src bash :exports none :results none
+  if [ matlab/comp_filter_robustness.m -nt data/comp_filter_robustness.zip ]; then
+    cp matlab/comp_filter_robustness.m comp_filter_robustness.m;
+    zip data/comp_filter_robustness \
+        comp_filter_robustness.m
+    rm comp_filter_robustness.m;
+  fi
+#+end_src
+
+#+begin_note
+  All the files (data and Matlab scripts) are accessible [[file:data/comp_filter_robustness.zip][here]].
+#+end_note
+
+** Matlab Init                                              :noexport:ignore:
+#+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
+  <<matlab-dir>>
+#+end_src
+
+#+begin_src matlab :exports none :results silent :noweb yes
+  <<matlab-init>>
+#+end_src
+
+** Static Gain Mismatch                                            :noexport:
+Even though we here still consider that the two sensors have perfect dynamics, we consider gain mismatch for the two sensors:
+\begin{align*}
+  G_1(s) &= 1 + \delta_1(s) \\
+  G_2(s) &= 1 + \delta_2(s)
+\end{align*}
+
+Thus, we have:
+\begin{align*}
+  \hat{x} &= (x + n_1) (1 + \delta_1) H_1 + (x + n_2) (1 + \delta_2) H_2 \\
+          &= x (1 + \delta_1 H_1 + \delta_2 H_2) + n_1 (1 + \delta_1) H_1 + n_2(1 + \delta_2)  H_2
+\end{align*}
+
+So the transfer function from $x$ to $\hat{x}$ is:
+\begin{align*}
+  \frac{\hat{x}}{x} &= 1 + \delta_1 H_1 + \delta_2 H_2 \\
+                    &= 1 + \delta_1 H_1 + \delta_2 (1 - H_1) \\
+                    &= 1 + (\delta_1 - \delta_2) H_1 + \delta_2 \\
+\end{align*}
+
+** Unknown sensor dynamics dynamics
+In practical systems, the sensor dynamics has always some level of uncertainty.
+Let's represent that with multiplicative input uncertainty as shown on figure [[fig:fusion_gain_mismatch]].
+
+#+name: fig:fusion_gain_mismatch
+#+caption: Fusion of two sensors with input multiplicative uncertainty
+[[file:figs/fusion_gain_mismatch.png]]
+
+We have:
+\begin{align*}
+  \frac{\hat{x}}{x} &= (1 + W_1 \Delta_1) H_1 + (1 + W_2 \Delta_2) H_2 \\
+                    &= 1 + W_1 H_1 \Delta_1 + W_2 H_2 \Delta_2
+\end{align*}
+With $\Delta_i$ is any transfer function satisfying $\| \Delta_i \|_\infty < 1$.
+
+We see that as soon as we have some uncertainty in the sensor dynamics, we have that the complementary filters have some effect on the transfer function from $x$ to $\hat{x}$.
+
+We want that the super sensor transfer function has a gain of 1 and no phase variation over all the frequencies:
+\[ \frac{\hat{x}}{x} \approx 1 \]
+
+Thus, we want that
+\begin{align*}
+                      & |W_1 H_1 \Delta_1 + W_2 H_2 \Delta_2| < \epsilon \quad \forall \omega,  \forall \Delta_i, \|\Delta_i\|_\infty < 1 \\
+  \Longleftrightarrow & |W_1 H_1| + |W_2 H_2| < \epsilon \quad \forall \omega
+\end{align*}
+
+Which is approximately the same as requiring
+\[ \left\| \begin{matrix} W_1 H_1 \\ W_2 H_2 \end{matrix} \right\|_\infty < \epsilon  \]
+
+
+*How small should we choose $\epsilon$?*
+
+The uncertainty set of the transfer function from $\hat{x}$ to $x$ is bounded in the complex plane by a circle centered on 1 and with a radius equal to $\epsilon$ (figure [[fig:uncertainty_gain_phase_variation]]).
+
+We then have that the angle introduced by the super sensor is bounded by $\arcsin(\epsilon)$:
+\[ \angle \frac{\hat{x}}{x} \le \arcsin (\epsilon) \quad \forall \omega \]
+
+#+name: fig:uncertainty_gain_phase_variation
+#+caption: Maximum phase variation
+[[file:figs/uncertainty_gain_phase_variation.png]]
+
+Thus, we choose should choose $\epsilon$ so that the maximum phase uncertainty introduced by the sensors is of an acceptable value.
+
+** Design the complementary filters in order to limit the phase and gain uncertainty of the super sensor
+Let's say the two sensors dynamics $H_1$ and $H_2$ have been identified with the associated uncertainty weights $W_1$ and $W_2$.
+
+If we want to have a maximum phase introduced by the sensors of 20 degrees, we have to design $H_1$ and $H_2$ such that:
+\begin{align*}
+                      & arcsin(|H_1 W_1| + |H_2 W_2|) < 20 \text{ deg} \\
+  \Longleftrightarrow & |H_1 W_1| + |H_2 W_2| < 0.34
+\end{align*}
+
+We can do that with the $\mathcal{H}_\infty$ synthesis by setting upper bounds on the complementary filters using weights that corresponds to the sensor dynamics uncertainty.
+
+For simplicity, let's suppose $W_1(s) = W_2(s) = 0.1$ ($10\%$ uncertainty in the sensor gain).
+\[ |H_1 W_1| + |H_2 W_2| < 3.4 \]
+
+Thus, by limiting the norm of the complementary filters, we can limit the maximum unwanted phase introduced by the uncertainty on the sensors dynamics.
+
+This is of primary importance in order to ensure the stability of the feedback loop using the super sensor signal.
+
+** First Basic Example with gain mismatch
+Let's consider two ideal sensors except one sensor has not an expected gain of one but a gain of $0.6$.
+#+begin_src matlab
+  G1 = 1;
+  G2 = 0.6;
+#+end_src
+
+Let's design two complementary filters as shown on figure [[fig:comp_filters_robustness_test]].
+The complementary filters shown in blue does not present a bump as the red ones but provides less sensor separation at high and low frequencies.
+
+#+begin_src matlab :exports none
+  w0 = 2*pi;
+  alpha = 2;
+
+  H1a = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+  H2a = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+
+  w0 = 2*pi;
+  alpha = 0.1;
+
+  H1b = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+  H2b = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+#+end_src
+
+#+begin_src matlab :exports none
+  freqs = logspace(-1, 1, 1000);
+
+  figure;
+  % Magnitude
+  ax1 = subaxis(2,1,1);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(H1a, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(H2a, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(H1b, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(H2b, freqs, 'Hz'))));
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  set(gca, 'XTickLabel',[]);
+  ylabel('Magnitude');
+  hold off;
+  % Phase
+  ax2 = subaxis(2,1,2);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(H1a, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(H2a, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(H1b, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(H2b, freqs, 'Hz'))));
+  set(gca,'xscale','log');
+  yticks(-180:90:180);
+  ylim([-180 180]);
+  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
+  hold off;
+  linkaxes([ax1,ax2],'x');
+  xlim([freqs(1), freqs(end)]);
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/comp_filters_robustness_test.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:comp_filters_robustness_test
+#+CAPTION: The two complementary filters designed for the robustness test ([[./figs/comp_filters_robustness_test.png][png]], [[./figs/comp_filters_robustness_test.pdf][pdf]])
+[[file:figs/comp_filters_robustness_test.png]]
+
+We then compute the bode plot of the super sensor transfer function $H_1*G_1 + H_2*G_2$ for both complementary filters pair (figure [[fig:tf_super_sensor_comp]]).
+
+We see that the blue complementary filters with a lower maximum norm permits to limit the phase lag introduced by the gain mismatch.
+
+#+begin_src matlab :exports none
+  freqs = logspace(-1, 1, 1000);
+
+  figure;
+  % Magnitude
+  ax1 = subaxis(2,1,1);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(H1a*G1 + H2a*G2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(H1b*G1 + H2b*G2, freqs, 'Hz'))));
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  set(gca, 'XTickLabel',[]);
+  ylabel('Magnitude');
+  ylim([1e-1, 1e1]);
+  hold off;
+  % Phase
+  ax2 = subaxis(2,1,2);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(H1a*G1 + H2a*G2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(H1b*G1 + H2b*G2, freqs, 'Hz'))));
+  set(gca,'xscale','log');
+  yticks(-180:90:180);
+  ylim([-180 180]);
+  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
+  hold off;
+  linkaxes([ax1,ax2],'x');
+  xlim([freqs(1), freqs(end)]);
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/tf_super_sensor_comp.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:tf_super_sensor_comp
+#+CAPTION: Comparison of the obtained super sensor transfer functions ([[./figs/tf_super_sensor_comp.png][png]], [[./figs/tf_super_sensor_comp.pdf][pdf]])
+[[file:figs/tf_super_sensor_comp.png]]
+
+** TODO More Complete example with model uncertainty
 * Complementary filters using analytical formula
   :PROPERTIES:
   :header-args:matlab+: :tangle matlab/comp_filters_analytical.m
@@ -180,6 +648,36 @@ The slope of those filters at high and low frequencies is $-2$ and $2$ respectiv
 #+NAME: fig:comp_filters_param_alpha
 #+CAPTION: Effect of the parameter $\alpha$ on the shape of the generated second order complementary filters ([[./figs/comp_filters_param_alpha.png][png]], [[./figs/comp_filters_param_alpha.pdf][pdf]])
 [[file:figs/comp_filters_param_alpha.png]]
+
+We know study the maximum norm of the filters function of the parameter $\alpha$. As we saw that the maximum norm of the filters is important for the robust merging of filters.
+#+begin_src matlab :exports none
+  alphas = logspace(-2, 2, 100);
+  w0 = 2*pi*1;
+  infnorms = zeros(size(alphas));
+
+  for i = 1:length(alphas)
+    alpha = alphas(i);
+    Hh2 = (s/w0)^2*((s/w0)+1+alpha)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+    Hl2 = ((1+alpha)*(s/w0)+1)/(((s/w0)+1)*((s/w0)^2 + alpha*(s/w0) + 1));
+    infnorms(i) = norm(Hh2, 'inf');
+  end
+#+end_src
+
+#+begin_src matlab
+  figure;
+  plot(alphas, infnorms)
+  set(gca, 'xscale', 'log'); set(gca, 'yscale', 'log');
+  xlabel('$\alpha$'); ylabel('$\|H_1\|_\infty$');
+#+end_src
+
+#+HEADER: :tangle no :exports results :results none :noweb yes
+#+begin_src matlab :var filepath="figs/param_alpha_hinf_norm.pdf" :var figsize="wide-normal" :post pdf2svg(file=*this*, ext="png")
+  <<plt-matlab>>
+#+end_src
+
+#+NAME: fig:param_alpha_hinf_norm
+#+CAPTION: Evolution of the H-Infinity norm of the complementary filters with the parameter $\alpha$ ([[./figs/param_alpha_hinf_norm.png][png]], [[./figs/param_alpha_hinf_norm.pdf][pdf]])
+[[file:figs/param_alpha_hinf_norm.png]]
 
 ** Third Order Complementary Filters
 The following formula gives complementary filters with slopes of $-3$ and $3$:
@@ -534,6 +1032,7 @@ We then compute the resulting low pass and high pass filters.
   :header-args:matlab+: :comments org :mkdirp yes
   :END:
   <<sec:three_comp_filters>>
+
 ** Introduction                                                      :ignore:
 ** ZIP file containing the data and matlab files                     :ignore:
 #+begin_src bash :exports none :results none
@@ -940,33 +1439,44 @@ Test bounds:      0.2899 <  gamma  <=      3.6841
 #+NAME: fig:ligo_analytical_formula_comp_filters
 #+CAPTION: Obtained complementary filters using the analytical formula ([[./figs/ligo_analytical_formula_comp_filters.png][png]], [[./figs/ligo_analytical_formula_comp_filters.pdf][pdf]])
 [[file:figs/ligo_analytical_formula_comp_filters.png]]
-* Optimal Sensor Fusion for noise characteristics
-  :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/optimal_comp_filters.m
-  :header-args:matlab+: :comments org :mkdirp yes
-  :END:
-  <<sec:optimal_comp_filters>>
+* Analytical Formula found in the literature
+  <<sec:analytical_formula_literature>>
 
-** Introduction                                                      :ignore:
-The idea is to combine sensors that works in different frequency range using complementary filters.
+** Analytical Formula
+cite:min15_compl_filter_desig_angle_estim
+\begin{align*}
+  H_L(s) = \frac{K_p s + K_i}{s^2 + K_p s + K_i} \\
+  H_H(s) = \frac{s^2}{s^2 + K_p s + K_i}
+\end{align*}
 
-Doing so, one "super sensor" is obtained that can have better noise characteristics than the individual sensors over a large frequency range.
+cite:corke04_inert_visual_sensin_system_small_auton_helic
+\begin{align*}
+  H_L(s) = \frac{1}{s/p + 1} \\
+  H_H(s) = \frac{s/p}{s/p + 1}
+\end{align*}
 
-The complementary filters have to be designed in order to minimize the effect noise of each sensor on the super sensor noise.
+cite:jensen13_basic_uas
+\begin{align*}
+  H_L(s) = \frac{2 \omega_0 s + \omega_0^2}{(s + \omega_0)^2} \\
+  H_H(s) = \frac{s^2}{(s + \omega_0)^2}
+\end{align*}
 
-** ZIP file containing the data and matlab files                     :ignore:
-#+begin_src bash :exports none :results none
-  if [ matlab/optimal_comp_filters.m -nt data/optimal_comp_filters.zip ]; then
-    cp matlab/optimal_comp_filters.m optimal_comp_filters.m;
-    zip data/optimal_comp_filters \
-        optimal_comp_filters.m
-    rm optimal_comp_filters.m;
-  fi
-#+end_src
+\begin{align*}
+  H_L(s) = \frac{C(s)}{C(s) + s} \\
+  H_H(s) = \frac{s}{C(s) + s}
+\end{align*}
 
-#+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/optimal_comp_filters.zip][here]].
-#+end_note
+cite:shaw90_bandw_enhan_posit_measur_using_measur_accel
+\begin{align*}
+  H_L(s) = \frac{3 \tau s + 1}{(\tau s + 1)^3} \\
+  H_H(s) = \frac{\tau^3 s^3 + 3 \tau^2 s^2}{(\tau s + 1)^3}
+\end{align*}
+
+cite:baerveldt97_low_cost_low_weigh_attit
+\begin{align*}
+  H_L(s) = \frac{2 \tau s + 1}{(\tau s + 1)^2} \\
+  H_H(s) = \frac{\tau^2 s^2}{(\tau s + 1)^2}
+\end{align*}
 
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
@@ -977,175 +1487,71 @@ The complementary filters have to be designed in order to minimize the effect no
   <<matlab-init>>
 #+end_src
 
+** Matlab
 #+begin_src matlab
-  freqs = logspace(-1, 3, 1000);
-#+end_src
+  omega0 = 1*2*pi; % [rad/s]
+  tau = 1/omega0; % [s]
 
-** Architecture
-Let's consider the sensor fusion architecture shown on figure [[fig:fusion_two_noisy_sensors_with_dyn]] where two sensors 1 and 2 are measuring the same quantity $x$ with different noise characteristics determined by $W_1$ and $W_2$.
+  % From cite:corke04_inert_visual_sensin_system_small_auton_helic
+  HL1 = 1/(s/omega0 + 1); HH1 = s/omega0/(s/omega0 + 1);
 
-$n_1$ and $n_2$ are white noise (constant power spectral density over all frequencies).
+  % From cite:jensen13_basic_uas
+  HL2 = (2*omega0*s + omega0^2)/(s+omega0)^2; HH2 = s^2/(s+omega0)^2;
 
-#+name: fig:fusion_two_noisy_sensors_with_dyn
-#+caption: Fusion of two sensors
-[[file:figs/fusion_two_noisy_sensors_with_dyn.png]]
-
-We consider that the two sensor dynamics $G_1$ and $G_2$ are ideal ($G_1 = G_2 = 1$). We obtain the architecture of figure [[fig:fusion_two_noisy_sensors]].
-
-#+name: fig:fusion_two_noisy_sensors
-#+caption: Fusion of two sensors with ideal dynamics
-[[file:figs/fusion_two_noisy_sensors.png]]
-
-$H_1$ and $H_2$ are complementary filters ($H_1 + H_2 = 1$). The goal is to design $H_1$ and $H_2$ such that the effect of the noise sources $n_1$ and $n_2$ has the smallest possible effect on the estimation $\hat{x}$.
-
-We have that the Power Spectral Density (PSD) of $\hat{x}$ is:
-\[ \Gamma_{\hat{x}} = |H_1 W_1|^2 \Gamma_{n_1} + |H_2 W_2|^2 \Gamma_{n_2} \]
-
-And the goal is the minimize the Root Mean Square (RMS) value of $\hat{x}$:
-\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty \Gamma_{\hat{x}}(\omega) d\omega} \]
-
-As $n_1$ and $n_2$ are white noise: $\Gamma_{n_1} = \Gamma_{n_2} = 1$ and we have:
-\[ \sigma_{\hat{x}} = \sqrt{\int_0^\infty |H_1 W_1|^2(\omega) + |H_2 W_2|^2(\omega) d\omega} = \left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2 \]
-
-Thus, the goal is to design $H_1$ and $H_2$ such that $H_1 + H_2 = 1$ and such that $\left\| \begin{matrix} H_1 W_1 \\ H_2 W_2 \end{matrix} \right\|_2$ is minimized.
-
-For that, we will use the $\mathcal{H}_2$ Synthesis.
-
-** Noise of the sensors
-Let's define the noise characteristics of the two sensors by choosing $W_1$ and $W_2$:
-- Sensor 1 characterized by $W_1$ has low noise at low frequency (for instance a geophone)
-- Sensor 2 characterized by $W_2$ has low noise at high frequency (for instance an accelerometer)
-
-#+begin_src matlab :exports none
-  omegac = 2*pi; G0 = 1e-2; Ginf = 1e-6;
-  W1 = ((sqrt(G0))/(s/omegac + 1))^2;
-
-  omegac = 100*2*pi; G0 = 1e-6; Ginf = 1e-2;
-  W2 = ((sqrt(Ginf)*s/omegac + sqrt(G0))/(s/omegac + 1))^2/(1 + s/2/pi/4000)^2;
-#+end_src
-
-#+begin_src matlab
-  omegac = 100*2*pi; G0 = 1e-5; Ginf = 1e-4;
-  W1 = (Ginf*s/omegac + G0)/(s/omegac + 1)/(1 + s/2/pi/4000);
-
-  omegac = 1*2*pi; G0 = 1e-3; Ginf = 1e-8;
-  W2 = ((sqrt(Ginf)*s/omegac + sqrt(G0))/(s/omegac + 1))^2/(1 + s/2/pi/4000)^2;
+  % From cite:shaw90_bandw_enhan_posit_measur_using_measur_accel
+  HL3 = (3*tau*s + 1)/(tau*s + 1)^3; HH3 = (tau^3*s^3 + 3*tau^2*s^2)/(tau*s + 1)^3;
 #+end_src
 
 #+begin_src matlab :exports none
+  freqs = logspace(-1, 1, 1000);
+
   figure;
+  % Magnitude
+  ax1 = subaxis(2,1,1);
   hold on;
-  plot(freqs, abs(squeeze(freqresp(W1, freqs, 'Hz'))), '-', 'DisplayName', '$W_1$');
-  plot(freqs, abs(squeeze(freqresp(W2, freqs, 'Hz'))), '-', 'DisplayName', '$W_2$');
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(HH1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, abs(squeeze(freqresp(HL1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(HH2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, abs(squeeze(freqresp(HL2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',3); plot(freqs, abs(squeeze(freqresp(HH3, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',3); plot(freqs, abs(squeeze(freqresp(HL3, freqs, 'Hz'))));
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  set(gca, 'XTickLabel',[]);
+  ylabel('Magnitude');
   hold off;
+  ylim([1e-2 2]);
+  % Phase
+  ax2 = subaxis(2,1,2);
+  hold on;
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(HH1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',1); plot(freqs, 180/pi*angle(squeeze(freqresp(HL1, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(HH2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',2); plot(freqs, 180/pi*angle(squeeze(freqresp(HL2, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',3); plot(freqs, 180/pi*angle(squeeze(freqresp(HH3, freqs, 'Hz'))));
+  set(gca,'ColorOrderIndex',3); plot(freqs, 180/pi*angle(squeeze(freqresp(HL3, freqs, 'Hz'))));
+  set(gca,'xscale','log');
+  yticks(-180:90:180);
+  ylim([-180 180]);
+  xlabel('Relative Frequency $\frac{\omega}{\omega_0}$'); ylabel('Phase [deg]');
+  hold off;
+  linkaxes([ax1,ax2],'x');
   xlim([freqs(1), freqs(end)]);
-  legend('location', 'northeast');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/nosie_characteristics_sensors.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
+#+begin_src matlab :var filepath="figs/comp_filters_literature.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
   <<plt-matlab>>
 #+end_src
 
-#+NAME: fig:nosie_characteristics_sensors
-#+CAPTION: Noise Characteristics of the two sensors ([[./figs/nosie_characteristics_sensors.png][png]], [[./figs/nosie_characteristics_sensors.pdf][pdf]])
-[[file:figs/nosie_characteristics_sensors.png]]
+#+NAME: fig:comp_filters_literature
+#+CAPTION: Comparison of some complementary filters found in the literature ([[./figs/comp_filters_literature.png][png]], [[./figs/comp_filters_literature.pdf][pdf]])
+[[file:figs/comp_filters_literature.png]]
 
-** H-Two Synthesis
-We use the generalized plant architecture shown on figure [[fig:h_infinity_optimal_comp_filters]].
+** Discussion
+Analytical Formula found in the literature provides either no parameter for tuning the robustness / performance trade-off.
 
-#+name: fig:h_infinity_optimal_comp_filters
-#+caption: $\mathcal{H}_2$ Synthesis - Generalized plant used for the optimal generation of complementary filters
-[[file:figs/h_infinity_optimal_comp_filters.png]]
-
-The transfer function from $[n_1, n_2]$ to $\hat{x}$ is:
-\[ \begin{bmatrix} W_1 H_1 \\ W_2 (1 - H_1) \end{bmatrix} \]
-If we define $H_2 = 1 - H_1$, we obtain:
-\[ \begin{bmatrix} W_1 H_1 \\ W_2 H_2 \end{bmatrix} \]
-
-Thus, if we minimize the $\mathcal{H}_2$ norm of this transfer function, we minimize the RMS value of $\hat{x}$.
-
-We define the generalized plant $P$ on matlab as shown on figure [[fig:h_infinity_optimal_comp_filters]].
-#+begin_src matlab
-  P = [0   W2  1;
-       W1 -W2  0];
-#+end_src
-
-And we do the $\mathcal{H}_2$ synthesis using the =h2syn= command.
-#+begin_src matlab
-  [H1, ~, gamma] = h2syn(P, 1, 1);
-#+end_src
-
-What is minimized is =norm([W1*H1,W2*H2], 2)=.
-
-Finally, we define $H_2 = 1 - H_1$.
-#+begin_src matlab
-  H2 = 1 - H1;
-#+end_src
-
-** Analysis
-The complementary filters obtained are shown on figure [[fig:htwo_comp_filters]]. The PSD of the [[fig:psd_sensors_htwo_synthesis]].
-Finally, the RMS value of $\hat{x}$ is shown on table [[tab:rms_results]].
-The optimal sensor fusion has permitted to reduced the RMS value of the estimation error by a factor 6 compare to when using only one sensor.
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(H1, freqs, 'Hz'))), '-', 'DisplayName', '$H_1$');
-  plot(freqs, abs(squeeze(freqresp(H2, freqs, 'Hz'))), '-', 'DisplayName', '$H_2$');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  legend('location', 'northeast');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/htwo_comp_filters.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:htwo_comp_filters
-#+CAPTION: Obtained complementary filters using the $\mathcal{H}_2$ Synthesis ([[./figs/htwo_comp_filters.png][png]], [[./figs/htwo_comp_filters.pdf][pdf]])
-[[file:figs/htwo_comp_filters.png]]
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  plot(freqs, abs(squeeze(freqresp(W1, freqs, 'Hz'))).^2, '-',  'DisplayName', '$|W_1|^2$');
-  plot(freqs, abs(squeeze(freqresp(W2, freqs, 'Hz'))).^2, '-',  'DisplayName', '$|W_2|^2$');
-  plot(freqs, abs(squeeze(freqresp(W1*H1, freqs, 'Hz'))).^2+abs(squeeze(freqresp(W2*H2, freqs, 'Hz'))).^2, 'k-', 'DisplayName', '$|W_1H_1|^2+|W_2H_2|^2$');
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  legend('location', 'northeast');
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/psd_sensors_htwo_synthesis.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:psd_sensors_htwo_synthesis
-#+CAPTION: Power Spectral Density of the estimated $\hat{x}$ using the two sensors alone and using the optimally fused signal ([[./figs/psd_sensors_htwo_synthesis.png][png]], [[./figs/psd_sensors_htwo_synthesis.pdf][pdf]])
-[[file:figs/psd_sensors_htwo_synthesis.png]]
-
-#+begin_src matlab :exports results :results value table replace :tangle no :post addhdr(*this*)
-  data2orgtable([norm([W1], 2);norm([W2], 2);norm([W1*H1 + W2*H2], 2)], {'Sensor 1', 'Sensor 2', 'Optimal Sensor Fusion'}, {'rms value'}, ' %.1e');
-#+end_src
-
-#+name: tab:rms_results
-#+caption: RMS value of the estimation error when using the sensor individually and when using the two sensor merged using the optimal complementary filters
-#+RESULTS:
-|                       | rms value |
-|-----------------------+-----------|
-| Sensor 1              |   1.1e-02 |
-| Sensor 2              |   1.3e-03 |
-| Optimal Sensor Fusion |   1.5e-04 |
 * Comparison of the different methods of synthesis
+  <<sec:discussion>>
 The generated complementary filters using $\mathcal{H}_\infty$ and the analytical formulas are very close to each other. However there is some difference to note here:
 - the analytical formula provides a very simple way to generate the complementary filters (and thus the controller), they could even be used to tune the controller online using the parameters $\alpha$ and $\omega_0$. However, these formula have the property that $|H_H|$ and $|H_L|$ are symmetrical with the frequency $\omega_0$ which may not be desirable.
 - while the $\mathcal{H}_\infty$ synthesis of the complementary filters is not as straightforward as using the analytical formula, it provides a more optimized procedure to obtain the complementary filters
