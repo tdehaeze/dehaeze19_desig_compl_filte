@@ -1476,7 +1476,7 @@ Here are the requirements on the filters:
 - to be as close as possible to the specified upper bounds
 - stable minimum phase
 
-The weights are shown below and their bode plot is shown on figure [[]]
+The bode plot of the weights is shown on figure [[fig:ligo_weights]].
 
 #+begin_src matlab :exports none
   w1 = 2*pi*0.008; x1 = 0.35;
@@ -1494,49 +1494,17 @@ The weights are shown below and their bode plot is shown on figure [[]]
   wH = wH*((s^2 + 2*w0*xi*A^(1/n)*s + w0^2)/(s^2 + 2*w0*xi*s + w0^2))^n;
 
   wH = 1/wH;
+  wH = minreal(ss(wH));
 #+end_src
-
-#+begin_src matlab :exports results :results output replace :wrap example
-  wH
-#+end_src
-
-#+RESULTS:
-#+begin_example
-wH
-
-wH =
-
-           0.32768 (s+0.3142) (s^2 + 0.3142s + 0.0987)^2 (s^2 + 0.05655s + 0.07994)
-  -------------------------------------------------------------------------------------------
-  (s+0.05027) (s^2 + 0.03519s + 0.002527) (s^2 + 0.2513s + 0.06317) (s^2 + 0.1131s + 0.07994)
-
-Continuous-time zero/pole/gain model.
-#+end_example
-
 
 #+begin_src matlab :exports none
-  w1 = 2*pi*0.090; x1 = 0.69; n = 10;
-  wL = (0.045*(s^2 + 2*x1*w1*s + w1^2)^n)/s^(2*n);
+  n = 20; Rp = 1; Wp = 2*pi*0.102;
+  [b,a] = cheby1(n, Rp, Wp, 'high', 's');
+  wL = 0.04*tf(a, b);
 
   wL = 1/wL;
+  wL = minreal(ss(wL));
 #+end_src
-
-#+begin_src matlab :exports results :results output replace :wrap example
-  wL
-#+end_src
-
-#+RESULTS:
-#+begin_example
-wL
-
-wL =
-
-          22.222 s^20
-  ---------------------------
-  (s^2 + 0.7804s + 0.3198)^10
-
-Continuous-time zero/pole/gain model.
-#+end_example
 
 #+begin_src matlab :exports none
   figure;
@@ -1573,80 +1541,6 @@ Continuous-time zero/pole/gain model.
 #+CAPTION: Weights for the $\mathcal{H}_\infty$ synthesis ([[./figs/ligo_weights.png][png]], [[./figs/ligo_weights.pdf][pdf]])
 [[file:figs/ligo_weights.png]]
 
-*** Old Weights                                                  :noexport:
-#+begin_src matlab
-  % wH = 130*(((s/2/pi/0.06)+1)^3)/((s/2/pi/0.008)+1)^3;
-  % wL = 10000*(((s/2/pi/0.6))^3)/((s/2/pi/0.06)+1)^3;
-  wH = 0.29*(s+0.4262)*(s^2 + 0.2664*s + 0.1455)/((s+0.04299)*(s^2 + 0.04249*s + 0.003472));
-  wH = (s+0.382)*(s^2 + 0.5227*s + 0.1127)*(s^2 + 0.1442*s + 0.1068)/(4.1123*(s+0.03679)*(s^2 + 0.03609*s + 0.003761)*(s^2 + 0.2645*s + 0.06304));
-  wH =(s+0.382)*(s^2 + 0.3947*s + 0.1045)*(s^2 + 0.0964*s + 0.1034)/(4.1649*(s+0.04441)*(s^2 + 0.02625*s + 0.002472)*(s^2 + 0.1067*s + 0.07173));
-  wH = (s+0.4177)*(s^2 + 0.3598*s + 0.09343)*(s^2 + 0.0964*s + 0.1034)/(3.6058*(s+0.04669)*(s^2 + 0.04128*s + 0.002617)*(s^2 + 0.1469*s + 0.07533));
-  wH = (s+0.3278)*(s^2 + 0.4229*s + 0.1041)*(s^2 + 0.0964*s + 0.1034)/(3.1517*(s+0.04669)*(s^2 + 0.04128*s + 0.002617)*(s^2 + 0.1469*s + 0.07533));
-
-  wL = 10*s^3/((s+0.6564)*(s^2 + 0.4507*s + 0.3412));
-  % wL = 361.5*s^3/((s+2.061)*(s^2 + 1.918*s + 4.398));
-  wL = 10*s^3/((s+0.6564)*(s^2 + 0.4507*s + 0.3412));
-  wL = 8.7119*s^4/((s^2 + 0.1311*s + 0.4168)*(s^2 + 1.285*s + 1.711));
-  wL = 10*s^4/((s^2 + 0.3097*s + 0.5118)*(s^2 + 0.5226*s + 0.8615));
-  wL = s^4/(0.10179*(s^2 + 1.529*s + 0.807)*(s^2 + 0.2834*s + 0.4085));
-  wL = s^6/(0.098821*(s^2 + 0.5532*s + 0.2624)*(s^2 + 1.529*s + 0.807)*(s^2 + 0.2834*s + 0.4085));
-  wL = s^8/(0.097585*(s^2 + 0.9708*s + 0.3387)*(s^2 + 1.423*s + 0.7164)*(s^2 + 0.5047*s + 0.3387)*(s^2 + 0.2574*s + 0.3816));
-#+end_src
-
-#+begin_src matlab
-  w1 = 2*pi*0.0075; x1 = 0.35;
-  w2 = 2*pi*0.04;  x2 = 0.5;
-  w3 = 2*pi*0.05;  x3 = 0.5;
-  wH = 0.008*(s^2/w1^2 + 2*x1/w1*s + 1)*(s/w1 + 1);
-  % wH = wH*(s^2/w2^2 + 2*x2/w2*s + 1)/(s^2/w3^2 + 2*x3/w3*s + 1);
-  wH = wH/(s^2/w3^2 + 2*x3/w3*s + 1)/(s/w3 + 1);
-
-  w1 = 2*pi*0.09; x1 = 0.6; n = 10;
-  wL = (0.1*(s^2 + 2*x1*w1*s + w1^2)^n)/s^(2*n);
-  w1 = 2*pi*0.09; x1 = 0.65; n = 10;
-  wL = (0.045*(s^2 + 2*x1*w1*s + w1^2)^n)/s^(2*n);
-
-  w2 = 2*pi*0.042; x2 = 0.16;
-  w3 = 2*pi*0.043; x3 = 0.16;
-  n = 4;
-  wll = (s^2/w2^2 + 2*x2/w2*s + 1)^n/(s^2/w3^2 + 2*x3/w3*s + 1)^n;
-  % w0 = 2*pi*0.04; A = 2; n = 8;
-  % wll = ((s^2 + 2*w0*A^(1/n)*s + w0^2)/(s^2 + 2*w0*s + w0^2))^n;
-
-  wH = wH*wll;
-
-  wH = 1/wH;
-  wL = 1/wL;
-#+end_src
-
-Alternative:
-#+begin_src matlab
-  w1 = 2*pi*0.008; x1 = 0.35;
-  w2 = 2*pi*0.04;  x2 = 0.5;
-  w3 = 2*pi*0.05;  x3 = 0.5;
-  wH = 0.008*(s^2/w1^2 + 2*x1/w1*s + 1)*(s/w1 + 1);
-  wH = wH*(s^2/w2^2 + 2*x2/w2*s + 1)/(s^2/w3^2 + 2*x3/w3*s + 1);
-  wH = wH/(s^2/w3^2 + 2*x3/w3*s + 1)/(s/w3 + 1);
-
-  w1 = 2*pi*0.09; x1 = 0.6; n = 10;
-  wL = (0.1*(s^2 + 2*x1*w1*s + w1^2)^n)/s^(2*n);
-  w1 = 2*pi*0.09; x1 = 0.65; n = 10;
-  wL = (0.045*(s^2 + 2*x1*w1*s + w1^2)^n)/s^(2*n);
-
-  % w2 = 2*pi*0.042; x2 = 0.16;
-  % w3 = 2*pi*0.043; x3 = 0.16;
-  % n = 4;
-  % wll = (s^2/w2^2 + 2*x2/w2*s + 1)^n/(s^2/w3^2 + 2*x3/w3*s + 1)^n;
-  % w0 = 2*pi*0.04; A = 2; n = 8;
-  % wll = ((s^2 + 2*w0*A^(1/n)*s + w0^2)/(s^2 + 2*w0*s + w0^2))^n;
-
-  % wH = wH*wll;
-
-  wH = 1/wH;
-  wL = 1/wL;
-#+end_src
-
-
 ** H-Infinity Synthesis
 We define the generalized plant as shown on figure [[fig:sf_hinf_filters_plant_b]].
 #+begin_src matlab
@@ -1665,23 +1559,23 @@ And we do the $\mathcal{H}_\infty$ synthesis using the =hinfsyn= command.
 [Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
-Test bounds:      0.3276 <  gamma  <=      1.6807
+Test bounds:      0.3276 <  gamma  <=      1.8063
 
   gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
-    1.681   2.8e-02 -4.6e-19   1.8e-02   -2.8e-18    0.0000    p
-    1.004   2.8e-02 -1.4e-18   1.8e-02   -6.6e-12    0.0000    p
-    0.666   2.8e-02 -3.0e-01#  1.8e-02   -1.7e-11    0.0000    f
-    0.835   2.8e-02 -1.3e+00#  1.8e-02   -1.3e-17    0.0000    f
-    0.920   2.8e-02 -4.0e+00#  1.8e-02   -2.6e-18    0.0000    f
-    0.962   2.8e-02 -1.7e+01#  1.8e-02   -4.2e-12    0.0000    f
-    0.983   2.8e-02   9.0e-19   1.8e-02   -3.4e-11    0.0000    p
-    0.972   2.8e-02 -6.5e+01#  1.8e-02   -8.7e-18    0.0000    f
-    0.978   2.8e-02 -7.4e-18   1.8e-02   -1.3e-17    0.0000    p
-    0.975   2.8e-02 -2.1e+02#  1.8e-02   -1.9e-11    0.0000    f
-    0.976   2.8e-02 -3.9e-16   1.8e-02   -6.4e-18    0.0000    p
-    0.976   2.8e-02 -4.4e+02#  1.8e-02    0.0e+00    0.0000    f
+    1.806   1.4e-02 -1.7e-16   3.6e-03   -4.8e-12    0.0000    p
+    1.067   1.3e-02 -4.2e-14   3.6e-03   -1.9e-12    0.0000    p
+    0.697   1.3e-02 -3.0e-01#  3.6e-03   -3.5e-11    0.0000    f
+    0.882   1.3e-02 -9.5e-01#  3.6e-03   -1.2e-34    0.0000    f
+    0.975   1.3e-02 -2.7e+00#  3.6e-03   -1.6e-12    0.0000    f
+    1.021   1.3e-02 -8.7e+00#  3.6e-03   -4.5e-16    0.0000    f
+    1.044   1.3e-02 -6.5e-14   3.6e-03   -3.0e-15    0.0000    p
+    1.032   1.3e-02 -1.8e+01#  3.6e-03    0.0e+00    0.0000    f
+    1.038   1.3e-02 -3.8e+01#  3.6e-03    0.0e+00    0.0000    f
+    1.041   1.3e-02 -8.3e+01#  3.6e-03   -2.9e-33    0.0000    f
+    1.042   1.3e-02 -1.9e+02#  3.6e-03   -3.4e-11    0.0000    f
+    1.043   1.3e-02 -5.3e+02#  3.6e-03   -7.5e-13    0.0000    f
 
- Gamma value achieved:     0.9764
+ Gamma value achieved:     1.0439
 #+end_example
 
 The high pass filter is defined as $H_H = 1 - H_L$.
@@ -1698,8 +1592,8 @@ The size of the filters is shown below.
 #+RESULTS:
 #+begin_example
 size(Hh), size(Hl)
-State-space model with 1 outputs, 1 inputs, and 27 states.
-State-space model with 1 outputs, 1 inputs, and 27 states.
+State-space model with 1 outputs, 1 inputs, and 34 states.
+State-space model with 1 outputs, 1 inputs, and 34 states.
 #+end_example
 
 The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_ligo_results]].
@@ -1773,48 +1667,6 @@ Let's now compare the FIR filters designed in cite:hua05_low_ligo and the one ob
 #+CAPTION: Comparison between the FIR filters developped for LIGO and the $\mathcal{H}_\infty$ complementary filters ([[./figs/comp_fir_ligo_hinf.png][png]], [[./figs/comp_fir_ligo_hinf.pdf][pdf]])
 [[file:figs/comp_fir_ligo_hinf.png]]
 
-** Using Analytical Formula                                       :noexport:
-#+begin_src matlab
-  alpha = 0.5;
-  beta = 5;
-  w0 = 2*pi*0.045;
-
-  Hh_ana = (s/w0)^3 * ((s/w0)^2 + (1+alpha+beta)*(s/w0) + (1+(alpha+1)*(beta+1)))/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-  Hl_ana = ((1+(alpha+1)*(beta+1))*(s/w0)^2 + (1+alpha+beta)*(s/w0) + 1)/((s/w0 + 1)*((s/w0)^2+alpha*(s/w0)+1)*((s/w0)^2+beta*(s/w0)+1));
-#+end_src
-
-#+begin_src matlab :exports none
-  figure;
-  hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hh_ana, freqs, 'Hz'))), '-');
-  set(gca,'ColorOrderIndex',1)
-  plot([0.0001, 0.008], [8e-3, 8e-3], ':');
-  set(gca,'ColorOrderIndex',1)
-  plot([0.008 0.04], [8e-3, 1], ':');
-  set(gca,'ColorOrderIndex',1)
-  plot([0.04 0.1], [3, 3], ':');
-
-  set(gca,'ColorOrderIndex',2)
-  plot([0.1, 10], [0.1, 0.1], ':');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hl_ana, freqs, 'Hz'))), '-');
-
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
-  hold off;
-  xlim([freqs(1), freqs(end)]);
-  ylim([1e-4, 10]);
-#+end_src
-
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/ligo_analytical_formula_comp_filters.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:ligo_analytical_formula_comp_filters
-#+CAPTION: Obtained complementary filters using the analytical formula ([[./figs/ligo_analytical_formula_comp_filters.png][png]], [[./figs/ligo_analytical_formula_comp_filters.pdf][pdf]])
-[[file:figs/ligo_analytical_formula_comp_filters.png]]
 * Analytical Formula found in the literature
   <<sec:analytical_formula_literature>>
 
