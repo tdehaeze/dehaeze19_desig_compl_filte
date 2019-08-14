@@ -1,12 +1,14 @@
 #+TITLE: On the Design of Complementary Filters for Control - Tikz Figures
 :DRAWER:
+#+HTML_LINK_HOME: ../index.html
+#+HTML_LINK_UP: ../index.html
+
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
 #+HTML_HEAD: <script src="../js/jquery.min.js"></script>
 #+HTML_HEAD: <script src="../js/bootstrap.min.js"></script>
 #+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script src="../js/readtheorg.js"></script>
-
 #+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
 #+PROPERTY: header-args:latex+ :imagemagick t :fit yes
 #+PROPERTY: header-args:latex+ :iminoptions -scale 100% -density 150
@@ -388,3 +390,39 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 #+caption: Generation of Complementary Filters using the feedback architecture ([[./figs/complementary_filters_feedback_architecture.png][png]], [[./figs/complementary_filters_feedback_architecture.pdf][pdf]], [[./figs/complementary_filters_feedback_architecture.tex][tex]]).
 #+RESULTS:
 [[file:figs/complementary_filters_feedback_architecture.png]]
+* H-Infinity Synthesis for Robust Sensor Fusion
+The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_robust_fusion.png][png]], [[./figs/h_infinity_robust_fusion.pdf][pdf]] and [[./figs/h_infinity_robust_fusion.tex][tex]].
+
+#+begin_src latex :file h_infinity_robust_fusion.pdf :tangle figs/h_infinity_robust_fusion.tex :exports both
+  <<tikz_default>>
+  \begin{tikzpicture}
+     \node[block={4.0cm}{3.0cm}, dashed] (P) {};
+     \node[above] at (P.north) {$P$};
+
+     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
+
+     \coordinate[] (outputh) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
+
+     \node[block, left=2*\cdist of outputl] (W1){$w_1$};
+     \node[block, left=2*\cdist of outputh] (W2){$w_2$};
+     \node[addb={+}{}{}{}{-}, left=of W2] (sub) {};
+
+     \node[block, below=\cdist of P] (H1) {$H_1$};
+
+     \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
+     \draw[->] (H1.west) -| ($(inputu)+(0.5*\cdist, 0)$) -- (W1.west);
+     \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
+     \draw[->] (sub.east) -- (W2.west);
+     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) |- (H1.east);
+     \draw[->] (W2.east) -- (outputh)node[above left]{$z_2$};
+     \draw[->] (W1.east) -- (outputl)node[above left]{$z_1$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:h_infinity_robust_fusion
+#+caption: H-Infinity Synthesis for Robust Sensor Fusion ([[./figs/h_infinity_robust_fusion.png][png]], [[./figs/h_infinity_robust_fusion.pdf][pdf]], [[./figs/h_infinity_robust_fusion.tex][tex]]).
+#+RESULTS:
+[[file:figs/h_infinity_robust_fusion.png]]
