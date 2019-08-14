@@ -1583,6 +1583,11 @@ The high pass filter is defined as $H_H = 1 - H_L$.
   Hh = 1 - Hl;
 #+end_src
 
+#+begin_src matlab :exports none
+  Hh = minreal(Hh);
+  Hl = minreal(Hl);
+#+end_src
+
 The size of the filters is shown below.
 
 #+begin_src matlab :exports results :results output replace :wrap example
@@ -1592,8 +1597,8 @@ The size of the filters is shown below.
 #+RESULTS:
 #+begin_example
 size(Hh), size(Hl)
-State-space model with 1 outputs, 1 inputs, and 34 states.
-State-space model with 1 outputs, 1 inputs, and 34 states.
+State-space model with 1 outputs, 1 inputs, and 27 states.
+State-space model with 1 outputs, 1 inputs, and 27 states.
 #+end_example
 
 The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_ligo_results]].
