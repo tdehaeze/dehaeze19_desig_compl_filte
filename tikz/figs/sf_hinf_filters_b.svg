@@ -50,7 +50,7 @@
 </clipPath>
 </defs>
 <g id="surface1">
-<path style="fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;stroke-width:0.99628;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-dasharray:2.98883,2.98883;stroke-miterlimit:10;" d="M -56.693302 -42.520279 L 56.6926 -42.520279 L 56.6926 42.52013 L -56.693302 42.52013 Z M -56.693302 -42.520279 " transform="matrix(0.994013,0,0,-0.994013,77.564802,57.453051)"/>
+<path style="fill-rule:nonzero;fill:rgb(79.998779%,79.998779%,79.998779%);fill-opacity:1;stroke-width:0.99628;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-dasharray:2.98883,2.98883;stroke-miterlimit:10;" d="M -56.693302 -42.520279 L 56.6926 -42.520279 L 56.6926 42.52013 L -56.693302 42.52013 Z M -56.693302 -42.520279 " transform="matrix(0.994013,0,0,-0.994013,77.564802,57.453051)"/>
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph0-1" x="73.698092" y="10.896476"/>
 </g>

@@ -272,6 +272,14 @@ Maybe use =isosceles= instead of regular polygon?
 #+end_src
 
 * Plots
+** Default line caps
+#+begin_src latex
+  \pgfplotsset{
+    every axis plot/.append style={line join=round},
+    every axis plot/.append style={line cap=round},
+  }
+#+end_src
+
 ** Grid
 #+begin_src latex
   \pgfplotsset{grid style={black}}
@@ -346,8 +354,8 @@ Used to align all of ylabel of one figure.
 
 ** Upper and Lower bounds
 #+begin_src latex
-  \tikzstyle{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
-  \tikzstyle{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
+  \pgfplotsset{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
+  \pgfplotsset{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
 #+end_src
 
 And we add the corresdonding
@@ -367,7 +375,7 @@ And we add the corresdonding
 
 ** Pole
 #+begin_src latex
-  \tikzset{%
+  \pgfplotsset{%
     pole/.style{%
       color=red,
       cross out,

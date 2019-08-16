@@ -56,7 +56,7 @@
 </clipPath>
 </defs>
 <g id="surface1">
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 21.210938 99.675781 L 133.917969 99.675781 L 133.917969 15.144531 L 21.210938 15.144531 Z M 21.210938 99.675781 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(79.998779%,79.998779%,79.998779%);fill-opacity:1;" d="M 21.210938 99.675781 L 133.917969 99.675781 L 133.917969 15.144531 L 21.210938 15.144531 Z M 21.210938 99.675781 "/>
 <g clip-path="url(#clip1)" clip-rule="nonzero">
 <path style="fill:none;stroke-width:0.99628;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-dasharray:2.98883,2.98883;stroke-miterlimit:10;" d="M -56.693302 -42.520043 L 56.6926 -42.520043 L 56.6926 42.520366 L -56.693302 42.520366 Z M -56.693302 -42.520043 " transform="matrix(0.994013,0,0,-0.994013,77.564802,57.410317)"/>
 </g>

@@ -211,6 +211,11 @@
   addb/.default={+}{}{}{}{},
 }
 
+\pgfplotsset{
+  every axis plot/.append style={line join=round},
+  every axis plot/.append style={line cap=round},
+}
+
 \pgfplotsset{grid style={black}}
 \pgfplotsset{major grid style={black!30!white}}
 \pgfplotsset{minor grid style={black!10!white}}
@@ -263,8 +268,8 @@
   every legend to name picture/.style={west}
 }
 
-\tikzstyle{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
-\tikzstyle{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
+\pgfplotsset{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
+\pgfplotsset{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
 
 \pgfplotsset{
   /pgfplots/upperbound/.style 1 args={
@@ -278,7 +283,7 @@
   }
 }
 
-\tikzset{%
+\pgfplotsset{%
   pole/.style{%
     color=red,
     cross out,
