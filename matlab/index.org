@@ -101,27 +101,44 @@ We then see that $w_L$ and $w_H$ can be used to shape both $H_L$ and $H_H$ while
 
 ** Weights
 
+#+name: fig:weight_formula
+#+caption: Amplitude of the proposed formula for the weighting functions
+[[file:figs/weigth_formula.png]]
+
+\begin{equation}
+  W(s) = G_c * \left(\frac{\frac{1}{\omega_0}\sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}}{\frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{\left(\frac{G_\infty}{G_c}\right)^{\frac{2}{n}} - 1}} s + 1}\right)^n
+\end{equation}
+
 #+begin_src matlab
-  omegab = 2*pi*9;
-  wH = (omegab)^2/(s + omegab*sqrt(1e-5))^2;
-  omegab = 2*pi*28;
-  wL = (s + omegab/(4.5)^(1/3))^3/(s*(1e-4)^(1/3) + omegab)^3;
+  n = 2; w0 = 2*pi*11; G0 = 1/10; G1 = 1000; Gc = 1/2;
+  wL = Gc*(((G1/Gc)^(1/n)/w0*sqrt((1-(G0/Gc)^(2/n))/((G1/Gc)^(2/n)-1))*s + (G0/Gc)^(1/n))/(1/w0*sqrt((1-(G0/Gc)^(2/n))/((G1/Gc)^(2/n)-1))*s + 1))^n;
+
+  n = 3; w0 = 2*pi*10; G0 = 1000; G1 = 0.1; Gc = 1/2;
+  wH = Gc*(((G1/Gc)^(1/n)/w0*sqrt((1-(G0/Gc)^(2/n))/((G1/Gc)^(2/n)-1))*s + (G0/Gc)^(1/n))/(1/w0*sqrt((1-(G0/Gc)^(2/n))/((G1/Gc)^(2/n)-1))*s + 1))^n;
 #+end_src
 
 #+begin_src matlab :exports none
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '-', 'DisplayName', '$w_L$');
+  plot(freqs, 1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), '--', 'DisplayName', '$|w_L|^{-1}$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '-', 'DisplayName', '$w_H$');
+  plot(freqs, 1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), '--', 'DisplayName', '$|w_H|^{-1}$');
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
   xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
+  ylim([5e-4, 20]);
   xticks([0.1, 1, 10, 100, 1000]);
   legend('location', 'northeast');
+#+end_src
+
+#+begin_src matlab :exports none :results none
+  T = table(freqs', ...
+            1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), ...
+            1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), ...
+            'VariableNames', {'freqs', 'wH', 'wL'});
+  writetable(T, 'mat/hinf_weights.csv');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
@@ -149,26 +166,29 @@ And we do the $\mathcal{H}_\infty$ synthesis using the =hinfsyn= command.
 #+RESULTS:
 #+begin_example
 [Hl_hinf, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
-Test bounds:      0.0000 <  gamma  <=      1.7285
+Resetting value of Gamma min based on D_11, D_12, D_21 terms
+
+Test bounds:      0.1000 <  gamma  <=      1.7834
 
   gamma    hamx_eig  xinf_eig  hamy_eig   yinf_eig   nrho_xy   p/f
-    1.729   4.1e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
-    0.864   3.9e+01 -5.8e-02#  1.8e-01    0.0e+00    0.0000    f
-    1.296   4.0e+01   8.4e-12   1.8e-01    0.0e+00    0.0000    p
-    1.080   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.972   3.9e+01 -4.2e-01#  1.8e-01    0.0e+00    0.0000    f
-    1.026   4.0e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.999   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.986   3.9e+01 -1.2e+00#  1.8e-01    0.0e+00    0.0000    f
-    0.993   3.9e+01 -8.2e+00#  1.8e-01    0.0e+00    0.0000    f
-    0.996   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.994   3.9e+01   8.5e-12   1.8e-01    0.0e+00    0.0000    p
-    0.993   3.9e+01 -3.2e+01#  1.8e-01    0.0e+00    0.0000    f
+    1.783   2.7e+01   3.5e-10   4.1e+00    0.0e+00    0.0000    p
+    0.942   2.6e+01 -3.9e-01#  4.1e+00    0.0e+00    0.0000    f
+    1.363   2.7e+01   3.6e-10   4.1e+00    0.0e+00    0.0000    p
+    1.152   2.7e+01   3.6e-10   4.1e+00   -5.9e-09    0.0000    p
+    1.047   2.6e+01   3.6e-10   4.1e+00    0.0e+00    0.0000    p
+    0.994   2.6e+01 -3.0e+00#  4.1e+00    0.0e+00    0.0000    f
+    1.021   2.6e+01   3.6e-10   4.1e+00    0.0e+00    0.0000    p
+    1.007   2.6e+01   3.6e-10   4.1e+00   -2.4e-39    0.0000    p
+    1.001   2.6e+01 -1.1e+01#  4.1e+00    0.0e+00    0.0000    f
+    1.004   2.6e+01   3.6e-10   4.1e+00    0.0e+00    0.0000    p
+    1.003   2.6e+01 -3.1e+01#  4.1e+00    0.0e+00    0.0000    f
+    1.003   2.6e+01 -4.5e+02#  4.1e+00    0.0e+00    0.0000    f
 
- Gamma value achieved:     0.9942
+ Gamma value achieved:     1.0042
 #+end_example
 
 We then define the high pass filter $H_H = 1 - H_L$. The bode plot of both $H_L$ and $H_H$ is shown on figure [[fig:hinf_filters_results]].
+
 #+begin_src matlab
   Hh_hinf = 1 - Hl_hinf;
 #+end_src
@@ -193,9 +213,17 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
   xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
+  ylim([5e-4, 20]);
   xticks([0.1, 1, 10, 100, 1000]);
   legend('location', 'northeast');
+#+end_src
+
+#+begin_src matlab :exports none :results none
+  T = table(freqs', ...
+            abs(squeeze(freqresp(Hh_hinf, freqs, 'Hz'))), ...
+            abs(squeeze(freqresp(Hl_hinf, freqs, 'Hz'))), ...
+            'VariableNames', {'freqs', 'Hh', 'Hl'});
+  writetable(T, 'mat/hinf_filters_results.csv');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
@@ -278,11 +306,11 @@ First we define the weights.
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '${w_1}^{-1}$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
+  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '${w_2}^{-1}$');
   set(gca,'ColorOrderIndex',3)
-  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '${w_3}^{-1}$');
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
@@ -351,11 +379,11 @@ The obtained filters are:
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1)
-  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
+  plot(freqs, 1./abs(squeeze(freqresp(w1, freqs, 'Hz'))), '--', 'DisplayName', '${w_1}^{-1}$');
   set(gca,'ColorOrderIndex',2)
-  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '$w_2$');
+  plot(freqs, 1./abs(squeeze(freqresp(w2, freqs, 'Hz'))), '--', 'DisplayName', '${w_2}^{-1}$');
   set(gca,'ColorOrderIndex',3)
-  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '$w_3$');
+  plot(freqs, 1./abs(squeeze(freqresp(w3, freqs, 'Hz'))), '--', 'DisplayName', '${w_3}^{-1}$');
   set(gca,'ColorOrderIndex',1)
   plot(freqs, abs(squeeze(freqresp(H1, freqs, 'Hz'))), '-', 'DisplayName', '$H_1$');
   set(gca,'ColorOrderIndex',2)
@@ -441,7 +469,7 @@ The specifications are translated in upper bounds of the complementary filters a
   set(gca,'ColorOrderIndex',1)
   plot([0.04 0.1], [3, 3], ':', 'HandleVisibility', 'off');
   set(gca,'ColorOrderIndex',2)
-  plot([0.1, 10], [0.1, 0.1], ':', 'DisplayName', 'Spec. on $H_L$');
+  plot([0.1, 10], [0.045, 0.045], ':', 'DisplayName', 'Spec. on $H_L$');
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
@@ -527,10 +555,6 @@ We run the convex optimization.
 #+RESULTS:
 #+begin_example
 cvx_begin
-[Warning: A non-empty cvx problem already exists in this scope.
-   It is being overwritten.]
-[> In cvxprob (line 28)
-  In cvx_begin (line 41)]
 variable y(n+1,1)
 % t
 maximize(-y(1))
@@ -591,12 +615,12 @@ nnz(A) = 1100727 + 0, nnz(ADA) = 1364794, nnz(L) = 683190
  32 :  -4.33E-02 1.43E-08 0.000 0.1772 0.9059 0.9000   1.00  2  2  8.8E-09
 
 iter seconds digits       c*x               b*y
- 32     46.6   6.8 -4.3334083581e-02 -4.3334090214e-02
+ 32     38.0   6.8 -4.3334083581e-02 -4.3334090214e-02
 |Ax-b| =   3.7e-09, [Ay-c]_+ =   1.1E-10, |x|=  1.0e+00, |y|=  2.6e+00
 
 Detailed timing (sec)
    Pre          IPM          Post
-3.281E+00    4.295E+01    1.497E-02
+2.870E+00    3.493E+01    1.936E-02
 Max-norms: ||b||=1, ||c|| = 3,
 Cholesky |add|=0, |skip| = 0, ||L.L|| = 4.26267.
 ------------------------------------------------------------
@@ -627,8 +651,8 @@ Finally, we compute the filter response over the frequency vector defined and th
 
   ax2 = subplot(2,1,2);
   hold on;
-  plot(w,unwrap(angle(H)).*180/pi, 'k-');
-  plot(w,unwrap(angle(1-H))*180/pi, 'k--');
+  plot(w, unwrap(180/pi*angle(H)), 'k-');
+  plot(w, unwrap(180/pi*angle(1-H)), 'k--');
   hold off;
   xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
   set(gca, 'XScale', 'log');
@@ -689,19 +713,19 @@ The bode plot of the weights is shown on figure [[fig:ligo_weights]].
 #+begin_src matlab :exports none
   figure;
   hold on;
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.0001, 0.008], [8e-3, 8e-3], ':', 'DisplayName', 'Spec. on $H_H$');
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.008 0.04], [8e-3, 1], ':', 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.04 0.1], [3, 3], ':', 'HandleVisibility', 'off');
 
-  set(gca,'ColorOrderIndex',2)
+  set(gca,'ColorOrderIndex',2);
   plot([0.1, 10], [0.045, 0.045], ':', 'DisplayName', 'Spec. on $H_L$');
 
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot(freqs, abs(squeeze(freqresp(inv(wH), freqs, 'Hz'))), '--', 'DisplayName', '$|w_H|^{-1}$');
-  set(gca,'ColorOrderIndex',2)
+  set(gca,'ColorOrderIndex',2);
   plot(freqs, abs(squeeze(freqresp(inv(wL), freqs, 'Hz'))), '--', 'DisplayName', '$|w_L|^{-1}$');
 
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
@@ -786,19 +810,19 @@ The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_li
 #+begin_src matlab :exports none
   figure;
   hold on;
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.0001, 0.008], [8e-3, 8e-3], ':', 'DisplayName', 'Spec. on $H_H$');
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.008 0.04], [8e-3, 1], ':', 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot([0.04 0.1], [3, 3], ':', 'HandleVisibility', 'off');
 
-  set(gca,'ColorOrderIndex',2)
+  set(gca,'ColorOrderIndex',2);
   plot([0.1, 10], [0.045, 0.045], ':', 'DisplayName', 'Spec. on $H_L$');
 
-  set(gca,'ColorOrderIndex',1)
+  set(gca,'ColorOrderIndex',1);
   plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$');
-  set(gca,'ColorOrderIndex',2)
+  set(gca,'ColorOrderIndex',2);
   plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$');
 
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
@@ -823,24 +847,61 @@ Let's now compare the FIR filters designed in cite:hua05_low_ligo and the one ob
 
 #+begin_src matlab :exports none
   figure;
+  ax1 = subplot(2,1,1);
   hold on;
-  set(gca,'ColorOrderIndex',1)
-  plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$\mathcal{H}_\infty$ filters');
-  set(gca,'ColorOrderIndex',2)
-  plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'HandleVisibility', 'off');
+  set(gca,'ColorOrderIndex',1);
+  plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-');
+  set(gca,'ColorOrderIndex',2);
+  plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-');
 
-  set(gca,'ColorOrderIndex',1)
-  plot(w, abs(H), '--', 'DisplayName', 'FIR filters')
-  set(gca,'ColorOrderIndex',2)
-  plot(w, abs(1-H), '--', 'HandleVisibility', 'off')
-
-  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  xlabel('Frequency [Hz]'); ylabel('Magnitude');
+  set(gca,'ColorOrderIndex',1);
+  plot(w, abs(H), '--');
+  set(gca,'ColorOrderIndex',2);
+  plot(w, abs(1-H), '--');
   hold off;
-  xlim([freqs(1), freqs(end)]);
+  set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+  ylabel('Magnitude');
+  set(gca, 'XTickLabel',[]);
   ylim([1e-3, 10]);
 
+  ax2 = subplot(2,1,2);
+  hold on;
+  set(gca,'ColorOrderIndex',1);
+  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$\mathcal{H}_\infty$ filters');
+  set(gca,'ColorOrderIndex',2);
+  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'HandleVisibility', 'off');
+
+  set(gca,'ColorOrderIndex',1);
+  plot(w, 180/pi*angle(H), '--', 'DisplayName', 'FIR filters');
+  set(gca,'ColorOrderIndex',2);
+  plot(w, 180/pi*angle(1-H), '--', 'HandleVisibility', 'off');
+  set(gca, 'XScale', 'log');
+  xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
+  hold off;
+  yticks([-540:90:360]);
   legend('location', 'northeast');
+
+  linkaxes([ax1,ax2],'x');
+  xlim([freqs(1), freqs(end)]);
+  xticks([0.001, 0.01, 0.1, 1]);
+#+end_src
+
+#+begin_src matlab :exports none :results none
+  T = table(freqs', ...
+            abs(squeeze(freqresp(Hh, freqs, 'Hz'))), ...
+            abs(squeeze(freqresp(Hl, freqs, 'Hz'))), ...
+            180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), ...
+            180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), ...
+            'VariableNames', {'freqs', 'Hlm', 'Hhm', 'Hlp', 'Hhp'});
+  writetable(T, 'mat/comp_ligo_fir.csv');
+
+  T = table(w', ...
+            abs(H), ...
+            abs(1-H), ...
+            180/pi*angle(H), ...
+            180/pi*angle(1-H), ...
+            'VariableNames', {'freqs', 'Hlm', 'Hhm', 'Hlp', 'Hhp'});
+  writetable(T, 'mat/comp_ligo_hinf.csv');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
