@@ -267,33 +267,85 @@ Using this synthesis method, we are then able to shape at the same time the high
 ** Choice of the weighting functions
 <<sec:hinf_weighting_func>>
 
-We here give some advice on the choice of the weighting functions used for the synthesis of the complementary filters.
+We here give some advice on the design of the weighting functions used for the synthesis of the complementary filters using the $\mathcal{H}_\infty$ method.
 
-The shape should be such that the performance requirements are met as explain in Sec. ref:sec:trans_perf.
+The weighting functions should be such that the performance requirements are met as explain in Sec. ref:sec:trans_perf.
 
 However, one should be careful when designing the complementary filters, and should only use stable and minimum phase transfer functions.
 The order of the weights should stay reasonably small as this will increase the complexity of the optimization problem.
 
-One should not forget the fundamental limitations of feedback control such that $S + T = 1$.
-Similarly, we here have that $H_L + H_H = 1$ which implies that $H_L$ and $H_H$ cannot be made small at the same time.
+Moreover, the order of the complementary filters will be equal to the sum of the order of the weighting functions used.
 
+One should not forget the fundamental limitations imposed by the synthesis: $H_L(s) + H_H(s) = 1$.
+This implies that $H_L$ and $H_H$ cannot be made small at the same time.
+
+
+We here propose a formula for the design of the weighting function eqref:eq:weight_formula.
+
+#+name: eq:weight_formula
 \begin{equation}
-  W(s) = G_c * \left(\frac{\frac{1}{\omega_0}\sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}}{\frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{\left(\frac{G_\infty}{G_c}\right)^{\frac{2}{n}} - 1}} s + 1}\right)^n
+  W(s) = \left(\frac{
+           \hfill \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
+         }{
+           \left(\frac{1}{G_\infty}\right)^{\frac{1}{n}} \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{1}{G_c}\right)^{\frac{1}{n}}
+         }}\right)^n
 \end{equation}
+with:
+- $G_0$ is the absolute gain at low frequency
+- $G_\infty$ is the absolute gain at high frequency
+- $\omega_0$ and $G_c$ define the absolute value of the filter at $\omega = \omega_0$: $|W(j\omega_0)| = G_c$
+- $n$ is the absolute slope of the filter, it is also equal to the order of the filter
+
+The constrains are that $G_0 < 1 < G_\infty$ and $G_0 < G_c < G_\infty$ or that $G_\infty < 1 < G_0$ and $G_\infty < G_c < G_0$.
+
+The shape of the weight generated using the formula is shown on figure ref:fig:weight_formula.
 
 #+name: fig:weight_formula
-#+caption: Amplitude of the proposed formula for the weighting functions
+#+caption: Amplitude of the proposed formula for the weighting functions, $G_0 = 1e^{-3}$, $G_\infty = 10$, $\omega_c = \SI{10}{Hz}$, $G_c = 2$, $n = 3$
 #+attr_latex: :scale 1
 [[file:figs/weight_formula.pdf]]
 
 ** Example
 <<sec:hinf_example>>
 
+We are now using the proposed $\mathcal{H}_\infty$ complementary filters synthesis method for a simple example.
+
+The goal is to design
+
+We use the formula eqref:eq:weight_formula for both $w_L(s)$ and $w_H(s)$.
+The parameters used are summarized on table ref:tab:weights_params. And the magnitude of the weighting functions are shown on figure ref:fig:weights_wl_wh.
+
+#+name: tab:weights_params
+#+caption: Parameters used for the weighting functions
+#+attr_latex: :environment tabular :width \linewidth :align |l|X|X|
+#+attr_latex: :float t :placement [!htpb]
+|------------------------+--------+--------|
+| Parameters             | $w_L$  | $w_H$  |
+|------------------------+--------+--------|
+| $G_0$                  | $0.1$  | $1000$ |
+|------------------------+--------+--------|
+| $G_\infty$             | $1000$ | $0.1$  |
+|------------------------+--------+--------|
+| $\omega_c$ [$\si{Hz}$] | $11$   | $10$   |
+|------------------------+--------+--------|
+| $G_c$                  | $2$    | $2$    |
+|------------------------+--------+--------|
+| $n$                    | $2$    | $3$    |
+|------------------------+--------+--------|
+
+
 #+name: fig:weights_wl_wh
 #+caption: Weighting Functions used for the $\mathcal{H}_\infty$ Synthesis
 #+attr_latex: :scale 1
 [[file:figs/weights_wl_wh.pdf]]
 
+After synthesis, the obtain filters are:
+\begin{align}
+  H_L(s) &= \frac{10^{-8} (s+6.6e^9) (s+3450)^2 (s^2 + 49s + 895)}{(s+6.6e^4) (s^2 + 106 s + 3000) (s^2 + 72s + 3580)}\\
+  H_H(s) &= \frac{(s+6.6e^4) (s+160) (s+4)^3}{(s+6.6e^4) (s^2 + 106 s + 3000) (s^2 + 72s + 3580)}
+\end{align}
+
+Their bode plot is shown on figure ref:fig:hinf_synthesis_results.
 
 #+name: fig:hinf_synthesis_results
 #+caption: Obtain Complementary Filters
@@ -303,10 +355,38 @@ Similarly, we here have that $H_L + H_H = 1$ which implies that $H_L$ and $H_H$ 
 ** Synthesis of Three Complementary Filters
 <<sec:hinf_three_comp_filters>>
 
+# Why it is used sometimes
+
+# Mathematical Problem
+We want:
+\begin{align*}
+  & |H_1 w_1| < 1, \quad \forall\omega\\
+  & |H_2 w_2| < 1, \quad \forall\omega\\
+  & |H_3 w_3| < 1, \quad \forall\omega\\
+  & H_1 + H_2 + H_3 = 1
+\end{align*}
+
+# H-Infinity Architecture
+The $\mathcal{H}_\infty$ objective is:
+\begin{align*}
+  & |H_1 w_1| < 1, \quad \forall\omega\\
+  & |H_2 w_2| < 1, \quad \forall\omega\\
+  & |(1 - H_1 - H_2) w_3| < 1, \quad \forall\omega\\
+\end{align*}
+
+And thus if we choose $H_3 = 1 - H_1 - H_2$ we have solved the problem.
+
 #+name: fig:comp_filter_three_hinf
 #+caption: Architecture for the $\mathcal{H}_\infty$ synthesis of three complementary filters
 #+attr_latex: :scale 1
 [[file:figs/comp_filter_three_hinf.pdf]]
+
+# Example of generated complementary filters
+
+#+name: fig:hinf_three_synthesis_results
+#+caption: Obtained three complementary filters
+#+attr_latex: :scale 1
+[[file:figs/hinf_three_synthesis_results.pdf]]
 
 * Application to the design of
 <<sec:application_ligo>>

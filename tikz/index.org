@@ -37,6 +37,7 @@ Configuration file is accessible [[file:config.org][here]].
 
   \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
   \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
+  \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
 #+end_src
 
 * H-Infinity - Complementary filters - Generalized plant
@@ -1047,20 +1048,20 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{4cm}
+  \setlength\fheight{7cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
       width=1.0\fwidth,
-      height=1.0\fheight,
-      at={(0.0\fwidth, 0.0\fheight)},
+      height=0.55\fheight,
+      at={(0.0\fwidth, 0.45\fheight)},
       scale only axis,
       xmode=log,
       xmin=0.1,
       xmax=1000,
       xtick={0.1, 1, 10, 100, 1000},
+      xticklabels={{}},
       xminorticks=true,
-      xlabel={Frequency [Hz]},
       ymode=log,
       ymin=0.0005,
       ymax=20,
@@ -1069,9 +1070,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
       ylabel={Magnitude},
       xminorgrids,
       yminorgrids,
-      %legend style={at={(0.1,0.9)}, anchor=north west, legend cell align=left, align=left, draw=black}
       ]
-
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
       table [x=freqs, y=wL, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
       %\addlegendentry{$|w_L|^{-1}$};
@@ -1087,7 +1086,33 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
       table [x=freqs, y=Hh, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
       %\addlegendentry{$|w_H|^{-1}$};
+    \end{axis}
 
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=0.4\fheight,
+      at={(0.0\fwidth, 0.0\fheight)},
+      scale only axis,
+      xmode=log,
+      xmin=0.1,
+      xmax=1000,
+      xtick={0.1, 1, 10, 100, 1000},
+      xminorticks=true,
+      xlabel={Frequency [Hz]},
+      ymin=-200,
+      ymax=200,
+      ytick={-180,  -90,    0,   90,  180},
+      ylabel={Phase [deg]},
+      xminorgrids,
+      %legend style={at={(0,0)}, outer sep=2pt , anchor=south west, legend cell align=left, align=left, draw=black, scale=0.5}
+      ]
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      %\addlegendentry{$|w_L|^{-1}$};
+
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      %\addlegendentry{$|w_H|^{-1}$};
     \end{axis}
   \end{tikzpicture}
 #+end_src
@@ -1096,3 +1121,95 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
 #+caption: H-Infinity Synthesis - Results ([[./figs/hinf_synthesis_results.png][png]], [[./figs/hinf_synthesis_results.pdf][pdf]], [[./figs/hinf_synthesis_results.tex][tex]]).
 #+RESULTS:
 [[file:figs/hinf_synthesis_results.png]]
+* H-Infinity Synthesis - Three Filters - Results
+The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_synthesis_results.png][png]], [[./figs/hinf_three_synthesis_results.pdf][pdf]] and [[./figs/hinf_three_synthesis_results.tex][tex]].
+
+#+begin_src latex :file hinf_three_synthesis_results.pdf :tangle figs/hinf_three_synthesis_results.tex :exports both
+  <<tikz_default>>
+
+  \setlength\fwidth{6.5cm}
+  \setlength\fheight{7cm}
+
+  \begin{tikzpicture}
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=0.55\fheight,
+      at={(0.0\fwidth, 0.45\fheight)},
+      scale only axis,
+      xmode=log,
+      xmin=0.1,
+      xmax=100,
+      xtick={0.1, 1, 10, 100, 100},
+      xticklabels={{}},
+      xminorticks=true,
+      ymode=log,
+      ymin=0.00005,
+      ymax=20,
+      ytick={0.0001, 0.001, 0.01, 0.1, 1, 10},
+      yminorticks=true,
+      ylabel={Magnitude},
+      xminorgrids,
+      yminorgrids,
+      ]
+      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
+      table [x=freqs, y=w1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      %\addlegendentry{$|w_1|^{-1}$};
+
+      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
+      table [x=freqs, y=w2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      %\addlegendentry{$|w_2|^{-1}$};
+
+      \addplot [color=mycolor3, dashed, line width=1.5pt, forget plot]
+      table [x=freqs, y=w3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      %\addlegendentry{$|w_3|^{-1}$};
+
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_2|$};
+
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_2|$};
+
+      \addplot [color=mycolor3, line width=1.5pt, forget plot]
+      table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_3|$};
+    \end{axis}
+
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=0.4\fheight,
+      at={(0.0\fwidth, 0.0\fheight)},
+      scale only axis,
+      xmode=log,
+      xmin=0.1,
+      xmax=100,
+      xtick={0.1, 1, 10, 100, 100},
+      xminorticks=true,
+      xlabel={Frequency [Hz]},
+      ymin=-270,
+      ymax=270,
+      ytick={-270, -180,  -90,    0,   90,  180, 270},
+      ylabel={Phase [deg]},
+      xminorgrids,
+      %legend style={at={(0,0)}, outer sep=2pt , anchor=south west, legend cell align=left, align=left, draw=black, scale=0.5}
+      ]
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_2|$};
+
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_2|$};
+
+      \addplot [color=mycolor3, line width=1.5pt, forget plot]
+      table [x=freqs, y=H3p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      %\addlegendentry{$|H_3|$};
+    \end{axis}
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:hinf_three_synthesis_results
+#+caption: H-Infinity Synthesis - Results ([[./figs/hinf_three_synthesis_results.png][png]], [[./figs/hinf_three_synthesis_results.pdf][pdf]], [[./figs/hinf_three_synthesis_results.tex][tex]]).
+#+RESULTS:
+[[file:figs/hinf_three_synthesis_results.png]]
