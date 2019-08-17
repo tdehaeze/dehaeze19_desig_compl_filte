@@ -10,6 +10,7 @@
 #+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
+# #+LATEX_HEADER: \usepackage{showframe}
 #+LATEX_HEADER: \usepackage{algorithmic, graphicx, textcomp}
 #+LATEX_HEADER: \usepackage{xcolor, import, hyperref}
 #+LATEX_HEADER: \usepackage[USenglish]{babel}

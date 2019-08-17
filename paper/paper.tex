@@ -1,4 +1,4 @@
-% Created 2019-08-16 ven. 23:34
+% Created 2019-08-17 sam. 15:03
 % Intended LaTeX compiler: pdflatex
 \documentclass[9pt, technote, a4paper]{ieeeconf}
 \usepackage[utf8]{inputenc}
@@ -23,7 +23,7 @@
 \setcounter{footnote}{1}
 \input{config.tex}
 \author{\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*}, Vermat Mohit and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}}
-\date{2019-08-16}
+\date{2019-08-17}
 \title{On the Design of Complementary Filters for Control}
 \hypersetup{
  pdfauthor={\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*}, Vermat Mohit and Collette Christophe} \\ \IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}},
@@ -46,7 +46,7 @@ complementary filters, h-infinity, feedback control
 \end{IEEEkeywords}
 
 \section{Introduction}
-\label{sec:org1a92e6d}
+\label{sec:orgb94b9f8}
   \label{sec:introduction}
 The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
 To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
@@ -97,11 +97,11 @@ In this paper, we propose
 The body of the paper consists of five parts followed by a conclusion.
 
 \section{Requirements on the Design of Complementary Filters}
-\label{sec:org8c17952}
+\label{sec:orgc9caa6d}
 \label{sec:requirements}
 
 \subsection{Sensor Fusion}
-\label{sec:org77e3eba}
+\label{sec:org2357199}
 \label{sec:sensor_fusion}
 
 Let's consider two sensors measuring the physical quantity \(x\) with dynamics \(G_1(s)\) and \(G_2(s)\) and with noise \(n_1\) and \(n_2\) respectively.
@@ -142,21 +142,21 @@ Usually, the two sensors have higher noise levels over distinct yet complementar
 The noise of the super sensor is determine by the norm of the complementary filters.
 
 \subsection{Noise Sensor Filtering}
-\label{sec:org61f1e42}
+\label{sec:orga5d7d56}
 \label{sec:noise_filtering}
 
 \subsection{Robustness of the Fusion}
-\label{sec:org88c9440}
+\label{sec:org4ea42db}
 \label{sec:fusion_robustness}
 
 \subsection{Upper bounds as a mathematical translation of the requirements}
-\label{sec:org2e8321f}
+\label{sec:orgfad4c6f}
 \label{sec:requirements_upper_bounds}
 
 \textbf{The conclusion of the section should be that it is the norm of the complementary filter that is important and that is why we propose a method of synthesis based on H-infinity}
 
 \section{Shaping of Complementary Filters using the \(\mathcal{H}_\infty\) Synthesis}
-\label{sec:orgd9ea119}
+\label{sec:org25970ea}
 \label{sec:hinf_method}
 As shown in Sec. \ldots{}, most of the performance requirements can be expressed as upper bounds on the magnitude of the complementary filters.
 As presented in Sec. \ref{sec:trans_perf}, almost all the requirements can be specified with upper bounds on the complementary filters.
@@ -164,7 +164,7 @@ As presented in Sec. \ref{sec:trans_perf}, almost all the requirements can be sp
 Thus, the \(\mathcal{H}_\infty\) framework seems adapted and we here propose a technique to synthesis complementary filters while specifying uppers bounds on their magnitudes.
 
 \subsection{\(\mathcal{H}_\infty\) problem formulation}
-\label{sec:orgecc21d9}
+\label{sec:org7747d99}
 \label{sec:hinf_synthesis}
 
 In this section, we formulate the \(\hinf\) problem for the synthesis of complementary filters.
@@ -213,7 +213,7 @@ The stability condition \eqref{eq:hinf_cond_stability} is guaranteed by the \(H_
 Using this synthesis method, we are then able to shape at the same time the high pass and low pass filters while ensuring their complementary.
 
 \subsection{Choice of the weighting functions}
-\label{sec:org6167188}
+\label{sec:org3997457}
 \label{sec:hinf_weighting_func}
 
 We here give some advice on the design of the weighting functions used for the synthesis of the complementary filters using the \(\mathcal{H}_\infty\) method.
@@ -259,7 +259,7 @@ Amplitude of the proposed formula for the weighting functions, \(G_0 = 1e^{-3}\)
 \end{figure}
 
 \subsection{Example}
-\label{sec:orgb30ba62}
+\label{sec:org27ef2a0}
 \label{sec:hinf_example}
 
 We are now using the proposed \(\mathcal{H}_\infty\) complementary filters synthesis method for a simple example.
@@ -314,7 +314,7 @@ Obtain Complementary Filters}
 \end{figure}
 
 \subsection{Synthesis of Three Complementary Filters}
-\label{sec:org415d7ce}
+\label{sec:orgbc6a88d}
 \label{sec:hinf_three_comp_filters}
 
 We want:
@@ -345,15 +345,15 @@ Architecture for the \(\mathcal{H}_\infty\) synthesis of three complementary fil
 \centering
 \includegraphics[scale=1]{figs/hinf_three_synthesis_results.pdf}
 \caption{\label{fig:hinf_three_synthesis_results}
-Figure caption}
+Obtained three complementary filters}
 \end{figure}
 
 \section{Application to the design of}
-\label{sec:org57876bd}
+\label{sec:orgdde45d9}
 \label{sec:application_ligo}
 
 \subsection{Specifications}
-\label{sec:orgc79cee4}
+\label{sec:org42c5fdc}
 \label{sec:ligo_specifications}
 
 \begin{figure}[htbp]
@@ -364,7 +364,7 @@ Specifications on the norms of the complementary filters}
 \end{figure}
 
 \subsection{Weighting functions design}
-\label{sec:org6e51da2}
+\label{sec:orgd835d49}
 \label{sec:ligo_weights}
 
 \begin{figure}[htbp]
@@ -375,7 +375,7 @@ Weighting Functions used for the \(\mathcal{H}_\infty\) synthesis}
 \end{figure}
 
 \subsection{Comparison}
-\label{sec:org06ff1a1}
+\label{sec:org7d0ba2b}
 \label{sec:ligo_results}
 
 \begin{figure}[htbp]
@@ -386,11 +386,11 @@ Comparison of the filters obtain with the \(\mathcal{H}_\infty\) synthesis and t
 \end{figure}
 
 \section{Conclusion}
-\label{sec:orga86d375}
+\label{sec:org64a0819}
 \label{sec:conclusion}
 
 \section{Acknowledgment}
-\label{sec:org8d338b6}
+\label{sec:orgc4f1f42}
 
 \bibliography{ref}
 \end{document}
