@@ -2,7 +2,7 @@
 :DRAWER:
 #+LATEX_CLASS: ieeeconf
 #+LATEX_CLASS_OPTIONS: [9pt, technote, a4paper]
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:nil todo:nil
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
@@ -153,33 +153,29 @@ Although
 ** Describe the paper itself / the problem which is addressed        :ignore:
 In this paper, we propose
 
-** Introduce Each part of the paper                                  :ignore:
-The body of the paper consists of five parts followed by a conclusion.
+** DONE Introduce Each part of the paper                            :ignore:
+CLOSED: [2019-08-17 sam. 15:28]
+This paper is organized as follows.
+The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and the associated requirements on their norms.
+In section ref:sec:hinf_method, a new method for designing complementary filters using the $\mathcal{H}_\infty$ synthesis is proposed.
+In section ref:sec:application_ligo, two high order complementary filters are designed using the proposed method and compared with FIR filters used for sensor fusion at the Laser Interferometer Gravitational-Wave Observator (LIGO).
+Our conclusions are drawn in the final section.
 
 * Requirements on the Design of Complementary Filters
 <<sec:requirements>>
 
 ** Introduction                                                     :ignore:
+As stated in the Introduction, complementary filters are widely used for the fusion of two sensors.
 
-** Sensor Fusion
+** Sensor Fusion Architecture
 <<sec:sensor_fusion>>
 
-Let's consider two sensors measuring the physical quantity $x$ with dynamics $G_1(s)$ and $G_2(s)$ and with noise $n_1$ and $n_2$ respectively.
+Let's consider two sensors measuring the same physical quantity $x$ but with different dynamics ($G_1(s)$ and $G_2(s)$) and noise characteristics ($n_1$ and $n_2$).
 
-
-$H_1(s)$ and $H_2(s)$ are complementary filters:
-\begin{equation}
-  H_1(s) + H_2(s) = 1
-\end{equation}
-
+The signals from both sensors are fed into two complementary filters $H_1(s)$ and $H_2(s)$ and then combined to yield an estimate $\hat{x}$ of $x$ as shown on figure ref:fig:fusion_two_noisy_sensors_with_dyn_ter:
+#+NAME: eq:comp_filter_estimate
 \begin{equation}
   \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
-\end{equation}
-
-If we now consider sensors with perfect dynamics ($G_1(s) = G_2(s) = 1$), we have that the estimate of $x$ using the two sensors are shown on figure ref:fig:fusion_two_noisy_sensors_with_dyn_ter is:
-
-\begin{equation}
-  \hat{x} = x + H_1 n_1 + H_2 n_2
 \end{equation}
 
 #+name: fig:fusion_two_noisy_sensors_with_dyn_ter
@@ -187,10 +183,26 @@ If we now consider sensors with perfect dynamics ($G_1(s) = G_2(s) = 1$), we hav
 #+attr_latex: :scale 1
 [[file:figs/fusion_two_noisy_sensors_with_dyn_ter.pdf]]
 
-We see that the complementary filters $H_1(s)$ and $H_2(s)$ operates only on the noise of the sensors.
+Filters $H_1(s)$ and $H_2(s)$ are said to be complementary if their transfer function sum is equal to one at all frequencies:
+#+NAME: eq:comp_filter
+\begin{equation}
+  H_1(s) + H_2(s) = 1
+\end{equation}
 
-Thus, this architecture permits to filter each of the sensors without introducing any distortion in the physical quantity to measure.
+** Noise Sensor Filtering
+<<sec:noise_filtering>>
 
+If we now consider sensors with perfect dynamics ($G_1(s) = G_2(s) = 1$), the estimate $\hat{x}$ becomes
+#+NAME: eq:estimate_perfect_dyn
+\begin{equation}
+  \hat{x} = x + H_1 n_1 + H_2 n_2
+\end{equation}
+
+As shown in eqref:eq:estimate_perfect_dyn, the complementary filters $H_1(s)$ and $H_2(s)$ operates only on the noise of the sensors.
+
+Thus, this sensor fusion architecture permits to filter the noise of both sensors without introducing any distortion in the physical quantity to measure, and the estimation error is described by eqref:eq:estimate_error.
+
+#+NAME: eq:estimate_error
 \begin{equation}
   \delta x = \hat{x} - x = H_1 n_1 + H_2 n_2
 \end{equation}
@@ -198,9 +210,6 @@ Thus, this architecture permits to filter each of the sensors without introducin
 Usually, the two sensors have higher noise levels over distinct yet complementary frequency regions. The two complementary filters are used to combine the filtered noise and yield to a better estimate $\hat{x}$ over a larger bandwidth.
 
 The noise of the super sensor is determine by the norm of the complementary filters.
-
-** Noise Sensor Filtering
-<<sec:noise_filtering>>
 
 ** Robustness of the Fusion
 <<sec:fusion_robustness>>
