@@ -6,8 +6,13 @@
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
-#+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*}, Vermat Mohit and Collette Christophe} \\@@
-#+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}@@
+# #+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas\IEEEauthorrefmark{*}, Vermat Mohit and Collette Christophe} \\@@
+# #+AUTHOR: @@latex:\IEEEauthorblockA{Precision Mechatronics Laboratory, ULB\\ Brussels, Belgium\\ Email: \IEEEauthorrefmark{*}dehaeze.thomas@gmail.com}@@
+
+#+AUTHOR: @@latex:Dehaeze Thomas$^{1}$, Vermat Mohit$^{2}$ and Collette Christophe$^{3}$ @@
+#+AUTHOR: @@latex:\thanks{$^{1}$Dehaeze Thomas PhD Student  {\tt\small thomas.dehaeze@esrf.fr}}@@
+#+AUTHOR: @@latex:\thanks{$^{2}$Vermat Mohit {\tt\small thomas.dehaeze@esrf.fr}}@@
+#+AUTHOR: @@latex:\thanks{$^{3}$Collette Christophe {\tt\small thomas.dehaeze@esrf.fr}}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
 # #+LATEX_HEADER: \usepackage{showframe}
@@ -69,10 +74,6 @@
 #+begin_abstract
   Abstract text to be done
 #+end_abstract
-
-#+begin_IEEEkeywords
-  complementary filters, h-infinity, feedback control
-#+end_IEEEkeywords
 
 * Introduction
   <<sec:introduction>>
