@@ -209,7 +209,13 @@ Thus, this sensor fusion architecture permits to filter the noise of both sensor
 
 Usually, the two sensors have higher noise levels over distinct yet complementary frequency regions. The two complementary filters are used to combine the filtered noise and yield to a better estimate $\hat{x}$ over a larger bandwidth.
 
-The noise of the super sensor is determine by the norm of the complementary filters.
+The Power Spectral Density (PSD) of the estimation error $\Phi_{\delta x}$ is
+#+NAME: eq:noise_filtering_psd
+\begin{equation}
+  \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2}
+\end{equation}
+
+Thus, the noise of the super sensor is determined by the norm of the complementary filters.
 
 ** Robustness of the Fusion
 <<sec:fusion_robustness>>
@@ -344,10 +350,10 @@ The parameters used are summarized on table ref:tab:weights_params. And the magn
 |------------------------+--------+--------|
 
 
-#+name: fig:weights_wl_wh
-#+caption: Weighting Functions used for the $\mathcal{H}_\infty$ Synthesis
-#+attr_latex: :scale 1
-[[file:figs/weights_wl_wh.pdf]]
+# #+name: fig:weights_wl_wh
+# #+caption: Weighting Functions used for the $\mathcal{H}_\infty$ Synthesis
+# #+attr_latex: :scale 1
+# [[file:figs/weights_wl_wh.pdf]]
 
 After synthesis, the obtain filters are:
 \begin{align}
@@ -358,7 +364,7 @@ After synthesis, the obtain filters are:
 Their bode plot is shown on figure ref:fig:hinf_synthesis_results.
 
 #+name: fig:hinf_synthesis_results
-#+caption: Obtain Complementary Filters
+#+caption: Weighting functions and Obtain Complementary Filters using the $\mathcal{H}_\infty$ Synthesis
 #+attr_latex: :scale 1
 [[file:figs/hinf_synthesis_results.pdf]]
 
@@ -406,16 +412,16 @@ And thus if we choose $H_3 = 1 - H_1 - H_2$ we have solved the problem.
 ** Specifications
 <<sec:ligo_specifications>>
 
-#+name: fig:ligo_specifications
-#+caption: Specifications on the norms of the complementary filters
-#+attr_latex: :scale 1
-[[file:figs/ligo_specifications.pdf]]
+# #+name: fig:ligo_specifications
+# #+caption: Specifications on the norms of the complementary filters
+# #+attr_latex: :scale 1
+# [[file:figs/ligo_specifications.pdf]]
 
 ** Weighting functions design
 <<sec:ligo_weights>>
 
 #+name: fig:ligo_weights
-#+caption: Weighting Functions used for the $\mathcal{H}_\infty$ synthesis
+#+caption: Specification and Weighting Functions used for the $\mathcal{H}_\infty$ synthesis
 #+attr_latex: :scale 1
 [[file:figs/ligo_weights.pdf]]
 
