@@ -124,9 +124,9 @@ Configuration file is accessible [[file:config.org][here]].
      \coordinate[] (output1) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
      \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
 
-     \node[block, left=2*\cdist of output1] (W1){$w_1$};
-     \node[block, left=2*\cdist of output2] (W2){$w_2$};
-     \node[block, left=2*\cdist of output3] (W3){$w_3$};
+     \node[block, left=2*\cdist of output1] (W1){$W_1$};
+     \node[block, left=2*\cdist of output2] (W2){$W_2$};
+     \node[block, left=2*\cdist of output3] (W3){$W_3$};
      \node[addb={+}{}{}{}{-}, left=of W3] (sub1) {};
      \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
 
@@ -499,8 +499,8 @@ The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_
      \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
      \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
 
-     \node[block, left=2*\cdist of outputl] (W1){$w_1$};
-     \node[block, left=2*\cdist of outputh] (W2){$w_2$};
+     \node[block, left=2*\cdist of outputl] (W1){$W_1$};
+     \node[block, left=2*\cdist of outputh] (W2){$W_2$};
      \node[addb={+}{}{}{}{-}, left=of W2] (sub) {};
 
      \node[block, below=\cdist of P] (H1) {$H_1$};
@@ -556,7 +556,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_specif
       xminorgrids,
       ymajorgrids,
       yminorgrids,
-      legend style={at={(0.01,0.99)}, anchor=north west, legend cell align=left, align=left, draw=black}
+      legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
       \addplot [color=mycolor1, dotted, line width=1.5pt]
       table[row sep=crcr]{%
@@ -627,7 +627,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_weight
       xminorgrids,
       ymajorgrids,
       yminorgrids,
-      legend style={at={(0.01,0.99)}, anchor=north west, legend cell align=left, align=left, draw=black}
+      legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
 
       \addplot [color=mycolor1, line width=1.5pt]
@@ -870,7 +870,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_li
       ylabel={Magnitude},
       xminorgrids,
       yminorgrids,
-      legend style={at={(1,0)}, outer sep=2pt , anchor=south east, legend cell align=left, align=left, draw=black, scale=0.5}
+      legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
         table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
@@ -882,9 +882,9 @@ The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_li
         table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
 
       \addlegendimage{black}
-      \addlegendentry{FIR}
+      \addlegendentry{FIR Filters}
       \addlegendimage{dashed,black}
-      \addlegendentry{$\mathcal{H}_\infty$}
+      \addlegendentry{$\mathcal{H}_\infty$ Filters}
     \end{axis}
 
     \begin{axis}[%
@@ -1073,23 +1073,18 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
       ylabel={Magnitude},
       xminorgrids,
       yminorgrids,
-      legend style={at={(1,1)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
       ]
-      \addplot [color=mycolor1, line width=1.5pt]
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
       table [x=freqs, y=Hl, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
-      \addlegendentry{$|H_L|$};
 
-      \addplot [color=mycolor2, line width=1.5pt]
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
       table [x=freqs, y=Hh, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
-      \addlegendentry{$|H_H|$};
 
-      \addplot [color=mycolor1, dashed, line width=1.5pt]
+      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
       table [x=freqs, y=wL, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
-      \addlegendentry{$|w_L|^{-1}$};
 
-      \addplot [color=mycolor2, dashed, line width=1.5pt]
+      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
       table [x=freqs, y=wH, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
-      \addlegendentry{$|w_H|^{-1}$};
     \end{axis}
 
     \begin{axis}[%
@@ -1108,11 +1103,18 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
       ytick={-180,  -90,    0,   90,  180},
       ylabel={Phase [deg]},
       xminorgrids,
+      legend style={at={(1,1)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
       ]
-      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      \addplot [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
-      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      \addlegendentry{$H_L$};
+      \addplot [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      \addlegendentry{$H_H$};
+      \addlegendimage{color=mycolor1, dashed, line width=1.5pt}
+      \addlegendentry{$w_L^{-1}$};
+      \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
+      \addlegendentry{$w_H^{-1}$};
     \end{axis}
   \end{tikzpicture}
 #+end_src
@@ -1153,27 +1155,27 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_
       ]
       \addplot [color=mycolor1, dashed, line width=1.5pt]
       table [x=freqs, y=w1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{$|w_1|^{-1}$};
+      \addlegendentry{${W_1}^{-1}$};
 
       \addplot [color=mycolor2, dashed, line width=1.5pt]
       table [x=freqs, y=w2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{$|w_2|^{-1}$};
+      \addlegendentry{${W_2}^{-1}$};
 
       \addplot [color=mycolor3, dashed, line width=1.5pt]
       table [x=freqs, y=w3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{$|w_3|^{-1}$};
+      \addlegendentry{${W_3}^{-1}$};
 
       \addplot [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$|H_1|$};
+      \addlegendentry{$H_1$};
 
       \addplot [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$|H_2|$};
+      \addlegendentry{$H_2$};
 
       \addplot [color=mycolor3, line width=1.5pt]
       table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$|H_3|$};
+      \addlegendentry{$H_3$};
     \end{axis}
 
     \begin{axis}[%
