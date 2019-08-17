@@ -23,7 +23,7 @@
 * LaTeX Config                                                     :noexport:
 #+begin_src latex :tangle config.tex
   % H Infini
-  \newcommand{\hinf}{\mathcal{H}_\infty}
+  \newcommand{\mathcal{H}_\infty}{\mathcal{H}_\infty}
 
   % H 2
   \newcommand{\htwo}{\mathcal{H}_2}
@@ -79,14 +79,14 @@
 The basic idea of a complementary filter involves taking two or more sensors, filtering out unreliable frequencies for each sensor and combining the filtered outputs to get a better estimate throughout the entire bandwidth of the system.
 To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
 
-** Establish the importance of the research topic                    :ignore:
+*** Establish the importance of the research topic                 :ignore:
 # What are Complementary Filters
 A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies, (i.e.) its magnitude is one and its phase is zero.
 
 # Why Design of Complementary Filter is important
 The proper design of this particular kind of filter is of primary importance in a wide range of applications.
 
-** Descriptions of the applications of complementary filtering       :ignore:
+*** Descriptions of the applications of complementary filtering    :ignore:
 Often, multiple sensors with different noise or dynamical properties are used to measure the same physical quantity.
 In such case, complementary filters can be used to merge the sensors and forms a "super sensor" that has gives a better estimate of the physical quantity over a wider bandwidth.
 This is called sensor blending or sensor fusion.
@@ -107,7 +107,7 @@ cite:hua04_polyp_fir_compl_filter_contr_system
 # Improving the control robustness
 cite:collette15_sensor_fusion_method_high_perfor
 
-** Current research focus of the field / Literature review           :ignore:
+*** Current research focus of the field / Literature review        :ignore:
 # Discuss the different approach to complementary filter design
 The design methods for such filters goes from simple analytical formulas
 
@@ -146,14 +146,14 @@ cite:pascoal99_navig_system_desig_using_time
 # Least Square method for finding the optimal filter coefficients
 cite:min15_compl_filter_desig_angle_estim
 
-** Describe a gap in the research                                    :ignore:
+*** Describe a gap in the research                                 :ignore:
 # There is a need to design optimal complementary filters
 Although
 
-** Describe the paper itself / the problem which is addressed        :ignore:
+*** Describe the paper itself / the problem which is addressed     :ignore:
 In this paper, we propose
 
-** DONE Introduce Each part of the paper                            :ignore:
+*** DONE Introduce Each part of the paper                          :ignore:
 CLOSED: [2019-08-17 sam. 15:28]
 This paper is organized as follows.
 The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and the associated requirements on their norms.
@@ -161,7 +161,7 @@ In section ref:sec:hinf_method, a new method for designing complementary filters
 In section ref:sec:application_ligo, two high order complementary filters are designed using the proposed method and compared with FIR filters used for sensor fusion at the Laser Interferometer Gravitational-Wave Observator (LIGO).
 Our conclusions are drawn in the final section.
 
-* Requirements on the Design of Complementary Filters
+* Complementary Filters Requirements
 <<sec:requirements>>
 
 ** Introduction                                                     :ignore:
@@ -172,7 +172,7 @@ As stated in the Introduction, complementary filters are widely used for the fus
 
 Let's consider two sensors measuring the same physical quantity $x$ but with different dynamics ($G_1(s)$ and $G_2(s)$) and noise characteristics ($n_1$ and $n_2$).
 
-The signals from both sensors are fed into two complementary filters $H_1(s)$ and $H_2(s)$ and then combined to yield an estimate $\hat{x}$ of $x$ as shown on figure ref:fig:fusion_two_noisy_sensors_with_dyn_ter:
+The signals from both sensors are fed into two complementary filters $H_1(s)$ and $H_2(s)$ and then combined to yield an estimate $\hat{x}$ of $x$ as shown on Fig. ref:fig:fusion_two_noisy_sensors_with_dyn_ter:
 #+NAME: eq:comp_filter_estimate
 \begin{equation}
   \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
@@ -231,37 +231,35 @@ Now let's consider error
 
 As stated above, the requirements in terms of noise attenuation and robustness of the sensor fusion architecture can be termed as upper bounds on the norm of the complementary filters.
 
-* Shaping of Complementary Filters using the $\mathcal{H}_\infty$ Synthesis
+* Complementary Filters Shaping using the $\mathcal{H}_\infty$ Synthesis
 <<sec:hinf_method>>
 
 ** Introduction                                                     :ignore:
-As shown in Sec. ..., most of the performance requirements can be expressed as upper bounds on the magnitude of the complementary filters.
-As presented in Sec. ref:sec:trans_perf, almost all the requirements can be specified with upper bounds on the complementary filters.
+As shown in Sec. ref:requirements, most of the performance requirements can be expressed as upper bounds on the magnitude of the complementary filters.
 
 Thus, the $\mathcal{H}_\infty$ framework seems adapted and we here propose a technique to synthesis complementary filters while specifying uppers bounds on their magnitudes.
 
 ** $\mathcal{H}_\infty$ problem formulation
 <<sec:hinf_synthesis>>
 
-In this section, we formulate the $\hinf$ problem for the synthesis of complementary filters.
+In this section, we formulate the synthesis of complementary filters as an $\mathcal{H}_\infty$ optimization problem.
 
-The synthesis objective is to shape an high pass filter $H_H$ and a low pass filter $H_L$ while ensuring their complementary property ($H_H + H_L = 1$).
+The synthesis objective is to shape the norm of two filters $H_1(s)$ and $H_2(s)$ while ensuring their complementary property ($H_1(s) + H_2(s) = 1$).
 
-To do so, we define two weighting functions $w_L$ and $w_H$ that will respectively used to shape $H_L$ and $H_H$.
+To define the maximum allowed norm of the filters, we define two weighting transfer functions $W_1(s)$ and $W_2(s)$.
 
-The synthesis problem is then
-\begin{subnumcases}{\text{Find } H_L, H_H \text{ such that}}
-  H_L \text{ and } H_H \text{ are stable} \label{eq:hinf_cond_stability}\\
-  H_L + H_H = 1 \label{eq:hinf_cond_complementarity} \\
-  |w_L H_L| \le 1 \quad \forall\omega \label{eq:hinf_cond_hl} \\
-  |w_H H_H| \le 1 \quad \forall\omega \label{eq:hinf_cond_hh}
+The synthesis problem is then to find stable transfer functions $H_1(s)$ and $H_2(s)$ such that
+#+NAME: eq:hinf_problem
+\begin{subnumcases}{}
+  H_1(s) + H_2(s) = 1 \label{eq:hinf_cond_complementarity} \\
+  |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \label{eq:hinf_cond_hl} \\
+  |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega \label{eq:hinf_cond_hh}
 \end{subnumcases}
 
-
-To express this synthesis problem into an $\hinf$ synthesis problem, we define the following generalized plant $P$ (also shown on Fig. ref:fig:sf_hinf_filters_plant_b):
+To express this synthesis problem into an $\mathcal{H}_\infty$ synthesis problem, we define the following generalized plant $P$ (also shown on Fig. ref:fig:sf_hinf_filters_plant_b):
 #+NAME: eq:generalized_plant
 \begin{equation}
-  \colvec{w\\u} = P \colvec{z_H \\ z_L \\ v}; \quad P = \begin{bmatrix} w_H & -w_H \\ 0 & w_L \\ 1 & 0 \end{bmatrix}
+  \colvec{w\\u} = P \colvec{z_2 \\ z_1 \\ v}; \quad P = \begin{bmatrix} W_2 & -W_2 \\ 0 & W_1 \\ 1 & 0 \end{bmatrix}
 \end{equation}
 
 #+name: fig:h_infinity_robust_fusion
@@ -269,18 +267,19 @@ To express this synthesis problem into an $\hinf$ synthesis problem, we define t
 #+attr_latex: :scale 1
 [[file:figs/h_infinity_robust_fusion.pdf]]
 
-The $\hinf$ synthesis objective is then to design a stable filter $H_L$ (Fig. ref:fig:sf_hinf_filters_b) such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_H, \ z_L]$ is less than $1$:
+The $\mathcal{H}_\infty$ synthesis objective is then to design a stable filter $H_1$ (Fig. ref:fig:sf_hinf_filters_b) such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_2, \ z_1]$ is less than $1$:
+#+NAME: eq:hinf_syn_obj
 \begin{equation}
-  \hnorm{\begin{matrix} (1 - H_L) w_H \\ H_L w_L \end{matrix}} \le 1
+  \hnorm{\begin{matrix} (1 - H_1) W_2 \\ H_1 W_1 \end{matrix}} \le 1
 \end{equation}
 Which is equivalent to
 #+NAME: eq:hinf_problem
 \begin{equation}
-  \hnorm{\begin{matrix} H_H w_H \\ H_L w_L \end{matrix}} < 1 \text{ by choosing } H_H = 1 - H_L
+  \hnorm{\begin{matrix} H_2 W_2 \\ H_1 W_1 \end{matrix}} < 1 \text{ by choosing } H_2 = 1 - H_1
 \end{equation}
 
 Performance conditions eqref:eq:hinf_cond_hl and eqref:eq:hinf_cond_hl are satisfied by eqref:eq:hinf_problem.
-Complementary condition eqref:eq:hinf_cond_complementarity is satisfied by design: $H_H = 1 - H_L$ and thus $H_L + H_H = 1$.
+Complementary condition eqref:eq:hinf_cond_complementarity is satisfied by design: $H_2 = 1 - H_1$ and thus $H_1 + H_2 = 1$.
 The stability condition eqref:eq:hinf_cond_stability is guaranteed by the $H_\infty$ synthesis (*reference*).
 
 
@@ -298,8 +297,8 @@ The order of the weights should stay reasonably small as this will increase the 
 
 Moreover, the order of the complementary filters will be equal to the sum of the order of the weighting functions used.
 
-One should not forget the fundamental limitations imposed by the synthesis: $H_L(s) + H_H(s) = 1$.
-This implies that $H_L$ and $H_H$ cannot be made small at the same time.
+One should not forget the fundamental limitations imposed by the complementary property: $H_1(s) + H_1(s) = 1$.
+This implies that $H_1$ and $H_2$ cannot be made small at the same time.
 
 
 We here propose a formula for the design of the weighting function eqref:eq:weight_formula.
@@ -320,7 +319,7 @@ with:
 
 The constrains are that $G_0 < 1 < G_\infty$ and $G_0 < G_c < G_\infty$ or that $G_\infty < 1 < G_0$ and $G_\infty < G_c < G_0$.
 
-The shape of the weight generated using the formula is shown on figure ref:fig:weight_formula.
+The shape of the weight generated using the formula is shown on Fig. ref:fig:weight_formula.
 
 #+name: fig:weight_formula
 #+caption: Amplitude of the proposed formula for the weighting functions, $G_0 = 1e^{-3}$, $G_\infty = 10$, $\omega_c = \SI{10}{Hz}$, $G_c = 2$, $n = 3$
@@ -335,7 +334,7 @@ We are now using the proposed $\mathcal{H}_\infty$ complementary filters synthes
 The goal is to design
 
 We use the formula eqref:eq:weight_formula for both $w_L(s)$ and $w_H(s)$.
-The parameters used are summarized on table ref:tab:weights_params. And the magnitude of the weighting functions are shown on figure ref:fig:weights_wl_wh.
+The parameters used are summarized on table ref:tab:weights_params. And the magnitude of the weighting functions are shown on Fig. ref:fig:weights_wl_wh.
 
 #+name: tab:weights_params
 #+caption: Parameters used for the weighting functions
@@ -367,7 +366,7 @@ After synthesis, the obtain filters are:
   H_H(s) &= \frac{(s+6.6e^4) (s+160) (s+4)^3}{(s+6.6e^4) (s^2 + 106 s + 3000) (s^2 + 72s + 3580)}
 \end{align}
 
-Their bode plot is shown on figure ref:fig:hinf_synthesis_results.
+Their bode plot is shown on Fig. ref:fig:hinf_synthesis_results.
 
 #+name: fig:hinf_synthesis_results
 #+caption: Weighting functions and Obtain Complementary Filters using the $\mathcal{H}_\infty$ Synthesis
@@ -377,33 +376,43 @@ Their bode plot is shown on figure ref:fig:hinf_synthesis_results.
 ** Synthesis of Three Complementary Filters
 <<sec:hinf_three_comp_filters>>
 
-# Why it is used sometimes
+*** Why it is used sometimes                                       :ignore:
 
-# Mathematical Problem
-We want:
-\begin{align*}
-  & |H_1 w_1| < 1, \quad \forall\omega\\
-  & |H_2 w_2| < 1, \quad \forall\omega\\
-  & |H_3 w_3| < 1, \quad \forall\omega\\
-  & H_1 + H_2 + H_3 = 1
-\end{align*}
 
-# H-Infinity Architecture
+*** Mathematical Problem                                           :ignore:
+The $\mathcal{H}_\infty$ synthesis of two complementary filters can be generalized to three or more complementary filters.
+
+The synthesis problem is then to compute $n$ filters $H_i(s)$ such that:
+#+NAME: eq:hinf_problem_gen
+\begin{subequations}
+  \begin{align}
+  & \sum_{i=0}^n H_i(s) = 1 \label{eq:hinf_cond_compl_gen} \\
+  & \left| H_i(s) \right| < \frac{1}{\left| W_i \right|}, \quad i = 1 \dots n \label{eq:hinf_cond_perf_gen}
+  \end{align}
+\end{subequations}
+
+*** H-Infinity Architecture                                        :ignore:
+We now propose and $\mathcal{H}_\infty$ synthesis architecture for the design of three complementary filters.
+
+The architecture is shown on figure ref:fig:comp_filter_three_hinf
+
 The $\mathcal{H}_\infty$ objective is:
-\begin{align*}
-  & |H_1 w_1| < 1, \quad \forall\omega\\
-  & |H_2 w_2| < 1, \quad \forall\omega\\
-  & |(1 - H_1 - H_2) w_3| < 1, \quad \forall\omega\\
-\end{align*}
+\begin{equation}
+  \left\| \begin{matrix} (1 - H_1 - H_2) W_3 \\ H_2 W_2 \\ H_1 W_1 \end{matrix} \right\|_\infty \le 1
+\end{equation}
 
-And thus if we choose $H_3 = 1 - H_1 - H_2$ we have solved the problem.
+By choosing $H_3 = 1 - H_1 - H_2$, the proposed $\mathcal{H}_\infty$ synthesis solves the problem eqref:eq:hinf_problem_gen.
 
 #+name: fig:comp_filter_three_hinf
 #+caption: Architecture for the $\mathcal{H}_\infty$ synthesis of three complementary filters
 #+attr_latex: :scale 1
 [[file:figs/comp_filter_three_hinf.pdf]]
 
-# Example of generated complementary filters
+*** Example of generated complementary filters                     :ignore:
+
+An example is given to validate the method where three sensors are used in different frequency bands: up to $\SI{1}{Hz}$, from $1$ to $\SI{10}{Hz}$ and above $\SI{10}{Hz}$ respectively.
+
+Chosen weighting functions and obtained complementary filters are shown on Fig. ref:fig:hinf_three_synthesis_results.
 
 #+name: fig:hinf_three_synthesis_results
 #+caption: Obtained three complementary filters
