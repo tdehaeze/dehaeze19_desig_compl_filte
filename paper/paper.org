@@ -200,30 +200,36 @@ If we now consider sensors with perfect dynamics ($G_1(s) = G_2(s) = 1$), the es
 
 As shown in eqref:eq:estimate_perfect_dyn, the complementary filters $H_1(s)$ and $H_2(s)$ operates only on the noise of the sensors.
 
-Thus, this sensor fusion architecture permits to filter the noise of both sensors without introducing any distortion in the physical quantity to measure, and the estimation error is described by eqref:eq:estimate_error.
+Thus, this sensor fusion architecture permits to filter the noise of both sensors without introducing any distortion in the physical quantity to measure, and the estimation error $\delta x$ is described by eqref:eq:estimate_error.
 
 #+NAME: eq:estimate_error
 \begin{equation}
   \delta x = \hat{x} - x = H_1 n_1 + H_2 n_2
 \end{equation}
 
-Usually, the two sensors have higher noise levels over distinct yet complementary frequency regions. The two complementary filters are used to combine the filtered noise and yield to a better estimate $\hat{x}$ over a larger bandwidth.
-
-The Power Spectral Density (PSD) of the estimation error $\Phi_{\delta x}$ is
+The Power Spectral Density (PSD) of the $\delta_x$, depends both on the norms of the complementary filters and of the PSD of the noise sources eqref:eq:noise_filtering_psd.
 #+NAME: eq:noise_filtering_psd
 \begin{equation}
   \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2}
 \end{equation}
+
+Usually, the two sensors have higher noise levels over distinct yet complementary frequency regions.
+In order to lower the noise of the estimation $\hat{x}$, the norm $|H_i|$
+
+The two complementary filters are used to combine the filtered noise and yield to a better estimate $\hat{x}$ over a larger bandwidth.
 
 Thus, the noise of the super sensor is determined by the norm of the complementary filters.
 
 ** Robustness of the Fusion
 <<sec:fusion_robustness>>
 
+We considered ideal dynamics
+Now let's consider error
+
 ** Upper bounds as a mathematical translation of the requirements
 <<sec:requirements_upper_bounds>>
 
-*The conclusion of the section should be that it is the norm of the complementary filter that is important and that is why we propose a method of synthesis based on H-infinity*
+As stated above, the requirements in terms of noise attenuation and robustness of the sensor fusion architecture can be termed as upper bounds on the norm of the complementary filters.
 
 * Shaping of Complementary Filters using the $\mathcal{H}_\infty$ Synthesis
 <<sec:hinf_method>>
