@@ -1206,7 +1206,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_
 #+begin_src latex :file hinf_three_synthesis_results.pdf :tangle figs/hinf_three_synthesis_results.tex :exports both
   <<tikz_default>>
 
-  \setlength\fwidth{5.3cm}
+  \setlength\fwidth{6.5cm}
   \setlength\fheight{7cm}
 
   \begin{tikzpicture}
@@ -1228,31 +1228,24 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_
       ylabel={Magnitude},
       xminorgrids,
       yminorgrids,
-      legend style={at={(1.02,1)}, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
       \addplot [color=mycolor1, dashed, line width=1.5pt]
       table [x=freqs, y=w1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{${W_1}^{-1}$};
 
       \addplot [color=mycolor2, dashed, line width=1.5pt]
       table [x=freqs, y=w2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{${W_2}^{-1}$};
 
       \addplot [color=mycolor3, dashed, line width=1.5pt]
       table [x=freqs, y=w3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
-      \addlegendentry{${W_3}^{-1}$};
 
       \addplot [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$H_1$};
 
       \addplot [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$H_2$};
 
       \addplot [color=mycolor3, line width=1.5pt]
       table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
-      \addlegendentry{$H_3$};
     \end{axis}
 
     \begin{axis}[%
@@ -1270,15 +1263,26 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_
       ytick={-270, -180,  -90,    0,   90,  180, 270},
       ylabel={Phase [deg]},
       xminorgrids,
+      legend style={at={(1,1.4)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
       ]
-      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      \addlegendimage{color=mycolor1, dashed, line width=1.5pt}
+      \addlegendentry{${W_1}^{-1}$};
+      \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
+      \addlegendentry{${W_2}^{-1}$};
+      \addlegendimage{color=mycolor3, dashed, line width=1.5pt}
+      \addlegendentry{${W_3}^{-1}$};
+
+      \addplot [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      \addlegendentry{$H_1$};
 
-      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      \addplot [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      \addlegendentry{$H_2$};
 
-      \addplot [color=mycolor3, line width=1.5pt, forget plot]
+      \addplot [color=mycolor3, line width=1.5pt]
       table [x=freqs, y=H3p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      \addlegendentry{$H_3$};
     \end{axis}
   \end{tikzpicture}
 #+end_src
