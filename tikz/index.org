@@ -358,6 +358,52 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 #+RESULTS:
 [[file:figs/fusion_two_noisy_sensors_with_dyn_ter.png]]
 
+* Fusion of two noisy sensors with Dynamics - Super Sensor
+The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
+
+#+begin_src latex :file fusion_super_sensor.pdf :tangle figs/fusion_super_sensor.tex
+  <<tikz_default>>
+
+  \begin{tikzpicture}
+    \node[branch] (x) at (0, 0);
+    \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
+    \node[block, below right=0.5 and 0.5 of x](G2){$G_2(s)$};
+    \node[addb, right=0.8 of G1](add1){};
+    \node[addb, right=0.8 of G2](add2){};
+    \node[block, right=0.8 of add1](H1){$H_1(s)$};
+    \node[block, right=0.8 of add2](H2){$H_2(s)$};
+    \node[addb, right=5.5 of x](add){};
+
+    \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
+    \draw[->] (x.center) |- (G1.west);
+    \draw[->] (x.center) |- (G2.west);
+    \draw[->] (G1.east) -- (add1.west);
+    \draw[->] (G2.east) -- (add2.west);
+    \draw[<-] (add1.north) -- ++(0, 0.8)node[below right](n1){$n_1$};
+    \draw[<-] (add2.north) -- ++(0, 0.8)node[below right](n2){$n_2$};
+    \draw[->] (add1.east) -- (H1.west);
+    \draw[->] (add2.east) -- (H2.west);
+    \draw[->] (H1) -| (add.north);
+    \draw[->] (H2) -| (add.south);
+    \draw[->] (add.east) -- ++(0.7, 0) node[above left]{$\hat{x}$};
+
+    \begin{scope}[on background layer]
+      \node[fit={($(G2.south-|x)+(-0.2, -0.3)$) ($(n1.north east-|add.east)+(0.2, 0.3)$)}, fill=black!10!white, draw, dashed, inner sep=0pt] (supersensor) {};
+      \node[below left] at (supersensor.north east) {Super Sensor};
+
+      \node[fit={($(G1.south west)+(-0.3, -0.1)$) ($(n1.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor1) {};
+      \node[below right] at (sensor1.north west) {Sensor 1};
+      \node[fit={($(G2.south west)+(-0.3, -0.1)$) ($(n2.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor2) {};
+      \node[below right] at (sensor2.north west) {Sensor 2};
+    \end{scope}
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:fusion_super_sensor
+#+caption: Fusion of two noisy sensors_with_dyn_ter ([[./figs/fusion_super_sensor.png][png]], [[./figs/fusion_super_sensor.pdf][pdf]], [[./figs/fusion_super_sensor.tex][tex]]).
+#+RESULTS:
+[[file:figs/fusion_super_sensor.png]]
+
 * Fusion of two sensors with mismatch dynamics
 The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals_with_dyn.png][png]], [[./figs/fusion_two_signals_with_dyn.pdf][pdf]] and [[./figs/fusion_two_signals_with_dyn.tex][tex]].
 
@@ -414,9 +460,9 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
     \node[block, right=0.5 of add2](H2){$H_2(s)$};
     \node[addb, right=6 of x](add){};
 
-    \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x);
-    \draw[->] (x) |- (add1.west);
-    \draw[->] (x) |- (add2.west);
+    \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
+    \draw[->] (x.center) |- (add1.west);
+    \draw[->] (x.center) |- (add2.west);
     \draw[->] ($(add1-|W1.west)+(-0.5, 0)$)node[branch](S1){} |- (W1.west);
     \draw[->] ($(add2-|W2.west)+(-0.5, 0)$)node[branch](S1){} |- (W2.west);
     \draw[->] (W1.east) -- (delta1.west);
@@ -463,6 +509,35 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 #+caption: Uncertainty to Phase and Gain variation ([[./figs/uncertainty_gain_phase_variation.png][png]], [[./figs/uncertainty_gain_phase_variation.pdf][pdf]], [[./figs/uncertainty_gain_phase_variation.tex][tex]]).
 #+RESULTS:
 [[file:figs/uncertainty_gain_phase_variation.png]]
+
+* Uncertainty to Phase and Gain variation - Bis
+The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty_gain_phase_variation_bis.png][png]], [[./figs/uncertainty_gain_phase_variation_bis.pdf][pdf]] and [[./figs/uncertainty_gain_phase_variation_bis.tex][tex]].
+
+#+begin_src latex :file uncertainty_gain_phase_variation_bis.pdf :tangle figs/uncertainty_gain_phase_variation_bis.tex :exports both
+  \begin{tikzpicture}
+    % Uncertainty Circle
+    \node[circle, draw, fill=black!10!white] (c) at (4.5, 0)[minimum size=2cm]{};
+
+    % Real and Imaginary Axis
+    \draw[->] (-0.5, 0) -- (6.2, 0) node[below left]{Re};
+    \draw[->] (0, -0.5) -- (0, 1) node[below left]{Im};
+
+    % X = 1
+    \node[branch] (1) at (4.5, 0){};
+    \node[below] at (1){$1$};
+
+
+
+    \draw[dashed] (0, 0)coordinate(A) -- (tangent cs:node=c,point={(0, 0)},solution=2)coordinate(B) -- node[midway, right]{$\epsilon$} (1);
+    \draw[dashed] (2, 0) arc (0:23:1) node[midway, right]{$\Delta \phi$};
+    % \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=1) coordinate(cbot);
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:uncertainty_gain_phase_variation_bis
+#+caption: Uncertainty to Phase and Gain variation_bis ([[./figs/uncertainty_gain_phase_variation_bis.png][png]], [[./figs/uncertainty_gain_phase_variation_bis.pdf][pdf]], [[./figs/uncertainty_gain_phase_variation_bis.tex][tex]]).
+#+RESULTS:
+[[file:figs/uncertainty_gain_phase_variation_bis.png]]
 
 * Generate Complementary Filters using Feedback Control Architecture
 #+begin_src latex :file complementary_filters_feedback_architecture.pdf :tangle figs/complementary_filters_feedback_architecture.tex :exports both
@@ -511,7 +586,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_
      \draw[->] (H1.west) -| ($(inputu)+(0.5*\cdist, 0)$) node[above]{$u$} -- (W1.west);
      \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
      \draw[->] (sub.east) -- (W2.west);
-     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) node[above]{$v$} |- (H1.east);
+     \draw[->] ($(sub.west)+(-0.6, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) node[above]{$v$} |- (H1.east);
      \draw[->] (W2.east) -- (outputh)node[above left]{$z_2$};
      \draw[->] (W1.east) -- (outputl)node[above left]{$z_1$};
   \end{tikzpicture}
