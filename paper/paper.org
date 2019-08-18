@@ -70,6 +70,19 @@
                )
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp :results none
+  (defun delete-org-comments (backend)
+    (loop for comment in (reverse (org-element-map (org-element-parse-buffer)
+                                      'comment 'identity))
+          do
+          (setf (buffer-substring (org-element-property :begin comment)
+                                  (org-element-property :end comment))
+                "")))
+
+  ;; add to export hook
+  (add-hook 'org-export-before-processing-hook 'delete-org-comments)
+#+END_SRC
+
 * Abstract                                                           :ignore:
 #+begin_abstract
   Abstract text to be done
