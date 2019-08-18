@@ -20,41 +20,10 @@
 #+LATEX_HEADER: \usepackage[USenglish]{babel}
 #+LATEX_HEADER: \setcounter{footnote}{1}
 #+LATEX_HEADER: \renewcommand{\citedash}{--}
-#+LATEX_HEADER: \input{config.tex}
 #+LATEX_HEADER: \IEEEoverridecommandlockouts
-
 
 \bibliographystyle{IEEEtran}
 :END:
-
-* LaTeX Config                                                     :noexport:
-#+begin_src latex :tangle config.tex
-  % H 2
-  \newcommand{\htwo}{\mathcal{H}_2}
-
-  % Omega
-  \newcommand{\w}{\omega}
-
-  % H-Infinity Norm
-  \newcommand{\hnorm}[1]{\left\|#1\right\|_{\infty}}
-
-  % H-2 Norm
-  \newcommand{\normtwo}[1]{\left\|#1\right\|_{2}}
-
-  % Norm
-  \newcommand{\norm}[1]{\left\|#1\right\|}
-
-  % Absolute value
-  \newcommand{\abs}[1]{\left\lvert #1 \right\lvert}
-
-  % Minimum Subscript
-  \newcommand{\smin}{_{\text{min}}}
-
-  % Maximum Subscript
-  \newcommand{\smax}{_{\text{max}}}
-
-  \newcommand*\colvec[1]{\begin{bmatrix}#1\end{bmatrix}}
-#+end_src
 
 * Build                                                            :noexport:
 #+BEGIN_SRC emacs-lisp :results none
@@ -276,7 +245,7 @@ where $W_1(s)$ and $W_2(s)$ are two weighting transfer functions chosen to shape
 In order to express this synthesis problem into a standard $\mathcal{H}_\infty$ problem, we use the architecture shown on Fig. ref:fig:h_infinity_robust_fusion where the generalized plant $P$ is defined in eqref:eq:generalized_plant.
 #+NAME: eq:generalized_plant
 \begin{equation}
-  \colvec{w\\u} = P(s) \colvec{z_2 \\ z_1 \\ v}; \quad P(s) = \begin{bmatrix} W_2(s) & -W_2(s) \\ 0 & W_1(s) \\ 1 & 0 \end{bmatrix}
+  \begin{bmatrix} w\\u \end{bmatrix} = P(s) \begin{bmatrix} z_2 \\ z_1 \\ v \end{bmatrix}; \quad P(s) = \begin{bmatrix} W_2(s) & -W_2(s) \\ 0 & W_1(s) \\ 1 & 0 \end{bmatrix}
 \end{equation}
 
 #+name: fig:h_infinity_robust_fusion
@@ -287,13 +256,13 @@ In order to express this synthesis problem into a standard $\mathcal{H}_\infty$ 
 The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is then to design a stable filter $H_1(s)$ such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_2, \ z_1]$ is less than $1$ eqref:eq:hinf_syn_obj.
 #+NAME: eq:hinf_syn_obj
 \begin{equation}
-  \hnorm{\begin{matrix} \left[1 - H_1(s)\right] W_2(s) \\ H_1(s) W_1(s) \end{matrix}} \le 1
+  \left\|\begin{matrix} \left[1 - H_1(s)\right] W_2(s) \\ H_1(s) W_1(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
 Which is equivalent to eqref:eq:hinf_problem by defining $H_2(s) = 1 - H_1(s)$.
 #+NAME: eq:hinf_problem
 \begin{equation}
-  \hnorm{\begin{matrix} H_2(s) W_2(s) \\ H_1(s) W_1(s) \end{matrix}} \le 1
+  \left\|\begin{matrix} H_2(s) W_2(s) \\ H_1(s) W_1(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
 the complementary condition eqref:eq:hinf_cond_complementarity is ensured by the definition of $H_2(s)$. The conditions eqref:eq:hinf_cond_h1 and eqref:eq:hinf_cond_h2 on the shape of the filters are satisfied by eqref:eq:hinf_problem.
@@ -379,10 +348,11 @@ The bode plot of the obtained complementary filters is shown on Fig. ref:fig:hin
 <<sec:hinf_three_comp_filters>>
 
 *** Why it is used sometimes                                       :ignore:
-Sometime it is necessary to merge three sensors and it
+In some applications, it may be needed to merge more than two sensors.
+In such case, it is necessary to design as many complementary filters $H_i(s)$ as the number of sensors used.
 
 *** Mathematical Problem                                           :ignore:
-The synthesis problem is then to compute $n$ filters $H_i(s)$ such that:
+The synthesis problem is then to compute $n$ filters $H_i(s)$ such that eqref:eq:hinf_problem_gen is satisfied.
 #+NAME: eq:hinf_problem_gen
 \begin{subequations}
   \begin{align}
