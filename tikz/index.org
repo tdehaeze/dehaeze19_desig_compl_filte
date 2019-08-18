@@ -674,7 +674,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_weight
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{4cm}
+  \setlength\fheight{3.5cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -695,8 +695,8 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_weight
       every y tick label/.append style={font=\color{black}},
       every y tick/.append style={black},
       ymode=log,
-      ymin=0.001,
-      ymax=10,
+      ymin=0.006,
+      ymax=5,
       yminorticks=true,
       ylabel={Magnitude},
       axis background/.style={fill=white},
@@ -925,7 +925,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_li
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{7cm}
+  \setlength\fheight{6cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -940,8 +940,8 @@ The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_li
       xticklabels={{}},
       xminorticks=true,
       ymode=log,
-      ymin=0.001,
-      ymax=10,
+      ymin=0.006,
+      ymax=5,
       ytick={0.001, 0.01, 0.1, 1, 10},
       yminorticks=true,
       ylabel={Magnitude},
