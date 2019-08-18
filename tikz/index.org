@@ -27,17 +27,17 @@ Configuration file is accessible [[file:config.org][here]].
 * Change some default
 #+NAME: tikz_default
 #+begin_src latex :eval no
-    \tikzset{block/.default={0.8cm}{0.6cm}}
-    \tikzset{addb/.append style={scale=0.7}}
-    \tikzset{node distance=0.6}
-    \def\cdist{0.7}
+  \tikzset{block/.default={0.8cm}{0.8cm}}
+  \tikzset{addb/.append style={scale=0.7}}
+  \tikzset{node distance=0.6}
+  \def\cdist{0.7}
 
-    \definecolor{T}{rgb}{0.230, 0.299, 0.754}%
-    \definecolor{S}{rgb}{0.706, 0.016, 0.150}%
+  \definecolor{T}{rgb}{0.230, 0.299, 0.754}%
+  \definecolor{S}{rgb}{0.706, 0.016, 0.150}%
 
-    \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
-    \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
-    \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}
+  \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
+  \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
+  \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}
 #+end_src
 
 * H-Infinity - Complementary filters - Generalized plant
@@ -120,17 +120,17 @@ Configuration file is accessible [[file:config.org][here]].
      \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
 
      \coordinate[] (output3) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (output2) at ($(P.south east)!0.6!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (output1) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output2) at ($(P.south east)!0.55!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output1) at ($(P.south east)!0.3!(P.north east) + ( \cdist, 0)$);
      \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
 
-     \node[block, left=2*\cdist of output1] (W1){$W_1$};
-     \node[block, left=2*\cdist of output2] (W2){$W_2$};
-     \node[block, left=2*\cdist of output3] (W3){$W_3$};
+     \node[block, left=2*\cdist of output1] (W1){$W_1(s)$};
+     \node[block, left=2*\cdist of output2] (W2){$W_2(s)$};
+     \node[block, left=2*\cdist of output3] (W3){$W_3(s)$};
      \node[addb={+}{}{}{}{-}, left=of W3] (sub1) {};
      \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
 
-     \node[block, below=\cdist of P] (H) {$\begin{bmatrix}H_1 \\ H_2\end{bmatrix}$};
+     \node[block, below=0.4 of P] (H) {$\begin{bmatrix}H_1(s) \\ H_2(s)\end{bmatrix}$};
 
      \draw[->] (inputw) node[above right]{$w$} -- (sub2.west);
      \draw[->] (W1-|sub1)node[branch]{} -- (sub1.south);
@@ -319,6 +319,8 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
 
 #+begin_src latex :file fusion_two_noisy_sensors_with_dyn_ter.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_ter.tex
+  <<tikz_default>>
+
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
     \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
@@ -402,17 +404,17 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
   <<tikz_default>>
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
-    \node[addb, above right=1 and 3.5 of x](add1){};
-    \node[addb, below right=1 and 3.5 of x](add2){};
-    \node[block, above left= of add1](delta1){$\Delta_1$};
-    \node[block, above left= of add2](delta2){$\Delta_2$};
-    \node[block, left= of delta1](W1){$W_1$};
-    \node[block, left= of delta2](W2){$W_2$};
-    \node[block, right= of add1](H1){$H_1$};
-    \node[block, right= of add2](H2){$H_2$};
-    \node[addb, right=5.5 of x](add){};
+    \node[addb, above right=0.8 and 4 of x](add1){};
+    \node[addb, below right=0.8 and 4 of x](add2){};
+    \node[block, above left=0.2 and 0.1 of add1](delta1){$\Delta_1(s)$};
+    \node[block, above left=0.2 and 0.1 of add2](delta2){$\Delta_2(s)$};
+    \node[block, left=0.5 of delta1](W1){$W_1(s)$};
+    \node[block, left=0.5 of delta2](W2){$W_2(s)$};
+    \node[block, right=0.5 of add1](H1){$H_1(s)$};
+    \node[block, right=0.5 of add2](H2){$H_2(s)$};
+    \node[addb, right=6 of x](add){};
 
-    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
+    \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x);
     \draw[->] (x) |- (add1.west);
     \draw[->] (x) |- (add2.west);
     \draw[->] ($(add1-|W1.west)+(-0.5, 0)$)node[branch](S1){} |- (W1.west);
@@ -425,12 +427,12 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
     \draw[->] (add2.east) -- (H2.west);
     \draw[->] (H1.east) -| (add.north);
     \draw[->] (H2.east) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
+    \draw[->] (add.east) -- ++(0.7, 0) node[above left]{$\hat{x}$};
 
     \begin{scope}[on background layer]
-      \node[fit={($(W1.north-|S1)+(-0.2, 0.2)$) ($(add1.south east)+(0.2, -0.3)$)}, fill=black!20!white, inner sep=0pt] (sensor1) {};
+      \node[block, fit={($(W1.north-|S1)+(-0.2, 0.2)$) ($(add1.south east)+(0.2, -0.3)$)}, fill=black!20!white, dashed, inner sep=0pt] (sensor1) {};
       \node[above right] at (sensor1.south west) {Sensor 1};
-      \node[fit={($(W2.north-|S1)+(-0.2, 0.2)$) ($(add2.south east)+(0.2, -0.3)$)}, fill=black!20!white, inner sep=0pt] (sensor2) {};
+      \node[block, fit={($(W2.north-|S1)+(-0.2, 0.2)$) ($(add2.south east)+(0.2, -0.3)$)}, fill=black!20!white, dashed, inner sep=0pt] (sensor2) {};
       \node[above right] at (sensor2.south west) {Sensor 2};
     \end{scope}
   \end{tikzpicture}
@@ -499,11 +501,11 @@ The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_
      \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
      \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
 
-     \node[block, left=2*\cdist of outputl] (W1){$W_1$};
-     \node[block, left=2*\cdist of outputh] (W2){$W_2$};
+     \node[block, left=2*\cdist of outputl] (W1){$W_1(s)$};
+     \node[block, left=2*\cdist of outputh] (W2){$W_2(s)$};
      \node[addb={+}{}{}{}{-}, left=of W2] (sub) {};
 
-     \node[block, below=\cdist of P] (H1) {$H_1$};
+     \node[block, below=\cdist of P] (H1) {$H_1(s)$};
 
      \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
      \draw[->] (H1.west) -| ($(inputu)+(0.5*\cdist, 0)$) node[above]{$u$} -- (W1.west);
