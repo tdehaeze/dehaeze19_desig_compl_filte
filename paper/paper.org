@@ -1,4 +1,4 @@
-#+TITLE: On the Design of Complementary Filters for Control
+#+TITLE: Design of Complementary Filters Using the $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
 #+LATEX_CLASS: ieeeconf
 #+LATEX_CLASS_OPTIONS: [letterpaper, 10 pt, conference]
@@ -6,10 +6,10 @@
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
-#+AUTHOR: @@latex:Dehaeze Thomas$^{1}$, Vermat Mohit$^{2}$ and Collette Christophe$^{3}$ @@
-#+AUTHOR: @@latex:\thanks{$^{1}$Dehaeze Thomas PhD Student  {\tt\small thomas.dehaeze@esrf.fr}}@@
-#+AUTHOR: @@latex:\thanks{$^{2}$Vermat Mohit {\tt\small thomas.dehaeze@esrf.fr}}@@
-#+AUTHOR: @@latex:\thanks{$^{3}$Collette Christophe {\tt\small thomas.dehaeze@esrf.fr}}@@
+#+AUTHOR: @@latex:Dehaeze Thomas$^{1}$, Verma Mohit$^{2}$ and Collette Christophe$^{3}$ @@
+#+AUTHOR: @@latex:\thanks{$^{1}$Dehaeze Thomas {\tt\small thomas.dehaeze@esrf.fr}}@@
+#+AUTHOR: @@latex:\thanks{$^{2}$Vermat Mohit {\tt\small mohit.verma@ulb.ac.be}}@@
+#+AUTHOR: @@latex:\thanks{$^{3}$Collette Christophe {\tt\small ccollett@ulb.ac.be}}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
 #+LATEX_HEADER: \usepackage[noadjust,space,compress]{cite}
@@ -20,7 +20,7 @@
 #+LATEX_HEADER: \setcounter{footnote}{1}
 #+LATEX_HEADER: \input{config.tex}
 #+LATEX_HEADER: \renewcommand{\citedash}{--}
-
+#+LATEX_HEADER: \IEEEoverridecommandlockouts
 
 \bibliographystyle{IEEEtran}
 :END:
