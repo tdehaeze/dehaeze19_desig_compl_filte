@@ -392,9 +392,8 @@ The obtained FIR filters are compliant with the requirements, however their impl
 
 In order to demonstrate the effectiveness of the synthesis method presented in section ref:sec:hinf_method, complementary filters subject to the same requirements are synthesize.
 
-** Specifications
+** Complementary Filters Specifications
 <<sec:ligo_specifications>>
-
 As explained in section ref:sec:requirements, typical specifications for the complementary filters are on their magnitude.
 
 The specifications for one pair of complementary filter used at the LIGO are summarized below and explained in details in cite:hua04_polyp_fir_compl_filter_contr_system:
@@ -405,22 +404,21 @@ The specifications for one pair of complementary filter used at the LIGO are sum
 
 The specifications are represented by the dashed black curves on the bode plot in Fig. ref:fig:ligo_weights.
 
-** Weighting functions design
+** Weighting Functions Design
 <<sec:ligo_weights>>
 The weighting functions should be designed so that their inverse amplitude is as close as possible to the specifications in order to not over-constrain the synthesis problem.
 However, their order should stay reasonably small as to limit both the complexity of the optimization problem and the order of the synthesize complementary filters.
 
 A Type I Chebyshev filter of order $20$ is used for the weighting transfer function corresponding to the low pass filter $w_L(s)$. For the one corresponding to the high pass filter $w_H(s)$, a $7^{\text{th}}$ order transfer function designed manually gives satisfactory results.
-The magnitudes of the inverse of the weighting functions are shown on Fig. ref:fig:ligo_weights.
+The magnitudes the weighting functions inverses are shown on Fig. ref:fig:ligo_weights.
 
 #+name: fig:ligo_weights
-#+caption: Specification and Weighting Functions used for the $\mathcal{H}_\infty$ synthesis
+#+caption: Specification and weighting functions used for the $\mathcal{H}_\infty$ synthesis
 #+attr_latex: :scale 1
 [[file:figs/ligo_weights.pdf]]
 
 ** $\mathcal{H}_\infty$ Synthesis
 <<sec:ligo_results>>
-
 The $\mathcal{H}_\infty$ synthesis is performed using the architecture of Fig. ref:eq:generalized_plant.
 The complementary filters obtained are of order $27$.
 On Fig. ref:fig:comp_fir_ligo_hinf, their bode plot is compared with the FIR filters of order 512 obtained in cite:hua05_low_ligo.
