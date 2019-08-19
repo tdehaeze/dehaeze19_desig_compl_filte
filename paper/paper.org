@@ -120,7 +120,7 @@ The signals from both sensors are fed into two complementary filters $H_1(s)$ an
 \end{equation}
 
 #+name: fig:fusion_super_sensor
-#+caption: Sensor Fusion Architecture
+#+caption: Sensor fusion architecture
 #+attr_latex: :scale 1
 [[file:figs/fusion_super_sensor.pdf]]
 
@@ -173,7 +173,7 @@ In practical systems, the sensors dynamics has always some level of uncertainty 
 This uncertainty can be represented as input multiplicative uncertainty as shown on Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any transfer function satisfying $\|\Delta_i(j\omega)\|_\infty \le 1,\ \forall\omega$ and where $|W_i(s)|$ represents the frequency dependent uncertainty level.
 
 #+name: fig:fusion_gain_mismatch_bis
-#+caption: Sensor Fusion Architecture with Sensor Dynamical Uncertainty
+#+caption: Sensor fusion architecture with sensor dynamics uncertainty
 #+attr_latex: :scale 1
 [[file:figs/fusion_gain_mismatch_bis.pdf]]
 
@@ -301,7 +301,7 @@ The parameters $G_0$, $G_c$ and $G_\infty$ should either satisfy condition eqref
 The shape of the weighting function generated using eqref:eq:weight_formula is shown on Fig. ref:fig:weight_formula.
 
 #+name: fig:weight_formula
-#+caption: Amplitude of the proposed formula for the weighting functions, $G_0 = 1e^{-3}$, $G_\infty = 10$, $\omega_c = \SI{10}{Hz}$, $G_c = 2$, $n = 3$
+#+caption: Amplitude of the proposed formula eqref:eq:weight_formula, $G_0 = 1e^{-3}$, $G_\infty = 10$, $\omega_c = \SI{10}{Hz}$, $G_c = 2$, $n = 3$
 #+attr_latex: :scale 1
 [[file:figs/weight_formula.pdf]]
 
@@ -334,7 +334,7 @@ The bode plot of the obtained complementary filters is shown on Fig. ref:fig:hin
 \end{align*}
 
 #+name: fig:hinf_synthesis_results
-#+caption: Weighting functions and Obtain Complementary Filters using the $\mathcal{H}_\infty$ Synthesis
+#+caption: Weighting functions and obtain complementary filters using the $\mathcal{H}_\infty$ synthesis
 #+attr_latex: :scale 1
 [[file:figs/hinf_synthesis_results.pdf]]
 
