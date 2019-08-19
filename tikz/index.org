@@ -519,7 +519,7 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 #+begin_src latex :file uncertainty_gain_phase_variation_bis.pdf :tangle figs/uncertainty_gain_phase_variation_bis.tex :exports both
   \begin{tikzpicture}
     % Uncertainty Circle
-    \node[circle, draw, fill=black!10!white] (c) at (4.5, 0)[minimum size=2cm]{};
+    \node[circle, draw, fill=black!20!white] (c) at (4.5, 0)[minimum size=2cm]{};
 
     % Real and Imaginary Axis
     \draw[->] (-0.5, 0) -- (6.2, 0) node[below left]{Re};
@@ -533,7 +533,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 
     \draw[dashed] (0, 0)coordinate(A) -- (tangent cs:node=c,point={(0, 0)},solution=2)coordinate(B) -- node[midway, right]{$\epsilon$} (1);
     \draw[dashed] (2, 0) arc (0:23:1) node[midway, right]{$\Delta \phi$};
-    % \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=1) coordinate(cbot);
   \end{tikzpicture}
 #+end_src
 
