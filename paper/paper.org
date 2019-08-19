@@ -361,10 +361,9 @@ The synthesis problem is then to compute $n$ stable transfer functions $H_i(s)$ 
 
 *** H-Infinity Architecture                                        :ignore:
 The synthesis architecture on Fig. ref:fig:h_infinity_robust_fusion can be generalized for the synthesis of a set of $n$ complementary filters.
-
 For the synthesis of three complementary filters, the architecture used is shown on Fig. ref:fig:comp_filter_three_hinf.
 
-The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two stable filters $H_1(s)$ and $H_2(s)$ such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_3,\ z_2, \ z_1]$ is less than $1$ eqref:eq:hinf_syn_obj_three.
+The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two stable filters $H_1(s)$ and $H_2(s)$ such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_3,\ z_2, \ z_1]$ is less than one eqref:eq:hinf_syn_obj_three.
 #+name: eq:hinf_syn_obj_three
 \begin{equation}
   \left\| \begin{matrix} \left[1 - H_1(s) - H_2(s)\right] W_3(s) \\ H_2(s) W_2(s) \\ H_1(s) W_1(s) \end{matrix} \right\|_\infty \le 1
@@ -375,12 +374,12 @@ The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two 
 #+attr_latex: :scale 1
 [[file:figs/comp_filter_three_hinf.pdf]]
 
-By choosing $H_3(s) \triangleq 1 - H_1(s) - H_2(s)$, the proposed $\mathcal{H}_\infty$ synthesis solves eqref:eq:hinf_problem_gen.
+By choosing $H_3(s) \triangleq 1 - H_1(s) - H_2(s)$, the proposed $\mathcal{H}_\infty$ synthesis solves the design problem eqref:eq:hinf_problem_gen. \par
 
 *** Example of generated complementary filters                     :ignore:
-An example is given to validate the method where three sensors are used in different frequency bands (up to $\SI{1}{Hz}$, from $1$ to $\SI{10}{Hz}$, above $\SI{10}{Hz}$).
-
-The chosen weighting functions and the obtained complementary filters are shown on Fig. ref:fig:hinf_three_synthesis_results.
+An example is given to validate the method where three sensors are used in different frequency bands (up to $\SI{1}{Hz}$, from $1$ to $\SI{10}{Hz}$ and above $\SI{10}{Hz}$ respectively).
+Three weighting functions are designed using eqref:eq:weight_formula and shown by dashed curves on Fig. ref:fig:hinf_three_synthesis_results.
+The obtained complementary filters after synthesis are shown on Fig. ref:fig:hinf_three_synthesis_results.
 
 #+name: fig:hinf_three_synthesis_results
 #+caption: Obtained three complementary filters
@@ -391,9 +390,13 @@ The chosen weighting functions and the obtained complementary filters are shown 
 <<sec:application_ligo>>
 
 ** Introduction                                                     :ignore:
+In this section, the usefulness/performance of the proposed method is demonstrated using
+
 
 - Explain the application.
 - Explain that FIR filters have been designed instead of IIR
+
+The goal is to design one high pass filter and one low pass filter
 
 ** Specifications
 <<sec:ligo_specifications>>
@@ -401,6 +404,10 @@ The chosen weighting functions and the obtained complementary filters are shown 
 Specifications on the magnitude of the complementary filters are listed in cite:hua04_polyp_fir_compl_filter_contr_system.
 
 The specifications are represented by the dashed black curves on the bode plot in Fig. ref:fig:ligo_weights.
+- From $0$ to $\SI{0.008}{Hz}$, the magnitude of the filter's transfer function should be less or equal to $8 \times 10^{-4}$
+- Between $\SI{0.008}{Hz}$ to $\SI{0.04}{Hz}$, the filter should attenuate the input signal proportional to frequency cubed
+- Between $\SI{0.04}{Hz}$ to $\SI{0.1}{Hz}$, the magnitude of the transfer function should be less than $3$
+- Above $\SI{0.1}{Hz}$, the magnitude of the complementary filter should be less than $0.045$
 
 # #+name: fig:ligo_specifications
 # #+caption: Specifications on the norms of the complementary filters
