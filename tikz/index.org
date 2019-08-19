@@ -111,7 +111,7 @@ Configuration file is accessible [[file:config.org][here]].
 #+begin_src latex :file comp_filter_three_hinf.pdf :tangle figs/comp_filter_three_hinf.tex
   <<tikz_default>>
   \begin{tikzpicture}
-     \node[block={5.0cm}{4.0cm}, fill=black!20!white, dashed] (P) {};
+     \node[block={5.0cm}{3.5cm}, fill=black!20!white, dashed] (P) {};
      \node[above] at (P.north) {$P(s)$};
 
      \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
@@ -128,7 +128,7 @@ Configuration file is accessible [[file:config.org][here]].
      \node[addb={+}{}{}{}{-}, left=of W1] (sub1) {};
      \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
 
-     \node[block, below=0.4 of P] (H) {$\begin{bmatrix}H_2(s) \\ H_3(s)\end{bmatrix}$};
+     \node[block, below=0.3 of P] (H) {$\begin{bmatrix}H_2(s) \\ H_3(s)\end{bmatrix}$};
 
      \draw[->] (inputw) node[above right](w){$w$} -- (sub2.west);
      \draw[->] (W3-|sub1)node[branch]{} -- (sub1.south);
@@ -543,21 +543,21 @@ Configuration file is accessible [[file:config.org][here]].
 #+begin_src latex :file h_infinity_robust_fusion.pdf :tangle figs/h_infinity_robust_fusion.tex :exports both
   <<tikz_default>>
   \begin{tikzpicture}
-     \node[block={4.0cm}{3.0cm}, fill=black!20!white, dashed] (P) {};
+     \node[block={4.0cm}{2.5cm}, fill=black!20!white, dashed] (P) {};
      \node[above] at (P.north) {$P(s)$};
 
-     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputw)  at ($(P.south west)!0.75!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.35!(P.north west) + (-\cdist, 0)$);
 
-     \coordinate[] (output1) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (output2) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output1) at ($(P.south east)!0.75!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output2) at ($(P.south east)!0.35!(P.north east) + ( \cdist, 0)$);
      \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
 
      \node[block, left=2*\cdist of output1] (W1){$W_1(s)$};
      \node[block, left=2*\cdist of output2] (W2){$W_2(s)$};
      \node[addb={+}{}{}{}{-}, left=of W1] (sub) {};
 
-     \node[block, below=\cdist of P] (H2) {$H_2(s)$};
+     \node[block, below=0.3 of P] (H2) {$H_2(s)$};
 
      \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
      \draw[->] (H2.west) -| ($(inputu)+(0.5*\cdist, 0)$) node[above]{$u$} -- (W2.west);
@@ -647,7 +647,7 @@ Configuration file is accessible [[file:config.org][here]].
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{3.5cm}
+  \setlength\fheight{3cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -974,7 +974,7 @@ Configuration file is accessible [[file:config.org][here]].
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{4cm}
+  \setlength\fheight{3.5cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -1093,13 +1093,13 @@ Configuration file is accessible [[file:config.org][here]].
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{7cm}
+  \setlength\fheight{6cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
       width=1.0\fwidth,
-      height=0.55\fheight,
-      at={(0.0\fwidth, 0.45\fheight)},
+      height=0.5\fheight,
+      at={(0.0\fwidth, 0.5\fheight)},
       scale only axis,
       xmode=log,
       xmin=0.1,
@@ -1131,7 +1131,7 @@ Configuration file is accessible [[file:config.org][here]].
 
     \begin{axis}[%
       width=1.0\fwidth,
-      height=0.4\fheight,
+      height=0.45\fheight,
       at={(0.0\fwidth, 0.0\fheight)},
       scale only axis,
       xmode=log,
@@ -1170,7 +1170,7 @@ Configuration file is accessible [[file:config.org][here]].
   <<tikz_default>>
 
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{7cm}
+  \setlength\fheight{6cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -1221,12 +1221,12 @@ Configuration file is accessible [[file:config.org][here]].
       xmax=100,
       xminorticks=true,
       xlabel={Frequency [Hz]},
-      ymin=-270,
-      ymax=270,
-      ytick={-270, -180,  -90,    0,   90,  180, 270},
+      ymin=-240,
+      ymax=240,
+      ytick={-180,  -90,    0,   90,  180},
       ylabel={Phase [deg]},
       xminorgrids,
-      legend style={at={(1,1.4)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
+      legend style={at={(1,0.6)}, outer sep=2pt , anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
       ]
       \addlegendimage{color=mycolor1, dashed, line width=1.5pt}
       \addlegendentry{${W_1}^{-1}$};
