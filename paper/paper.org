@@ -385,37 +385,36 @@ The obtained complementary filters after synthesis are shown on Fig. ref:fig:hin
 #+attr_latex: :scale 1
 [[file:figs/hinf_three_synthesis_results.pdf]]
 
-* Application: Design of Complementary Filters used for the LIGO Active Vibration Isolation System
+* Application: Design of Complementary Filters used for the Active Vibration Isolation System at the LIGO
 <<sec:application_ligo>>
 ** Introduction                                                     :ignore:
-The complementary filter synthesis method presented in section ref:sec:hinf_method is now applied for the design of challenging complementary filters used for the active isolation system at the LIGO.
+Several complementary filters are used for the active isolation system at the LIGO cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system.
+The requirements on those filters are very tight and thus their design is complex.
+The approach taken in cite:hua05_low_ligo for the design of those filters is to use high order FIR filters and write the synthesis objective as a convex optimization problem.
+The obtained FIR filters are compliant with the requirements, however their implementation is complex as it requires a lot of computation power.
 
-The use of these complementary filters is described in cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system.
-The approach taken by Hua in cite:hua05_low_ligo for the design of such filter is to write the synthesis of complementary FIR filters as a convex optimization problem.
-However, the implementation of high order FIR filter is complex as it requires a lot of computation power.
+In order to demonstrate the effectiveness of the synthesis method presented in section ref:sec:hinf_method, complementary filters subject to the same requirements are synthesize.
 
 ** Specifications
 <<sec:ligo_specifications>>
 
-The specification of the and summarized below:
-Specifications on the magnitude of the complementary filters are listed in cite:hua04_polyp_fir_compl_filter_contr_system.
+As explained in section ref:sec:requirements, typical specifications for the complementary filters are on their magnitude.
 
-The specifications are represented by the dashed black curves on the bode plot in Fig. ref:fig:ligo_weights.
+The specifications for one pair of complementary filter used at the LIGO are summarized below and explained in details in cite:hua04_polyp_fir_compl_filter_contr_system:
 - From $0$ to $\SI{0.008}{Hz}$, the magnitude of the filter's transfer function should be less or equal to $8 \times 10^{-4}$
 - Between $\SI{0.008}{Hz}$ to $\SI{0.04}{Hz}$, the filter should attenuate the input signal proportional to frequency cubed
 - Between $\SI{0.04}{Hz}$ to $\SI{0.1}{Hz}$, the magnitude of the transfer function should be less than $3$
 - Above $\SI{0.1}{Hz}$, the magnitude of the complementary filter should be less than $0.045$
 
+The specifications are represented by the dashed black curves on the bode plot in Fig. ref:fig:ligo_weights.
+
 ** Weighting functions design
 <<sec:ligo_weights>>
+The weighting functions should be designed so that their inverse amplitude is as close as possible to the specifications in order to not over-constrain the synthesis problem.
+However, their order should stay reasonably small as to limit both the complexity of the optimization problem and the order of the synthesize complementary filters.
 
-The weighting functions should be design to be as close as possible as the specifications in order to not over-constrain the problem.
-However, their order should not be too high to limit both the complexity of the optimization problem and the order of the synthesize complementary filters.
-
-- Add transfer functions used for synthesis? Or how they are designed at least.
-
-Type I Chebyshev filter or order $20$.
-
+A Type I Chebyshev filter of order $20$ is used for the weighting transfer function corresponding to the low pass filter $w_L(s)$. For the one corresponding to the high pass filter $w_H(s)$, a $7^{\text{th}}$ order transfer function designed manually gives satisfactory results.
+The magnitudes of the inverse of the weighting functions are shown on Fig. ref:fig:ligo_weights.
 
 #+name: fig:ligo_weights
 #+caption: Specification and Weighting Functions used for the $\mathcal{H}_\infty$ synthesis
@@ -425,10 +424,12 @@ Type I Chebyshev filter or order $20$.
 ** $\mathcal{H}_\infty$ Synthesis
 <<sec:ligo_results>>
 
-
+The $\mathcal{H}_\infty$ synthesis is performed using the architecture of Fig. ref:eq:generalized_plant.
+The complementary filters obtained are of order $27$.
+On Fig. ref:fig:comp_fir_ligo_hinf, their bode plot is compared with the FIR filters of order 512 obtained in cite:hua05_low_ligo.
 
 #+name: fig:comp_fir_ligo_hinf
-#+caption: Comparison of the filters obtain with the $\mathcal{H}_\infty$ synthesis and the FIR filters designed in cite:hua05_low_ligo
+#+caption: Comparison of the FIR filters (solid) designed in cite:hua05_low_ligo with the filters obtained with the $\mathcal{H}_\infty$ synthesis (dashed)
 #+attr_latex: :scale 1
 [[file:figs/comp_fir_ligo_hinf.pdf]]
 
