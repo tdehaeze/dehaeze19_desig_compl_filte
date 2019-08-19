@@ -60,54 +60,50 @@
 * Introduction
   <<sec:introduction>>
 
-*** DONE Establish the importance of the research topic            :ignore:
-CLOSED: [2019-08-17 sam. 23:34]
+*** Establish the importance of the research topic                 :ignore:
 # What are Complementary Filters
 A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies.
 These filters are used when two or more sensors are measuring the same physical quantity with different noise characteristics. Unreliable frequencies of each sensors are filtered out by the complementary filters and combined to form a "super sensor" giving a better estimate of the physical quantity over a wider bandwidth.
-This technique is called sensor blending or sensor fusion and used for many applications.\par
+This technique is called sensor fusion and it is used for many applications.\par
 
-*** DONE Applications of complementary filtering                   :ignore:
-CLOSED: [2019-08-18 dim. 14:21]
+*** Applications of complementary filtering                        :ignore:
 # Improve bandwidth for UAV
 In cite:zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim, such technique is used for the attitude estimation of Unmanned Aerial Vehicles (UAV) using various sensors (accelerometers, gyroscopes, vision sensors, ...).
 # Improving the control robustness
-In cite:collette15_sensor_fusion_method_high_perfor, several sensor fusion configurations using different types of sensors (inertial, relative motion and force) have been discussed in order to increase the control bandwidth of active vibration isolation systems.
+In cite:collette15_sensor_fusion_method_high_perfor, several sensor fusion configurations using different types of sensors have been discussed in order to increase the control bandwidth of active vibration isolation systems.
 # Merging of different sensor types
-Furthermore, sensor fusion is used for the low frequency isolation at the Laser Interferometer Gravitational-Wave Observator (LIGO), where inertial sensors are merged with relative sensors
+Furthermore, sensor fusion is used for the isolation systems at the Laser Interferometer Gravitational-Wave Observator (LIGO) where inertial sensors are merged with relative sensors at very low frequency
 cite:matichard15_seism_isolat_advan_ligo,hua04_polyp_fir_compl_filter_contr_system. \par
 
-*** DONE Current design methods for complementary filters          :ignore:
-CLOSED: [2019-08-18 dim. 15:38]
+*** Current design methods for complementary filters               :ignore:
 # Why Design of Complementary Filter is important
 As the super sensor noise characteristics depends largely on the complementary filter norms, their proper design is of primary importance for sensor fusion performance.
 # Discuss the different approach to complementary filter design
-Different design methods have been developed.
 In cite:corke04_inert_visual_sensin_system_small_auton_helic,jensen13_basic_uas,min15_compl_filter_desig_angle_estim, analytical formulas for complementary filter transfer functions of first and second order have been proposed.
 # Third Order and Higher orders
 Higher order complementary filters have been used in
 cite:shaw90_bandw_enhan_posit_measur_using_measur_accel,zimmermann92_high_bandw_orien_measur_contr,collette15_sensor_fusion_method_high_perfor.
 # Alternate Formulation
-In cite:jensen13_basic_uas, the sensitivity and complementary sensitivity transfer functions of a feedback architecture have been proposed to be used for complementary filters. The design of such filters can then benefits from the developments of classical control theory.
+In cite:jensen13_basic_uas, the sensitivity and complementary sensitivity transfer functions of a feedback architecture have been proposed to be used as complementary filters. The design of such filters can then benefits from the classical control theory developments.
 # LMI / convex Optimization
 Linear Matrix Inequalities (LMIs) are used in cite:pascoal99_navig_system_desig_using_time for the synthesis of complementary filters satisfying some frequency-like performance.
 # Least Square method for finding the optimal filter coefficients
 A design method using linear least squares to optimize the coefficients of complementary filters is proposed in cite:min15_compl_filter_desig_angle_estim.
 # FIR Filters
-Finally, high order Finite Impulse Response (FIR) complementary filters are used to merge sensors at LIGO cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system,matichard15_seism_isolat_advan_ligo. The synthesis of such filter using convex optimization is presented in cite:hua05_low_ligo. \par
+Finally, high order Finite Impulse Response (FIR) complementary filters are synthesized using convex optimization and used to merge sensor at the LIGO cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system,matichard15_seism_isolat_advan_ligo. \par
 
-*** TODO Describe a gap in the research                            :ignore:
+*** Describe a gap in the research                                 :ignore:
 # There is a need for easy synthesis methods for complementary filters
-Although many design methods of complementary filters have been proposed, we believe that it lacks a simple method of designing complementary filters [...] specifying upper bounds.\par
+Although many design methods of complementary filters have been proposed in the literature, it lacks a simple synthesis method permitting the shaping of complementary filters.\par
 
-*** TODO Describe the paper itself / the problem which is addressed :ignore:
-In this paper, we propose a synthesis method for the shaping of complementary filters using the $\mathcal{H}_\infty$ norm.\par
+*** Describe the paper itself / the problem which is addressed     :ignore:
+# In this paper, we propose a synthesis method for the shaping of complementary filters using the $\mathcal{H}_\infty$ norm.\par
+This paper proposes a new synthesis method for the shaping of complementary filters using the $\mathcal{H}_\infty$ norm.\par
 
-*** DONE Introduce Each part of the paper                          :ignore:
-CLOSED: [2019-08-17 sam. 15:28]
-The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and the associated requirements on their norms.
-In section ref:sec:hinf_method, a new method for designing complementary filters using the $\mathcal{H}_\infty$ synthesis is proposed.
-In section ref:sec:application_ligo, two high order complementary filters are designed using the proposed method and compared with FIR filters used for sensor fusion at the LIGO.
+*** Introduce Each part of the paper                               :ignore:
+The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and explains how the typical requirements for such fusion are on the norms of the filters.
+In section ref:sec:hinf_method, a new design method for the shaping complementary filters using the $\mathcal{H}_\infty$ synthesis is proposed.
+In section ref:sec:application_ligo, the method is used to design complex complementary filters that are used for sensor fusion at the LIGO.
 Our conclusions are drawn in the final section.
 
 * Complementary Filters Requirements
