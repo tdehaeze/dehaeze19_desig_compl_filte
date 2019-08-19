@@ -111,7 +111,6 @@ Our conclusions are drawn in the final section.
 
 * Complementary Filters Requirements
 <<sec:requirements>>
-
 ** Sensor Fusion Architecture
 <<sec:sensor_fusion>>
 
@@ -386,21 +385,19 @@ The obtained complementary filters after synthesis are shown on Fig. ref:fig:hin
 #+attr_latex: :scale 1
 [[file:figs/hinf_three_synthesis_results.pdf]]
 
-* Application to the design of
+* Application: Design of Complementary Filters used for the LIGO Active Vibration Isolation System
 <<sec:application_ligo>>
-
 ** Introduction                                                     :ignore:
-In this section, the usefulness/performance of the proposed method is demonstrated using
+The complementary filter synthesis method presented in section ref:sec:hinf_method is now applied for the design of challenging complementary filters used for the active isolation system at the LIGO.
 
-
-- Explain the application.
-- Explain that FIR filters have been designed instead of IIR
-
-The goal is to design one high pass filter and one low pass filter
+The use of these complementary filters is described in cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system.
+The approach taken by Hua in cite:hua05_low_ligo for the design of such filter is to write the synthesis of complementary FIR filters as a convex optimization problem.
+However, the implementation of high order FIR filter is complex as it requires a lot of computation power.
 
 ** Specifications
 <<sec:ligo_specifications>>
 
+The specification of the and summarized below:
 Specifications on the magnitude of the complementary filters are listed in cite:hua04_polyp_fir_compl_filter_contr_system.
 
 The specifications are represented by the dashed black curves on the bode plot in Fig. ref:fig:ligo_weights.
@@ -409,18 +406,16 @@ The specifications are represented by the dashed black curves on the bode plot i
 - Between $\SI{0.04}{Hz}$ to $\SI{0.1}{Hz}$, the magnitude of the transfer function should be less than $3$
 - Above $\SI{0.1}{Hz}$, the magnitude of the complementary filter should be less than $0.045$
 
-# #+name: fig:ligo_specifications
-# #+caption: Specifications on the norms of the complementary filters
-# #+attr_latex: :scale 1
-# [[file:figs/ligo_specifications.pdf]]
-
 ** Weighting functions design
 <<sec:ligo_weights>>
 
 The weighting functions should be design to be as close as possible as the specifications in order to not over-constrain the problem.
-However, their order should not be too high to
+However, their order should not be too high to limit both the complexity of the optimization problem and the order of the synthesize complementary filters.
 
 - Add transfer functions used for synthesis? Or how they are designed at least.
+
+Type I Chebyshev filter or order $20$.
+
 
 #+name: fig:ligo_weights
 #+caption: Specification and Weighting Functions used for the $\mathcal{H}_\infty$ synthesis
