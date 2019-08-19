@@ -30,10 +30,8 @@ Configuration file is accessible [[file:config.org][here]].
   \tikzset{block/.default={0.8cm}{0.8cm}}
   \tikzset{addb/.append style={scale=0.7}}
   \tikzset{node distance=0.6}
-  \def\cdist{0.7}
 
-  \definecolor{T}{rgb}{0.230, 0.299, 0.754}%
-  \definecolor{S}{rgb}{0.706, 0.016, 0.150}%
+  \def\cdist{0.7}
 
   \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
   \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
@@ -114,7 +112,7 @@ Configuration file is accessible [[file:config.org][here]].
   <<tikz_default>>
   \begin{tikzpicture}
      \node[block={5.0cm}{4.0cm}, fill=black!20!white, dashed] (P) {};
-     \node[above] at (P.north) {$P$};
+     \node[above] at (P.north) {$P(s)$};
 
      \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
      \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
@@ -154,9 +152,8 @@ Configuration file is accessible [[file:config.org][here]].
 #+caption: H-Infinity - Complementary filters ([[./figs/comp_filter_three_hinf.png][png]], [[./figs/comp_filter_three_hinf.pdf][pdf]], [[./figs/comp_filter_three_hinf.tex][tex]]).
 #+RESULTS:
 [[file:figs/comp_filter_three_hinf.png]]
-* H-Infinity - Optimal Complementary Filters
-The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_optimal_comp_filters.png][png]], [[./figs/h_infinity_optimal_comp_filters.pdf][pdf]] and [[./figs/h_infinity_optimal_comp_filters.tex][tex]].
 
+* H-Infinity - Optimal Complementary Filters
 #+begin_src latex :file h_infinity_optimal_comp_filters.pdf :tangle figs/h_infinity_optimal_comp_filters.tex
   <<tikz_default>>
   \begin{tikzpicture}
@@ -193,8 +190,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_
 #+RESULTS:
 [[file:figs/h_infinity_optimal_comp_filters.png]]
 * Fusion of two noisy sensors
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors.png][png]], [[./figs/fusion_two_noisy_sensors.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors.tex][tex]].
-
 #+begin_src latex :file fusion_two_noisy_sensors.pdf :tangle figs/fusion_two_noisy_sensors.tex
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
@@ -226,8 +221,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 #+RESULTS:
 [[file:figs/fusion_two_noisy_sensors.png]]
 * Fusion of two noisy signals
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals.png][png]], [[./figs/fusion_two_signals.pdf][pdf]] and [[./figs/fusion_two_signals.tex][tex]].
-
 #+begin_src latex :file fusion_two_signals.pdf :tangle figs/fusion_two_signals.tex
   \begin{tikzpicture}
     \node[addb] (add) at (0, 0){};
@@ -248,8 +241,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_two_signals.png]]
 
 * Fusion of two noisy sensors with Dynamics
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn.tex][tex]].
-
 #+begin_src latex :file fusion_two_noisy_sensors_with_dyn.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn.tex
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
@@ -285,8 +276,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 #+RESULTS:
 [[file:figs/fusion_two_noisy_sensors_with_dyn.png]]
 * Fusion of two noisy sensors with Dynamics - Bis
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
-
 #+begin_src latex :file fusion_two_noisy_sensors_with_dyn_bis.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_bis.tex
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
@@ -319,8 +308,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_two_noisy_sensors_with_dyn_bis.png]]
 
 * Fusion of two noisy sensors with Dynamics - With Boxes
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
-
 #+begin_src latex :file fusion_two_noisy_sensors_with_dyn_ter.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_ter.tex
   <<tikz_default>>
 
@@ -362,8 +349,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_two_noisy_sensors_with_dyn_ter.png]]
 
 * Fusion of two noisy sensors with Dynamics - Super Sensor
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]] and [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]].
-
 #+begin_src latex :file fusion_super_sensor.pdf :tangle figs/fusion_super_sensor.tex
   <<tikz_default>>
 
@@ -408,8 +393,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_super_sensor.png]]
 
 * Fusion of two sensors with mismatch dynamics
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals_with_dyn.png][png]], [[./figs/fusion_two_signals_with_dyn.pdf][pdf]] and [[./figs/fusion_two_signals_with_dyn.tex][tex]].
-
 #+begin_src latex :file fusion_gain_mismatch.pdf :tangle figs/fusion_gain_mismatch.tex
   <<tikz_default>>
   \begin{tikzpicture}
@@ -447,8 +430,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_gain_mismatch.png]]
 
 * Fusion of two sensors with mismatch dynamics - With Boxed
-The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_signals_with_dyn.png][png]], [[./figs/fusion_two_signals_with_dyn.pdf][pdf]] and [[./figs/fusion_two_signals_with_dyn.tex][tex]].
-
 #+begin_src latex :file fusion_gain_mismatch_bis.pdf :tangle figs/fusion_gain_mismatch_bis.tex
   <<tikz_default>>
   \begin{tikzpicture}
@@ -493,8 +474,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/fusion_two_
 [[file:figs/fusion_gain_mismatch_bis.png]]
 
 * Uncertainty to Phase and Gain variation
-The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty_gain_phase_variation.png][png]], [[./figs/uncertainty_gain_phase_variation.pdf][pdf]] and [[./figs/uncertainty_gain_phase_variation.tex][tex]].
-
 #+begin_src latex :file uncertainty_gain_phase_variation.pdf :tangle figs/uncertainty_gain_phase_variation.tex :exports both
   \begin{tikzpicture}
     \draw[->] (-0.5, 0)   -- (7, 0) node[below left]{Real};
@@ -514,8 +493,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 [[file:figs/uncertainty_gain_phase_variation.png]]
 
 * Uncertainty to Phase and Gain variation - Bis
-The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty_gain_phase_variation_bis.png][png]], [[./figs/uncertainty_gain_phase_variation_bis.pdf][pdf]] and [[./figs/uncertainty_gain_phase_variation_bis.tex][tex]].
-
 #+begin_src latex :file uncertainty_gain_phase_variation_bis.pdf :tangle figs/uncertainty_gain_phase_variation_bis.tex :exports both
   \begin{tikzpicture}
     % Uncertainty Circle
@@ -563,13 +540,11 @@ The Tikz figure can be downloaded in the following formats: [[./figs/uncertainty
 [[file:figs/complementary_filters_feedback_architecture.png]]
 
 * H-Infinity Synthesis for Robust Sensor Fusion
-The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_robust_fusion.png][png]], [[./figs/h_infinity_robust_fusion.pdf][pdf]] and [[./figs/h_infinity_robust_fusion.tex][tex]].
-
 #+begin_src latex :file h_infinity_robust_fusion.pdf :tangle figs/h_infinity_robust_fusion.tex :exports both
   <<tikz_default>>
   \begin{tikzpicture}
      \node[block={4.0cm}{3.0cm}, fill=black!20!white, dashed] (P) {};
-     \node[above] at (P.north) {$P$};
+     \node[above] at (P.north) {$P(s)$};
 
      \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
      \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
@@ -599,8 +574,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/h_infinity_
 #+RESULTS:
 [[file:figs/h_infinity_robust_fusion.png]]
 * LIGO Specifications
-The Tikz figure can be downloaded in the following formats: [[./figs/ligo_specifications.png][png]], [[./figs/ligo_specifications.pdf][pdf]] and [[./figs/ligo_specifications.tex][tex]].
-
 #+begin_src latex :file ligo_specifications.pdf :tangle figs/ligo_specifications.tex :exports both
   <<tikz_default>>
 
@@ -670,8 +643,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_specif
 [[file:figs/ligo_specifications.png]]
 
 * LIGO - Weights
-The Tikz figure can be downloaded in the following formats: [[./figs/ligo_weights.png][png]], [[./figs/ligo_weights.pdf][pdf]] and [[./figs/ligo_weights.tex][tex]].
-
 #+begin_src latex :file ligo_weights.pdf :tangle figs/ligo_weights.tex :exports both
   <<tikz_default>>
 
@@ -921,8 +892,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/ligo_weight
 [[file:figs/ligo_weights.png]]
 
 * FIR/H-Infinity Filters comparison
-The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_ligo_hinf.png][png]], [[./figs/comp_fir_ligo_hinf.pdf][pdf]] and [[./figs/comp_fir_ligo_hinf.tex][tex]].
-
 #+begin_src latex :file comp_fir_ligo_hinf.pdf :tangle figs/comp_fir_ligo_hinf.tex :exports both
   <<tikz_default>>
 
@@ -1001,8 +970,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/comp_fir_li
 [[file:figs/comp_fir_ligo_hinf.png]]
 
 * Weighting Function Formula
-The Tikz figure can be downloaded in the following formats: [[./figs/weight_formula.png][png]], [[./figs/weight_formula.pdf][pdf]] and [[./figs/weight_formula.tex][tex]].
-
 #+begin_src latex :file weight_formula.pdf :tangle figs/weight_formula.tex :exports both
   <<tikz_default>>
 
@@ -1075,8 +1042,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/weight_form
 [[file:figs/weight_formula.png]]
 
 * Weighting Functions
-The Tikz figure can be downloaded in the following formats: [[./figs/weights_wl_wh.png][png]], [[./figs/weights_wl_wh.pdf][pdf]] and [[./figs/weights_wl_wh.tex][tex]].
-
 #+begin_src latex :file weights_wl_wh.pdf :tangle figs/weights_wl_wh.tex :exports both
   <<tikz_default>>
 
@@ -1124,8 +1089,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/weights_wl_
 [[file:figs/weights_wl_wh.png]]
 
 * H-Infinity Synthesis - Results
-The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthesis_results.png][png]], [[./figs/hinf_synthesis_results.pdf][pdf]] and [[./figs/hinf_synthesis_results.tex][tex]].
-
 #+begin_src latex :file hinf_synthesis_results.pdf :tangle figs/hinf_synthesis_results.tex :exports both
   <<tikz_default>>
 
@@ -1203,8 +1166,6 @@ The Tikz figure can be downloaded in the following formats: [[./figs/hinf_synthe
 #+RESULTS:
 [[file:figs/hinf_synthesis_results.png]]
 * H-Infinity Synthesis - Three Filters - Results
-The Tikz figure can be downloaded in the following formats: [[./figs/hinf_three_synthesis_results.png][png]], [[./figs/hinf_three_synthesis_results.pdf][pdf]] and [[./figs/hinf_three_synthesis_results.tex][tex]].
-
 #+begin_src latex :file hinf_three_synthesis_results.pdf :tangle figs/hinf_three_synthesis_results.tex :exports both
   <<tikz_default>>
 
