@@ -10,7 +10,7 @@
 #+AUTHOR: @@latex:\thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, Liege, Belgium}@@
 #+AUTHOR: @@latex:\thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France}@@
 #+AUTHOR: @@latex:\thanks{\textsuperscript{3} Unversité Libre de Bruxelles, BEAMS Department, Brussels, Belgium}@@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{$\dagger$} Email: {\tt\small thomas.dehaeze@esrf.fr}}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{$\dagger$} Corresponding Author. Email: {\tt\small thomas.dehaeze@esrf.fr}}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
 #+LATEX_HEADER: \usepackage[noadjust,space,compress]{cite}
@@ -53,7 +53,8 @@
 
 * Abstract                                                           :ignore:
 #+begin_abstract
-  Abstract text to be done
+  The paper presents a design method of complementary filters that allows to specify the shape of the complementary filters norms.
+  This method is shown to be easy to use and is successfully applied for the design high order complex complementary filters.
 #+end_abstract
 
 * Introduction
