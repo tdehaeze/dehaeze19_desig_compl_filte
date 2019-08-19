@@ -132,7 +132,7 @@ Configuration file is accessible [[file:config.org][here]].
 
      \node[block, below=0.4 of P] (H) {$\begin{bmatrix}H_1(s) \\ H_2(s)\end{bmatrix}$};
 
-     \draw[->] (inputw) node[above right]{$w$} -- (sub2.west);
+     \draw[->] (inputw) node[above right](w){$w$} -- (sub2.west);
      \draw[->] (W1-|sub1)node[branch]{} -- (sub1.south);
      \draw[->] (W2-|sub2)node[branch]{} -- (sub2.south);
      \draw[->] ($(sub2.west)+(-0.5, 0)$) node[branch]{} |- (outputv) |- (H.east);
@@ -141,9 +141,12 @@ Configuration file is accessible [[file:config.org][here]].
 
      \draw[->] (sub2.east) -- (sub1.west);
      \draw[->] (sub1.east) -- (W3.west);
-     \draw[->] (W1.east) -- (output1)node[above left]{$z_1$};
+     \draw[->] (W1.east) -- (output1)node[above left](z){$z_1$};
      \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
      \draw[->] (W3.east) -- (output3)node[above left]{$z_3$};
+     \node[above] at (W2-|w){$u_2$};
+     \node[above] at (W1-|w){$u_1$};
+     \node[above] at (outputv-|z){$v$};
   \end{tikzpicture}
 #+end_src
 
