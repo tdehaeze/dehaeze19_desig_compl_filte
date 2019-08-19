@@ -319,7 +319,7 @@ Configuration file is accessible [[file:config.org][here]].
     \node[addb, right=0.8 of G2](add2){};
     \node[block, right=0.8 of add1](H1){$H_1(s)$};
     \node[block, right=0.8 of add2](H2){$H_2(s)$};
-    \node[addb, right=5.5 of x](add){};
+    \node[addb, right=5 of x](add){};
 
     \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
     \draw[->] (x.center) |- (G1.west);
@@ -360,7 +360,7 @@ Configuration file is accessible [[file:config.org][here]].
     \node[addb, right=0.8 of G2](add2){};
     \node[block, right=0.8 of add1](H1){$H_1(s)$};
     \node[block, right=0.8 of add2](H2){$H_2(s)$};
-    \node[addb, right=5.5 of x](add){};
+    \node[addb, right=5 of x](add){};
 
     \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
     \draw[->] (x.center) |- (G1.west);
