@@ -241,7 +241,7 @@ where $W_1(s)$ and $W_2(s)$ are two weighting transfer functions chosen to shape
 In order to express this synthesis problem into a standard $\mathcal{H}_\infty$ problem, we use the standard architecture shown on Fig. ref:fig:h_infinity_robust_fusion where the generalized plant $P$ is described by eqref:eq:generalized_plant.
 #+NAME: eq:generalized_plant
 \begin{equation}
-  \begin{bmatrix} w\\u \end{bmatrix} = P(s) \begin{bmatrix} z_2 \\ z_1 \\ v \end{bmatrix}; \quad P(s) = \begin{bmatrix} W_2(s) & -W_2(s) \\ 0 & W_1(s) \\ 1 & 0 \end{bmatrix}
+  \begin{bmatrix} z_1 \\ z_2 \\ v \end{bmatrix} = P(s) \begin{bmatrix} w\\u \end{bmatrix}; \quad P(s) = \begin{bmatrix}W_1(s) & -W_1(s) \\ 0 & W_2(s) \\  1 & 0 \end{bmatrix}
 \end{equation}
 
 #+name: fig:h_infinity_robust_fusion
@@ -249,19 +249,19 @@ In order to express this synthesis problem into a standard $\mathcal{H}_\infty$ 
 #+attr_latex: :scale 1
 [[file:figs/h_infinity_robust_fusion.pdf]]
 
-The $\mathcal{H}_\infty$ filter design problem is then to find a stable filter $H_1(s)$ which based on $v$, generates a signal $u$ such that the $\mathcal{H}_\infty$ norm from $w$ to $[z_2, \ z_1]$ is less than one eqref:eq:hinf_syn_obj.
+The $\mathcal{H}_\infty$ filter design problem is then to find a stable filter $H_1(s)$ which based on $v$, generates a signal $u$ such that the $\mathcal{H}_\infty$ norm from $w$ to $[z_1, \ z_2]$ is less than one eqref:eq:hinf_syn_obj.
 #+NAME: eq:hinf_syn_obj
 \begin{equation}
-  \left\|\begin{matrix} \left[1 - H_1(s)\right] W_2(s) \\ H_1(s) W_1(s) \end{matrix}\right\|_\infty \le 1
+  \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
-Which is equivalent to eqref:eq:hinf_problem by defining $H_2(s) \triangleq 1 - H_1(s)$.
+Which is equivalent to eqref:eq:hinf_problem by defining $H_1(s) \triangleq 1 - H_2(s)$.
 #+NAME: eq:hinf_problem
 \begin{equation}
-  \left\|\begin{matrix} H_2(s) W_2(s) \\ H_1(s) W_1(s) \end{matrix}\right\|_\infty \le 1
+  \left\|\begin{matrix} H_1(s) W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
-The complementary condition eqref:eq:hinf_cond_complementarity is ensured by the definition of $H_2(s)$. The conditions eqref:eq:hinf_cond_h1 and eqref:eq:hinf_cond_h2 on the shape of the filters are satisfied by eqref:eq:hinf_problem.
+The complementary condition eqref:eq:hinf_cond_complementarity is ensured by the definition of $H_1(s)$. The conditions eqref:eq:hinf_cond_h1 and eqref:eq:hinf_cond_h2 on the shape of the filters are satisfied by eqref:eq:hinf_problem.
 
 Using this $\mathcal{H}_\infty$ synthesis method, we are then able to shape complementary filters.
 
@@ -363,10 +363,10 @@ The synthesis problem is then to compute $n$ stable transfer functions $H_i(s)$ 
 The synthesis architecture on Fig. ref:fig:h_infinity_robust_fusion can be generalized for the synthesis of a set of $n$ complementary filters.
 For the synthesis of three complementary filters, the architecture used is shown on Fig. ref:fig:comp_filter_three_hinf.
 
-The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two stable filters $H_1(s)$ and $H_2(s)$ such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_3,\ z_2, \ z_1]$ is less than one eqref:eq:hinf_syn_obj_three.
+The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two stable filters $H_2(s)$ and $H_3(s)$ such that the $\mathcal{H}_\infty$ norm of the transfer function from $w$ to $[z_1,\ z_2, \ z_3]$ is less than one eqref:eq:hinf_syn_obj_three.
 #+name: eq:hinf_syn_obj_three
 \begin{equation}
-  \left\| \begin{matrix} \left[1 - H_1(s) - H_2(s)\right] W_3(s) \\ H_2(s) W_2(s) \\ H_1(s) W_1(s) \end{matrix} \right\|_\infty \le 1
+  \left\| \begin{matrix} \left[1 - H_2(s) - H_3(s)\right] W_1(s) \\ H_2(s) W_2(s) \\ H_3(s) W_3(s) \end{matrix} \right\|_\infty \le 1
 \end{equation}
 
 #+name: fig:comp_filter_three_hinf
@@ -374,7 +374,7 @@ The $\mathcal{H}_\infty$ synthesis objective applied on $P(s)$ is to design two 
 #+attr_latex: :scale 1
 [[file:figs/comp_filter_three_hinf.pdf]]
 
-By choosing $H_3(s) \triangleq 1 - H_1(s) - H_2(s)$, the proposed $\mathcal{H}_\infty$ synthesis solves the design problem eqref:eq:hinf_problem_gen. \par
+By choosing $H_1(s) \triangleq 1 - H_2(s) - H_3(s)$, the proposed $\mathcal{H}_\infty$ synthesis solves the design problem eqref:eq:hinf_problem_gen. \par
 
 *** Example of generated complementary filters                     :ignore:
 An example is given to validate the method where three sensors are used in different frequency bands (up to $\SI{1}{Hz}$, from $1$ to $\SI{10}{Hz}$ and above $\SI{10}{Hz}$ respectively).
