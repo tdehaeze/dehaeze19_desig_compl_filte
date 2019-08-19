@@ -430,6 +430,11 @@ On Fig. ref:fig:comp_fir_ligo_hinf, their bode plot is compared with the FIR fil
 
 * Conclusion
   <<sec:conclusion>>
+This paper has shown how complementary filters can be used to combine multiple sensors in order to obtain a "super sensor" giving a better estimate than the individual sensors.
+Typical specification such has obtained noise of the super sensor and robustness of the fusion has been shown to be linked to the norms of the complementary filters.
+A synthesis method of complementary filters
+Finally LIGO
+Future work will aim at using this synthesis method for the robust and optimal sensor fusion.
 
 * Acknowledgment
 This research benefited from a FRIA grant from the French Community of Belgium.
