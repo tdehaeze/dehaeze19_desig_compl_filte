@@ -6,15 +6,15 @@
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
-#+AUTHOR: @@latex:Dehaeze Thomas$^{1}$, Verma Mohit$^{2}$ and Collette Christophe$^{3}$ @@
-#+AUTHOR: @@latex:\thanks{$^{1}$Dehaeze Thomas {\tt\small thomas.dehaeze@esrf.fr}}@@
-#+AUTHOR: @@latex:\thanks{$^{2}$Vermat Mohit {\tt\small mohit.verma@ulb.ac.be}}@@
-#+AUTHOR: @@latex:\thanks{$^{3}$Collette Christophe {\tt\small ccollett@ulb.ac.be}}@@
+#+AUTHOR: @@latex:Dehaeze Thomas\textsuperscript{1,2,$\dagger$}, Verma Mohit\textsuperscript{1,3} and Collette Christophe\textsuperscript{1,3} @@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, Liege, Belgium}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{3} Unversité Libre de Bruxelles, BEAMS Department, Brussels, Belgium}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{$\dagger$} Email: {\tt\small thomas.dehaeze@esrf.fr}}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
 #+LATEX_HEADER: \usepackage[noadjust,space,compress]{cite}
 #+LATEX_HEADER: \usepackage{tabularx,siunitx,booktabs}
-# #+LATEX_HEADER: \usepackage{showframe}
 #+LATEX_HEADER: \usepackage{algorithmic, graphicx, textcomp}
 #+LATEX_HEADER: \usepackage{xcolor, import, hyperref}
 #+LATEX_HEADER: \usepackage[USenglish]{babel}
@@ -441,6 +441,7 @@ However, their order should not be too high to
   <<sec:conclusion>>
 
 * Acknowledgment
+This research benefited from a FRIA grant from the French Community of Belgium.
 
 * Bibliography                                                       :ignore:
 \bibliography{ref}
