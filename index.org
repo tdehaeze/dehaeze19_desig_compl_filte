@@ -1,5 +1,7 @@
-#+TITLE: On the Design of Complementary Filters for Control - Computation with Matlab
+#+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
+#+OPTIONS: toc:nil
+#+OPTIONS: html-postamble:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/readtheorg.css"/>
 #+HTML_HEAD: <script src="js/jquery.min.js"></script>
@@ -8,11 +10,28 @@
 #+HTML_HEAD: <script src="js/readtheorg.js"></script>
 :END:
 
-* Paper
-The current version of the paper is accessible [[file:paper/paper.pdf][here]].
+To cite this paper use the following bibtex code.
+#+begin_src bibtex
+@inproceedings{dehaeze19_compl_filter_shapin_using_synth,
+  author =       {Thomas Dehaeze and Mohit Vermat and Christophe Collette},
+  title =        {Complementary Filters Shaping Using $\mathcal{H}_\infty$
+                  Synthesis},
+  booktitle =    {ICCMA'19},
+  year =         2019,
+  language =     {english},
+}
+#+end_src
 
-* Computation - Matlab
-The Matlab computation files that permits to obtain all the paper results are accessible [[file:matlab/index.org][here]].
+You can also you for formatted citation below.
+#+begin_quote
+  Dehaeze, T., Vermat, M., & Collette, C., Complementary filters shaping using $H_\infty$ synthesis, In , ICCMA'19 (pp. ) (2019). : .
+#+end_quote
+
+* Paper
+The PDF version of the paper is accessible [[file:paper/paper.pdf][here]].
+
+* Matlab
+The Matlab scripts that permits to obtain all the results presented in the paper are accessible [[file:matlab/index.org][here]].
 
 * Figures
-The figures are generated using [[https://sourceforge.net/projects/pgf/][TikZ]]. The code to generate the figures inside the paper are accessible [[file:tikz/index.org][here]].
+All the figures in the paper are generated using [[https://sourceforge.net/projects/pgf/][TikZ]]. The code snippets that was used to generate the figures are accessible [[file:tikz/index.org][here]].
