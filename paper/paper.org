@@ -1,4 +1,4 @@
-#+TITLE: Shaping of Complementary Filters Using $\mathcal{H}_\infty$ Synthesis
+#+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
 #+LATEX_CLASS: ieeeconf
 #+LATEX_CLASS_OPTIONS: [letterpaper, 10 pt, conference]
@@ -169,12 +169,12 @@ In order to lower the noise of the super sensor, the norm $|H_1|$ has to be made
 
 In practical systems, the sensor dynamics always has some level of uncertainty and cannot be inverted perfectly such that $G_i(s) = 1$.
 
-This can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any stable transfer function satisfying $|\Delta_i(j\omega)| \le 1,\ \forall\omega$, and $|w_i(s)|$ is a weight representing the magnitude of the uncertainty.
+This can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:sensor_fusion_dynamic_uncertainty where $\Delta_i$ is any stable transfer function satisfying $|\Delta_i(j\omega)| \le 1,\ \forall\omega$, and $|w_i(s)|$ is a weight representing the magnitude of the uncertainty.
 
-#+name: fig:fusion_gain_mismatch_bis
+#+name: fig:sensor_fusion_dynamic_uncertainty
 #+caption: Sensor fusion architecture with sensor dynamics uncertainty
 #+attr_latex: :scale 1
-[[file:figs/fusion_gain_mismatch_bis.pdf]]
+[[file:figs/sensor_fusion_dynamic_uncertainty.pdf]]
 
 The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and is now dependent on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
 #+name: eq:super_sensor_dyn_uncertainty
@@ -191,12 +191,12 @@ In order to limit the phase and gain uncertainty of the super sensor, one may wa
   \end{aligned}
 \end{equation}
 
-Condition eqref:eq:max_uncertainty_super_sensor is equivalent as bounding the uncertainty set of the super sensor dynamics in the complex plane by a circle centered at $1$ with a radius equal to $\epsilon$ (Fig. ref:fig:uncertainty_gain_phase_variation_bis).
+Condition eqref:eq:max_uncertainty_super_sensor is equivalent as bounding the uncertainty set of the super sensor dynamics in the complex plane by a circle centered at $1$ with a radius equal to $\epsilon$ (Fig. ref:fig:uncertainty_set_super_sensor).
 
-#+name: fig:uncertainty_gain_phase_variation_bis
+#+name: fig:uncertainty_set_super_sensor
 #+caption: Uncertainty set of the super sensor dynamics
 #+attr_latex: :scale 1
-[[file:figs/uncertainty_gain_phase_variation_bis.pdf]]
+[[file:figs/uncertainty_set_super_sensor.pdf]]
 
 The maximum phase added by the super sensor uncertainty $\Delta\phi$ is then
 #+name: eq:max_phase_uncertainty
