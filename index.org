@@ -10,6 +10,10 @@
 #+HTML_HEAD: <script src="js/readtheorg.js"></script>
 :END:
 
+* How to cite this paper
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 To cite this paper use the following bibtex code.
 #+begin_src bibtex
 @inproceedings{dehaeze19_compl_filter_shapin_using_synth,
