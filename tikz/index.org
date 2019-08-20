@@ -31,324 +31,12 @@ Configuration file is accessible [[file:config.org][here]].
   \tikzset{addb/.append style={scale=0.7}}
   \tikzset{node distance=0.6}
 
-  \def\cdist{0.7}
-
   \definecolor{mycolor1}{RGB}{79,115,193}
   \definecolor{mycolor2}{RGB}{213,91,53}
   \definecolor{mycolor3}{RGB}{152,126,49}
 #+end_src
 
-* H-Infinity - Complementary filters - Generalized plant
-#+begin_src latex :file sf_hinf_filters_plant_b.pdf :tangle figs/sf_hinf_filters_plant_b.tex
-  <<tikz_default>>
-  \begin{tikzpicture}
-     \node[block={4.0cm}{3.0cm}, fill=black!20!white, dashed] (P) {};
-
-     \node[above] at (P.north) {$P$};
-
-     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
-
-     \coordinate[] (outputh) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
-
-     \node[block, left=2*\cdist of outputl] (WL){$w_L$};
-     \node[block, left=2*\cdist of outputh] (WH){$w_H$};
-     \node[addb={+}{}{}{}{-}, left=of WH] (sub) {};
-
-     \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
-     \draw[->] (inputu) node[above right]{$u$} -- (WL.west);
-     \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
-     \draw[->] (sub.east) -- (WH.west);
-     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- (outputv) node[above left]{$v$};
-     \draw[->] (WH.east) -- (outputh)node[above left]{$z_H$};
-     \draw[->] (WL.east) -- (outputl)node[above left]{$z_L$};
-   \end{tikzpicture}
-#+end_src
-
-#+name: fig:sf_hinf_filters_plant_b
-#+caption: H-Infinity - Complementary filters - Generalized plant ([[./figs/sf_hinf_filters_plant_b.png][png]], [[./figs/sf_hinf_filters_plant_b.pdf][pdf]], [[./figs/sf_hinf_filters_plant_b.tex][tex]]).
-#+RESULTS:
-[[file:figs/sf_hinf_filters_plant_b.png]]
-
-* H-Infinity - Complementary filters
-#+begin_src latex :file sf_hinf_filters_b.pdf :tangle figs/sf_hinf_filters_b.tex
-  <<tikz_default>>
-  \begin{tikzpicture}
-     \node[block={4.0cm}{3.0cm}, fill=black!20!white, dashed] (P) {};
-     \node[above] at (P.north) {$P$};
-
-     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
-
-     \coordinate[] (outputh) at ($(P.south east)!0.8!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputl) at ($(P.south east)!0.4!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
-
-     \node[block, left=2*\cdist of outputl] (WL){$w_L$};
-     \node[block, left=2*\cdist of outputh] (WH){$w_H$};
-     \node[addb={+}{}{}{}{-}, left=of WH] (sub) {};
-
-     \node[block, below=\cdist of P] (HL) {$H_L$};
-
-     \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
-     \draw[->] (HL.west) -| ($(inputu)+(0.5*\cdist, 0)$) -- (WL.west);
-     \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
-     \draw[->] (sub.east) -- (WH.west);
-     \draw[->] ($(inputw)+(2*\cdist, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) |- (HL.east);
-     \draw[->] (WH.east) -- (outputh)node[above left]{$z_H$};
-     \draw[->] (WL.east) -- (outputl)node[above left]{$z_L$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:sf_hinf_filters_b
-#+caption: H-Infinity - Complementary filters ([[./figs/sf_hinf_filters_b.png][png]], [[./figs/sf_hinf_filters_b.pdf][pdf]], [[./figs/sf_hinf_filters_b.tex][tex]]).
-#+RESULTS:
-[[file:figs/sf_hinf_filters_b.png]]
-
-* H-Infinity - 3 Complementary filters
-#+begin_src latex :file comp_filter_three_hinf.pdf :tangle figs/comp_filter_three_hinf.tex
-  <<tikz_default>>
-  \begin{tikzpicture}
-     \node[block={5.0cm}{3.5cm}, fill=black!20!white, dashed] (P) {};
-     \node[above] at (P.north) {$P(s)$};
-
-     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-\cdist, 0)$);
-
-     \coordinate[] (output1) at ($(P.south east)!0.8!(P.north east)  + (\cdist, 0)$);
-     \coordinate[] (output2) at ($(P.south east)!0.55!(P.north east) + (\cdist, 0)$);
-     \coordinate[] (output3) at ($(P.south east)!0.3!(P.north east)  + (\cdist, 0)$);
-     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east)  + (\cdist, 0)$);
-
-     \node[block, left=2*\cdist of output1] (W1){$W_1(s)$};
-     \node[block, left=2*\cdist of output2] (W2){$W_2(s)$};
-     \node[block, left=2*\cdist of output3] (W3){$W_3(s)$};
-     \node[addb={+}{}{}{}{-}, left=of W1] (sub1) {};
-     \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
-
-     \node[block, below=0.3 of P] (H) {$\begin{bmatrix}H_2(s) \\ H_3(s)\end{bmatrix}$};
-
-     \draw[->] (inputw) node[above right](w){$w$} -- (sub2.west);
-     \draw[->] (W3-|sub1)node[branch]{} -- (sub1.south);
-     \draw[->] (W2-|sub2)node[branch]{} -- (sub2.south);
-     \draw[->] ($(sub2.west)+(-0.5, 0)$) node[branch]{} |- (outputv) |- (H.east);
-     \draw[->] ($(H.south west)!0.7!(H.north west)$) -| (inputu|-W2) -- (W2.west);
-     \draw[->] ($(H.south west)!0.3!(H.north west)$) -| ($(inputu|-W3)+(0.4, 0)$) -- (W3.west);
-
-     \draw[->] (sub2.east) -- (sub1.west);
-     \draw[->] (sub1.east) -- (W1.west);
-     \draw[->] (W1.east) -- (output1)node[above left](z){$z_1$};
-     \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
-     \draw[->] (W3.east) -- (output3)node[above left]{$z_3$};
-     \node[above] at (W2-|w){$u_1$};
-     \node[above] at (W3-|w){$u_2$};
-     \node[above] at (outputv-|z){$v$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:comp_filter_three_hinf
-#+caption: H-Infinity - Complementary filters ([[./figs/comp_filter_three_hinf.png][png]], [[./figs/comp_filter_three_hinf.pdf][pdf]], [[./figs/comp_filter_three_hinf.tex][tex]]).
-#+RESULTS:
-[[file:figs/comp_filter_three_hinf.png]]
-
-* H-Infinity - Optimal Complementary Filters
-#+begin_src latex :file h_infinity_optimal_comp_filters.pdf :tangle figs/h_infinity_optimal_comp_filters.tex
-  <<tikz_default>>
-  \begin{tikzpicture}
-     \node[block={5.0cm}{3.0cm}, fill=black!20!white, dashed] (P) {};
-     \node[above] at (P.north) {$P$};
-
-     \coordinate[] (inputn1)  at ($(P.south west)!0.8!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputn2)  at ($(P.south west)!0.5!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)   at ($(P.south west)!0.2!(P.north west) + (-\cdist, 0)$);
-
-     \coordinate[] (outputx) at ($(P.south east)!0.5!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
-
-     \node[block, right=1.5 of inputn1] (W1){$W_1$};
-     \node[block, right=1.5 of inputn2] (W2){$W_2$};
-     \node[addb={+}{}{}{}{-}, right=of W1] (sub) {};
-     \node[addb, right=2 of W2] (add) {};
-
-     \node[block, below=of P] (H1) {$H_1$};
-
-     \draw[->] (inputn1)node[above right]{$n_1$} -- (W1.west);
-     \draw[->] (inputn2)node[above right]{$n_2$} -- (W2.west);
-     \draw[->] (W1) -- (sub.west);
-     \draw[->] (W2) -| (sub.south);
-     \draw[->] (W2-|sub.south) node[branch]{} -- (add.west);
-     \draw[->] (sub.east) -- ++(0.5, 0) |- ($(outputv) + (-0.3, 0)$) |- (H1.east);
-     \draw[->] (H1.west) -| ($(inputu) + (0.3, 0)$) -| (add.south);
-     \draw[->] (add.east) -- (outputx) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:h_infinity_optimal_comp_filters
-#+caption: H-Infinity - Optimal Complementary Filters ([[./figs/h_infinity_optimal_comp_filters.png][png]], [[./figs/h_infinity_optimal_comp_filters.pdf][pdf]], [[./figs/h_infinity_optimal_comp_filters.tex][tex]]).
-#+RESULTS:
-[[file:figs/h_infinity_optimal_comp_filters.png]]
-* Fusion of two noisy sensors
-#+begin_src latex :file fusion_two_noisy_sensors.pdf :tangle figs/fusion_two_noisy_sensors.tex
-  \begin{tikzpicture}
-    \node[branch] (x) at (0, 0);
-    \node[addb, above right=1.5 and 1 of x](add1){};
-    \node[addb, below right=1.5 and 1 of x](add2){};
-    \node[block, above=0.5 of add1](W1){$W_1$};
-    \node[block, above=0.5 of add2](W2){$W_2$};
-    \node[block, right=1 of add1](H1){$H_1$};
-    \node[block, right=1 of add2](H2){$H_2$};
-    \node[addb, right=4 of x](add){};
-
-    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
-    \draw[->] (x) |- (add1.west);
-    \draw[->] (x) |- (add2.west);
-    \draw[->] (W1.south) -- (add1.north);
-    \draw[->] (W2.south) -- (add2.north);
-    \draw[<-] (W1.north) -- ++(0, 0.8)node[below right]{$n_1$};
-    \draw[<-] (W2.north) -- ++(0, 0.8)node[below right]{$n_2$};
-    \draw[->] (add1.east) -- (H1.west);
-    \draw[->] (add2.east) -- (H2.west);
-    \draw[->] (H1) -| (add.north);
-    \draw[->] (H2) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_two_noisy_sensors
-#+caption: Fusion of two noisy sensors ([[./figs/fusion_two_noisy_sensors.png][png]], [[./figs/fusion_two_noisy_sensors.pdf][pdf]], [[./figs/fusion_two_noisy_sensors.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_two_noisy_sensors.png]]
-* Fusion of two noisy signals
-#+begin_src latex :file fusion_two_signals.pdf :tangle figs/fusion_two_signals.tex
-  \begin{tikzpicture}
-    \node[addb] (add) at (0, 0){};
-    \node[block, above left=0.5 and 0.8 of add] (H1) {$H_1$};
-    \node[block, below left=0.5 and 0.8 of add] (H2) {$H_2$};
-
-    \draw[->] ($(H1.west)+(-1.5, 0)$)node[above right]{$x + n_1$} -- (H1.west);
-    \draw[->] ($(H2.west)+(-1.5, 0)$)node[above right]{$x + n_2$} -- (H2.west);
-    \draw[->] (H1) -| (add.north);
-    \draw[->] (H2) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_two_signals
-#+caption: Fusion of two noisy sensors ([[./figs/fusion_two_signals.png][png]], [[./figs/fusion_two_signals.pdf][pdf]], [[./figs/fusion_two_signals.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_two_signals.png]]
-
-* Fusion of two noisy sensors with Dynamics
-#+begin_src latex :file fusion_two_noisy_sensors_with_dyn.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn.tex
-  \begin{tikzpicture}
-    \node[branch] (x) at (0, 0);
-    \node[block, above right=1.5 and 0.5 of x](G1){$G_1$};
-    \node[block, below right=1.5 and 0.5 of x](G2){$G_2$};
-    \node[addb, right=1 of G1](add1){};
-    \node[addb, right=1 of G2](add2){};
-    \node[block, above=0.5 of add1](W1){$W_1$};
-    \node[block, above=0.5 of add2](W2){$W_2$};
-    \node[block, right=1 of add1](H1){$H_1$};
-    \node[block, right=1 of add2](H2){$H_2$};
-    \node[addb, right=6 of x](add){};
-
-    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
-    \draw[->] (x) |- (G1.west);
-    \draw[->] (x) |- (G2.west);
-    \draw[->] (G1.east) -- (add1.west);
-    \draw[->] (G2.east) -- (add2.west);
-    \draw[->] (W1.south) -- (add1.north);
-    \draw[->] (W2.south) -- (add2.north);
-    \draw[<-] (W1.north) -- ++(0, 0.8)node[below right]{$n_1$};
-    \draw[<-] (W2.north) -- ++(0, 0.8)node[below right]{$n_2$};
-    \draw[->] (add1.east) -- (H1.west);
-    \draw[->] (add2.east) -- (H2.west);
-    \draw[->] (H1) -| (add.north);
-    \draw[->] (H2) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_two_noisy_sensors_with_dyn
-#+caption: Fusion of two noisy sensors_with_dyn ([[./figs/fusion_two_noisy_sensors_with_dyn.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn.pdf][pdf]], [[./figs/fusion_two_noisy_sensors_with_dyn.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_two_noisy_sensors_with_dyn.png]]
-* Fusion of two noisy sensors with Dynamics - Bis
-#+begin_src latex :file fusion_two_noisy_sensors_with_dyn_bis.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_bis.tex
-  \begin{tikzpicture}
-    \node[branch] (x) at (0, 0);
-    \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
-    \node[block, below right=0.5 and 0.5 of x](G2){$G_2(s)$};
-    \node[addb, right=0.8 of G1](add1){};
-    \node[addb, right=0.8 of G2](add2){};
-    \node[block, right=0.8 of add1](H1){$H_1(s)$};
-    \node[block, right=0.8 of add2](H2){$H_2(s)$};
-    \node[addb, right=5.5 of x](add){};
-
-    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x.center);
-    \draw[->] (x.center) |- (G1.west);
-    \draw[->] (x.center) |- (G2.west);
-    \draw[->] (G1.east) -- (add1.west);
-    \draw[->] (G2.east) -- (add2.west);
-    \draw[<-] (add1.north) -- ++(0, 0.8)node[below right]{$n_1$};
-    \draw[<-] (add2.north) -- ++(0, 0.8)node[below right]{$n_2$};
-    \draw[->] (add1.east) -- (H1.west);
-    \draw[->] (add2.east) -- (H2.west);
-    \draw[->] (H1) -| (add.north);
-    \draw[->] (H2) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_two_noisy_sensors_with_dyn_bis
-#+caption: Fusion of two noisy sensors_with_dyn_bis ([[./figs/fusion_two_noisy_sensors_with_dyn_bis.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.pdf][pdf]], [[./figs/fusion_two_noisy_sensors_with_dyn_bis.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_two_noisy_sensors_with_dyn_bis.png]]
-
-* Fusion of two noisy sensors with Dynamics - With Boxes
-#+begin_src latex :file fusion_two_noisy_sensors_with_dyn_ter.pdf :tangle figs/fusion_two_noisy_sensors_with_dyn_ter.tex
-  <<tikz_default>>
-
-  \begin{tikzpicture}
-    \node[branch] (x) at (0, 0);
-    \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
-    \node[block, below right=0.5 and 0.5 of x](G2){$G_2(s)$};
-    \node[addb, right=0.8 of G1](add1){};
-    \node[addb, right=0.8 of G2](add2){};
-    \node[block, right=0.8 of add1](H1){$H_1(s)$};
-    \node[block, right=0.8 of add2](H2){$H_2(s)$};
-    \node[addb, right=5 of x](add){};
-
-    \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
-    \draw[->] (x.center) |- (G1.west);
-    \draw[->] (x.center) |- (G2.west);
-    \draw[->] (G1.east) -- (add1.west);
-    \draw[->] (G2.east) -- (add2.west);
-    \draw[<-] (add1.north) -- ++(0, 0.8)node[below right](n1){$n_1$};
-    \draw[<-] (add2.north) -- ++(0, 0.8)node[below right](n2){$n_2$};
-    \draw[->] (add1.east) -- (H1.west);
-    \draw[->] (add2.east) -- (H2.west);
-    \draw[->] (H1) -| (add.north);
-    \draw[->] (H2) -| (add.south);
-    \draw[->] (add.east) -- ++(0.7, 0) node[above left]{$\hat{x}$};
-
-    \begin{scope}[on background layer]
-      \node[fit={($(G1.south west)+(-0.3, -0.1)$) ($(n1.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor1) {};
-      \node[below right] at (sensor1.north west) {Sensor 1};
-      \node[fit={($(G2.south west)+(-0.3, -0.1)$) ($(n2.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor2) {};
-      \node[below right] at (sensor2.north west) {Sensor 2};
-    \end{scope}
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_two_noisy_sensors_with_dyn_ter
-#+caption: Fusion of two noisy sensors_with_dyn_ter ([[./figs/fusion_two_noisy_sensors_with_dyn_ter.png][png]], [[./figs/fusion_two_noisy_sensors_with_dyn_ter.pdf][pdf]], [[./figs/fusion_two_noisy_sensors_with_dyn_ter.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_two_noisy_sensors_with_dyn_ter.png]]
-
-* Fusion of two noisy sensors with Dynamics - Super Sensor
+* Fig 1: Sensor Fusion Architecture
 #+begin_src latex :file fusion_super_sensor.pdf :tangle figs/fusion_super_sensor.tex
   <<tikz_default>>
 
@@ -388,49 +76,12 @@ Configuration file is accessible [[file:config.org][here]].
 #+end_src
 
 #+name: fig:fusion_super_sensor
-#+caption: Fusion of two noisy sensors_with_dyn_ter ([[./figs/fusion_super_sensor.png][png]], [[./figs/fusion_super_sensor.pdf][pdf]], [[./figs/fusion_super_sensor.tex][tex]]).
+#+caption: Sensor Fusion Architecture ([[./figs/fusion_super_sensor.png][png]], [[./figs/fusion_super_sensor.pdf][pdf]], [[./figs/fusion_super_sensor.tex][tex]]).
 #+RESULTS:
 [[file:figs/fusion_super_sensor.png]]
 
-* Fusion of two sensors with mismatch dynamics
-#+begin_src latex :file fusion_gain_mismatch.pdf :tangle figs/fusion_gain_mismatch.tex
-  <<tikz_default>>
-  \begin{tikzpicture}
-    \node[branch] (x) at (0, 0);
-    \node[addb, above right=1 and 3.5 of x](add1){};
-    \node[addb, below right=1 and 3.5 of x](add2){};
-    \node[block, above left= of add1](delta1){$\Delta_1$};
-    \node[block, above left= of add2](delta2){$\Delta_2$};
-    \node[block, left= of delta1](W1){$W_1$};
-    \node[block, left= of delta2](W2){$W_2$};
-    \node[block, right= of add1](H1){$H_1$};
-    \node[block, right= of add2](H2){$H_2$};
-    \node[addb, right=5.5 of x](add){};
-
-    \draw[] ($(x)+(-1, 0)$) node[above right]{$x$} -- (x);
-    \draw[->] (x) |- (add1.west);
-    \draw[->] (x) |- (add2.west);
-    \draw[->] ($(add1-|W1.west)+(-0.5, 0)$)node[branch]{} |- (W1.west);
-    \draw[->] ($(add2-|W2.west)+(-0.5, 0)$)node[branch]{} |- (W2.west);
-    \draw[->] (W1.east) -- (delta1.west);
-    \draw[->] (W2.east) -- (delta2.west);
-    \draw[->] (delta1.east) -| (add1.north);
-    \draw[->] (delta2.east) -| (add2.north);
-    \draw[->] (add1.east) -- (H1.west);
-    \draw[->] (add2.east) -- (H2.west);
-    \draw[->] (H1.east) -| (add.north);
-    \draw[->] (H2.east) -| (add.south);
-    \draw[->] (add.east) -- ++(1, 0) node[above left]{$\hat{x}$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:fusion_gain_mismatch
-#+caption: Fusion of two noisy sensors_with_dyn ([[./figs/fusion_gain_mismatch.png][png]], [[./figs/fusion_gain_mismatch.pdf][pdf]], [[./figs/fusion_gain_mismatch.tex][tex]]).
-#+RESULTS:
-[[file:figs/fusion_gain_mismatch.png]]
-
-* Fusion of two sensors with mismatch dynamics - With Boxed
-#+begin_src latex :file fusion_gain_mismatch_bis.pdf :tangle figs/fusion_gain_mismatch_bis.tex
+* Fig 2: Sensor fusion architecture with sensor dynamics uncertainty
+#+begin_src latex :file sensor_fusion_dynamic_uncertainty.pdf :tangle figs/sensor_fusion_dynamic_uncertainty.tex
   <<tikz_default>>
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
@@ -468,32 +119,13 @@ Configuration file is accessible [[file:config.org][here]].
   \end{tikzpicture}
 #+end_src
 
-#+name: fig:fusion_gain_mismatch_bis
-#+caption: Fusion of two noisy sensors_with_dyn ([[./figs/fusion_gain_mismatch_bis.png][png]], [[./figs/fusion_gain_mismatch_bis.pdf][pdf]], [[./figs/fusion_gain_mismatch_bis.tex][tex]]).
+#+name: fig:sensor_fusion_dynamic_uncertainty
+#+caption: Sensor fusion architecture with sensor dynamics uncertainty ([[./figs/sensor_fusion_dynamic_uncertainty.png][png]], [[./figs/sensor_fusion_dynamic_uncertainty.pdf][pdf]], [[./figs/sensor_fusion_dynamic_uncertainty.tex][tex]]).
 #+RESULTS:
-[[file:figs/fusion_gain_mismatch_bis.png]]
+[[file:figs/sensor_fusion_dynamic_uncertainty.png]]
 
-* Uncertainty to Phase and Gain variation
-#+begin_src latex :file uncertainty_gain_phase_variation.pdf :tangle figs/uncertainty_gain_phase_variation.tex :exports both
-  \begin{tikzpicture}
-    \draw[->] (-0.5, 0)   -- (7, 0) node[below left]{Real};
-    \draw[->] (0, -1) -- (0, 1) node[left]{Im};
-    \node[branch] (1) at (5, 0){};
-    \node[below] at (1){$1$};
-    \node[circle, draw] (c) at (1)[minimum size=2cm]{};
-    \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=2) -- node[midway, right]{$|H_i W_i|$} (1);
-    \draw[dashed] (2, 0) arc (0:23:1) node[midway, right]{$\Delta \phi$};
-    % \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=1) coordinate(cbot);
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:uncertainty_gain_phase_variation
-#+caption: Uncertainty to Phase and Gain variation ([[./figs/uncertainty_gain_phase_variation.png][png]], [[./figs/uncertainty_gain_phase_variation.pdf][pdf]], [[./figs/uncertainty_gain_phase_variation.tex][tex]]).
-#+RESULTS:
-[[file:figs/uncertainty_gain_phase_variation.png]]
-
-* Uncertainty to Phase and Gain variation - Bis
-#+begin_src latex :file uncertainty_gain_phase_variation_bis.pdf :tangle figs/uncertainty_gain_phase_variation_bis.tex :exports both
+* Fig 3: Uncertainty set of the super sensor dynamics
+#+begin_src latex :file uncertainty_set_super_sensor.pdf :tangle figs/uncertainty_set_super_sensor.tex :exports both
   \begin{tikzpicture}
     % Uncertainty Circle
     \node[circle, draw, fill=black!20!white] (c) at (4.5, 0)[minimum size=2cm]{};
@@ -513,463 +145,47 @@ Configuration file is accessible [[file:config.org][here]].
   \end{tikzpicture}
 #+end_src
 
-#+name: fig:uncertainty_gain_phase_variation_bis
-#+caption: Uncertainty to Phase and Gain variation_bis ([[./figs/uncertainty_gain_phase_variation_bis.png][png]], [[./figs/uncertainty_gain_phase_variation_bis.pdf][pdf]], [[./figs/uncertainty_gain_phase_variation_bis.tex][tex]]).
+#+name: fig:uncertainty_set_super_sensor
+#+caption: Uncertainty set of the super sensor dynamics ([[./figs/uncertainty_set_super_sensor.png][png]], [[./figs/uncertainty_set_super_sensor.pdf][pdf]], [[./figs/uncertainty_set_super_sensor.tex][tex]]).
 #+RESULTS:
-[[file:figs/uncertainty_gain_phase_variation_bis.png]]
+[[file:figs/uncertainty_set_super_sensor.png]]
 
-* Generate Complementary Filters using Feedback Control Architecture
-#+begin_src latex :file complementary_filters_feedback_architecture.pdf :tangle figs/complementary_filters_feedback_architecture.tex :exports both
-  \begin{tikzpicture}
-    \node[addb={+}{}{}{}{-}] (addfb) at (0, 0){};
-    \node[block, right=1 of addfb] (L){$L$};
-    \node[addb={+}{}{}{}{}, right=1 of L] (adddy){};
-
-    \draw[<-] (addfb.west) -- ++(-1, 0) node[above right]{$y_1$};
-    \draw[->] (addfb.east) -- (L.west);
-    \draw[->] (L.east) -- (adddy.west);
-    \draw[->] (adddy.east) -- ++(1, 0) node[above left]{$y_s$};
-    \draw[->] ($(adddy.east) + (0.5, 0)$) node[branch]{} -- ++(0, -1) -| (addfb.south);
-    \draw[<-] (adddy.north) -- ++(0, 1) node[below right]{$y_2$};
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:complementary_filters_feedback_architecture
-#+caption: Generation of Complementary Filters using the feedback architecture ([[./figs/complementary_filters_feedback_architecture.png][png]], [[./figs/complementary_filters_feedback_architecture.pdf][pdf]], [[./figs/complementary_filters_feedback_architecture.tex][tex]]).
-#+RESULTS:
-[[file:figs/complementary_filters_feedback_architecture.png]]
-
-* H-Infinity Synthesis for Robust Sensor Fusion
+* Fig 4: Architecture used for $\mathcal{H}_\infty$ synthesis of complementary filters
 #+begin_src latex :file h_infinity_robust_fusion.pdf :tangle figs/h_infinity_robust_fusion.tex :exports both
   <<tikz_default>>
   \begin{tikzpicture}
      \node[block={4.0cm}{2.5cm}, fill=black!20!white, dashed] (P) {};
      \node[above] at (P.north) {$P(s)$};
 
-     \coordinate[] (inputw)  at ($(P.south west)!0.75!(P.north west) + (-\cdist, 0)$);
-     \coordinate[] (inputu)  at ($(P.south west)!0.35!(P.north west) + (-\cdist, 0)$);
+     \coordinate[] (inputw)  at ($(P.south west)!0.75!(P.north west) + (-0.7, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.35!(P.north west) + (-0.7, 0)$);
 
-     \coordinate[] (output1) at ($(P.south east)!0.75!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (output2) at ($(P.south east)!0.35!(P.north east) + ( \cdist, 0)$);
-     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( \cdist, 0)$);
+     \coordinate[] (output1) at ($(P.south east)!0.75!(P.north east) + ( 0.7, 0)$);
+     \coordinate[] (output2) at ($(P.south east)!0.35!(P.north east) + ( 0.7, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( 0.7, 0)$);
 
-     \node[block, left=2*\cdist of output1] (W1){$W_1(s)$};
-     \node[block, left=2*\cdist of output2] (W2){$W_2(s)$};
+     \node[block, left=1.4 of output1] (W1){$W_1(s)$};
+     \node[block, left=1.4 of output2] (W2){$W_2(s)$};
      \node[addb={+}{}{}{}{-}, left=of W1] (sub) {};
 
      \node[block, below=0.3 of P] (H2) {$H_2(s)$};
 
      \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
-     \draw[->] (H2.west) -| ($(inputu)+(0.5*\cdist, 0)$) node[above]{$u$} -- (W2.west);
+     \draw[->] (H2.west) -| ($(inputu)+(0.35, 0)$) node[above]{$u$} -- (W2.west);
      \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
      \draw[->] (sub.east) -- (W1.west);
-     \draw[->] ($(sub.west)+(-0.6, 0)$) node[branch]{} |- ($(outputv)+(-0.5*\cdist, 0)$) node[above]{$v$} |- (H2.east);
+     \draw[->] ($(sub.west)+(-0.6, 0)$) node[branch]{} |- ($(outputv)+(-0.35, 0)$) node[above]{$v$} |- (H2.east);
      \draw[->] (W1.east) -- (output1)node[above left]{$z_1$};
      \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
   \end{tikzpicture}
 #+end_src
 
 #+name: fig:h_infinity_robust_fusion
-#+caption: H-Infinity Synthesis for Robust Sensor Fusion ([[./figs/h_infinity_robust_fusion.png][png]], [[./figs/h_infinity_robust_fusion.pdf][pdf]], [[./figs/h_infinity_robust_fusion.tex][tex]]).
+#+caption: Architecture used for $\mathcal{H}_\infty$ synthesis of complementary filters ([[./figs/h_infinity_robust_fusion.png][png]], [[./figs/h_infinity_robust_fusion.pdf][pdf]], [[./figs/h_infinity_robust_fusion.tex][tex]]).
 #+RESULTS:
 [[file:figs/h_infinity_robust_fusion.png]]
-* LIGO Specifications
-#+begin_src latex :file ligo_specifications.pdf :tangle figs/ligo_specifications.tex :exports both
-  <<tikz_default>>
 
-  \setlength\fwidth{6.5cm}
-  \setlength\fheight{4cm}
-
-  \begin{tikzpicture}
-    \begin{axis}[%
-      width=1.0\fwidth,
-      height=1.0\fheight,
-      at={(0.0\fwidth, 0.0\fheight)},
-      scale only axis,
-      separate axis lines,
-      every outer x axis line/.append style={black},
-      every x tick label/.append style={font=\color{black}},
-      every x tick/.append style={black},
-      xmode=log,
-      xmin=0.001,
-      xmax=1,
-      xminorticks=true,
-      xlabel={Frequency [Hz]},
-      every outer y axis line/.append style={black},
-      every y tick label/.append style={font=\color{black}},
-      every y tick/.append style={black},
-      ymode=log,
-      ymin=0.001,
-      ymax=10,
-      yminorticks=true,
-      ylabel={Magnitude},
-      axis background/.style={fill=white},
-      xmajorgrids,
-      xminorgrids,
-      ymajorgrids,
-      yminorgrids,
-      legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
-      ]
-      \addplot [color=mycolor1, dotted, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.0005	0.008\\
-        0.008	0.008\\
-      };
-      \addlegendentry{$H_H$ - Spec.}
-
-      \addplot [color=mycolor1, dotted, line width=1.5pt, forget plot]
-      table[row sep=crcr]{%
-        0.008	0.008\\
-        0.04	1\\
-      };
-      \addplot [color=mycolor1, dotted, line width=1.5pt, forget plot]
-      table[row sep=crcr]{%
-        0.04	3\\
-        0.1	3\\
-      };
-      \addplot [color=mycolor2, dotted, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.1	0.045\\
-        2	0.045\\
-      };
-      \addlegendentry{$H_L$ - Spec.}
-    \end{axis}
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:ligo_specifications
-#+caption: LIGO Specifications ([[./figs/ligo_specifications.png][png]], [[./figs/ligo_specifications.pdf][pdf]], [[./figs/ligo_specifications.tex][tex]]).
-#+RESULTS:
-[[file:figs/ligo_specifications.png]]
-
-* LIGO - Weights
-#+begin_src latex :file ligo_weights.pdf :tangle figs/ligo_weights.tex :exports both
-  <<tikz_default>>
-
-  \setlength\fwidth{6.5cm}
-  \setlength\fheight{3cm}
-
-  \begin{tikzpicture}
-    \begin{axis}[%
-      width=1.0\fwidth,
-      height=1.0\fheight,
-      at={(0.0\fwidth, 0.0\fheight)},
-      scale only axis,
-      separate axis lines,
-      every outer x axis line/.append style={black},
-      every x tick label/.append style={font=\color{black}},
-      every x tick/.append style={black},
-      xmode=log,
-      xmin=0.001,
-      xmax=1,
-      xminorticks=true,
-      xlabel={Frequency [Hz]},
-      every outer y axis line/.append style={black},
-      every y tick label/.append style={font=\color{black}},
-      every y tick/.append style={black},
-      ymode=log,
-      ymin=0.006,
-      ymax=5,
-      yminorticks=true,
-      ylabel={Magnitude},
-      axis background/.style={fill=white},
-      xmajorgrids,
-      xminorgrids,
-      ymajorgrids,
-      yminorgrids,
-      legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
-      ]
-
-      \addplot [color=mycolor1, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.001	0.00796691693927566\\
-        0.00151418932530435	0.00792262203650047\\
-        0.00199664245010979	0.00786225014096067\\
-        0.00245691646298279	0.0077861699456209\\
-        0.00290043049386399	0.00769474724394245\\
-        0.00333060034362459	0.00758884328333557\\
-        0.003772042493417	0.00746351108332606\\
-        0.00424255643071778	0.00731474521658245\\
-        0.00477176094893875	0.0071379301050252\\
-        0.00579112264764176	0.0068476482485528\\
-        0.0061204983724767	0.00680219644296774\\
-        0.00637976680860628	0.00679730887326039\\
-        0.00660419396233031	0.00682139747028961\\
-        0.00678940681269611	0.00686496510084516\\
-        0.00697981390783066	0.0069354479286508\\
-        0.00717556091893693	0.0070383994962659\\
-        0.00737679760252773	0.00717991928704165\\
-        0.00758367791499719	0.00736655194233854\\
-        0.00779636013040524	0.0076051522014121\\
-        0.00801500696156541	0.00790273187455232\\
-        0.00823978568452852	0.00826631242802879\\
-        0.00852964449974103	0.00882412037027016\\
-        0.00882969995549409	0.00950897527756833\\
-        0.00920373199661822	0.0105164333016182\\
-        0.00966017479952265	0.0119753402399724\\
-        0.0102804473209331	0.0143556373125741\\
-        0.0111698681846782	0.0185552075500784\\
-        0.0132777082935543	0.0322431621381914\\
-        0.0167967487209265	0.0680014330130114\\
-        0.0276338529005317	0.326918228833064\\
-        0.0300246170908555	0.432899850774533\\
-        0.0321741815067637	0.554938929438727\\
-        0.0340041193270371	0.687094652844078\\
-        0.0356904934567523	0.842024165852849\\
-        0.0372023668141307	1.02001056723744\\
-        0.0387782841458946	1.26289924947454\\
-        0.0404209583979631	1.60456839875035\\
-        0.04361537789208	2.53062185625027\\
-        0.0445295850994266	2.77146857730929\\
-        0.045149677720361	2.89348598026356\\
-        0.0457784053837662	2.97608445890606\\
-        0.0464158883361278	3.01968185800108\\
-        0.0467379510799246	3.02874689415512\\
-        0.0473887960971765	3.02726977125212\\
-        0.0480487043965513	3.00803504490708\\
-        0.0514886745013749	2.87928968426454\\
-        0.0525679112201842	2.86273170921673\\
-        0.0536697694554048	2.85803110662228\\
-        0.0551749237612912	2.86658834231942\\
-        0.0571158647812643	2.89373949818069\\
-        0.0603643850607586	2.95559608186067\\
-        0.0655868565957143	3.0502439586855\\
-        0.069317172761554	3.10047616355323\\
-        0.0732596542821523	3.1375014761188\\
-        0.0779636013040523	3.16461838840195\\
-        0.0835452805838286	3.18026553723068\\
-        0.0907732652521022	3.18493203448915\\
-        0.102096066230605	3.17646755269823\\
-        0.130953502048267	3.14084134376595\\
-        0.176297537528721	3.10422030616037\\
-        0.238989256623105	3.0809638217015\\
-        0.352003147279668	3.06535452992843\\
-        0.633580499265825	3.05597224800007\\
-        1	3.05345113277254\\
-      };
-      \addlegendentry{$|w_H|^{-1}$}
-
-      \addplot [color=mycolor2, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.0959360828709314	12.0184358929904\\
-        0.097946966706954	3.146849362264\\
-        0.099310918137498	1.05862916986255\\
-        0.100693863147603	0.257700470297145\\
-        0.102096066230605	0.0421094518208652\\
-        0.103517795563018	0.0445081596065564\\
-        0.10423606739764	0.0414457460997672\\
-        0.104959323055823	0.0400119963799221\\
-        0.10568759711848	0.0415554318822178\\
-        0.106420924406472	0.043814257781787\\
-        0.107159339982267	0.0448683669592145\\
-        0.107902879151618	0.044295573373329\\
-        0.110164594963366	0.0400574970382725\\
-        0.110928986489522	0.0402579441076029\\
-        0.112473717836475	0.0428021838354083\\
-        0.113254131515281	0.0440600784752666\\
-        0.114039960197003	0.0447752791251127\\
-        0.114831241454351	0.0448142331760946\\
-        0.115628013120738	0.0442300230302424\\
-        0.11887076977119	0.0402240294564661\\
-        0.119695570235904	0.040001732977534\\
-        0.120526093687084	0.0402932477205091\\
-        0.122204468663149	0.0419485163003742\\
-        0.123906215694792	0.0438424597286246\\
-        0.124765955263087	0.0444949715620009\\
-        0.125631660247412	0.044836228613729\\
-        0.12650337203959	0.0448417094163923\\
-        0.127381132318648	0.0445299487238764\\
-        0.129154966501488	0.0431961800419237\\
-        0.131862140139475	0.0408117323046875\\
-        0.132777082935543	0.0402960354638724\\
-        0.133698374182495	0.0400308917857557\\
-        0.134626057929891	0.0400368990846269\\
-        0.135560178532937	0.0403005887302182\\
-        0.137447909267754	0.0414121567354166\\
-        0.141302599059953	0.044101000459107\\
-        0.142283045721435	0.0445307987271459\\
-        0.143270295340983	0.0447943143768823\\
-        0.144264395121816	0.0448807192359562\\
-        0.145265392594678	0.0447916133179238\\
-        0.146273335620113	0.0445395942988012\\
-        0.14831025143361	0.0436423003655273\\
-        0.154592773641948	0.0403769170455836\\
-        0.155665435927106	0.0401203204110551\\
-        0.156745541020559	0.0400059504268835\\
-        0.157833140565212	0.040036358132424\\
-        0.158928286562298	0.0402045407550575\\
-        0.161141427725302	0.0408866704530288\\
-        0.169132951702965	0.0442390638712694\\
-        0.171488196987054	0.0447425181894537\\
-        0.173876240021625	0.0448769402692756\\
-        0.176297537528721	0.0446464639481288\\
-        0.178752552590424	0.0441027259286029\\
-        0.182499324481615	0.0428985405241193\\
-        0.188919277620767	0.040818617365958\\
-        0.191550055557353	0.0402807205623939\\
-        0.194217468148903	0.0400205622807429\\
-        0.196922025547917	0.0400579449802012\\
-        0.199664245010979	0.040371860557651\\
-        0.20244465099768	0.0409084123427209\\
-        0.208122156998634	0.0423453888829677\\
-        0.213958887134342	0.0437517350104945\\
-        0.218443607114943	0.0444972451758255\\
-        0.221485523372636	0.0447816228782344\\
-        0.224569799553977	0.0448806343663746\\
-        0.227697025538168	0.0447969939498148\\
-        0.230867799418717	0.0445452996941807\\
-        0.235706941399673	0.0439079954567496\\
-        0.24231727942376	0.0427537477147456\\
-        0.252582002696278	0.0410079040636654\\
-        0.25787628875938	0.0403911115365229\\
-        0.261467321180109	0.0401327821951021\\
-        0.265108360190854	0.0400103488045349\\
-        0.268800102153761	0.0400250663873801\\
-        0.272543253128103	0.0401696010962434\\
-        0.278255940220713	0.0405964824618632\\
-        0.286059553517574	0.041444958955979\\
-        0.30442722120643	0.0436011789525548\\
-        0.312964801067075	0.0443153109145327\\
-        0.319524750575921	0.0446701137865901\\
-        0.326222200971167	0.0448535080505772\\
-        0.333060034362459	0.0448651533388002\\
-        0.340041193270371	0.0447156544611108\\
-        0.349577557436328	0.0442998872498791\\
-        0.359381366380463	0.0436950016553798\\
-        0.3772042493417	0.0424061073925509\\
-        0.398658107358044	0.0410172748183832\\
-        0.412682084570295	0.0404008082590454\\
-        0.424255643071778	0.0401059189515175\\
-        0.436153778920801	0.0400003811769696\\
-        0.448385594802119	0.0400773113340234\\
-        0.460960448682843	0.0403155066361668\\
-        0.477176094893875	0.0407923448234679\\
-        0.504315948717136	0.0418023362235951\\
-        0.547947233690029	0.0433698942485973\\
-        0.575121707184161	0.0440914149919198\\
-        0.599484250318941	0.0445318594963098\\
-        0.624878807200689	0.0447936742802135\\
-        0.65134909462728	0.0448806875270066\\
-        0.683651600451024	0.0447823697891821\\
-        0.722534949178721	0.044452569030373\\
-        0.768928372075831	0.0438827927484949\\
-        0.84708682665574	0.042791128384111\\
-        0.966017479952265	0.0413679595498065\\
-        1	0.0410596626947631\\
-      };
-      \addlegendentry{$|w_L|^{-1}$}
-
-      \addplot [color=black, dotted, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.0005	0.008\\
-        0.008   0.008\\
-      };
-      \addlegendentry{Spec.}
-
-      \addplot [color=black, dotted, line width=1.5pt, forget plot]
-      table[row sep=crcr]{%
-        0.008	0.008\\
-        0.04	1\\
-      };
-      \addplot [color=black, dotted, line width=1.5pt, forget plot]
-      table[row sep=crcr]{%
-        0.04  3\\
-        0.1   3\\
-      };
-      \addplot [color=black, dotted, line width=1.5pt]
-      table[row sep=crcr]{%
-        0.1	0.045\\
-        2   0.045\\
-      };
-      % \addlegendentry{$H_L$ - Spec.}
-    \end{axis}
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:ligo_weights
-#+caption: LIGO - Weights ([[./figs/ligo_weights.png][png]], [[./figs/ligo_weights.pdf][pdf]], [[./figs/ligo_weights.tex][tex]]).
-#+RESULTS:
-[[file:figs/ligo_weights.png]]
-
-* FIR/H-Infinity Filters comparison
-#+begin_src latex :file comp_fir_ligo_hinf.pdf :tangle figs/comp_fir_ligo_hinf.tex :exports both
-  <<tikz_default>>
-
-  \setlength\fwidth{6.5cm}
-  \setlength\fheight{6cm}
-
-  \begin{tikzpicture}
-    \begin{axis}[%
-      width=1.0\fwidth,
-      height=0.55\fheight,
-      at={(0.0\fwidth, 0.45\fheight)},
-      scale only axis,
-      xmode=log,
-      xmin=0.001,
-      xmax=1,
-      xtick={0.001,0.01,0.1,1},
-      xticklabels={{}},
-      xminorticks=true,
-      ymode=log,
-      ymin=0.006,
-      ymax=5,
-      ytick={0.001, 0.01, 0.1, 1, 10},
-      yminorticks=true,
-      ylabel={Magnitude},
-      xminorgrids,
-      yminorgrids,
-      legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
-      ]
-      \addplot [color=mycolor1, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-      \addplot [color=mycolor2, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-
-      \addlegendimage{black!70!white}
-      \addlegendentry{FIR Filters}
-      \addlegendimage{dashed,black!70!white}
-      \addlegendentry{$\mathcal{H}_\infty$ Filters}
-    \end{axis}
-
-    \begin{axis}[%
-      width=1.0\fwidth,
-      height=0.4\fheight,
-      at={(0.0\fwidth, 0.0\fheight)},
-      scale only axis,
-      xmode=log,
-      xmin=0.001,
-      xmax=1,
-      xtick={0.001,  0.01,   0.1,     1},
-      xminorticks=true,
-      xlabel={Frequency [Hz]},
-      ymin=-180,
-      ymax=180,
-      ytick={-180,  -90,    0,   90,  180},
-      ylabel={Phase [deg]},
-      xminorgrids,
-      ]
-      \addplot [color=mycolor1, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-      \addplot [color=mycolor2, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-    \end{axis}
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:comp_fir_ligo_hinf
-#+caption: FIR/H-Infinity Filters comparison ([[./figs/comp_fir_ligo_hinf.png][png]], [[./figs/comp_fir_ligo_hinf.pdf][pdf]], [[./figs/comp_fir_ligo_hinf.tex][tex]]).
-#+RESULTS:
-[[file:figs/comp_fir_ligo_hinf.png]]
-
-* Weighting Function Formula
+* Fig 5: Magnitude of a weighting function generated using the proposed formula
 #+begin_src latex :file weight_formula.pdf :tangle figs/weight_formula.tex :exports both
   <<tikz_default>>
 
@@ -1037,58 +253,11 @@ Configuration file is accessible [[file:config.org][here]].
 #+end_src
 
 #+name: fig:weight_formula
-#+caption: Weighting Function Formula ([[./figs/weight_formula.png][png]], [[./figs/weight_formula.pdf][pdf]], [[./figs/weight_formula.tex][tex]]).
+#+caption: Magnitude of a weighting function generated using the proposed formula ([[./figs/weight_formula.png][png]], [[./figs/weight_formula.pdf][pdf]], [[./figs/weight_formula.tex][tex]]).
 #+RESULTS:
 [[file:figs/weight_formula.png]]
 
-* Weighting Functions
-#+begin_src latex :file weights_wl_wh.pdf :tangle figs/weights_wl_wh.tex :exports both
-  <<tikz_default>>
-
-  \setlength\fwidth{6.5cm}
-  \setlength\fheight{4cm}
-
-  \begin{tikzpicture}
-    \begin{axis}[%
-      width=1.0\fwidth,
-      height=1.0\fheight,
-      at={(0.0\fwidth, 0.0\fheight)},
-      scale only axis,
-      xmode=log,
-      xmin=0.1,
-      xmax=1000,
-      xtick={0.1, 1, 10, 100, 1000},
-      xminorticks=true,
-      ymode=log,
-      ymin=0.0005,
-      ymax=20,
-      ytick={0.001, 0.01, 0.1, 1, 10},
-      yminorticks=true,
-      xlabel={Frequency [Hz]},
-      ylabel={Magnitude},
-      xminorgrids,
-      yminorgrids,
-      legend style={at={(1,0.9)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
-      ]
-
-      \addplot [color=mycolor1, dashed, line width=1.5pt]
-      table [x=freqs, y=wL, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
-      \addlegendentry{$|W_1|^{-1}$};
-
-      \addplot [color=mycolor2, dashed, line width=1.5pt]
-      table [x=freqs, y=wH, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
-      \addlegendentry{$|W_2|^{-1}$};
-
-    \end{axis}
-  \end{tikzpicture}
-#+end_src
-
-#+name: fig:weights_wl_wh
-#+caption: Weighting Functions ([[./figs/weights_wl_wh.png][png]], [[./figs/weights_wl_wh.pdf][pdf]], [[./figs/weights_wl_wh.tex][tex]]).
-#+RESULTS:
-[[file:figs/weights_wl_wh.png]]
-
-* H-Infinity Synthesis - Results
+* Fig 6: Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis
 #+begin_src latex :file hinf_synthesis_results.pdf :tangle figs/hinf_synthesis_results.tex :exports both
   <<tikz_default>>
 
@@ -1162,10 +331,57 @@ Configuration file is accessible [[file:config.org][here]].
 #+end_src
 
 #+name: fig:hinf_synthesis_results
-#+caption: H-Infinity Synthesis - Results ([[./figs/hinf_synthesis_results.png][png]], [[./figs/hinf_synthesis_results.pdf][pdf]], [[./figs/hinf_synthesis_results.tex][tex]]).
+#+caption: Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_synthesis_results.png][png]], [[./figs/hinf_synthesis_results.pdf][pdf]], [[./figs/hinf_synthesis_results.tex][tex]]).
 #+RESULTS:
 [[file:figs/hinf_synthesis_results.png]]
-* H-Infinity Synthesis - Three Filters - Results
+
+* Fig 7: Architecture for $\mathcal{H}_\infty$ synthesis of three complementary filters
+#+begin_src latex :file comp_filter_three_hinf.pdf :tangle figs/comp_filter_three_hinf.tex
+  <<tikz_default>>
+  \begin{tikzpicture}
+     \node[block={5.0cm}{3.5cm}, fill=black!20!white, dashed] (P) {};
+     \node[above] at (P.north) {$P(s)$};
+
+     \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-0.7, 0)$);
+     \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-0.7, 0)$);
+
+     \coordinate[] (output1) at ($(P.south east)!0.8!(P.north east)  + (0.7, 0)$);
+     \coordinate[] (output2) at ($(P.south east)!0.55!(P.north east) + (0.7, 0)$);
+     \coordinate[] (output3) at ($(P.south east)!0.3!(P.north east)  + (0.7, 0)$);
+     \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east)  + (0.7, 0)$);
+
+     \node[block, left=1.4 of output1] (W1){$W_1(s)$};
+     \node[block, left=1.4 of output2] (W2){$W_2(s)$};
+     \node[block, left=1.4 of output3] (W3){$W_3(s)$};
+     \node[addb={+}{}{}{}{-}, left=of W1] (sub1) {};
+     \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
+
+     \node[block, below=0.3 of P] (H) {$\begin{bmatrix}H_2(s) \\ H_3(s)\end{bmatrix}$};
+
+     \draw[->] (inputw) node[above right](w){$w$} -- (sub2.west);
+     \draw[->] (W3-|sub1)node[branch]{} -- (sub1.south);
+     \draw[->] (W2-|sub2)node[branch]{} -- (sub2.south);
+     \draw[->] ($(sub2.west)+(-0.5, 0)$) node[branch]{} |- (outputv) |- (H.east);
+     \draw[->] ($(H.south west)!0.7!(H.north west)$) -| (inputu|-W2) -- (W2.west);
+     \draw[->] ($(H.south west)!0.3!(H.north west)$) -| ($(inputu|-W3)+(0.4, 0)$) -- (W3.west);
+
+     \draw[->] (sub2.east) -- (sub1.west);
+     \draw[->] (sub1.east) -- (W1.west);
+     \draw[->] (W1.east) -- (output1)node[above left](z){$z_1$};
+     \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
+     \draw[->] (W3.east) -- (output3)node[above left]{$z_3$};
+     \node[above] at (W2-|w){$u_1$};
+     \node[above] at (W3-|w){$u_2$};
+     \node[above] at (outputv-|z){$v$};
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:comp_filter_three_hinf
+#+caption: Architecture for $\mathcal{H}_\infty$ synthesis of three complementary filters ([[./figs/comp_filter_three_hinf.png][png]], [[./figs/comp_filter_three_hinf.pdf][pdf]], [[./figs/comp_filter_three_hinf.tex][tex]]).
+#+RESULTS:
+[[file:figs/comp_filter_three_hinf.png]]
+
+* Fig 8: Frequency response of the weighting functions and three complementary filters obtained using $\mathcal{H}_\infty$ synthesis
 #+begin_src latex :file hinf_three_synthesis_results.pdf :tangle figs/hinf_three_synthesis_results.tex :exports both
   <<tikz_default>>
 
@@ -1252,6 +468,161 @@ Configuration file is accessible [[file:config.org][here]].
 #+end_src
 
 #+name: fig:hinf_three_synthesis_results
-#+caption: H-Infinity Synthesis - Results ([[./figs/hinf_three_synthesis_results.png][png]], [[./figs/hinf_three_synthesis_results.pdf][pdf]], [[./figs/hinf_three_synthesis_results.tex][tex]]).
+#+caption: Frequency response of the weighting functions and three complementary filters obtained using $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_three_synthesis_results.png][png]], [[./figs/hinf_three_synthesis_results.pdf][pdf]], [[./figs/hinf_three_synthesis_results.tex][tex]]).
 #+RESULTS:
 [[file:figs/hinf_three_synthesis_results.png]]
+
+* Fig 9: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis
+#+begin_src latex :file ligo_weights.pdf :tangle figs/ligo_weights.tex :exports both
+  <<tikz_default>>
+
+  \setlength\fwidth{6.5cm}
+  \setlength\fheight{3cm}
+
+  \begin{tikzpicture}
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=1.0\fheight,
+      at={(0.0\fwidth, 0.0\fheight)},
+      scale only axis,
+      separate axis lines,
+      every outer x axis line/.append style={black},
+      every x tick label/.append style={font=\color{black}},
+      every x tick/.append style={black},
+      xmode=log,
+      xmin=0.001,
+      xmax=1,
+      xminorticks=true,
+      xlabel={Frequency [Hz]},
+      every outer y axis line/.append style={black},
+      every y tick label/.append style={font=\color{black}},
+      every y tick/.append style={black},
+      ymode=log,
+      ymin=0.006,
+      ymax=5,
+      yminorticks=true,
+      ylabel={Magnitude},
+      axis background/.style={fill=white},
+      xmajorgrids,
+      xminorgrids,
+      ymajorgrids,
+      yminorgrids,
+      legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
+      ]
+
+      \addplot [color=mycolor1, line width=1.5pt]
+        table [x=freqs, y=wHm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+      \addlegendentry{$|w_H|^{-1}$}
+
+      \addplot [color=mycolor2, line width=1.5pt]
+        table [x=freqs, y=wLm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+      \addlegendentry{$|w_L|^{-1}$}
+
+      \addplot [color=black, dotted, line width=1.5pt]
+      table[row sep=crcr]{%
+        0.0005	0.008\\
+        0.008   0.008\\
+      };
+      \addlegendentry{Spec.}
+
+      \addplot [color=black, dotted, line width=1.5pt, forget plot]
+      table[row sep=crcr]{%
+        0.008	0.008\\
+        0.04	1\\
+      };
+      \addplot [color=black, dotted, line width=1.5pt, forget plot]
+      table[row sep=crcr]{%
+        0.04  3\\
+        0.1   3\\
+      };
+      \addplot [color=black, dotted, line width=1.5pt]
+      table[row sep=crcr]{%
+        0.1	0.045\\
+        2   0.045\\
+      };
+    \end{axis}
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:ligo_weights
+#+caption: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis ([[./figs/ligo_weights.png][png]], [[./figs/ligo_weights.pdf][pdf]], [[./figs/ligo_weights.tex][tex]]).
+#+RESULTS:
+[[file:figs/ligo_weights.png]]
+
+* Fig 10: Comparison of the FIR filters (solid) with the filters obtained with $\mathcal{H}_\infty$ synthesis (dashed)
+#+begin_src latex :file comp_fir_ligo_hinf.pdf :tangle figs/comp_fir_ligo_hinf.tex :exports both
+  <<tikz_default>>
+
+  \setlength\fwidth{6.5cm}
+  \setlength\fheight{6cm}
+
+  \begin{tikzpicture}
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=0.55\fheight,
+      at={(0.0\fwidth, 0.45\fheight)},
+      scale only axis,
+      xmode=log,
+      xmin=0.001,
+      xmax=1,
+      xtick={0.001,0.01,0.1,1},
+      xticklabels={{}},
+      xminorticks=true,
+      ymode=log,
+      ymin=0.006,
+      ymax=5,
+      ytick={0.001, 0.01, 0.1, 1, 10},
+      yminorticks=true,
+      ylabel={Magnitude},
+      xminorgrids,
+      yminorgrids,
+      legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
+      ]
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+
+      \addlegendimage{black!70!white}
+      \addlegendentry{FIR Filters}
+      \addlegendimage{dashed,black!70!white}
+      \addlegendentry{$\mathcal{H}_\infty$ Filters}
+    \end{axis}
+
+    \begin{axis}[%
+      width=1.0\fwidth,
+      height=0.4\fheight,
+      at={(0.0\fwidth, 0.0\fheight)},
+      scale only axis,
+      xmode=log,
+      xmin=0.001,
+      xmax=1,
+      xtick={0.001,  0.01,   0.1,     1},
+      xminorticks=true,
+      xlabel={Frequency [Hz]},
+      ymin=-180,
+      ymax=180,
+      ytick={-180,  -90,    0,   90,  180},
+      ylabel={Phase [deg]},
+      xminorgrids,
+      ]
+      \addplot [color=mycolor1, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      \addplot [color=mycolor2, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+    \end{axis}
+  \end{tikzpicture}
+#+end_src
+
+#+name: fig:comp_fir_ligo_hinf
+#+caption: Comparison of the FIR filters (solid) with the filters obtained with $\mathcal{H}_\infty$ synthesis (dashed) ([[./figs/comp_fir_ligo_hinf.png][png]], [[./figs/comp_fir_ligo_hinf.pdf][pdf]], [[./figs/comp_fir_ligo_hinf.tex][tex]]).
+#+RESULTS:
+[[file:figs/comp_fir_ligo_hinf.png]]
