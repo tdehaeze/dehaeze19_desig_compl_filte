@@ -1,4 +1,4 @@
-#+TITLE: Design of Complementary Filters Using $\mathcal{H}_\infty$ Synthesis
+#+TITLE: Shaping of Complementary Filters Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
 #+LATEX_CLASS: ieeeconf
 #+LATEX_CLASS_OPTIONS: [letterpaper, 10 pt, conference]
