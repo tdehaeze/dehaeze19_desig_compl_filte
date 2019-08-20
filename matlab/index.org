@@ -780,19 +780,14 @@ The bode plot of the weights is shown on figure [[fig:ligo_weights]].
   figure;
   hold on;
   set(gca,'ColorOrderIndex',1);
-  plot([0.0001, 0.008], [8e-3, 8e-3], ':', 'DisplayName', 'Spec. on $H_H$');
-  set(gca,'ColorOrderIndex',1);
-  plot([0.008 0.04], [8e-3, 1], ':', 'HandleVisibility', 'off');
-  set(gca,'ColorOrderIndex',1);
-  plot([0.04 0.1], [3, 3], ':', 'HandleVisibility', 'off');
-
+  plot(freqs, abs(squeeze(freqresp(inv(wH), freqs, 'Hz'))), '-', 'DisplayName', '$|w_H|^{-1}$');
   set(gca,'ColorOrderIndex',2);
-  plot([0.1, 10], [0.045, 0.045], ':', 'DisplayName', 'Spec. on $H_L$');
+  plot(freqs, abs(squeeze(freqresp(inv(wL), freqs, 'Hz'))), '-', 'DisplayName', '$|w_L|^{-1}$');
 
-  set(gca,'ColorOrderIndex',1);
-  plot(freqs, abs(squeeze(freqresp(inv(wH), freqs, 'Hz'))), '--', 'DisplayName', '$|w_H|^{-1}$');
-  set(gca,'ColorOrderIndex',2);
-  plot(freqs, abs(squeeze(freqresp(inv(wL), freqs, 'Hz'))), '--', 'DisplayName', '$|w_L|^{-1}$');
+  plot([0.0001, 0.008], [8e-3, 8e-3], 'k--', 'DisplayName', 'Spec.');
+  plot([0.008 0.04], [8e-3, 1], 'k--', 'HandleVisibility', 'off');
+  plot([0.04 0.1], [3, 3], 'k--', 'HandleVisibility', 'off');
+  plot([0.1, 10], [0.045, 0.045], 'k--', 'HandleVisibility', 'off');
 
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
@@ -800,6 +795,14 @@ The bode plot of the weights is shown on figure [[fig:ligo_weights]].
   xlim([freqs(1), freqs(end)]);
   ylim([1e-3, 10]);
   legend('location', 'southeast');
+#+end_src
+
+#+begin_src matlab :exports none :results none
+  T = table(freqs', ...
+            1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), ...
+            1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), ...
+            'VariableNames', {'freqs', 'wHm', 'wLm'});
+  writetable(T, 'mat/ligo_weights.csv');
 #+end_src
 
 #+HEADER: :tangle no :exports results :results none :noweb yes
