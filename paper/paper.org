@@ -169,14 +169,14 @@ In order to lower the noise of the super sensor, the norm $|H_1|$ has to be made
 
 In practical systems, the sensor dynamics always has some level of uncertainty and cannot be inverted perfectly such that $G_i(s) = 1$.
 
-This uncertainty can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any stable transfer function satisfying $\|\Delta_i(j\omega)\|_\infty \le 1,\ \forall\omega$, and $|w_i(s)|$ represents the frequency dependent uncertainty level.
+This can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any stable transfer function satisfying $|\Delta_i(j\omega)| \le 1,\ \forall\omega$, and $|w_i(s)|$ is a weight representing the magnitude of the uncertainty.
 
 #+name: fig:fusion_gain_mismatch_bis
 #+caption: Sensor fusion architecture with sensor dynamics uncertainty
 #+attr_latex: :scale 1
 [[file:figs/fusion_gain_mismatch_bis.pdf]]
 
-The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and it now dependent on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
+The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and is now dependent on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
 #+name: eq:super_sensor_dyn_uncertainty
 \begin{equation}
   \frac{\hat{x}}{x} = 1 + w_1(s) H_1(s) \Delta_1(s) + w_2(s) H_2(s) \Delta_2(s)
@@ -186,7 +186,7 @@ In order to limit the phase and gain uncertainty of the super sensor, one may wa
 #+name: eq:max_uncertainty_super_sensor
 \begin{equation}
   \begin{aligned}
-    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_i\\
+    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
     \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega
   \end{aligned}
 \end{equation}
@@ -198,30 +198,26 @@ Condition eqref:eq:max_uncertainty_super_sensor is equivalent as bounding the un
 #+attr_latex: :scale 1
 [[file:figs/uncertainty_gain_phase_variation_bis.pdf]]
 
-The maximum phase added by the super sensor uncertainty $\Delta\phi$ is then equal to eqref:eq:max_phase_uncertainty.
+The maximum phase added by the super sensor uncertainty $\Delta\phi$ is then
 #+name: eq:max_phase_uncertainty
 \begin{equation}
     \Delta \phi = \arcsin\left( \epsilon \right)
 \end{equation}
 
 Limiting the phase added by the super sensor to $\Delta \phi = \SI{30}{\degree}$ requires that $H_1(s)$ and $H_2(s)$ are designed such that eqref:eq:max_uncertainty_super_sensor is satisfied with $\epsilon = \sin(\Delta\phi = \SI{30}{\degree}) = 0.5$.
-Thus the norm of the complementary filter $|H_i|$ for sensor $i$ should be made small at frequencies where its dynamic uncertainty $|w_i|$ is large.\par
-
-As stated above, the requirements in terms of noise performance and robustness of the sensor fusion architecture can be seen as upper bounds on the norm of the complementary filters.
+Thus the norm of the complementary filter $|H_i|$ should be made small at frequencies where the dynamic uncertainty $|w_i|$ of sensor $i$ is large.
 
 * Complementary Filters Shaping using $\mathcal{H}_\infty$ Synthesis
 <<sec:hinf_method>>
 ** Introduction                                                     :ignore:
-As shown in Sec. ref:sec:requirements, most of the performance requirements for the design of the complementary filters can be expressed as upper bounds on the magnitude of the filters.
-Therefore, the $\mathcal{H}_\infty$ Loop Shaping framework is adapted such synthesis problem.
-In this section, a technique for the synthesis complementary filters while specifying uppers bounds on their magnitudes using $\mathcal{H}_\infty$ synthesis is presented.
+As shown in Sec. ref:sec:requirements, the performance and robustness of the sensor fusion architecture depends on the complementary filters norms.
+Therefore, the development of a synthesis method of complementary filters that allows the shaping of their norm is necessary.
 
-** Synthesis of Complementary Filters as a $\mathcal{H}_\infty$ problem
+** Shaping of Complementary Filters using $\mathcal{H}_\infty$ synthesis
 <<sec:hinf_synthesis>>
 
 The synthesis objective is to shape the norm of two filters $H_1(s)$ and $H_2(s)$ while ensuring their complementary property eqref:eq:comp_filter.
-
-The synthesis problem is then to find stable transfer functions $H_1(s)$ and $H_2(s)$ such that conditions eqref:eq:comp_filter_problem_form are satisfied.
+This is equivalent as to find stable transfer functions $H_1(s)$ and $H_2(s)$ such that conditions eqref:eq:comp_filter_problem_form are satisfied.
 #+NAME: eq:comp_filter_problem_form
 \begin{subequations}
   \begin{align}
@@ -230,9 +226,9 @@ The synthesis problem is then to find stable transfer functions $H_1(s)$ and $H_
   & |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega \label{eq:hinf_cond_h2}
   \end{align}
 \end{subequations}
-where $W_1(s)$ and $W_2(s)$ are two weighting transfer functions chosen to shape the corresponding filters.
+where $W_1(s)$ and $W_2(s)$ are two weighting transfer functions that are chosen to shape the norms of the corresponding filters.
 
-In order to express this optimization problem as a standard $\mathcal{H}_\infty$ problem, the standard architecture shown in Fig. ref:fig:h_infinity_robust_fusion is used where the generalized plant $P$ is described by eqref:eq:generalized_plant.
+In order to express this optimization problem as a standard $\mathcal{H}_\infty$ problem, the architecture shown in Fig. ref:fig:h_infinity_robust_fusion is used where the generalized plant $P$ is described by eqref:eq:generalized_plant.
 #+NAME: eq:generalized_plant
 \begin{equation}
   \begin{bmatrix} z_1 \\ z_2 \\ v \end{bmatrix} = P(s) \begin{bmatrix} w\\u \end{bmatrix}; \quad P(s) = \begin{bmatrix}W_1(s) & -W_1(s) \\ 0 & W_2(s) \\  1 & 0 \end{bmatrix}
@@ -249,26 +245,30 @@ The $\mathcal{H}_\infty$ filter design problem is then to find a stable filter $
   \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
-Which is equivalent to eqref:eq:hinf_problem by defining $H_1(s) \triangleq 1 - H_2(s)$.
+This is equivalent to have eqref:eq:hinf_problem by defining $H_1(s)$ as the complementary filter of $H_2(s)$ eqref:eq:definition_H1.
 #+NAME: eq:hinf_problem
 \begin{equation}
   \left\|\begin{matrix} H_1(s) W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
-The complementary condition eqref:eq:hinf_cond_complementarity is ensured by the definition of $H_1(s)$. The conditions eqref:eq:hinf_cond_h1 and eqref:eq:hinf_cond_h2 on the shape of the filters are satisfied by eqref:eq:hinf_problem.
+#+name: eq:definition_H1
+\begin{equation}
+  H_1(s) \triangleq 1 - H_2(s)
+\end{equation}
 
-Using this method based on $\mathcal{H}_\infty$ synthesis, the complementary filters can be shaped as wanted.
+The complementary condition eqref:eq:hinf_cond_complementarity is ensured by eqref:eq:definition_H1.
+The conditions eqref:eq:hinf_cond_h1 and eqref:eq:hinf_cond_h2 on the filters shapes are satisfied by eqref:eq:hinf_problem.
+Therefore, all the conditions eqref:eq:comp_filter_problem_form are satisfied using this synthesis method based on $\mathcal{H}_\infty$ synthesis, and thus it permits to shape complementary filters as wanted.
 
-** Choice of the weighting functions
+** Weighting functions design
 <<sec:hinf_weighting_func>>
 
-The choice of the weighting functions is of primary importance for the success of the presented $\mathcal{H}_\infty$ synthesis of complementary filters.
+The proper design of the weighting functions is of primary importance for the success of the presented complementary filters $\mathcal{H}_\infty$ synthesis.
 
 First, only proper, stable and minimum phase transfer functions should be used.
-Second, the order of the weights should stay reasonably small as this will increase both the complexity of the optimization problem and the order of the synthesized complementary filters, the latter being equal to the sum of the weighting functions orders.
-Third, one should not forget the fundamental limitations imposed by the complementary property: $H_1(s) + H_2(s) = 1$.
+Second, the order of the weights should stay reasonably small in order to reduce the computational costs associated with the solving of the optimization problem and for the physical implementation of the filters. The order of the synthesized filters being equal to the sum of the weighting functions order.
+Third, one should not forget the fundamental limitations imposed by the complementary property eqref:eq:comp_filter.
 This implies for instance that $|H_1(j\omega)|$ and $|H_2(j\omega)|$ cannot be made small at the same time.
-
 
 # Explain why we propose such weighting function
 When designing complementary filters, it is usually desired to specify the slope of the filter, its crossover frequency and its gain at low and high frequency.
