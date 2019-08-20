@@ -53,8 +53,8 @@
 
 * Abstract                                                           :ignore:
 #+begin_abstract
-  The paper presents a design method for complementary filters using $\mathcal{H}_\infty$ synthesis that allows to specify the shape of the complementary filters norms.
-  This method is shown to be easy to use and is successfully applied for the design high order complex complementary filters.
+  The paper presents a method for the design of complementary filters using $\mathcal{H}_\infty$ synthesis that allows to shape the complementary filter norms.
+  This method is shown to be easily applied for the synthesis of complex complementary filters.
 #+end_abstract
 
 * Introduction
@@ -63,12 +63,12 @@
 *** Establish the importance of the research topic                 :ignore:
 # What are Complementary Filters
 A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies.
-These filters are used when two or more sensors are measuring the same physical quantity with different noise characteristics. Unreliable frequencies of each sensors are filtered out by the complementary filters and then combined to form a super sensor giving a better estimate of the physical quantity over a wider bandwidth.
+These filters are used when two or more sensors are measuring the same physical quantity with different noise characteristics. Unreliable frequencies of each sensor are filtered out by the complementary filters and then combined to form a super sensor giving a better estimate of the physical quantity over a wider bandwidth.
 This technique is called sensor fusion and is used in many applications.\par
 
 *** Applications of complementary filtering                        :ignore:
 # Improve bandwidth for UAV
-In cite:zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim, such technique is used for the attitude estimation of Unmanned Aerial Vehicles (UAV) using various sensors (accelerometers, gyroscopes, vision sensors, etc.).
+In cite:zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim, various sensors (accelerometers, gyroscopes, vision sensors, etc.) are merged using complementary filters for the attitude estimation of Unmanned Aerial Vehicles (UAV).
 # Improving the control robustness
 In cite:collette15_sensor_fusion_method_high_perfor, several sensor fusion configurations using different types of sensors are discussed in order to increase the control bandwidth of active vibration isolation systems.
 # Merging of different sensor types
@@ -79,7 +79,7 @@ cite:matichard15_seism_isolat_advan_ligo,hua04_polyp_fir_compl_filter_contr_syst
 # Why Design of Complementary Filter is important
 As the super sensor noise characteristics largely depends on the complementary filter norms, their proper design is of primary importance for sensor fusion.
 # Discuss the different approach to complementary filter design
-In cite:corke04_inert_visual_sensin_system_small_auton_helic,jensen13_basic_uas,min15_compl_filter_desig_angle_estim, analytical formulas of complementary filters of first and second order have been proposed.
+In cite:corke04_inert_visual_sensin_system_small_auton_helic,jensen13_basic_uas,min15_compl_filter_desig_angle_estim, first and second order analytical formulas of complementary filters have been presented.
 # Third Order and Higher orders
 Higher order complementary filters have been used in
 cite:shaw90_bandw_enhan_posit_measur_using_measur_accel,zimmermann92_high_bandw_orien_measur_contr,collette15_sensor_fusion_method_high_perfor.
@@ -87,22 +87,20 @@ cite:shaw90_bandw_enhan_posit_measur_using_measur_accel,zimmermann92_high_bandw_
 In cite:jensen13_basic_uas, the sensitivity and complementary sensitivity transfer functions of a feedback architecture have been proposed to be used as complementary filters. The design of such filters can then benefits from the classical control theory developments.
 # LMI / convex Optimization
 Linear Matrix Inequalities (LMIs) are used in cite:pascoal99_navig_system_desig_using_time for the synthesis of complementary filters satisfying some frequency-like performance.
-# Least Square method for finding the optimal filter coefficients
-# A design method using linear least squares to optimize the coefficients of complementary filters is proposed in cite:min15_compl_filter_desig_angle_estim.
 # FIR Filters
-Finally, high order Finite Impulse Response (FIR) complementary filters synthesized using convex optimization is proposed in cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system. \par
+Finally, a synthesis method of high order Finite Impulse Response (FIR) complementary filters using convex optimization has been developed in cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system. \par
 
 *** Describe a gap in the research                                 :ignore:
 # There is a need for easy synthesis methods for complementary filters
-Although many design methods of complementary filters have been proposed in the literature, it lacks a simple synthesis method that allows to shape the norm of the complementary filters.
+Although many design methods of complementary filters have been proposed in the literature, no simple method that allows to shape the norm of the complementary filters is available.
 
 *** Describe the paper itself / the problem which is addressed     :ignore:
 # In this paper, we propose a synthesis method for the shaping of complementary filters using the $\mathcal{H}_\infty$ norm.\par
-This paper proposes a new design method of complementary filters based on $\mathcal{H}_\infty$ synthesis extensively used in control systems.
+This paper presents a new design method of complementary filters based on $\mathcal{H}_\infty$ synthesis.
 This design method permits to easily shape the norms of the generated filters.\par
 
 *** Introduce Each part of the paper                               :ignore:
-The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and explains how the typical requirements for such fusion are on the norms of the filters.
+The section ref:sec:requirements gives a brief overview of sensor fusion using complementary filters and explains how the typical requirements for such fusion can be expressed as upper bounds on the filters norms.
 In section ref:sec:hinf_method, a new design method for the shaping complementary filters using $\mathcal{H}_\infty$ synthesis is proposed.
 In section ref:sec:application_ligo, the method is used to design complex complementary filters that are used for sensor fusion at the LIGO.
 Our conclusions are drawn in the final section.
@@ -112,7 +110,7 @@ Our conclusions are drawn in the final section.
 ** Sensor Fusion Architecture
 <<sec:sensor_fusion>>
 
-Let's consider two sensors measuring the same physical quantity $x$ but with dynamics $G_1(s)$ and $G_2(s)$, and with noise characteristics $n_1$ and $n_2$.
+Let's consider two sensors measuring the same physical quantity $x$ with dynamics $G_1(s)$ and $G_2(s)$, and with noise characteristics $n_1$ and $n_2$.
 
 The signals from both sensors are fed into two complementary filters $H_1(s)$ and $H_2(s)$ and then combined to yield an estimate $\hat{x}$ of $x$ as shown in Fig. ref:fig:fusion_super_sensor.
 #+NAME: eq:comp_filter_estimate
@@ -146,7 +144,7 @@ The estimate $\hat{x}$ is then described by
   \hat{x} = x + H_1 n_1 + H_2 n_2
 \end{equation}
 
-From eqref:eq:estimate_perfect_dyn, the complementary filters $H_1(s)$ and $H_2(s)$ is shown to only operates on the sensors noises.
+From eqref:eq:estimate_perfect_dyn, the complementary filters $H_1(s)$ and $H_2(s)$ is shown to only operates on the sensors noise.
 Thus, this sensor fusion architecture permits to filter the noise of both sensors without introducing any distortion in the physical quantity to be measured.
 
 The estimation error $\delta x$ is defined by eqref:eq:estimate_error.
@@ -155,13 +153,13 @@ The estimation error $\delta x$ is defined by eqref:eq:estimate_error.
   \delta x \triangleq \hat{x} - x = H_1 n_1 + H_2 n_2
 \end{equation}
 
-As shown in eqref:eq:noise_filtering_psd, the Power Spectral Density (PSD) of the estimation error $\Phi_{\delta x}$ depends both on the norms of the complementary filters and on the PSD of the noise sources $\Phi_{n_1}$ and $\Phi_{n_2}$.
+As shown in eqref:eq:noise_filtering_psd, the Power Spectral Density (PSD) of the estimation error $\Phi_{\delta x}$ depends both on the norm of the two complementary filters and on the PSD of the noise sources $\Phi_{n_1}$ and $\Phi_{n_2}$.
 #+NAME: eq:noise_filtering_psd
 \begin{equation}
   \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2}
 \end{equation}
 
-Usually, the two sensors have higher noise levels over distinct yet complementary frequency regions.
+Usually, the two sensors have high noise levels over distinct frequency regions.
 In order to lower the noise of the super sensor, the norm $|H_1|$ has to be made small when $\Phi_{n_1}$ is larger than $\Phi_{n_2}$ and $|H_2|$ small when $\Phi_{n_2}$ is larger than $\Phi_{n_1}$.
 
 # Thus, the noise of the super sensor is determined by the norm of the complementary filters.
@@ -419,7 +417,7 @@ The magnitudes the weighting functions inverses are shown in Fig. ref:fig:ligo_w
 <<sec:ligo_results>>
 $\mathcal{H}_\infty$ synthesis is performed using the architecture shown in Fig. ref:eq:generalized_plant.
 The complementary filters obtained are of order $27$.
-In Fig. ref:fig:comp_fir_ligo_hinf, their bode plot is compared with the FIR filters of order 512 obtained in cite:hua05_low_ligo.
+In Fig. ref:fig:comp_fir_ligo_hinf, their bode plot is compared with the FIR filters of order 512 obtained in cite:hua05_low_ligo and found to be very close to each other.
 
 #+name: fig:comp_fir_ligo_hinf
 #+caption: Comparison of the FIR filters (solid) designed in cite:hua05_low_ligo with the filters obtained with $\mathcal{H}_\infty$ synthesis (dashed)
