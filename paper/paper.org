@@ -169,25 +169,25 @@ In order to lower the noise of the super sensor, the norm $|H_1|$ has to be made
 
 In practical systems, the sensor dynamics always has some level of uncertainty and cannot be inverted perfectly such that $G_i(s) = 1$.
 
-This uncertainty can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any stable transfer function satisfying $\|\Delta_i(j\omega)\|_\infty \le 1,\ \forall\omega$, and $|W_i(s)|$ represents the frequency dependent uncertainty level.
+This uncertainty can be represented as input multiplicative uncertainty as shown in Fig. ref:fig:fusion_gain_mismatch_bis where $\Delta_i$ is any stable transfer function satisfying $\|\Delta_i(j\omega)\|_\infty \le 1,\ \forall\omega$, and $|w_i(s)|$ represents the frequency dependent uncertainty level.
 
 #+name: fig:fusion_gain_mismatch_bis
 #+caption: Sensor fusion architecture with sensor dynamics uncertainty
 #+attr_latex: :scale 1
 [[file:figs/fusion_gain_mismatch_bis.pdf]]
 
-The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and it now dependent on the sensor dynamics uncertainties $W_i(s)$ as well as on the complementary filters $H_i(s)$.
+The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and it now dependent on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
 #+name: eq:super_sensor_dyn_uncertainty
 \begin{equation}
-  \frac{\hat{x}}{x} = 1 + W_1(s) H_1(s) \Delta_1(s) + W_2(s) H_2(s) \Delta_2(s)
+  \frac{\hat{x}}{x} = 1 + w_1(s) H_1(s) \Delta_1(s) + w_2(s) H_2(s) \Delta_2(s)
 \end{equation}
 
 In order to limit the phase and gain uncertainty of the super sensor, one may want to design the complementary filters such that eqref:eq:max_uncertainty_super_sensor is satisfied.
 #+name: eq:max_uncertainty_super_sensor
 \begin{equation}
   \begin{aligned}
-    & \left|W_1 H_1 \Delta_1\right| + \left|W_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_i\\
-    \Leftrightarrow & \left|W_1 H_1\right| + \left|W_2 H_2\right| \le \epsilon \quad \forall\omega
+    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_i\\
+    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega
   \end{aligned}
 \end{equation}
 
@@ -205,7 +205,7 @@ The maximum phase added by the super sensor uncertainty $\Delta\phi$ is then equ
 \end{equation}
 
 Limiting the phase added by the super sensor to $\Delta \phi = \SI{30}{\degree}$ requires that $H_1(s)$ and $H_2(s)$ are designed such that eqref:eq:max_uncertainty_super_sensor is satisfied with $\epsilon = \sin(\Delta\phi = \SI{30}{\degree}) = 0.5$.
-Thus the norm of the complementary filter $|H_i|$ for sensor $i$ should be made small at frequencies where its dynamic uncertainty $|W_i|$ is large.\par
+Thus the norm of the complementary filter $|H_i|$ for sensor $i$ should be made small at frequencies where its dynamic uncertainty $|w_i|$ is large.\par
 
 As stated above, the requirements in terms of noise performance and robustness of the sensor fusion architecture can be seen as upper bounds on the norm of the complementary filters.
 

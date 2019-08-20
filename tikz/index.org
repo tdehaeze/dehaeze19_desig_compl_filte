@@ -438,8 +438,8 @@ Configuration file is accessible [[file:config.org][here]].
     \node[addb, below right=0.8 and 4 of x](add2){};
     \node[block, above left=0.2 and 0.1 of add1](delta1){$\Delta_1(s)$};
     \node[block, above left=0.2 and 0.1 of add2](delta2){$\Delta_2(s)$};
-    \node[block, left=0.5 of delta1](W1){$W_1(s)$};
-    \node[block, left=0.5 of delta2](W2){$W_2(s)$};
+    \node[block, left=0.5 of delta1](W1){$w_1(s)$};
+    \node[block, left=0.5 of delta2](W2){$w_2(s)$};
     \node[block, right=0.5 of add1](H1){$H_1(s)$};
     \node[block, right=0.5 of add2](H2){$H_2(s)$};
     \node[addb, right=6 of x](add){};
