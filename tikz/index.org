@@ -286,16 +286,16 @@ Configuration file is accessible [[file:config.org][here]].
       yminorgrids,
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hl, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hh, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=wL, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
 
       \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=wH, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
     \end{axis}
 
     \begin{axis}[%
@@ -321,10 +321,10 @@ Configuration file is accessible [[file:config.org][here]].
       \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
       \addlegendentry{$W_2^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
       \addlegendentry{$H_1$};
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
       \addlegendentry{$H_2$};
     \end{axis}
   \end{tikzpicture}
@@ -416,7 +416,7 @@ Configuration file is accessible [[file:config.org][here]].
       },
       ]
       \addplot [color=mycolor1, dashed, line width=1.5pt]
-      table [x=freqs, y=w1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_1}^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
@@ -424,14 +424,14 @@ Configuration file is accessible [[file:config.org][here]].
 
 
       \addplot [color=mycolor2, dashed, line width=1.5pt]
-      table [x=freqs, y=w2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_2}^{-1}$};
       \addplot [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
       \addlegendentry{$H_2$};
 
       \addplot [color=mycolor3, dashed, line width=1.5pt]
-      table [x=freqs, y=w3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_3}^{-1}$};
       \addplot [color=mycolor3, line width=1.5pt]
       table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
