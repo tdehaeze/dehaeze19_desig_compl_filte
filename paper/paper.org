@@ -7,9 +7,9 @@
 
 #+DATE: {{{time(%Y-%m-%d)}}}
 #+AUTHOR: @@latex:Dehaeze Thomas\textsuperscript{1,2,$\dagger$}, Verma Mohit\textsuperscript{1,3} and Collette Christophe\textsuperscript{1,3} @@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, Liege, Belgium}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, University of Liege, Belgium}@@
 #+AUTHOR: @@latex:\thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France}@@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{3} Unversité Libre de Bruxelles, BEAMS Department, Brussels, Belgium}@@
+#+AUTHOR: @@latex:\thanks{\textsuperscript{3} BEAMS Department, Free University of Brussels, Belgium}@@
 #+AUTHOR: @@latex:\thanks{\textsuperscript{$\dagger$} Corresponding Author. Email: {\tt\small thomas.dehaeze@esrf.fr}}@@
 
 #+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
@@ -53,8 +53,9 @@
 
 * Abstract                                                           :ignore:
 #+begin_abstract
-  The paper presents a method for the design of complementary filters using $\mathcal{H}_\infty$ synthesis that allows to shape the complementary filter norms.
-  This method is shown to be easily applied for the synthesis of complex complementary filters.
+  For many applications, large bandwidth and dynamic ranges are requiring to use several sensors, whose signals are combined using complementary filters.
+  This paper presents a method for designing these complementary filters using $\mathcal{H}_\infty$ synthesis that allows to shape the filter norms.
+  This method is shown to be easily applicable for the synthesis of complex complementary filters.
 #+end_abstract
 
 * Introduction
