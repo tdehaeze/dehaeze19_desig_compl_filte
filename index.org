@@ -28,10 +28,19 @@ You can also you for formatted citation below.
 #+end_quote
 
 * Paper
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 The PDF version of the paper is accessible [[file:paper/paper.pdf][here]].
 
-* Matlab
+* Matlab Scripts
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 The Matlab scripts that permits to obtain all the results presented in the paper are accessible [[file:matlab/index.org][here]].
 
-* Figures
+* Tikz Figures
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 All the figures in the paper are generated using [[https://sourceforge.net/projects/pgf/][TikZ]]. The code snippets that was used to generate the figures are accessible [[file:tikz/index.org][here]].

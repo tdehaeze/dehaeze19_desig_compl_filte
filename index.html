@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-08-01 jeu. 17:47 -->
+<!-- 2019-08-20 mar. 15:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>On the Design of Complementary Filters for Control - Computation with Matlab</title>
+<title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
 <style type="text/css">
@@ -245,52 +245,83 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
-<h1 class="title">On the Design of Complementary Filters for Control - Computation with Matlab</h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#org8baa037">1. Paper</a></li>
-<li><a href="#orgaa7f3bb">2. Computation - Matlab</a></li>
-<li><a href="#orgc7e35c5">3. Figures</a></li>
-</ul>
-</div>
+<h1 class="title">Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis</h1>
+
+<p>
+To cite this paper use the following bibtex code.
+</p>
+<div class="org-src-container">
+<pre class="src src-bibtex"><span class="org-function-name">@inproceedings</span>{<span class="org-constant">dehaeze19_compl_filter_shapin_using_synth</span>,
+  <span class="org-variable-name">author</span> =       {Thomas Dehaeze and Mohit Vermat and Christophe Collette},
+  <span class="org-variable-name">title</span> =        {Complementary Filters Shaping Using <span class="org-string">$\mathcal{H}_\infty$</span>
+                  Synthesis},
+  <span class="org-variable-name">booktitle</span> =    {ICCMA'19},
+  <span class="org-variable-name">year</span> =         2019,
+  <span class="org-variable-name">language</span> =     {english},
+}
+</pre>
 </div>
 
-<div id="outline-container-org8baa037" class="outline-2">
-<h2 id="org8baa037"><span class="section-number-2">1</span> Paper</h2>
-<div class="outline-text-2" id="text-1">
 <p>
-The current version of the paper is accessible <a href="paper/paper.pdf">here</a>.
+You can also you for formatted citation below.
+</p>
+<blockquote>
+<p>
+Dehaeze, T., Vermat, M., &amp; Collette, C., Complementary filters shaping using \(H_\infty\) synthesis, In , ICCMA'19 (pp. ) (2019). : .
+</p>
+</blockquote>
+
+<div id="outline-container-orgc8c821a" class="outline-2">
+<h2 id="orgc8c821a">Paper</h2>
+<div class="outline-text-2" id="text-orgc8c821a">
+<p>
+The PDF version of the paper is accessible <a href="paper/paper.pdf">here</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgaa7f3bb" class="outline-2">
-<h2 id="orgaa7f3bb"><span class="section-number-2">2</span> Computation - Matlab</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orge4b861c" class="outline-2">
+<h2 id="orge4b861c">Matlab Scripts</h2>
+<div class="outline-text-2" id="text-orge4b861c">
 <p>
-The Matlab computation files that permits to obtain all the paper results are accessible <a href="matlab/index.html">here</a>.
+The Matlab scripts that permits to obtain all the results presented in the paper are accessible <a href="matlab/index.html">here</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc7e35c5" class="outline-2">
-<h2 id="orgc7e35c5"><span class="section-number-2">3</span> Figures</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org5331746" class="outline-2">
+<h2 id="org5331746">Tikz Figures</h2>
+<div class="outline-text-2" id="text-org5331746">
 <p>
-The figures are generated using <a href="https://sourceforge.net/projects/pgf/">TikZ</a>. The code to generate the figures inside the paper are accessible <a href="tikz/index.html">here</a>.
+All the figures in the paper are generated using <a href="https://sourceforge.net/projects/pgf/">TikZ</a>. The code snippets that was used to generate the figures are accessible <a href="tikz/index.html">here</a>.
 </p>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-08-01 jeu. 17:47</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
