@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-08-20 mar. 13:55 -->
+<!-- 2019-08-21 mer. 13:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>On the Design of Complementary Filters for Control - Tikz Figures</title>
+<title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Tikz Figures</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
 <style type="text/css">
@@ -274,22 +274,22 @@ for the JavaScript code in this tag.
  |
  <a accesskey="H" href="../index.html"> HOME </a>
 </div><div id="content">
-<h1 class="title">On the Design of Complementary Filters for Control - Tikz Figures</h1>
+<h1 class="title">Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Tikz Figures</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1ab50dc">1. Change some default</a></li>
-<li><a href="#org3c4b204">2. Fig 1: Sensor Fusion Architecture</a></li>
-<li><a href="#org1541f22">3. Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</a></li>
-<li><a href="#org15875a8">4. Fig 3: Uncertainty set of the super sensor dynamics</a></li>
-<li><a href="#org33d5b4f">5. Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</a></li>
-<li><a href="#orgea8c3b3">6. Fig 5: Magnitude of a weighting function generated using the proposed formula</a></li>
-<li><a href="#orgd900d37">7. Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#org665e090">8. Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</a></li>
-<li><a href="#org45e6ad7">9. Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#org1af3dcf">10. Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#org9c06345">11. Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</a></li>
+<li><a href="#org423ce6b">1. Change some default</a></li>
+<li><a href="#org5f12c25">2. Fig 1: Sensor Fusion Architecture</a></li>
+<li><a href="#org19f322d">3. Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</a></li>
+<li><a href="#org7feb5a8">4. Fig 3: Uncertainty set of the super sensor dynamics</a></li>
+<li><a href="#org91dadb3">5. Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</a></li>
+<li><a href="#org9a2e8ca">6. Fig 5: Magnitude of a weighting function generated using the proposed formula</a></li>
+<li><a href="#orga14ab85">7. Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#org3a0ff53">8. Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</a></li>
+<li><a href="#org8b604b1">9. Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#orge453024">10. Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#orgc861c2f">11. Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</a></li>
 </ul>
 </div>
 </div>
@@ -298,11 +298,11 @@ for the JavaScript code in this tag.
 Configuration file is accessible <a href="config.html">here</a>.
 </p>
 
-<div id="outline-container-org1ab50dc" class="outline-2">
-<h2 id="org1ab50dc"><span class="section-number-2">1</span> Change some default</h2>
+<div id="outline-container-org423ce6b" class="outline-2">
+<h2 id="org423ce6b"><span class="section-number-2">1</span> Change some default</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-latex" id="org949c459"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
+<pre class="src src-latex" id="orgdcc87c3"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
 <span class="org-font-latex-sedate">\tikzset</span>{addb/.append style={scale=0.7}}
 <span class="org-font-latex-sedate">\tikzset</span>{node distance=0.6}
 
@@ -314,8 +314,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org3c4b204" class="outline-2">
-<h2 id="org3c4b204"><span class="section-number-2">2</span> Fig 1: Sensor Fusion Architecture</h2>
+<div id="outline-container-org5f12c25" class="outline-2">
+<h2 id="org5f12c25"><span class="section-number-2">2</span> Fig 1: Sensor Fusion Architecture</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -363,7 +363,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org7dd1f62" class="figure">
+<div id="org3ea9304" class="figure">
 <p><img src="figs/fusion_super_sensor.png" alt="fusion_super_sensor.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Sensor Fusion Architecture (<a href="./figs/fusion_super_sensor.png">png</a>, <a href="./figs/fusion_super_sensor.pdf">pdf</a>, <a href="./figs/fusion_super_sensor.tex">tex</a>).</p>
@@ -371,8 +371,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org1541f22" class="outline-2">
-<h2 id="org1541f22"><span class="section-number-2">3</span> Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</h2>
+<div id="outline-container-org19f322d" class="outline-2">
+<h2 id="org19f322d"><span class="section-number-2">3</span> Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -420,7 +420,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgb38f365" class="figure">
+<div id="orge2b1f0a" class="figure">
 <p><img src="figs/sensor_fusion_dynamic_uncertainty.png" alt="sensor_fusion_dynamic_uncertainty.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Sensor fusion architecture with sensor dynamics uncertainty (<a href="./figs/sensor_fusion_dynamic_uncertainty.png">png</a>, <a href="./figs/sensor_fusion_dynamic_uncertainty.pdf">pdf</a>, <a href="./figs/sensor_fusion_dynamic_uncertainty.tex">tex</a>).</p>
@@ -428,8 +428,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org15875a8" class="outline-2">
-<h2 id="org15875a8"><span class="section-number-2">4</span> Fig 3: Uncertainty set of the super sensor dynamics</h2>
+<div id="outline-container-org7feb5a8" class="outline-2">
+<h2 id="org7feb5a8"><span class="section-number-2">4</span> Fig 3: Uncertainty set of the super sensor dynamics</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
@@ -453,7 +453,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgcc5f4c7" class="figure">
+<div id="org9699521" class="figure">
 <p><img src="figs/uncertainty_set_super_sensor.png" alt="uncertainty_set_super_sensor.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Uncertainty set of the super sensor dynamics (<a href="./figs/uncertainty_set_super_sensor.png">png</a>, <a href="./figs/uncertainty_set_super_sensor.pdf">pdf</a>, <a href="./figs/uncertainty_set_super_sensor.tex">tex</a>).</p>
@@ -461,8 +461,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org33d5b4f" class="outline-2">
-<h2 id="org33d5b4f"><span class="section-number-2">5</span> Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</h2>
+<div id="outline-container-org91dadb3" class="outline-2">
+<h2 id="org91dadb3"><span class="section-number-2">5</span> Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -501,7 +501,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgc323b08" class="figure">
+<div id="org559614b" class="figure">
 <p><img src="figs/h_infinity_robust_fusion.png" alt="h_infinity_robust_fusion.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters (<a href="./figs/h_infinity_robust_fusion.png">png</a>, <a href="./figs/h_infinity_robust_fusion.pdf">pdf</a>, <a href="./figs/h_infinity_robust_fusion.tex">tex</a>).</p>
@@ -509,8 +509,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgea8c3b3" class="outline-2">
-<h2 id="orgea8c3b3"><span class="section-number-2">6</span> Fig 5: Magnitude of a weighting function generated using the proposed formula</h2>
+<div id="outline-container-org9a2e8ca" class="outline-2">
+<h2 id="org9a2e8ca"><span class="section-number-2">6</span> Fig 5: Magnitude of a weighting function generated using the proposed formula</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -586,7 +586,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org69ed897" class="figure">
+<div id="org2e7f7a8" class="figure">
 <p><img src="figs/weight_formula.png" alt="weight_formula.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Magnitude of a weighting function generated using the proposed formula (<a href="./figs/weight_formula.png">png</a>, <a href="./figs/weight_formula.pdf">pdf</a>, <a href="./figs/weight_formula.tex">tex</a>).</p>
@@ -594,8 +594,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgd900d37" class="outline-2">
-<h2 id="orgd900d37"><span class="section-number-2">7</span> Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-orga14ab85" class="outline-2">
+<h2 id="orga14ab85"><span class="section-number-2">7</span> Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -631,16 +631,16 @@ Configuration file is accessible <a href="config.html">here</a>.
     yminorgrids,
     ]
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, line width=1.5pt, forget plot]
-    table [x=freqs, y=Hl, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, line width=1.5pt, forget plot]
-    table [x=freqs, y=Hh, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, dashed, line width=1.5pt, forget plot]
-    table [x=freqs, y=wL, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+    table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
 
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, dashed, line width=1.5pt, forget plot]
-    table [x=freqs, y=wH, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+    table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
   <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">axis</span>}
 
   <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">axis</span>}[<span class="org-comment">%</span>
@@ -666,10 +666,10 @@ Configuration file is accessible <a href="config.html">here</a>.
     <span class="org-font-latex-sedate">\addlegendimage</span>{color=mycolor2, dashed, line width=1.5pt}
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$W_2^{-1}$</span>};
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, line width=1.5pt]
-    table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_1$</span>};
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, line width=1.5pt]
-    table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_2$</span>};
   <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">axis</span>}
 <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">tikzpicture</span>}
@@ -677,7 +677,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgfe09ec5" class="figure">
+<div id="org2d45147" class="figure">
 <p><img src="figs/hinf_synthesis_results.png" alt="hinf_synthesis_results.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_results.png">png</a>, <a href="./figs/hinf_synthesis_results.pdf">pdf</a>, <a href="./figs/hinf_synthesis_results.tex">tex</a>).</p>
@@ -685,8 +685,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org665e090" class="outline-2">
-<h2 id="org665e090"><span class="section-number-2">8</span> Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</h2>
+<div id="outline-container-org3a0ff53" class="outline-2">
+<h2 id="org3a0ff53"><span class="section-number-2">8</span> Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -736,7 +736,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org235f41c" class="figure">
+<div id="orgc24a201" class="figure">
 <p><img src="figs/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters (<a href="./figs/comp_filter_three_hinf.png">png</a>, <a href="./figs/comp_filter_three_hinf.pdf">pdf</a>, <a href="./figs/comp_filter_three_hinf.tex">tex</a>).</p>
@@ -744,8 +744,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org45e6ad7" class="outline-2">
-<h2 id="org45e6ad7"><span class="section-number-2">9</span> Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-org8b604b1" class="outline-2">
+<h2 id="org8b604b1"><span class="section-number-2">9</span> Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -787,7 +787,7 @@ Configuration file is accessible <a href="config.html">here</a>.
     },
     ]
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, dashed, line width=1.5pt]
-    table [x=freqs, y=w1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+    table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">${W_1}^{-1}$</span>};
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, line width=1.5pt]
     table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
@@ -795,14 +795,14 @@ Configuration file is accessible <a href="config.html">here</a>.
 
 
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, dashed, line width=1.5pt]
-    table [x=freqs, y=w2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+    table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">${W_2}^{-1}$</span>};
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, line width=1.5pt]
     table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_2$</span>};
 
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor3, dashed, line width=1.5pt]
-    table [x=freqs, y=w3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+    table [x=freqs, y=W3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">${W_3}^{-1}$</span>};
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor3, line width=1.5pt]
     table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
@@ -840,7 +840,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org2c28c68" class="figure">
+<div id="org7c72bd3" class="figure">
 <p><img src="figs/hinf_three_synthesis_results.png" alt="hinf_three_synthesis_results.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_three_synthesis_results.png">png</a>, <a href="./figs/hinf_three_synthesis_results.pdf">pdf</a>, <a href="./figs/hinf_three_synthesis_results.tex">tex</a>).</p>
@@ -848,8 +848,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org1af3dcf" class="outline-2">
-<h2 id="org1af3dcf"><span class="section-number-2">10</span> Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-orge453024" class="outline-2">
+<h2 id="orge453024"><span class="section-number-2">10</span> Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -930,7 +930,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org8f25a1f" class="figure">
+<div id="org98034e0" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>, <a href="./figs/ligo_weights.tex">tex</a>).</p>
@@ -938,8 +938,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org9c06345" class="outline-2">
-<h2 id="org9c06345"><span class="section-number-2">11</span> Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</h2>
+<div id="outline-container-orgc861c2f" class="outline-2">
+<h2 id="orgc861c2f"><span class="section-number-2">11</span> Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -1021,7 +1021,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgb79700f" class="figure">
+<div id="orga5a9952" class="figure">
 <p><img src="figs/comp_fir_ligo_hinf.png" alt="comp_fir_ligo_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed) (<a href="./figs/comp_fir_ligo_hinf.png">png</a>, <a href="./figs/comp_fir_ligo_hinf.pdf">pdf</a>, <a href="./figs/comp_fir_ligo_hinf.tex">tex</a>).</p>
@@ -1031,7 +1031,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-08-20 mar. 13:55</p>
+<p class="date">Created: 2019-08-21 mer. 13:11</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

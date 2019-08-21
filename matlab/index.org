@@ -1,4 +1,4 @@
-#+TITLE: On the Design of Complementary Filters for Control - Computation with Matlab
+#+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis - Matlab Computation
 :DRAWER:
 #+HTML_LINK_HOME: ../index.html
 #+HTML_LINK_UP: ../index.html
