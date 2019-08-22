@@ -59,8 +59,7 @@
 #+end_abstract
 
 * Introduction
-  <<sec:introduction>>
-
+<<sec:introduction>>
 *** Establish the importance of the research topic                 :ignore:
 # What are Complementary Filters
 A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies.
