@@ -65,7 +65,7 @@ To cite this paper use the following bibtex code.
 }
 #+end_src
 
-You can also you for formatted citation below.
+You can also use the formatted citation below.
 #+begin_quote
   Dehaeze, T., Vermat, M., & Collette, C., Complementary filters shaping using $H_\infty$ synthesis, In , ICCMA'19 (pp. ) (2019). : .
 #+end_quote
