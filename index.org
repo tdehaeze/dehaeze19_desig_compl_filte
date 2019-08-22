@@ -1,5 +1,6 @@
 #+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
+#+SUBTITLE: Dehaeze Thomas, Verma Mohit and Collette Christophe
 #+OPTIONS: toc:nil
 #+OPTIONS: html-postamble:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
@@ -34,7 +35,7 @@ All the [[https://fr.mathworks.com/][Matlab]] code that was used for the paper a
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
-All the figures in the paper are generated using [[https://sourceforge.net/projects/pgf/][TikZ]].
+All the figures for the paper have been generated using [[https://sourceforge.net/projects/pgf/][TikZ]].
 
 * Poster ([[file:poster/poster.pdf][link]])
 :PROPERTIES:
