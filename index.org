@@ -10,23 +10,35 @@
 #+HTML_HEAD: <script src="js/readtheorg.js"></script>
 :END:
 
-* Paper
+* Paper ([[file:paper/paper.pdf][link]])
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
-The PDF version of the paper is accessible [[file:paper/paper.pdf][here]].
+The paper has been created [[https://orgmode.org/][Org Mode]] (generating [[https://www.latex-project.org/][LaTeX]] code) under [[https://www.gnu.org/software/emacs/][Emacs]].
 
-* Matlab Scripts
+* Matlab Scripts ([[file:matlab/index.org][link]])
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
-The Matlab scripts that permits to obtain all the results presented in the paper are accessible [[file:matlab/index.org][here]].
+All the [[https://fr.mathworks.com/][Matlab]] code that was used for the paper are accessible so that all the results are reproducible.
 
-* Tikz Figures
+* Tikz Figures ([[file:tikz/index.org][link]])
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
-All the figures in the paper are generated using [[https://sourceforge.net/projects/pgf/][TikZ]]. The code snippets that was used to generate the figures are accessible [[file:tikz/index.org][here]].
+All the figures in the paper are generated using [[https://sourceforge.net/projects/pgf/][TikZ]].
+
+* Poster ([[file:poster/poster.pdf][link]])
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+The poster has been created using the [[https://www.ctan.org/pkg/tikzposter][tikzposter]] package for [[https://sourceforge.net/projects/latex-beamer/][beamer]].
+
+* Presentation ([[file:presentation/presentation.pdf][link]])
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+The presentation for the [[http://iccma.org/][ICCMA 2019]] conference has been created using the [[https://github.com/josephwright/beamer][beamer]] package.
 
 * How to cite this paper
 :PROPERTIES:
@@ -48,15 +60,3 @@ You can also you for formatted citation below.
 #+begin_quote
   Dehaeze, T., Vermat, M., & Collette, C., Complementary filters shaping using $H_\infty$ synthesis, In , ICCMA'19 (pp. ) (2019). : .
 #+end_quote
-
-* Poster
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
-The poster has been created using [[https://www.ctan.org/pkg/tikzposter][tikzposter]] and is accessible [[file:poster/poster.pdf][here]].
-
-* Presentation
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
-The presentation for the [[http://iccma.org/][ICCMA 2019]] conference has been created using [[https://github.com/josephwright/beamer][beamer]] and is accessible [[file:presentation/presentation.pdf][here]].
