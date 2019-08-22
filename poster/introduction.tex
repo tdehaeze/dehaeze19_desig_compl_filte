@@ -1,0 +1,21 @@
+A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies.
+These filters are used when two or more sensors are measuring the same physical quantity with different noise characteristics. Unreliable frequencies of each sensor are filtered out by the complementary filters and then combined to form a super sensor giving a better estimate of the physical quantity over a wider bandwidth.
+This technique is called sensor fusion and is used in many applications.\par
+
+In \cite{zimmermann92_high_bandw_orien_measur_contr,corke04_inert_visual_sensin_system_small_auton_helic,min15_compl_filter_desig_angle_estim}, various sensors (accelerometers, gyroscopes, vision sensors, etc.) are merged using complementary filters for the attitude estimation of Unmanned Aerial Vehicles (UAV).
+In \cite{collette15_sensor_fusion_method_high_perfor}, several sensor fusion configurations using different types of sensors are discussed in order to increase the control bandwidth of active vibration isolation systems.
+Furthermore, sensor fusion is used in the isolation systems of the Laser Interferometer Gravitational-Wave Observator (LIGO) to merge inertial sensors with relative sensors
+\cite{matichard15_seism_isolat_advan_ligo,hua04_polyp_fir_compl_filter_contr_system}. \par
+
+As the super sensor noise characteristics largely depend on the complementary filter norms, their proper design is of primary importance for sensor fusion.
+In \cite{corke04_inert_visual_sensin_system_small_auton_helic,jensen13_basic_uas,min15_compl_filter_desig_angle_estim}, first and second order analytical formulas of complementary filters have been presented.
+Higher order complementary filters have been used in
+\cite{shaw90_bandw_enhan_posit_measur_using_measur_accel,zimmermann92_high_bandw_orien_measur_contr,collette15_sensor_fusion_method_high_perfor}.
+In \cite{jensen13_basic_uas}, the sensitivity and complementary sensitivity transfer functions of a feedback architecture have been proposed to be used as complementary filters. The design of such filters can then benefit from the classical control theory developments.
+Linear Matrix Inequalities (LMIs) are used in \cite{pascoal99_navig_system_desig_using_time} for the synthesis of complementary filters satisfying some frequency-like performance.
+Finally, a synthesis method of high order Finite Impulse Response (FIR) complementary filters using convex optimization has been developed in \cite{hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system}. \par
+
+Although many design methods of complementary filters have been proposed in the literature, no simple method that allows to shape the norm of the complementary filters is available.
+
+This paper presents a new design method of complementary filters based on $\mathcal{H}_\infty$ synthesis.
+This design method permits to easily shape the norms of the generated filters.

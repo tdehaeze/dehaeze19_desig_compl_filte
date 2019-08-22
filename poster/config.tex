@@ -1,0 +1,150 @@
+% ==============================================================================
+% Packages
+% ==============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[        % use biblatex for bibliography
+    backend=biber,  % use biber backend (bibtex replacement) or bibtex
+    style=ieee,     % bib style
+    natbib=true,    % allow natbib commands
+    hyperref=true,  % activate hyperref support
+    backref=false,  % activate backrefs
+    isbn=false,     % don't show isbn tags
+    url=false,      % don't show url tags
+    doi=false,      % don't show doi tags
+    urldate=long,   % display type for dates
+    maxnames=3,     %
+    minnames=1,     %
+    maxbibnames=5,  %
+    minbibnames=3,  %
+    maxcitenames=2, %
+    mincitenames=1  %
+]{biblatex}
+\usepackage{graphicx}       % Enhanced support for graphics
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{siunitx}
+\usepackage{tikz}
+
+\usepackage{array}
+\usepackage{booktabs}       % better table support
+\usepackage{tabularx}       % table features
+% ==============================================================================
+
+
+% ==============================================================================
+% Remove credentials of tikzposter
+% ==============================================================================
+\tikzposterlatexaffectionproofoff
+% ==============================================================================
+
+
+% ==============================================================================
+% Change MakeTitle command
+% ==============================================================================
+\makeatletter
+\newcommand\insertlogoright[2][]{\def\@insertlogoright{\includegraphics[#1]{#2}}}
+\newcommand\insertlogoleft[2][]{\def\@insertlogoleft{\includegraphics[#1]{#2}}}
+\newlength\LogoSep
+\setlength\LogoSep{0pt}
+
+\insertlogoright[width=6cm]{./img/logo_esrf.pdf}
+\insertlogoleft[width=6cm]{./img/logo_pml.pdf}
+
+\renewcommand\maketitle[1][]{  % #1 keys
+    \normalsize
+    \setkeys{title}{#1}
+    % Title dummy to get title height
+    \node[transparent,inner sep=\TP@titleinnersep, line width=\TP@titlelinewidth, anchor=north, minimum width=\TP@visibletextwidth-2\TP@titleinnersep]
+        (TP@title) at ($(0, 0.5\textheight-\TP@titletotopverticalspace)$) {\parbox{\TP@titlewidth-2\TP@titleinnersep}{\TP@maketitle}};
+    \draw let \p1 = ($(TP@title.north)-(TP@title.south)$) in node {
+        \setlength{\TP@titleheight}{\y1}
+        \setlength{\titleheight}{\y1}
+        \global\TP@titleheight=\TP@titleheight
+        \global\titleheight=\titleheight
+    };
+
+    % Compute title position
+    \setlength{\titleposleft}{-0.5\titlewidth}
+    \setlength{\titleposright}{\titleposleft+\titlewidth}
+    \setlength{\titlepostop}{0.5\textheight-\TP@titletotopverticalspace}
+    \setlength{\titleposbottom}{\titlepostop-\titleheight}
+
+    % Title style (background)
+    \TP@titlestyle
+
+    % Title node
+    \node[inner sep=\TP@titleinnersep, line width=\TP@titlelinewidth, anchor=north, minimum width=\TP@visibletextwidth-2\TP@titleinnersep]
+        at (0,0.5\textheight-\TP@titletotopverticalspace)
+        (title)
+        {\parbox{\TP@titlewidth-2\TP@titleinnersep}{\TP@maketitle}};
+
+    \node[inner sep=0pt,anchor=west]
+      at ([xshift=-\LogoSep]title.west)
+      {\@insertlogoright};
+
+    \node[inner sep=0pt,anchor=east]
+      at ([xshift=\LogoSep]title.east)
+      {\@insertlogoleft};
+
+    % Settings for blocks
+    \normalsize
+    \setlength{\TP@blocktop}{\titleposbottom-\TP@titletoblockverticalspace}
+}
+
+\def\title#1{\gdef\@title{\scalebox{\TP@titletextscale}{%
+      \begin{minipage}[t]{\linewidth}
+        \centering
+        #1
+        \par
+        \vspace{0.5em}
+      \end{minipage}%
+    }}}
+\makeatother
+% ==============================================================================
+
+
+% ==============================================================================
+% Create Table Environment
+% ==============================================================================
+\makeatletter
+\newcounter{tablecounter}
+\newenvironment{tikztable}[1][]{
+  \def \rememberparameter{#1}
+  \vspace{10pt}
+  \refstepcounter{tablecounter}
+  \begin{center}
+  }{
+    \ifx\rememberparameter\@empty
+    \else
+    \\[10pt]
+    {\small Tab.~\thetablecounter: \rememberparameter}
+    \fi
+  \end{center}
+}
+\makeatother
+% ==============================================================================
+
+
+% ==============================================================================
+% Change block style
+% ==============================================================================
+\defineblockstyle{customstyle}{
+    titlewidthscale=1, bodywidthscale=1, titlecenter,
+    titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=0pt, bodyoffsety=0pt,
+    bodyverticalshift=0pt, roundedcorners=2, linewidth=2mm,
+    titleinnersep=5mm, bodyinnersep=1cm
+}{
+    \begin{scope}[line width=\blocklinewidth, rounded corners=\blockroundedcorners]
+        \ifBlockHasTitle %
+           \draw[color=blocktitlebgcolor, fill=blocktitlebgcolor] (blockbody.south west) rectangle (blocktitle.north east);
+           \draw[color=blocktitlebgcolor, fill=blockbodybgcolor] (blockbody.south west) rectangle (blockbody.north east);
+        \else
+           \draw[color=blocktitlebgcolor, fill=blockbodybgcolor] (blockbody.south west) rectangle (blockbody.north east);
+        \fi
+    \end{scope}
+}
+\usetheme{Default}
+\usebackgroundstyle{Empty}
+% ==============================================================================

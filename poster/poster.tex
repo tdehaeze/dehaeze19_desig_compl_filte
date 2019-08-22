@@ -1,0 +1,47 @@
+\documentclass[%
+    a0paper,%
+    20pt,%
+    portait,%
+    margin=0mm,%
+    innermargin=10mm,%
+    blockverticalspace=10mm,%
+    colspace=10mm,%
+    subcolspace=5mm%
+]{tikzposter}
+
+\input{config.tex}
+
+\addbibresource{ref.bib}
+
+\author{Dehaeze Thomas, Verma Mohit and Collette Christophe}
+\date{2019-11-06}
+\title{Complementary Filters Shaping Using \scalebox{2}{$\mathcal{H}_\infty$} Synthesis}
+\institute{}
+
+\useblockstyle{customstyle}
+
+\begin{document}
+
+\maketitle[%
+    roundedcorners=2,
+    linewidth=2mm,
+    innersep=10mm,
+    titletotopverticalspace=10mm,
+    titletoblockverticalspace=10mm]
+
+\block[]{}{\input{abstract.tex}}
+
+\begin{columns}
+\column{0.5}
+\block[]{Introduction}{\input{introduction.tex}}
+\block[]{Complementary Filters Requirements}{\input{requirements.tex}}
+
+\column{0.5}
+\block[]{Complementary Filters Shaping using $\mathcal{H}_\infty$ Synthesis}{\input{hinfinity.tex}}
+\block[]{Application: Design of Complementary Filters used in the Active Vibration Isolation System at the LIGO}{\input{ligo.tex}}
+\block[]{Conclusion}{\input{conclusion.tex}}
+\end{columns}
+
+\block[]{}{\input{reference.tex}}
+
+\end{document}
