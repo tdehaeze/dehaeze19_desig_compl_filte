@@ -1,4 +1,4 @@
-% Created 2019-08-28 mer. 13:50
+% Created 2019-08-28 mer. 15:30
 % Intended LaTeX compiler: pdflatex
 \documentclass[t]{clean-beamer}
 \usepackage[utf8]{inputenc}
@@ -45,8 +45,8 @@
 \maketitle
 
 \section{Complementary Filters Shaping}
-\label{sec:orgeac405f}
-\begin{frame}[label={sec:org7acc6c9}]{Sensor Fusion Architecture - Noise Filtering}
+\label{sec:orgf40a445}
+\begin{frame}[label={sec:org644c6eb}]{Sensor Fusion Architecture - Noise Filtering}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
@@ -77,12 +77,12 @@ Let's first consider \textbf{Perfectly Known Sensor Dynamics}:
 
 \onslide{\begin{cbox}[PSD of the Super Sensor's noise]{blue}{ams nodisplayskip}
 \begin{equation*}
-  \Phi_{\hat{x}} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
+  \Phi_{\text{ss}} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
 \end{equation*}
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgc2c6d2b}]{Sensor Fusion Architecture - Robustness}
+\begin{frame}[label={sec:orgaee2e4a}]{Sensor Fusion Architecture - Robustness}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \vspace{-2em}
@@ -105,20 +105,19 @@ Let's first consider \textbf{Perfectly Known Sensor Dynamics}:
 \end{column}
 \end{columns}
 
-\vspace{0.5em}
 \onslide{\begin{cbox}[Limit the Super Sensor Dynamic uncertainty]{blue}{}
 Design \(H_1(s)\) and \(H_2(s)\) such that:
 \begin{equation*}
   \begin{aligned}
                     & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
-    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega \\
+    \Longleftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega \\
     \Longrightarrow & \text{ depends on the filters' norm} \\
   \end{aligned}
 \end{equation*}
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgf43ebc6}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
+\begin{frame}[label={sec:org1c42552}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
@@ -152,13 +151,13 @@ Find \(H_2(s)\) such that:
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org65cb237}]{Validation of the proposed synthesis method}
+\begin{frame}[label={sec:org493a937}]{Validation of the proposed synthesis method}
 \begin{center}
 \includegraphics[scale=1,width=0.85\linewidth]{figs/hinf_synthesis_results.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}[label={sec:org8b0df25}]{Complementary Filters Used at LIGO - Specifications}
+\begin{frame}[label={sec:orga95f64f}]{Complementary Filters Used at LIGO - Specifications}
 The specification are detailed in \emph{Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)}
 
 \begin{center}
@@ -175,7 +174,7 @@ The specification are detailed in \emph{Hua, W., Low frequency vibration isolati
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:org114463e}]{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
+\begin{frame}[label={sec:org3e0dbb2}]{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
 \begin{columns}
 \begin{column}{0.6\columnwidth}
 \vspace{-3em}

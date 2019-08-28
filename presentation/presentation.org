@@ -65,7 +65,7 @@
   H_1(s) + H_2(s) = 1
 \end{equation*}
 
-*** Full Analysis                                         :B_ignoreheading:
+*** Super Sensor Noise                                    :B_ignoreheading:
 :PROPERTIES:
 :BEAMER_env: ignoreheading
 :END:
@@ -81,7 +81,7 @@ Let's first consider *Perfectly Known Sensor Dynamics*:
 :BEAMER_opt: {blue}{ams nodisplayskip}
 :END:
 \begin{equation*}
-  \Phi_{\hat{x}} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
+  \Phi_{\text{ss}} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
 \end{equation*}
 
 ** Sensor Fusion Architecture - Robustness
@@ -110,13 +110,7 @@ Let's first consider *Perfectly Known Sensor Dynamics*:
   \frac{\hat{x}}{x} = 1 + w_1 H_1 \Delta_1 + w_2 H_2 \Delta_2
 \end{equation*}
 
-*** Full Analysis                                         :B_ignoreheading:
-:PROPERTIES:
-:BEAMER_env: ignoreheading
-:END:
-
-\vspace{0.5em}
-**** Limit the Super Sensor Dynamic uncertainty                   :B_cbox:
+*** Limit the Super Sensor Dynamic uncertainty                     :B_cbox:
 :PROPERTIES:
 :BEAMER_env: cbox
 :BEAMER_opt: {blue}{}
@@ -125,7 +119,7 @@ Design $H_1(s)$ and $H_2(s)$ such that:
 \begin{equation*}
   \begin{aligned}
                     & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
-    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega \\
+    \Longleftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega \\
     \Longrightarrow & \text{ depends on the filters' norm} \\
   \end{aligned}
 \end{equation*}
@@ -241,3 +235,83 @@ The paper and all the Matlab Scripts used for the paper are accessible [[https:/
 :END:
 Specifications: expressed as upper bounds on the filters' norm\\
 $\mathcal{H}_\infty$ Synthesis: easily shape complex complementary filters
+* Notes                                                            :noexport:
+** Title Slide - Introduction
+Hi everyone,
+Thank you for the invitation.
+My name is Thomas Dehaeze and I am a PhD student working in the Precision Mechatronic Laboratory in Belgium.
+
+I will present you recent work that myself, my supervisor Christophe Collette and a post-doc colleague Mohit Verma have done about sensor fusion and the synthesis of complementary filters.
+
+** Sensor Fusion Architecture - Noise Filtering
+A typical sensor fusion architecture is represented here where the signal of two sensors measuring the same quantity $x$ are filtered out by two filters $H_1$ and $H_2$ and then combined to give a estimate $\hat{x}$ of $x$.
+
+Each sensor have different noise characteristics $n_1$ and $n_2$ and dynamics $G_1$ and $G_2$.
+
+We consider that the two filters $H_1$ and $H_2$ are complementary, meaning that the sum of their transfer function is equal to one.
+
+If we first consider that the sensor dynamics is perfectly known, we can inverse the sensor dynamics to obtain $G_1 = G_2 = 1$. And the estimate $\hat{x}$ is equal to $x$ plus the noise of the individual sensors filtered out by the associated filter.
+
+The Power Spectral Density of the super sensor noise then depends on both the PSD of $n_1$ and $n_2$, but also on the norms of the complementary filters.
+
+Thus, it is usually wanted that the filters are designed such that the norm of $H_1$ is small when $n_1$ is larger than $n_2$ and the norm of $H_2$ is small when $n_2$ is large than $n_1$. We can then obtain a super sensor that has overall less noise than both individual sensors.
+
+** Sensor Fusion Architecture - Robustness
+However, in practical systems, the sensor dynamics is never exactly known and cannot be perfectly inverted.
+
+We can represent this by a multiplicative uncertainty on the dynamics of each sensor where
+- $w$ is a weight that represents the magnitude of the uncertainty
+- $\Delta$ can be any stable transfer function with its $\mathcal{H}_\infty$ norm less than 1
+
+The super sensor dynamics uncertainty depends both on the uncertainty weights and on the complementary filters.
+
+This dynamic uncertainty is problematic as it introduces unwanted phase lag and will limit the attainable bandwidth.
+
+In order to limit the super sensor dynamic uncertainty, $H_1$ and $H_2$ have to be designed such that:
+- the norm of $H_1$ is small when the uncertainty on sensor 1 is large
+- the norm of $H_2$ is small when the uncertainty on sensor 2 is large
+
+Doing so, it is possible to obtain a super sensor with less dynamic uncertainty than the individual sensors.
+This could allow to increase the control bandwidth.
+
+With these two simple examples, we see that the norm of the complementary filters have a huge impact on both the performance and the robustness of the sensor fusion architecture.
+
+This is why we worked on the development of a synthesis method that permits to shape the norms of the complementary filters.
+
+** Shaping of Complementary Filters using $\mathcal{H}_\infty$ synthesis
+The design objective is thus to design two complementary filters $H_1$ and $H_2$ such that the norms of $H_1$ and $H_2$ are below some defined weights $W_1$ and $W_2$.
+
+If apply the $\mathcal{H}_\infty$ synthesis on the shown generalized plant that includes the two weights $W_1$ and $W_2$, the algorithm will find a stable filter $H_2$ such that the $\mathcal{H}_\infty$ norm between $w$ and $[z_1,\ z_2]$ is less than 1.
+
+By then defining $H_1$ to be the complementary of $H_2$, we see that this $\mathcal{H}_\infty$ synthesis problem corresponds to the design objective.
+
+** Validation of the proposed synthesis method
+We then used this synthesis method to design complementary filters.
+
+We started with relatively simple complementary filters.
+Here, the dashed curves are the inverse magnitude of the chosen weights that defines the maximum allowed norm of the complementary filters.
+The solid curves represents the synthesized complementary filters using the $\mathcal{H}_\infty$ synthesis.
+
+** Complementary Filters Used at LIGO - Specifications
+We then wanted to validate this synthesis method for the design of more complex complementary filters.
+
+We chose one pair of complementary filters that are designed in the PhD thesis of Hua and used at the LIGO.
+
+The specifications on the norms of the filters are shown by the black dashed lines and the solid curves are the inverse magnitude of the designed weighting functions.
+
+The weights are designed to be as close as possible to the specifications in order to not over constrain the synthesis problem.
+Also, the order of the weights are kept reasonably small as the synthesized complementary filter will have an order equal to the sum of the weights order.
+
+The weighting functions used are a custom designed 7th order transfer function for the high pass filter and a Type I chebyshev filter of order 20 for the low pass filter.
+
+** $\mathcal{H}_\infty$ Synthesis - Comparison with LIGO's FIR filters
+After synthesis, we obtain the complementary filters shown by the dashed curves which are of order 27.
+The FIR filters of order 512 develop in the PhD thesis of Hua are also shown by the solid curves.
+The filters are quite similar both in phase and in magnitude.
+
+To summarize:
+- the specifications in terms of super sensor noise and dynamic uncertainty can be expressed as upper bounds on the filter's norm
+- the $\mathcal{H}_\infty$ synthesis that we developed allows to shape complementary filters quite easily. It works very well for both simple and complex shapes
+- It can be easily generalized to the synthesis of more that two complementary filters. You can check the paper where this is explained
+
+If you are interested by this work, the paper and all the Matlab scripts that was used to obtain all these results are accessible in the link.
