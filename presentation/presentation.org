@@ -176,15 +176,12 @@ Find $H_2(s)$ such that:
 #+attr_latex: :width 0.85\linewidth
 [[file:figs/hinf_synthesis_results.pdf]]
 
-** Complementary Filters Specifications - Weights
-*** @@latex:@@                                                     :B_cbox:
+** Complementary Filters Used at LIGO - Specifications
+*** Specifications                                        :B_ignoreheading:
 :PROPERTIES:
-:BEAMER_env: cbox
-:BEAMER_opt: {blue}{}
+:BEAMER_env: ignoreheading
 :END:
-
-| $\tikz[baseline=-0.5ex]{\draw[color=mycolor1, line width=1.5pt](0,0)--(1,0)}$ | Custom Designed $7^{\text{th}}$ Order Transfer Function |
-| $\tikz[baseline=-0.5ex]{\draw[color=mycolor2, line width=1.5pt](0,0)--(1,0)}$ | Type I Chebyshev Filter of Order $20$                   |
+The specification are detailed in /Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)/
 
 *** Figure                                                :B_ignoreheading:
 :PROPERTIES:
@@ -194,9 +191,41 @@ Find $H_2(s)$ such that:
 #+attr_latex: :width 0.8\linewidth
 [[file:figs/ligo_weights.pdf]]
 
-The specification are detailed in /Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)/
+*** Weighting Functions used                                       :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
 
-** $\mathcal{H}_\infty$ Synthesis
+| $\tikz[baseline=-0.5ex]{\draw[color=mycolor1, line width=1.5pt](0,0)--(1,0)}$ | Custom Designed $7^{\text{th}}$ Order Transfer Function |
+| $\tikz[baseline=-0.5ex]{\draw[color=mycolor2, line width=1.5pt](0,0)--(1,0)}$ | Type I Chebyshev Filter of Order $20$                   |
 
-#+attr_latex: :width 0.8\linewidth
+** $\mathcal{H}_\infty$ Synthesis - Comparison
+\vspace{-1em}
+*** Result                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.6
+:END:
+
+\vspace{-2em}
+#+attr_latex: :width 1.1\linewidth
 [[file:figs/comp_fir_ligo_hinf.pdf]]
+
+*** Comments                                               :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.4
+:END:
+- FIR Filters: order 512
+- $\mathcal{H}_\infty$ Filters: order 27
+
+*** Conclusion                                            :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+**** Conclusion                                                   :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+Easy to use synthesis method of complementary filters
