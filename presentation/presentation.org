@@ -14,6 +14,8 @@
 #+LaTeX_CLASS: clean-beamer
 #+LaTeX_CLASS_OPTIONS: [t]
 
+#+BEAMER_HEADER: \hypersetup{colorlinks=true}
+
 #+OPTIONS: H:2
 #+OPTIONS: num:t toc:nil ::t |:t ^:{} -:t f:t *:t <:t
 
@@ -79,7 +81,7 @@ Let's first consider *Perfectly Known Sensor Dynamics*:
 :BEAMER_opt: {blue}{ams nodisplayskip}
 :END:
 \begin{equation*}
-  \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
+  \Phi_{\hat{x}} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
 \end{equation*}
 
 ** Sensor Fusion Architecture - Robustness
@@ -201,13 +203,12 @@ The specification are detailed in /Hua, W., Low frequency vibration isolation an
 | $\tikz[baseline=-0.5ex]{\draw[color=mycolor2, line width=1.5pt](0,0)--(1,0)}$ | Type I Chebyshev Filter of Order $20$                   |
 
 ** $\mathcal{H}_\infty$ Synthesis - Comparison with LIGO's FIR filters
-\vspace{-1em}
 *** Result                                                          :BMCOL:
 :PROPERTIES:
 :BEAMER_col: 0.6
 :END:
 
-\vspace{-2em}
+\vspace{-3em}
 #+attr_latex: :width 1.1\linewidth
 [[file:figs/comp_fir_ligo_hinf.pdf]]
 
@@ -215,8 +216,18 @@ The specification are detailed in /Hua, W., Low frequency vibration isolation an
 :PROPERTIES:
 :BEAMER_col: 0.4
 :END:
+
 - FIR Filters: order 512
 - $\mathcal{H}_\infty$ Filters: order 27
+
+\vspace{1em}
+
+**** @@latex:@@                                                   :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+The paper and all the Matlab Scripts used for the paper are accessible [[https://tdehaeze.github.io/dehaeze19_desig_compl_filte/][here]].
 
 *** Conclusion                                            :B_ignoreheading:
 :PROPERTIES:
