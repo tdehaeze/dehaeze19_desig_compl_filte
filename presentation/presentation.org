@@ -1,13 +1,13 @@
 #+TITLE: Complementary Filters Shaping\newline Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
 #+AUTHOR:    Dehaeze Thomas
-#+SUBTITLE:  ICCMA 2019
+#+SUBTITLE:  Control System Working Group meeting
 #+EMAIL:     dehaeze.thomas@gmail.com
-#+DATE:      07-11-2019
+#+DATE:      {{{time(%Y-%m-%d)}}}
 
-#+DESCRIPTION: Complementary Filters Shaping Using H-Infinity Synthesis. Presentation at ICCMA 2019.
-#+KEYWORDS: complementary filters, h-infinity, sensor fusion
-#+LANGUAGE:  en
+#+DESCRIPTION: Complementary Filters Shaping Using H-Infinity Synthesis. Presentation during a Control System Working Group Meeting at LIGO.
+#+KEYWORDS:complementary filters, h-infinity, sensor fusion
+#+LANGUAGE: en
 
 #+STARTUP: beamer
 
@@ -15,207 +15,188 @@
 #+LaTeX_CLASS_OPTIONS: [t]
 
 #+OPTIONS: H:2
-#+OPTIONS: num:t toc:t ::t |:t ^:{} -:t f:t *:t <:t
+#+OPTIONS: num:t toc:nil ::t |:t ^:{} -:t f:t *:t <:t
 
 #+SELECT_TAGS: export
 #+EXCLUDE_TAGS: noexport
 
-#+latex_header_extra: \AtBeginSection[]{
-#+latex_header_extra:   \begin{frame}<beamer>{Table of Contents}
-#+latex_header_extra:   \tableofcontents[currentsection, hideothersubsections, sectionstyle=show/shaded]
-#+latex_header_extra:   \end{frame}
+#+latex_header_extra: \beamertemplatenavigationsymbolsempty
+#+latex_header_extra: \addtobeamertemplate{navigation symbols}{}{%
+#+latex_header_extra:     \usebeamerfont{footline}%
+#+latex_header_extra:     \usebeamercolor[fg]{footline}%
+#+latex_header_extra:     \hspace{1em}%
+#+latex_header_extra:     \insertframenumber/\inserttotalframenumber
 #+latex_header_extra: }
+#+latex_header_extra: \setbeamertemplate{itemize items}[circle]
+#+latex_header_extra: \usefonttheme[onlymath]{serif}
+#+latex_header_extra: \definecolor{mycolor1}{RGB}{79,115,193}
+#+latex_header_extra: \definecolor{mycolor2}{RGB}{213,91,53}
 :END:
 
-* Introduction
-<<sec:introduction>>
+* Complementary Filters Shaping
+** Sensor Fusion Architecture - Noise Filtering
+\vspace{-1em}
+*** Schematic                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.45
+:END:
 
-** Introduction
-High bandwidth
-- need of Sensor at low frequency + sensor at high frequency
-- need of merging the two
-- complementary filters
-- design of those filters using $\mathcal{H}_\infty$
-
-* Complementary Filters Requirements
-<<sec:requirements>>
-** Sensor Fusion Architecture
-<<sec:sensor_fusion>>
-
-#+name: fig:fusion_super_sensor
-#+caption: Sensor fusion architecture
-#+attr_latex: :scale 1
+\vspace{-1em}
+#+attr_latex: :width 1.1\linewidth
 [[file:figs/fusion_super_sensor.pdf]]
 
-#+NAME: eq:comp_filter_estimate
-\begin{equation}
+*** Equations                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.55
+:END:
+
+\begin{equation*}
   \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
-\end{equation}
+\end{equation*}
 
-#+NAME: eq:comp_filter
-\begin{equation}
+**** Complementary Property                                       :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+\begin{equation*}
   H_1(s) + H_2(s) = 1
-\end{equation}
+\end{equation*}
 
-** Noise Sensor Filtering
-<<sec:noise_filtering>>
+*** Full Analysis                                         :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+\vspace{0.5em}
+Let's first consider *Perfectly Known Sensor Dynamics*:
+\begin{equation*}
+  G_1(s) = G_2(s) = 1 \Longrightarrow \hat{x} = x + H_1 n_1 + H_2 n_2
+\end{equation*}
 
-Perfect Sensor Dynamics:
-#+name: eq:perfect_dynamics
-\begin{equation}
-  G_1(s) = G_2(s) = 1
-\end{equation}
+**** PSD of the Super Sensor's noise                              :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{ams nodisplayskip}
+:END:
+\begin{equation*}
+  \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2} \Longrightarrow \text{depends on filters' norm}
+\end{equation*}
 
-Super Sensor Estimation:
-#+NAME: eq:estimate_perfect_dyn
-\begin{equation}
-  \hat{x} = x + H_1 n_1 + H_2 n_2
-\end{equation}
+** Sensor Fusion Architecture - Robustness
+*** Schematic                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
 
-Noise in the Super Sensor:
-#+NAME: eq:noise_filtering_psd
-\begin{equation}
-  \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2}
-\end{equation}
-
-Usually, the two sensors have high noise levels over distinct frequency regions.
-In order to lower the noise of the super sensor, the value of the norm $|H_1|$ has to be lowered when $\Phi_{n_1}$ is larger than $\Phi_{n_2}$ and that of $|H_2|$ lowered when $\Phi_{n_2}$ is larger than $\Phi_{n_1}$.
-
-** Robustness of the Fusion
-<<sec:fusion_robustness>>
-
-#+name: fig:sensor_fusion_dynamic_uncertainty
-#+caption: Sensor fusion architecture with sensor dynamics uncertainty
-#+attr_latex: :scale 1
+\vspace{-2em}
+#+attr_latex: :width 1.1\linewidth
 [[file:figs/sensor_fusion_dynamic_uncertainty.pdf]]
 
-#+name: eq:super_sensor_dyn_uncertainty
-\begin{equation}
-  \frac{\hat{x}}{x} = 1 + w_1(s) H_1(s) \Delta_1(s) + w_2(s) H_2(s) \Delta_2(s)
-\end{equation}
+*** Equations                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
 
-#+name: eq:max_uncertainty_super_sensor
-\begin{equation}
+*Dynamic Uncertainty*:
+\begin{gather*}
+  G_i^\prime(s) = G_i(s) [1 + w_i(s)\Delta_i(s)],\\
+  \quad \forall\Delta_i, \|\Delta_i\|_\infty < 1
+\end{gather*}
+
+*Super Sensor Dynamics*:
+\begin{equation*}
+  \frac{\hat{x}}{x} = 1 + w_1 H_1 \Delta_1 + w_2 H_2 \Delta_2
+\end{equation*}
+
+*** Full Analysis                                         :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+\vspace{0.5em}
+**** Limit the Super Sensor Dynamic uncertainty                   :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+Design $H_1(s)$ and $H_2(s)$ such that:
+\begin{equation*}
   \begin{aligned}
-    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
-    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega
+                    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
+    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega \\
+    \Longrightarrow & \text{ depends on the filters' norm} \\
   \end{aligned}
-\end{equation}
+\end{equation*}
 
-** TODO Add an example of merging to sensors                      :noexport:
-
-* Complementary Filters Shaping using $\mathcal{H}_\infty$ Synthesis
-<<sec:hinf_method>>
 ** Shaping of Complementary Filters using $\mathcal{H}_\infty$ synthesis
-<<sec:hinf_synthesis>>
+\vspace{-1em}
+*** Equations                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+**** Design Objective                                             :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{ams nodisplayskip}
+:END:
+\begin{gather*}
+  H_1(s) + H_2(s) = 1 \\
+  |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \\
+  |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega
+\end{gather*}
 
-Synthesis Objective:
-#+NAME: eq:comp_filter_problem_form
-\begin{subequations}
-  \begin{align}
-  & H_1(s) + H_2(s) = 1 \label{eq:hinf_cond_complementarity} \\
-  & |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \label{eq:hinf_cond_h1} \\
-  & |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega \label{eq:hinf_cond_h2}
-  \end{align}
-\end{subequations}
+**** @@latex:@@                                                   :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
 
-#+name: fig:h_infinity_robust_fusion
-#+caption: Architecture used for $\mathcal{H}_\infty$ synthesis of complementary filters
-#+attr_latex: :scale 1
+$W_1(s)$ and $W_2(s)$ are proper, stable and minimum phase transfer functions
+
+*** Schematic                                                       :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+\vspace{-3em}
+#+attr_latex: :width \linewidth
 [[file:figs/h_infinity_robust_fusion.pdf]]
 
-#+NAME: eq:hinf_syn_obj
-\begin{equation}
-  \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
-\end{equation}
-
-#+name: eq:definition_H1
-\begin{equation}
+**** $\mathcal{H}_\infty$ Synthesis                               :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+Find $H_2(s)$ such that:
+\begin{gather*}
+  \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1 \\
   H_1(s) \triangleq 1 - H_2(s)
-\end{equation}
-
-** Weighting Functions Design
-<<sec:hinf_weighting_func>>
-#+name: eq:weight_formula
-\begin{equation}
-  W(s) = \left( \frac{
-           \hfill{} \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
-         }{
-           \left(\frac{1}{G_\infty}\right)^{\frac{1}{n}} \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{1}{G_c}\right)^{\frac{1}{n}}
-         }\right)^n
-\end{equation}
-
-#+name: fig:weight_formula
-#+caption: Magnitude of a weighting function generated using the formula
-#+attr_latex: :scale 1
-[[file:figs/weight_formula.pdf]]
+\end{gather*}
 
 ** Validation of the proposed synthesis method
-<<sec:hinf_example>>
-#+name: fig:hinf_synthesis_results
-#+caption: Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis
-#+attr_latex: :scale 1
+#+attr_latex: :width 0.85\linewidth
 [[file:figs/hinf_synthesis_results.pdf]]
 
-** Synthesis of Three Complementary Filters
-<<sec:hinf_three_comp_filters>>
-#+name: fig:comp_filter_three_hinf
-#+caption: Architecture for $\mathcal{H}_\infty$ synthesis of three complementary filters
-#+attr_latex: :scale 1
-[[file:figs/comp_filter_three_hinf.pdf]]
+** Complementary Filters Specifications - Weights
+*** @@latex:@@                                                     :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
 
-#+name: fig:hinf_three_synthesis_results
-#+caption: Frequency response of the weighting functions and three complementary filters obtained using $\mathcal{H}_\infty$ synthesis
-#+attr_latex: :scale 1
-[[file:figs/hinf_three_synthesis_results.pdf]]
+| $\tikz[baseline=-0.5ex]{\draw[color=mycolor1, line width=1.5pt](0,0)--(1,0)}$ | Custom Designed $7^{\text{th}}$ Order Transfer Function |
+| $\tikz[baseline=-0.5ex]{\draw[color=mycolor2, line width=1.5pt](0,0)--(1,0)}$ | Type I Chebyshev Filter of Order $20$                   |
 
-* Application: Design of Complementary Filters used in the Active Vibration Isolation System at the LIGO
-<<sec:application_ligo>>
-** Application
-Several complementary filters are used in the active isolation system at the LIGO cite:hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system.
-The requirements on those filters are very tight and thus their design is complex.
-The approach used in cite:hua05_low_ligo for their design is to write the synthesis of complementary FIR filters as a convex optimization problem.
-The obtained FIR filters are compliant with the requirements. However they are of very high order so their implementation is quite complex.
+*** Figure                                                :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
 
-The effectiveness of the proposed method is demonstrated by designing complementary filters with the same requirements as the one described in cite:hua05_low_ligo.
-
-** Complementary Filters Specifications
-<<sec:ligo_specifications>>
-- From $0$ to $\SI{0.008}{Hz}$, the magnitude of the filter's transfer function should be less or equal to $8 \times 10^{-4}$
-- Between $\SI{0.008}{Hz}$ to $\SI{0.04}{Hz}$, the filter should attenuate the input signal proportional to frequency cubed
-- Between $\SI{0.04}{Hz}$ to $\SI{0.1}{Hz}$, the magnitude of the transfer function should be less than $3$
-- Above $\SI{0.1}{Hz}$, the magnitude of the complementary filter should be less than $0.045$
-
-#+name: fig:ligo_weights
-#+caption: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis
-#+attr_latex: :scale 1
+#+attr_latex: :width 0.8\linewidth
 [[file:figs/ligo_weights.pdf]]
 
-** Weighting Functions Design
-<<sec:ligo_weights>>
-
-#+name: fig:ligo_weights
-#+caption: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis
-#+attr_latex: :scale 1
-[[file:figs/ligo_weights.pdf]]
+The specification are detailed in /Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)/
 
 ** $\mathcal{H}_\infty$ Synthesis
-<<sec:ligo_results>>
 
-#+name: fig:comp_fir_ligo_hinf
-#+caption: Comparison of the FIR filters (solid) designed in cite:hua05_low_ligo with the filters obtained with $\mathcal{H}_\infty$ synthesis (dashed)
-#+attr_latex: :scale 1
+#+attr_latex: :width 0.8\linewidth
 [[file:figs/comp_fir_ligo_hinf.pdf]]
-
-* Conclusion
-  <<sec:conclusion>>
-** Conclusion
-This paper has shown how complementary filters can be used to combine multiple sensors in order to obtain a super sensor.
-Typical specification on the super sensor noise and on the robustness of the sensor fusion has been shown to be linked to the norm of the complementary filters.
-Therefore, a synthesis method that permits the shaping of the complementary filters norms has been proposed and has been successfully applied for the design of complex filters.
-Future work will aim at further developing this synthesis method for the robust and optimal synthesis of complementary filters used in sensor fusion.
-* Bibliography
-** Bibliography
-
-bibliographystyle:unsrt
-bibliography:ref.bib
