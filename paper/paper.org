@@ -26,6 +26,7 @@
 :END:
 
 * Build                                                            :noexport:
+#+NAME: startblock
 #+BEGIN_SRC emacs-lisp :results none
   (add-to-list 'org-latex-classes
                '("ieeeconf"
@@ -36,9 +37,7 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
                )
-#+END_SRC
 
-#+BEGIN_SRC emacs-lisp :results none
   (defun delete-org-comments (backend)
     (loop for comment in (reverse (org-element-map (org-element-parse-buffer)
                                       'comment 'identity))
