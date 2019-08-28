@@ -56,7 +56,7 @@ One use of complementary filter is described below:
 #+end_src
 
 #+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/h_inf_synthesis_complementary_filters.zip][here]].
+  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/h_inf_synthesis_complementary_filters.zip][here]].
 #+end_note
 
 ** Matlab Init                                              :noexport:ignore:
@@ -100,11 +100,11 @@ We then see that $W_1(s)$ and $W_2(s)$ can be used to shape both $H_1(s)$ and $H
 A formula is proposed to help the design of the weighting functions.
 
 \begin{equation}
-  W(s) = \left(\frac{
-           \hfill \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
+  W(s) = \left( \frac{
+           \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
          }{
            \left(\frac{1}{G_\infty}\right)^{\frac{1}{n}} \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{1}{G_c}\right)^{\frac{1}{n}}
-         }}\right)^n
+         }\right)^n
 \end{equation}
 
 The parameters permits to specify:
@@ -292,7 +292,7 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
 #+end_src
 
 #+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/three_comp_filters.zip][here]].
+  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/three_comp_filters.zip][here]].
 #+end_note
 
 ** Matlab Init                                              :noexport:ignore:
@@ -522,7 +522,7 @@ The FIR complementary filters designed in cite:hua05_low_ligo are of order 512.
 #+end_src
 
 #+begin_note
-  All the files (data and Matlab scripts) are accessible [[file:data/comp_filters_ligo.zip][here]].
+  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/comp_filters_ligo.zip][here]].
 #+end_note
 
 ** Matlab Init                                              :noexport:ignore:
