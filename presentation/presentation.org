@@ -200,7 +200,7 @@ The specification are detailed in /Hua, W., Low frequency vibration isolation an
 | $\tikz[baseline=-0.5ex]{\draw[color=mycolor1, line width=1.5pt](0,0)--(1,0)}$ | Custom Designed $7^{\text{th}}$ Order Transfer Function |
 | $\tikz[baseline=-0.5ex]{\draw[color=mycolor2, line width=1.5pt](0,0)--(1,0)}$ | Type I Chebyshev Filter of Order $20$                   |
 
-** $\mathcal{H}_\infty$ Synthesis - Comparison
+** $\mathcal{H}_\infty$ Synthesis - Comparison with LIGO's FIR filters
 \vspace{-1em}
 *** Result                                                          :BMCOL:
 :PROPERTIES:
@@ -228,4 +228,5 @@ The specification are detailed in /Hua, W., Low frequency vibration isolation an
 :BEAMER_env: cbox
 :BEAMER_opt: {blue}{}
 :END:
-Easy to use synthesis method of complementary filters
+Specifications: expressed as upper bounds on the filters' norm\\
+$\mathcal{H}_\infty$ Synthesis: easily shape complex complementary filters

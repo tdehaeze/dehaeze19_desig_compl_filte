@@ -1,4 +1,4 @@
-% Created 2019-08-28 mer. 12:04
+% Created 2019-08-28 mer. 12:10
 % Intended LaTeX compiler: pdflatex
 \documentclass[t]{clean-beamer}
 \usepackage[utf8]{inputenc}
@@ -44,8 +44,8 @@
 \maketitle
 
 \section{Complementary Filters Shaping}
-\label{sec:orgdcf129e}
-\begin{frame}[label={sec:orgde41700}]{Sensor Fusion Architecture - Noise Filtering}
+\label{sec:orga90b74d}
+\begin{frame}[label={sec:orgc30113d}]{Sensor Fusion Architecture - Noise Filtering}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
@@ -81,7 +81,7 @@ Let's first consider \textbf{Perfectly Known Sensor Dynamics}:
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgf3b5e26}]{Sensor Fusion Architecture - Robustness}
+\begin{frame}[label={sec:org78632cf}]{Sensor Fusion Architecture - Robustness}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \vspace{-2em}
@@ -117,7 +117,7 @@ Design \(H_1(s)\) and \(H_2(s)\) such that:
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgf0b2054}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
+\begin{frame}[label={sec:org1c8ad51}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
@@ -151,13 +151,13 @@ Find \(H_2(s)\) such that:
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org2d6cd37}]{Validation of the proposed synthesis method}
+\begin{frame}[label={sec:orgd10d7f7}]{Validation of the proposed synthesis method}
 \begin{center}
 \includegraphics[scale=1,width=0.85\linewidth]{figs/hinf_synthesis_results.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}[label={sec:org2f1e4c4}]{Complementary Filters Used at LIGO - Specifications}
+\begin{frame}[label={sec:org67fb3d7}]{Complementary Filters Used at LIGO - Specifications}
 The specification are detailed in \emph{Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)}
 
 \begin{center}
@@ -174,7 +174,7 @@ The specification are detailed in \emph{Hua, W., Low frequency vibration isolati
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgf57371a}]{\(\mathcal{H}_\infty\) Synthesis - Comparison}
+\begin{frame}[label={sec:orgb4f9c19}]{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.6\columnwidth}
@@ -193,7 +193,8 @@ The specification are detailed in \emph{Hua, W., Low frequency vibration isolati
 \end{columns}
 
 \onslide{\begin{cbox}[Conclusion]{blue}{}
-Easy to use synthesis method of complementary filters
+Specifications: expressed as upper bounds on the filters' norm\\
+\(\mathcal{H}_\infty\) Synthesis: easily shape complex complementary filters
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 \end{document}
