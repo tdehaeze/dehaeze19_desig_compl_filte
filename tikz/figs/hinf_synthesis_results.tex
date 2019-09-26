@@ -1,0 +1,67 @@
+\setlength\fwidth{6.5cm}
+\setlength\fheight{6cm}
+
+\begin{tikzpicture}
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=0.5\fheight,
+    at={(0.0\fwidth, 0.5\fheight)},
+    scale only axis,
+    xmode=log,
+    xmin=0.1,
+    xmax=1000,
+    xtick={0.1, 1, 10, 100, 1000},
+    xticklabels={{}},
+    xminorticks=true,
+    ymode=log,
+    ymin=0.0005,
+    ymax=20,
+    ytick={0.001, 0.01, 0.1, 1, 10},
+    yminorticks=true,
+    ylabel={Magnitude},
+    xminorgrids,
+    yminorgrids,
+    ]
+    \addplot [color=mycolor1, line width=1.5pt, forget plot]
+    table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+
+    \addplot [color=mycolor2, line width=1.5pt, forget plot]
+    table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+
+    \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
+    table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+
+    \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
+    table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+  \end{axis}
+
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=0.45\fheight,
+    at={(0.0\fwidth, 0.0\fheight)},
+    scale only axis,
+    xmode=log,
+    xmin=0.1,
+    xmax=1000,
+    xtick={0.1, 1, 10, 100, 1000},
+    xminorticks=true,
+    xlabel={Frequency [Hz]},
+    ymin=-200,
+    ymax=200,
+    ytick={-180,  -90,    0,   90,  180},
+    ylabel={Phase [deg]},
+    xminorgrids,
+    legend style={at={(1,1.1)}, outer sep=2pt , anchor=north east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}},
+    ]
+    \addlegendimage{color=mycolor1, dashed, line width=1.5pt}
+    \addlegendentry{$W_1^{-1}$};
+    \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
+    \addlegendentry{$W_2^{-1}$};
+    \addplot [color=mycolor1, line width=1.5pt]
+    table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    \addlegendentry{$H_1$};
+    \addplot [color=mycolor2, line width=1.5pt]
+    table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+    \addlegendentry{$H_2$};
+  \end{axis}
+\end{tikzpicture}

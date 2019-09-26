@@ -1,0 +1,62 @@
+\setlength\fwidth{6.5cm}
+\setlength\fheight{3.5cm}
+
+\begin{tikzpicture}
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=1.0\fheight,
+    at={(0.0\fwidth, 0.0\fheight)},
+    scale only axis,
+    xmode=log,
+    xmin=0.1,
+    xmax=100,
+    xtick={0.1,1,10, 100},
+    xminorticks=true,
+    ymode=log,
+    ymin=0.0005,
+    ymax=20,
+    ytick={0.001, 0.01, 0.1, 1, 10},
+    yminorticks=true,
+    ylabel={Magnitude},
+    xlabel={Frequency [Hz]},
+    xminorgrids,
+    yminorgrids,
+    ]
+
+    \addplot [color=black, line width=1.5pt, forget plot]
+    table [x=freqs, y=ampl, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/weight_formula.csv};
+
+    \addplot [color=black, dashed, line width=1.5pt]
+    table[row sep=crcr]{%
+      1     10\\
+      100   10\\
+    };
+    \addplot [color=black, dashed, line width=1.5pt]
+    table[row sep=crcr]{%
+      0.1  0.001\\
+      3    0.001\\
+    };
+
+    \addplot [color=black, line width=1.5pt]
+    table[row sep=crcr]{%
+      0.1  1\\
+      100  1\\
+    };
+
+    \addplot [color=black, dashed, line width=1.5pt]
+    table[row sep=crcr]{%
+      10  2\\
+      10  1\\
+    };
+
+    \node[below] at (2, 10) {$G_\infty$};
+    \node[above] at (2, 0.001) {$G_0$};
+
+    \node[branch] at (10, 2){};
+    \draw[dashed, line cap=round] (7, 2) -- (20, 2) node[right]{$G_c$};
+    \draw[dashed, line cap=round] (10, 2) -- (10, 1) node[below]{$\omega_c$};
+
+    \node[right] at (3, 0.1) {$+n$};
+
+  \end{axis}
+\end{tikzpicture}

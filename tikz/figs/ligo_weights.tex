@@ -1,0 +1,66 @@
+\setlength\fwidth{6.5cm}
+\setlength\fheight{4cm}
+
+\begin{tikzpicture}
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=1.0\fheight,
+    at={(0.0\fwidth, 0.0\fheight)},
+    scale only axis,
+    separate axis lines,
+    every outer x axis line/.append style={black},
+    every x tick label/.append style={font=\color{black}},
+    every x tick/.append style={black},
+    xmode=log,
+    xmin=0.001,
+    xmax=1,
+    xminorticks=true,
+    xlabel={Frequency [Hz]},
+    every outer y axis line/.append style={black},
+    every y tick label/.append style={font=\color{black}},
+    every y tick/.append style={black},
+    ymode=log,
+    ymin=0.005,
+    ymax=20,
+    yminorticks=true,
+    ylabel={Magnitude},
+    axis background/.style={fill=white},
+    xmajorgrids,
+    xminorgrids,
+    ymajorgrids,
+    yminorgrids,
+    legend style={at={(0,1)}, outer sep=2pt, anchor=north west, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
+    ]
+
+    \addplot [color=mycolor1, line width=1.5pt]
+      table [x=freqs, y=wHm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+    \addlegendentry{$|w_H|^{-1}$}
+
+    \addplot [color=mycolor2, line width=1.5pt]
+      table [x=freqs, y=wLm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+    \addlegendentry{$|w_L|^{-1}$}
+
+    \addplot [color=black, dotted, line width=1.5pt]
+    table[row sep=crcr]{%
+      0.0005	0.008\\
+      0.008   0.008\\
+    };
+    \addlegendentry{Specifications}
+
+    \addplot [color=black, dotted, line width=1.5pt, forget plot]
+    table[row sep=crcr]{%
+      0.008	0.008\\
+      0.04	1\\
+    };
+    \addplot [color=black, dotted, line width=1.5pt, forget plot]
+    table[row sep=crcr]{%
+      0.04  3\\
+      0.1   3\\
+    };
+    \addplot [color=black, dotted, line width=1.5pt]
+    table[row sep=crcr]{%
+      0.1	0.045\\
+      2   0.045\\
+    };
+  \end{axis}
+\end{tikzpicture}

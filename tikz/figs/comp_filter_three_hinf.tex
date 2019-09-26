@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+   \node[block={5.0cm}{3.5cm}, fill=black!20!white, dashed] (P) {};
+   \node[above] at (P.north) {$P(s)$};
+
+   \coordinate[] (inputw)  at ($(P.south west)!0.8!(P.north west) + (-0.7, 0)$);
+   \coordinate[] (inputu)  at ($(P.south west)!0.4!(P.north west) + (-0.7, 0)$);
+
+   \coordinate[] (output1) at ($(P.south east)!0.8!(P.north east)  + (0.7, 0)$);
+   \coordinate[] (output2) at ($(P.south east)!0.55!(P.north east) + (0.7, 0)$);
+   \coordinate[] (output3) at ($(P.south east)!0.3!(P.north east)  + (0.7, 0)$);
+   \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east)  + (0.7, 0)$);
+
+   \node[block, left=1.4 of output1] (W1){$W_1(s)$};
+   \node[block, left=1.4 of output2] (W2){$W_2(s)$};
+   \node[block, left=1.4 of output3] (W3){$W_3(s)$};
+   \node[addb={+}{}{}{}{-}, left=of W1] (sub1) {};
+   \node[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
+
+   \node[block, below=0.3 of P] (H) {$\begin{bmatrix}H_2(s) \\ H_3(s)\end{bmatrix}$};
+
+   \draw[->] (inputw) node[above right](w){$w$} -- (sub2.west);
+   \draw[->] (W3-|sub1)node[branch]{} -- (sub1.south);
+   \draw[->] (W2-|sub2)node[branch]{} -- (sub2.south);
+   \draw[->] ($(sub2.west)+(-0.5, 0)$) node[branch]{} |- (outputv) |- (H.east);
+   \draw[->] ($(H.south west)!0.7!(H.north west)$) -| (inputu|-W2) -- (W2.west);
+   \draw[->] ($(H.south west)!0.3!(H.north west)$) -| ($(inputu|-W3)+(0.4, 0)$) -- (W3.west);
+
+   \draw[->] (sub2.east) -- (sub1.west);
+   \draw[->] (sub1.east) -- (W1.west);
+   \draw[->] (W1.east) -- (output1)node[above left](z){$z_1$};
+   \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
+   \draw[->] (W3.east) -- (output3)node[above left]{$z_3$};
+   \node[above] at (W2-|w){$u_1$};
+   \node[above] at (W3-|w){$u_2$};
+   \node[above] at (outputv-|z){$v$};
+\end{tikzpicture}

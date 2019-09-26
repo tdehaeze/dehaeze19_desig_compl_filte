@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+  \begin{scope}[shift={(4, 0)}]
+
+    % Uncertainty Circle
+    \node[draw, circle, fill=black!20!white, minimum size=3.6cm] (c) at (0, 0) {};
+    \path[draw, dotted] (0, 0) circle [radius=1.0];
+    \path[draw, dashed] (135:1.0) circle [radius=0.8];
+
+    % Center of Circle
+    \node[below] at (0, 0){$1$};
+
+    \draw[<->, dashed] (0, 0)   node[branch]{} -- coordinate[midway](r1) ++(45:1.0);
+    \draw[<->, dashed] (135:1.0)node[branch]{} -- coordinate[midway](r2) ++(90:0.8);
+
+    \node[] (l1) at (2, 1.5) {$|w_1 H_1|$};
+    \draw[->, dashed, out=-90, in=0] (l1.south) to (r1);
+
+    \node[] (l2) at (0, 2.0) {$|w_2 H_2|$};
+    \draw[->, dashed, out=-90, in=0] (l2.south) to (r2);
+
+    \draw[<->, dashed] (0, 0) -- coordinate[near end](r3) ++(200:1.8);
+    \node[] (l3) at (-2.5, -1.5) {$|w_1 H_1| + |w_2 H_2|$};
+    \draw[->, dashed, out=90, in=-90] (l3.north) to (r3);
+
+    % % Uncertainty Regions
+    % \node[below left] at (45:1.8) {$\Pi_{\text{ss}}$};
+    % \node[above left] at (-45:1.0) {$\Pi_{1}$};
+    % \node[below] at ($(135:1.0)+(0, 0.8)$) {$\Pi_{2}$};
+  \end{scope}
+
+  % Real and Imaginary Axis
+  \draw[->] (-0.5, 0) -- (7.0, 0) node[below left]{Re};
+  \draw[->] (0, -1.8) -- (0, 2.0) node[below left]{Im};
+
+  \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=2);
+  \draw[dashed] (1, 0) arc (0:28:1) node[midway, right]{$\Delta \phi$};
+\end{tikzpicture}

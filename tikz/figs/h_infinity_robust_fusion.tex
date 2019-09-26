@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+   \node[block={4.0cm}{2.5cm}, fill=black!20!white, dashed] (P) {};
+   \node[above] at (P.north) {$P(s)$};
+
+   \coordinate[] (inputw)  at ($(P.south west)!0.75!(P.north west) + (-0.7, 0)$);
+   \coordinate[] (inputu)  at ($(P.south west)!0.35!(P.north west) + (-0.7, 0)$);
+
+   \coordinate[] (output1) at ($(P.south east)!0.75!(P.north east) + ( 0.7, 0)$);
+   \coordinate[] (output2) at ($(P.south east)!0.35!(P.north east) + ( 0.7, 0)$);
+   \coordinate[] (outputv) at ($(P.south east)!0.1!(P.north east) + ( 0.7, 0)$);
+
+   \node[block, left=1.4 of output1] (W1){$W_1(s)$};
+   \node[block, left=1.4 of output2] (W2){$W_2(s)$};
+   \node[addb={+}{}{}{}{-}, left=of W1] (sub) {};
+
+   \node[block, below=0.3 of P] (H2) {$H_2(s)$};
+
+   \draw[->] (inputw) node[above right]{$w$} -- (sub.west);
+   \draw[->] (H2.west) -| ($(inputu)+(0.35, 0)$) node[above]{$u$} -- (W2.west);
+   \draw[->] (inputu-|sub) node[branch]{} -- (sub.south);
+   \draw[->] (sub.east) -- (W1.west);
+   \draw[->] ($(sub.west)+(-0.6, 0)$) node[branch]{} |- ($(outputv)+(-0.35, 0)$) node[above]{$v$} |- (H2.east);
+   \draw[->] (W1.east) -- (output1)node[above left]{$z_1$};
+   \draw[->] (W2.east) -- (output2)node[above left]{$z_2$};
+\end{tikzpicture}

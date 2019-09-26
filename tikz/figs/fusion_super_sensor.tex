@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+  \node[branch] (x) at (0, 0);
+  \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
+  \node[block, below right=0.5 and 0.5 of x](G2){$G_2(s)$};
+  \node[addb, right=0.8 of G1](add1){};
+  \node[addb, right=0.8 of G2](add2){};
+  \node[block, right=0.8 of add1](H1){$H_1(s)$};
+  \node[block, right=0.8 of add2](H2){$H_2(s)$};
+  \node[addb, right=5 of x](add){};
+
+  \draw[] ($(x)+(-0.7, 0)$) node[above right]{$x$} -- (x.center);
+  \draw[->] (x.center) |- (G1.west);
+  \draw[->] (x.center) |- (G2.west);
+  \draw[->] (G1.east) -- (add1.west);
+  \draw[->] (G2.east) -- (add2.west);
+  \draw[<-] (add1.north) -- ++(0, 0.8)node[below right](n1){$n_1$};
+  \draw[<-] (add2.north) -- ++(0, 0.8)node[below right](n2){$n_2$};
+  \draw[->] (add1.east) -- (H1.west);
+  \draw[->] (add2.east) -- (H2.west);
+  \draw[->] (H1) -| (add.north);
+  \draw[->] (H2) -| (add.south);
+  \draw[->] (add.east) -- ++(0.7, 0) node[above left]{$\hat{x}$};
+
+  \begin{scope}[on background layer]
+    \node[fit={($(G2.south-|x)+(-0.2, -0.3)$) ($(n1.north east-|add.east)+(0.2, 0.3)$)}, fill=black!10!white, draw, dashed, inner sep=0pt] (supersensor) {};
+    \node[below left] at (supersensor.north east) {Super Sensor};
+
+    \node[fit={($(G1.south west)+(-0.3, -0.1)$) ($(n1.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor1) {};
+    \node[below right] at (sensor1.north west) {Sensor 1};
+    \node[fit={($(G2.south west)+(-0.3, -0.1)$) ($(n2.north east)+(0.0, 0.1)$)}, fill=black!20!white, draw, dashed, inner sep=0pt] (sensor2) {};
+    \node[below right] at (sensor2.north west) {Sensor 2};
+  \end{scope}
+\end{tikzpicture}

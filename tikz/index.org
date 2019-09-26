@@ -9,7 +9,8 @@
 #+HTML_HEAD: <script src="../js/bootstrap.min.js"></script>
 #+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script src="../js/readtheorg.js"></script>
-#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
+
+#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
 #+PROPERTY: header-args:latex+ :imagemagick t :fit yes
 #+PROPERTY: header-args:latex+ :iminoptions -scale 100% -density 150
 #+PROPERTY: header-args:latex+ :imoutoptions -quality 100
@@ -24,22 +25,8 @@
 
 Configuration file is accessible [[file:config.org][here]].
 
-* Change some default
-#+NAME: tikz_default
-#+begin_src latex :eval no
-  \tikzset{block/.default={0.8cm}{0.8cm}}
-  \tikzset{addb/.append style={scale=0.7}}
-  \tikzset{node distance=0.6}
-
-  \definecolor{mycolor1}{RGB}{79,115,193}
-  \definecolor{mycolor2}{RGB}{213,91,53}
-  \definecolor{mycolor3}{RGB}{152,126,49}
-#+end_src
-
 * Fig 1: Sensor Fusion Architecture
 #+begin_src latex :file fusion_super_sensor.pdf :tangle figs/fusion_super_sensor.tex
-  <<tikz_default>>
-
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
     \node[block, above right=0.5 and 0.5 of x](G1){$G_1(s)$};
@@ -82,7 +69,6 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 2: Sensor fusion architecture with sensor dynamics uncertainty
 #+begin_src latex :file sensor_fusion_dynamic_uncertainty.pdf :tangle figs/sensor_fusion_dynamic_uncertainty.tex
-  <<tikz_default>>
   \begin{tikzpicture}
     \node[branch] (x) at (0, 0);
     \node[addb, above right=0.8 and 4 of x](add1){};
@@ -127,32 +113,46 @@ Configuration file is accessible [[file:config.org][here]].
 * Fig 3: Uncertainty set of the super sensor dynamics
 #+begin_src latex :file uncertainty_set_super_sensor.pdf :tangle figs/uncertainty_set_super_sensor.tex :exports both
   \begin{tikzpicture}
-    % Uncertainty Circle
-    \node[circle, draw, fill=black!20!white] (c) at (4.5, 0)[minimum size=2cm]{};
+    \begin{scope}[shift={(4, 0)}]
+
+      % Uncertainty Circle
+      \node[draw, circle, fill=black!20!white, minimum size=3.6cm] (c) at (0, 0) {};
+      \path[draw, dotted] (0, 0) circle [radius=1.0];
+      \path[draw, dashed] (135:1.0) circle [radius=0.8];
+
+      % Center of Circle
+      \node[below] at (0, 0){$1$};
+
+      \draw[<->, dashed] (0, 0)   node[branch]{} -- coordinate[midway](r1) ++(45:1.0);
+      \draw[<->, dashed] (135:1.0)node[branch]{} -- coordinate[midway](r2) ++(90:0.8);
+
+      \node[] (l1) at (2, 1.5) {$|w_1 H_1|$};
+      \draw[->, dashed, out=-90, in=0] (l1.south) to (r1);
+
+      \node[] (l2) at (-2.5, 1.5) {$|w_2 H_2|$};
+      \draw[->, dashed, out=0, in=-180] (l2.east) to (r2);
+
+      \draw[<->, dashed] (0, 0) -- coordinate[near end](r3) ++(200:1.8);
+      \node[] (l3) at (-2.5, -1.5) {$|w_1 H_1| + |w_2 H_2|$};
+      \draw[->, dashed, out=90, in=-90] (l3.north) to (r3);
+    \end{scope}
 
     % Real and Imaginary Axis
-    \draw[->] (-0.5, 0) -- (6.2, 0) node[below left]{Re};
-    \draw[->] (0, -0.5) -- (0, 1) node[below left]{Im};
+    \draw[->] (-0.5, 0) -- (7.0, 0) node[below left]{Re};
+    \draw[->] (0, -1.7) -- (0, 1.7) node[below left]{Im};
 
-    % X = 1
-    \node[branch] (1) at (4.5, 0){};
-    \node[below] at (1){$1$};
-
-
-
-    \draw[dashed] (0, 0)coordinate(A) -- (tangent cs:node=c,point={(0, 0)},solution=2)coordinate(B) -- node[midway, right]{$\epsilon$} (1);
-    \draw[dashed] (2, 0) arc (0:23:1) node[midway, right]{$\Delta \phi$};
+    \draw[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=2);
+    \draw[dashed] (1, 0) arc (0:28:1) node[midway, right]{$\Delta \phi$};
   \end{tikzpicture}
 #+end_src
 
 #+name: fig:uncertainty_set_super_sensor
-#+caption: Uncertainty set of the super sensor dynamics ([[./figs/uncertainty_set_super_sensor.png][png]], [[./figs/uncertainty_set_super_sensor.pdf][pdf]], [[./figs/uncertainty_set_super_sensor.tex][tex]]).
+#+caption: Uncertainty region of the super sensor dynamics in the complex plane (solid circle), of the sensor 1 (dotted circle) and of the sensor 2 (dashed circle) ([[./figs/uncertainty_set_super_sensor.png][png]], [[./figs/uncertainty_set_super_sensor.pdf][pdf]], [[./figs/uncertainty_set_super_sensor.tex][tex]]).
 #+RESULTS:
 [[file:figs/uncertainty_set_super_sensor.png]]
 
 * Fig 4: Architecture used for $\mathcal{H}_\infty$ synthesis of complementary filters
 #+begin_src latex :file h_infinity_robust_fusion.pdf :tangle figs/h_infinity_robust_fusion.tex :exports both
-  <<tikz_default>>
   \begin{tikzpicture}
      \node[block={4.0cm}{2.5cm}, fill=black!20!white, dashed] (P) {};
      \node[above] at (P.north) {$P(s)$};
@@ -186,9 +186,27 @@ Configuration file is accessible [[file:config.org][here]].
 [[file:figs/h_infinity_robust_fusion.png]]
 
 * Fig 5: Magnitude of a weighting function generated using the proposed formula
-#+begin_src latex :file weight_formula.pdf :tangle figs/weight_formula.tex :exports both
-  <<tikz_default>>
+#+begin_src matlab :exports none :results none
+  s = zpk('s');
 
+  freqs = logspace(-1, 2, 500);
+
+  n = 2;
+  w0 = 2*pi*10;
+  G0 = 1e-3;
+  G1 = 10;
+  Gc = 2;
+
+  W = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
+
+  T = table(freqs', ...
+            abs(squeeze(freqresp(W, freqs, 'Hz'))), ...
+            'VariableNames', {'freqs', 'ampl'});
+  writetable(T, '../matlab/mat/weight_formula.csv');
+#+end_src
+
+
+#+begin_src latex :file weight_formula.pdf :tangle figs/weight_formula.tex :exports both
   \setlength\fwidth{6.5cm}
   \setlength\fheight{3.5cm}
 
@@ -215,7 +233,7 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=black, line width=1.5pt, forget plot]
-      table [x=freqs, y=ampl, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/weight_formula.csv};
+      table [x=freqs, y=ampl, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/weight_formula.csv};
 
       \addplot [color=black, dashed, line width=1.5pt]
       table[row sep=crcr]{%
@@ -244,8 +262,8 @@ Configuration file is accessible [[file:config.org][here]].
       \node[above] at (2, 0.001) {$G_0$};
 
       \node[branch] at (10, 2){};
-      \draw[dashed] (7, 2) -- (20, 2) node[right]{$G_c$};
-      \draw[dashed] (10, 2) -- (10, 1) node[below]{$\omega_c$};
+      \draw[dashed, line cap=round] (7, 2) -- (20, 2) node[right]{$G_c$};
+      \draw[dashed, line cap=round] (10, 2) -- (10, 1) node[below]{$\omega_c$};
 
       \node[right] at (3, 0.1) {$+n$};
 
@@ -260,8 +278,6 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 6: Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis
 #+begin_src latex :file hinf_synthesis_results.pdf :tangle figs/hinf_synthesis_results.tex :exports both
-  <<tikz_default>>
-
   \setlength\fwidth{6.5cm}
   \setlength\fheight{6cm}
 
@@ -269,7 +285,7 @@ Configuration file is accessible [[file:config.org][here]].
     \begin{axis}[%
       width=1.0\fwidth,
       height=0.5\fheight,
-      at={(0.0\fwidth, 0.5\fheight)},
+      at={(0.0\fwidth, 0.47\fheight)},
       scale only axis,
       xmode=log,
       xmin=0.1,
@@ -287,16 +303,16 @@ Configuration file is accessible [[file:config.org][here]].
       yminorgrids,
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
-      table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
-      table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
 
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
 
       \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
     \end{axis}
 
     \begin{axis}[%
@@ -322,10 +338,10 @@ Configuration file is accessible [[file:config.org][here]].
       \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
       \addlegendentry{$W_2^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
       \addlegendentry{$H_1$};
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
       \addlegendentry{$H_2$};
     \end{axis}
   \end{tikzpicture}
@@ -338,7 +354,6 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 7: Architecture for $\mathcal{H}_\infty$ synthesis of three complementary filters
 #+begin_src latex :file comp_filter_three_hinf.pdf :tangle figs/comp_filter_three_hinf.tex
-  <<tikz_default>>
   \begin{tikzpicture}
      \node[block={5.0cm}{3.5cm}, fill=black!20!white, dashed] (P) {};
      \node[above] at (P.north) {$P(s)$};
@@ -384,8 +399,6 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 8: Frequency response of the weighting functions and three complementary filters obtained using $\mathcal{H}_\infty$ synthesis
 #+begin_src latex :file hinf_three_synthesis_results.pdf :tangle figs/hinf_three_synthesis_results.tex :exports both
-  <<tikz_default>>
-
   \setlength\fwidth{6.5cm}
   \setlength\fheight{6cm}
 
@@ -393,7 +406,7 @@ Configuration file is accessible [[file:config.org][here]].
     \begin{axis}[%
       width=1.0\fwidth,
       height=0.55\fheight,
-      at={(0.0\fwidth, 0.45\fheight)},
+      at={(0.0\fwidth, 0.42\fheight)},
       scale only axis,
       xmode=log,
       xmin=0.1,
@@ -417,25 +430,25 @@ Configuration file is accessible [[file:config.org][here]].
       },
       ]
       \addplot [color=mycolor1, dashed, line width=1.5pt]
-      table [x=freqs, y=W1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_1}^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
       \addlegendentry{$H_1$};
 
 
       \addplot [color=mycolor2, dashed, line width=1.5pt]
-      table [x=freqs, y=W2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_2}^{-1}$};
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
       \addlegendentry{$H_2$};
 
       \addplot [color=mycolor3, dashed, line width=1.5pt]
-      table [x=freqs, y=W3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W3, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
       \addlegendentry{${W_3}^{-1}$};
       \addplot [color=mycolor3, line width=1.5pt]
-      table [x=freqs, y=H3, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H3, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
       \addlegendentry{$H_3$};
     \end{axis}
 
@@ -457,13 +470,13 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
 
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
 
       \addplot [color=mycolor3, line width=1.5pt]
-      table [x=freqs, y=H3p, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H3p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
     \end{axis}
   \end{tikzpicture}
 #+end_src
@@ -475,10 +488,8 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 9: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis
 #+begin_src latex :file ligo_weights.pdf :tangle figs/ligo_weights.tex :exports both
-  <<tikz_default>>
-
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{3cm}
+  \setlength\fheight{3.2cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
@@ -499,8 +510,8 @@ Configuration file is accessible [[file:config.org][here]].
       every y tick label/.append style={font=\color{black}},
       every y tick/.append style={black},
       ymode=log,
-      ymin=0.006,
-      ymax=5,
+      ymin=0.005,
+      ymax=20,
       yminorticks=true,
       ylabel={Magnitude},
       axis background/.style={fill=white},
@@ -512,11 +523,11 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=mycolor1, line width=1.5pt]
-        table [x=freqs, y=wHm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+        table [x=freqs, y=wHm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
       \addlegendentry{$|w_H|^{-1}$}
 
       \addplot [color=mycolor2, line width=1.5pt]
-        table [x=freqs, y=wLm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+        table [x=freqs, y=wLm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
       \addlegendentry{$|w_L|^{-1}$}
 
       \addplot [color=black, dotted, line width=1.5pt]
@@ -524,7 +535,7 @@ Configuration file is accessible [[file:config.org][here]].
         0.0005	0.008\\
         0.008   0.008\\
       };
-      \addlegendentry{Spec.}
+      \addlegendentry{Specifications}
 
       \addplot [color=black, dotted, line width=1.5pt, forget plot]
       table[row sep=crcr]{%
@@ -552,16 +563,14 @@ Configuration file is accessible [[file:config.org][here]].
 
 * Fig 10: Comparison of the FIR filters (solid) with the filters obtained with $\mathcal{H}_\infty$ synthesis (dashed)
 #+begin_src latex :file comp_fir_ligo_hinf.pdf :tangle figs/comp_fir_ligo_hinf.tex :exports both
-  <<tikz_default>>
-
   \setlength\fwidth{6.5cm}
-  \setlength\fheight{6cm}
+  \setlength\fheight{6.8cm}
 
   \begin{tikzpicture}
     \begin{axis}[%
       width=1.0\fwidth,
-      height=0.55\fheight,
-      at={(0.0\fwidth, 0.45\fheight)},
+      height=0.60\fheight,
+      at={(0.0\fwidth, 0.32\fheight)},
       scale only axis,
       xmode=log,
       xmin=0.001,
@@ -570,7 +579,7 @@ Configuration file is accessible [[file:config.org][here]].
       xticklabels={{}},
       xminorticks=true,
       ymode=log,
-      ymin=0.006,
+      ymin=0.002,
       ymax=5,
       ytick={0.001, 0.01, 0.1, 1, 10},
       yminorticks=true,
@@ -579,24 +588,23 @@ Configuration file is accessible [[file:config.org][here]].
       yminorgrids,
       legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
-      \addplot [color=mycolor1, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-      \addplot [color=mycolor2, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
-      \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
-
-      \addlegendimage{black!70!white}
-      \addlegendentry{FIR Filters}
-      \addlegendimage{dashed,black!70!white}
-      \addlegendentry{$\mathcal{H}_\infty$ Filters}
+      \addplot [color=mycolor1, line width=1.5pt]
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addlegendentry{$H_H(s)$ - $\mathcal{H}_\infty$}
+      \addplot [color=mycolor1, dashed, line width=1.5pt]
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      \addlegendentry{$H_H(s)$ - FIR}
+      \addplot [color=mycolor2, line width=1.5pt]
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      \addlegendentry{$H_L(s)$ - $\mathcal{H}_\infty$}
+      \addplot [color=mycolor2, dashed, line width=1.5pt]
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      \addlegendentry{$H_L(s)$ - FIR}
     \end{axis}
 
     \begin{axis}[%
       width=1.0\fwidth,
-      height=0.4\fheight,
+      height=0.3\fheight,
       at={(0.0\fwidth, 0.0\fheight)},
       scale only axis,
       xmode=log,
@@ -612,13 +620,13 @@ Configuration file is accessible [[file:config.org][here]].
       xminorgrids,
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
       \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/MEGA/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
     \end{axis}
   \end{tikzpicture}
 #+end_src

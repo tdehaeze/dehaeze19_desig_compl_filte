@@ -1,0 +1,66 @@
+\setlength\fwidth{6.5cm}
+\setlength\fheight{7cm}
+
+\begin{tikzpicture}
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=0.60\fheight,
+    at={(0.0\fwidth, 0.35\fheight)},
+    scale only axis,
+    xmode=log,
+    xmin=0.001,
+    xmax=1,
+    xtick={0.001,0.01,0.1,1},
+    xticklabels={{}},
+    xminorticks=true,
+    ymode=log,
+    ymin=0.002,
+    ymax=5,
+    ytick={0.001, 0.01, 0.1, 1, 10},
+    yminorticks=true,
+    ylabel={Magnitude},
+    xminorgrids,
+    yminorgrids,
+    legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
+    ]
+    \addplot [color=mycolor1, line width=1.5pt]
+      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+    \addlegendentry{$H_H(s)$ - $\mathcal{H}_\infty$}
+    \addplot [color=mycolor1, dashed, line width=1.5pt]
+      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+    \addlegendentry{$H_H(s)$ - FIR}
+    \addplot [color=mycolor2, line width=1.5pt]
+      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+    \addlegendentry{$H_L(s)$ - $\mathcal{H}_\infty$}
+    \addplot [color=mycolor2, dashed, line width=1.5pt]
+      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+    \addlegendentry{$H_L(s)$ - FIR}
+  \end{axis}
+
+  \begin{axis}[%
+    width=1.0\fwidth,
+    height=0.3\fheight,
+    at={(0.0\fwidth, 0.0\fheight)},
+    scale only axis,
+    xmode=log,
+    xmin=0.001,
+    xmax=1,
+    xtick={0.001,  0.01,   0.1,     1},
+    xminorticks=true,
+    xlabel={Frequency [Hz]},
+    ymin=-180,
+    ymax=180,
+    ytick={-180,  -90,    0,   90,  180},
+    ylabel={Phase [deg]},
+    xminorgrids,
+    ]
+    \addplot [color=mycolor1, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+    \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+    \addplot [color=mycolor2, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+    \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
+      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+  \end{axis}
+\end{tikzpicture}

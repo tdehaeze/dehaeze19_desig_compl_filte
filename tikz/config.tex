@@ -82,18 +82,9 @@
 
 \usepackage{xcolor}% Color extension
 
-\definecolor{colorblack}{rgb}{0, 0, 0}
-\definecolor{colorblue}{rgb}{0, 0.4470, 0.7410}
-\definecolor{colorred}{rgb}{0.8500, 0.3250, 0.0980}
-\definecolor{coloryellow}{rgb}{0.9290, 0.6940, 0.1250}
-\definecolor{colorpurple}{rgb}{0.4940, 0.1840, 0.5560}
-\definecolor{colorgreen}{rgb}{0.4660, 0.6740, 0.1880}
-\definecolor{colorcyan}{rgb}{0.3010, 0.7450, 0.9330}
-\definecolor{colorbordeau}{rgb}{0.6350, 0.0780, 0.1840}
-
-% Main color
-\definecolor{maincolor}{RGB}{89, 9, 38}
-\definecolor{secondcolor}{RGB}{20, 9, 89}
+\definecolor{mycolor1}{RGB}{79,115,193}
+\definecolor{mycolor2}{RGB}{213,91,53}
+\definecolor{mycolor3}{RGB}{152,126,49}
 
 \tikzset{%
   block/.style n args={2}{%
@@ -436,9 +427,9 @@
   inertialsensor/.default={0.3}
 }
 
-\newcommand{\AxisRotator}[1][rotate=0]{%
-  \tikz [x=0.1cm,y=0.30cm,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
-}
+% \newcommand{\AxisRotator}[1][rotate=0]{%
+%   \tikz [x=0.1cm,y=0.30cm,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
+% }
 
 \tikzstyle{cross}=[path picture={
   \draw[black]
@@ -559,3 +550,7 @@
     outer sep=6pt,
   }
 }
+
+\tikzset{block/.default={0.8cm}{0.8cm}}
+\tikzset{addb/.append style={scale=0.7}}
+\tikzset{node distance=0.6}
