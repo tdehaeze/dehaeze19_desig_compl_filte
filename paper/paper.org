@@ -109,10 +109,10 @@ Our conclusions are drawn in the final section.
 ** Sensor Fusion Architecture
 <<sec:sensor_fusion>>
 
-Let's consider two sensors measuring the same physical quantity $x$ with dynamics $G_1(s)$ and $G_2(s)$, and with noise characteristics $n_1$ and $n_2$.
+Let's consider two sensors measuring the same physical quantity $x$ with dynamics $G_1(s)$ and $G_2(s)$, and with uncorrelated noise characteristics $n_1$ and $n_2$.
 
 The signals from both sensors are fed into two complementary filters $H_1(s)$ and $H_2(s)$ and then combined to yield an estimate $\hat{x}$ of $x$ as shown in Fig. ref:fig:fusion_super_sensor.
-#+NAME: eq:comp_filter_estimate
+#+name: eq:comp_filter_estimate
 \begin{equation}
   \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
 \end{equation}
@@ -123,7 +123,7 @@ The signals from both sensors are fed into two complementary filters $H_1(s)$ an
 [[file:figs/fusion_super_sensor.pdf]]
 
 The complementary property of $H_1(s)$ and $H_2(s)$ implies that their transfer function sum is equal to one at all frequencies eqref:eq:comp_filter.
-#+NAME: eq:comp_filter
+#+name: eq:comp_filter
 \begin{equation}
   H_1(s) + H_2(s) = 1
 \end{equation}
@@ -138,7 +138,7 @@ Let's first consider sensors with perfect dynamics
 \end{equation}
 
 The estimate $\hat{x}$ is then described by
-#+NAME: eq:estimate_perfect_dyn
+#+name: eq:estimate_perfect_dyn
 \begin{equation}
   \hat{x} = x + H_1 n_1 + H_2 n_2
 \end{equation}
@@ -146,14 +146,14 @@ The estimate $\hat{x}$ is then described by
 From eqref:eq:estimate_perfect_dyn, the complementary filters $H_1(s)$ and $H_2(s)$ are shown to only operate on the sensor's noise.
 Thus, this sensor fusion architecture permits to filter the noise of both sensors without introducing any distortion in the physical quantity to be measured.
 
-The estimation error $\delta x$ is defined by eqref:eq:estimate_error.
-#+NAME: eq:estimate_error
+Let's define the estimation error $\delta x$ by eqref:eq:estimate_error.
+#+name: eq:estimate_error
 \begin{equation}
   \delta x \triangleq \hat{x} - x = H_1 n_1 + H_2 n_2
 \end{equation}
 
 As shown in eqref:eq:noise_filtering_psd, the Power Spectral Density (PSD) of the estimation error $\Phi_{\delta x}$ depends both on the norm of the two complementary filters and on the PSD of the noise sources $\Phi_{n_1}$ and $\Phi_{n_2}$.
-#+NAME: eq:noise_filtering_psd
+#+name: eq:noise_filtering_psd
 \begin{equation}
   \Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} + \left|H_2\right|^2 \Phi_{n_2}
 \end{equation}
@@ -161,50 +161,46 @@ As shown in eqref:eq:noise_filtering_psd, the Power Spectral Density (PSD) of th
 Usually, the two sensors have high noise levels over distinct frequency regions.
 In order to lower the noise of the super sensor, the value of the norm $|H_1|$ has to be lowered when $\Phi_{n_1}$ is larger than $\Phi_{n_2}$ and that of $|H_2|$ lowered when $\Phi_{n_2}$ is larger than $\Phi_{n_1}$.
 
-# Thus, the noise of the super sensor is determined by the norm of the complementary filters.
-
 ** Robustness of the Fusion
 <<sec:fusion_robustness>>
 
-In practical systems, the sensor dynamics always have some level of uncertainty and cannot be inverted perfectly such that $G_i(s) = 1$.
+In practical systems the sensor dynamics is not perfect and eqref:eq:perfect_dynamics is not verified.
+In such case, one can use an inversion filter $\hat{G}_i^{-1}(s)$ to normalize the sensor dynamics, where $\hat{G}_i(s)$ is an estimate of the sensor dynamics $G_i(s)$.
+However, as there is always some level of uncertainty on the dynamics, it cannot be perfectly inverted and $\hat{G}_i^{-1}(s) G_i(s) \neq 1$.
 
-This can be represented as an input multiplicative uncertainty as shown in Fig. ref:fig:sensor_fusion_dynamic_uncertainty where $\Delta_i$ is any stable transfer function satisfying $|\Delta_i(j\omega)| \le 1,\ \forall\omega$, and $|w_i(s)|$ is a weight representing the magnitude of the uncertainty.
+Let's represent the resulting dynamic uncertainty of the inverted sensors by an input multiplicative uncertainty as shown in Fig. ref:fig:sensor_fusion_dynamic_uncertainty where $\Delta_i$ is any stable transfer function satisfying $|\Delta_i(j\omega)| \le 1,\ \forall\omega$, and $|w_i(s)|$ is a weight representing the magnitude of the uncertainty.
 
 #+name: fig:sensor_fusion_dynamic_uncertainty
 #+caption: Sensor fusion architecture with sensor dynamics uncertainty
 #+attr_latex: :scale 1
 [[file:figs/sensor_fusion_dynamic_uncertainty.pdf]]
 
-The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and is now dependent on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
+The super sensor dynamics eqref:eq:super_sensor_dyn_uncertainty is no longer equal to $1$ and now depends on the sensor dynamics uncertainty weights $w_i(s)$ as well as on the complementary filters $H_i(s)$.
 #+name: eq:super_sensor_dyn_uncertainty
 \begin{equation}
   \frac{\hat{x}}{x} = 1 + w_1(s) H_1(s) \Delta_1(s) + w_2(s) H_2(s) \Delta_2(s)
 \end{equation}
 
-In order to limit the phase and gain uncertainty of the super sensor, one may want to design the complementary filters such that eqref:eq:max_uncertainty_super_sensor is satisfied.
-#+name: eq:max_uncertainty_super_sensor
-\begin{equation}
-  \begin{aligned}
-    & \left|w_1 H_1 \Delta_1\right| + \left|w_2 H_2 \Delta_2\right| \le \epsilon \quad \forall\omega,\ \forall \Delta_1, \forall \Delta_2\\
-    \Leftrightarrow & \left|w_1 H_1\right| + \left|w_2 H_2\right| \le \epsilon \quad \forall\omega
-  \end{aligned}
-\end{equation}
-
-Condition eqref:eq:max_uncertainty_super_sensor is equivalent to bounding the uncertainty set of the super sensor dynamics in the complex plane by a circle centered at $1$ with a radius equal to $\epsilon$ (Fig. ref:fig:uncertainty_set_super_sensor).
+The uncertainty region of the super sensor can be represented in the complex plane by a circle centered on $1$ with a radius equal to $|w_1(j\omega) H_1(j\omega)| + |w_2(j\omega) H_2(j\omega)|$ as shown in Fig. ref:fig:uncertainty_set_super_sensor.
 
 #+name: fig:uncertainty_set_super_sensor
-#+caption: Uncertainty set of the super sensor dynamics
+#+caption: Uncertainty region of the super sensor dynamics in the complex plane (solid circle). The contribution of both sensors 1 and 2 to the uncertainty are represented respectively by a dotted and a dashed circle
 #+attr_latex: :scale 1
 [[file:figs/uncertainty_set_super_sensor.pdf]]
 
-The maximum phase added by the super sensor uncertainty $\Delta\phi$ is then
+The maximum phase added $\Delta\phi(\omega)$ by the super sensor dynamics at frequency $\omega$ is then
 #+name: eq:max_phase_uncertainty
 \begin{equation}
-    \Delta \phi = \arcsin\left( \epsilon \right)
+    \Delta\phi(\omega) = \arcsin\big( |w_1(j\omega) H_1(j\omega)| + |w_2(j\omega) H_2(j\omega)| \big)
 \end{equation}
 
-Limiting the phase added by the super sensor to $\Delta \phi = \SI{30}{\degree}$ requires that $H_1(s)$ and $H_2(s)$ are designed such that eqref:eq:max_uncertainty_super_sensor is satisfied with $\epsilon = \sin(\Delta\phi = \SI{30}{\degree}) = 0.5$.
-Thus the norm of the complementary filter $|H_i|$ should be made small at frequencies where the dynamic uncertainty $|w_i|$ of sensor $i$ is large.
+As it is generally desired to limit the maximum phase added by the super sensor, $H_1(s)$ and $H_2(s)$ should be designed such that eqref:eq:max_uncertainty_super_sensor is satisfied.
+#+name: eq:max_uncertainty_super_sensor
+\begin{equation}
+   \max_\omega \big( \left|w_1 H_1\right| + \left|w_2 H_2\right|\big) < \sin\left( \Delta \phi_\text{max} \right)
+\end{equation}
+
+Thus the norm of the complementary filter $|H_i|$ should be made small at frequencies where $|w_i|$ is large.
 
 * Complementary Filters Shaping using $\mathcal{H}_\infty$ Synthesis
 <<sec:hinf_method>>
@@ -216,7 +212,7 @@ Therefore, the development of a synthesis method of complementary filters that a
 <<sec:hinf_synthesis>>
 The synthesis objective is to shape the norm of two filters $H_1(s)$ and $H_2(s)$ while ensuring their complementary property eqref:eq:comp_filter.
 This is equivalent as to finding stable transfer functions $H_1(s)$ and $H_2(s)$ such that conditions eqref:eq:comp_filter_problem_form are satisfied.
-#+NAME: eq:comp_filter_problem_form
+#+name: eq:comp_filter_problem_form
 \begin{subequations}
   \begin{align}
   & H_1(s) + H_2(s) = 1 \label{eq:hinf_cond_complementarity} \\
@@ -227,7 +223,7 @@ This is equivalent as to finding stable transfer functions $H_1(s)$ and $H_2(s)$
 where $W_1(s)$ and $W_2(s)$ are two weighting transfer functions that are chosen to shape the norms of the corresponding filters.
 
 In order to express this optimization problem as a standard $\mathcal{H}_\infty$ problem, the architecture shown in Fig. ref:fig:h_infinity_robust_fusion is used where the generalized plant $P$ is described by eqref:eq:generalized_plant.
-#+NAME: eq:generalized_plant
+#+name: eq:generalized_plant
 \begin{equation}
   \begin{bmatrix} z_1 \\ z_2 \\ v \end{bmatrix} = P(s) \begin{bmatrix} w\\u \end{bmatrix}; \quad P(s) = \begin{bmatrix}W_1(s) & -W_1(s) \\ 0 & W_2(s) \\  1 & 0 \end{bmatrix}
 \end{equation}
@@ -238,13 +234,13 @@ In order to express this optimization problem as a standard $\mathcal{H}_\infty$
 [[file:figs/h_infinity_robust_fusion.pdf]]
 
 The $\mathcal{H}_\infty$ filter design problem is then to find a stable filter $H_2(s)$ which based on $v$, generates a signal $u$ such that the $\mathcal{H}_\infty$ norm from $w$ to $[z_1, \ z_2]$ is less than one eqref:eq:hinf_syn_obj.
-#+NAME: eq:hinf_syn_obj
+#+name: eq:hinf_syn_obj
 \begin{equation}
   \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
 
 This is equivalent to having eqref:eq:hinf_problem by defining $H_1(s)$ as the complementary filter of $H_2(s)$ eqref:eq:definition_H1.
-#+NAME: eq:hinf_problem
+#+name: eq:hinf_problem
 \begin{equation}
   \left\|\begin{matrix} H_1(s) W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1
 \end{equation}
@@ -285,7 +281,7 @@ The parameters permit to specify:
 - the absolute slope between high and low frequency: $n$
 
 The parameters $G_0$, $G_c$ and $G_\infty$ should either satisfy condition eqref:eq:cond_formula_1 or eqref:eq:cond_formula_2.
-#+NAME: eq:condition_params_formula
+#+name: eq:condition_params_formula
 \begin{subequations}
   \begin{align}
     G_0 < 1 < G_\infty \text{ and } G_0 < G_c < G_\infty \label{eq:cond_formula_1}\\
@@ -343,7 +339,7 @@ In such a case, it is necessary to design as many complementary filters as the n
 
 *** Mathematical Problem                                           :ignore:
 The synthesis problem is then to compute $n$ stable transfer functions $H_i(s)$ such that eqref:eq:hinf_problem_gen is satisfied.
-#+NAME: eq:hinf_problem_gen
+#+name: eq:hinf_problem_gen
 \begin{subequations}
   \begin{align}
   & \sum_{i=0}^n H_i(s) = 1 \label{eq:hinf_cond_compl_gen} \\
@@ -389,24 +385,23 @@ The effectiveness of the proposed method is demonstrated by designing complement
 
 ** Complementary Filters Specifications
 <<sec:ligo_specifications>>
-The specifications for one pair of complementary filters used at the LIGO are summarized below (for further details, refer to cite:hua04_polyp_fir_compl_filter_contr_system):
+The specifications for one pair of complementary filters used at the LIGO are summarized below (for further details, refer to cite:hua04_polyp_fir_compl_filter_contr_system) and shown in Fig. ref:fig:ligo_weights:
 - From $0$ to $\SI{0.008}{Hz}$, the magnitude of the filter's transfer function should be less or equal to $8 \times 10^{-4}$
 - Between $\SI{0.008}{Hz}$ to $\SI{0.04}{Hz}$, the filter should attenuate the input signal proportional to frequency cubed
 - Between $\SI{0.04}{Hz}$ to $\SI{0.1}{Hz}$, the magnitude of the transfer function should be less than $3$
 - Above $\SI{0.1}{Hz}$, the magnitude of the complementary filter should be less than $0.045$
-
-The specifications are represented by the dashed lines in Fig. ref:fig:ligo_weights.
 
 ** Weighting Functions Design
 <<sec:ligo_weights>>
 The weighting functions should be designed such that their inverse magnitude is as close as possible to the specifications in order to not over-constrain the synthesis problem.
 However, the order of each weight should stay reasonably small in order to reduce the computational costs of the optimization problem as well as for the physical implementation of the filters.
 
-A Type I Chebyshev filter of order $20$ is used as the weighting transfer function $w_L(s)$ corresponding to the low pass filter. For the one corresponding to the high pass filter $w_H(s)$, a $7^{\text{th}}$ order transfer function is designed.
-The magnitudes of the weighting functions inverse are shown in Fig. ref:fig:ligo_weights.
+A Type I Chebyshev filter of order $20$ is used as the weighting transfer function $w_L(s)$ corresponding to the low pass filter.
+For the one corresponding to the high pass filter $w_H(s)$, a $7^{\text{th}}$ order transfer function is designed.
+The magnitudes of the weighting functions are shown in Fig. ref:fig:ligo_weights.
 
 #+name: fig:ligo_weights
-#+caption: Specifications and weighting functions magnitude used for $\mathcal{H}_\infty$ synthesis
+#+caption: Specifications and weighting functions magnitudes
 #+attr_latex: :scale 1
 [[file:figs/ligo_weights.pdf]]
 
