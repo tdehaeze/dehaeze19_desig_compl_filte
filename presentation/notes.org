@@ -19,7 +19,7 @@
 :END:
 
 * Title Slide - Introduction
-Hi everyone,
+Hello everyone,
 
 Thank you for the invitation.
 

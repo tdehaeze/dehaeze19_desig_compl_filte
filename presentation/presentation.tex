@@ -1,4 +1,4 @@
-% Created 2019-08-28 mer. 15:30
+% Created 2019-10-01 mar. 09:50
 % Intended LaTeX compiler: pdflatex
 \documentclass[t]{clean-beamer}
 \usepackage[utf8]{inputenc}
@@ -28,25 +28,25 @@
 \definecolor{mycolor1}{RGB}{79,115,193}
 \definecolor{mycolor2}{RGB}{213,91,53}
 \usetheme{default}
-\author{Dehaeze Thomas}
-\date{2019-08-28}
+\author{Dehaeze Thomas \\ Collette Christophe \\ Vermat Mohit}
+\date{2019-10-02}
 \title{Complementary Filters Shaping\newline Using \(\mathcal{H}_\infty\) Synthesis}
 \subtitle{Control System Working Group meeting}
 \hypersetup{colorlinks=true}
 \hypersetup{
- pdfauthor={Dehaeze Thomas},
+ pdfauthor={Dehaeze Thomas \\ Collette Christophe \\ Vermat Mohit},
  pdftitle={Complementary Filters Shaping\newline Using \(\mathcal{H}_\infty\) Synthesis},
  pdfkeywords={complementary filters, h-infinity, sensor fusion},
  pdfsubject={Complementary Filters Shaping Using H-Infinity Synthesis. Presentation during a Control System Working Group Meeting at LIGO.},
- pdfcreator={Emacs 26.2 (Org mode 9.2.5)},
+ pdfcreator={Emacs 26.3 (Org mode 9.2.6)},
  pdflang={English}}
 \begin{document}
 
 \maketitle
 
 \section{Complementary Filters Shaping}
-\label{sec:orgf40a445}
-\begin{frame}[label={sec:org644c6eb}]{Sensor Fusion Architecture - Noise Filtering}
+\label{sec:org15fdac4}
+\begin{frame}[label={sec:org236611f}]{Sensor Fusion Architecture - Noise Filtering}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
@@ -82,7 +82,7 @@ Let's first consider \textbf{Perfectly Known Sensor Dynamics}:
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:orgaee2e4a}]{Sensor Fusion Architecture - Robustness}
+\begin{frame}[label={sec:orgb822dd6}]{Sensor Fusion Architecture - Robustness}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \vspace{-2em}
@@ -117,7 +117,7 @@ Design \(H_1(s)\) and \(H_2(s)\) such that:
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:org1c42552}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
+\begin{frame}[label={sec:orge37165c}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
 \vspace{-1em}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
@@ -151,13 +151,13 @@ Find \(H_2(s)\) such that:
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org493a937}]{Validation of the proposed synthesis method}
+\begin{frame}[label={sec:org1f11fb1}]{Validation of the proposed synthesis method}
 \begin{center}
 \includegraphics[scale=1,width=0.85\linewidth]{figs/hinf_synthesis_results.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}[label={sec:orga95f64f}]{Complementary Filters Used at LIGO - Specifications}
+\begin{frame}[label={sec:org75dfd29}]{Complementary Filters Used at LIGO - Specifications}
 The specification are detailed in \emph{Hua, W., Low frequency vibration isolation and alignment system for advanced LIGO (2005)}
 
 \begin{center}
@@ -174,12 +174,12 @@ The specification are detailed in \emph{Hua, W., Low frequency vibration isolati
 \end{cbox}}\vspace{0.5em}
 \end{frame}
 
-\begin{frame}[label={sec:org3e0dbb2}]{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
+\begin{frame}[label={sec:org53aad0d}]{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
 \begin{columns}
 \begin{column}{0.6\columnwidth}
 \vspace{-3em}
 \begin{center}
-\includegraphics[scale=1,width=1.1\linewidth]{figs/comp_fir_ligo_hinf.pdf}
+\includegraphics[scale=1,width=1\linewidth]{figs/comp_fir_ligo_hinf.pdf}
 \end{center}
 \end{column}
 

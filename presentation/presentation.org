@@ -1,9 +1,9 @@
 #+TITLE: Complementary Filters Shaping\newline Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
-#+AUTHOR:    Dehaeze Thomas
-#+SUBTITLE:  Control System Working Group meeting
+#+AUTHOR:    Dehaeze Thomas @@beamer:\\@@ Collette Christophe @@beamer:\\@@ Vermat Mohit
+#+SUBTITLE:  Control System Working Group Meeting
 #+EMAIL:     dehaeze.thomas@gmail.com
-#+DATE:      {{{time(%Y-%m-%d)}}}
+#+DATE:      2019-10-02
 
 #+DESCRIPTION: Complementary Filters Shaping Using H-Infinity Synthesis. Presentation during a Control System Working Group Meeting at LIGO.
 #+KEYWORDS:complementary filters, h-infinity, sensor fusion
@@ -203,7 +203,7 @@ The specification are detailed in /Hua, W., Low frequency vibration isolation an
 :END:
 
 \vspace{-3em}
-#+attr_latex: :width 1.1\linewidth
+#+attr_latex: :width 1\linewidth
 [[file:figs/comp_fir_ligo_hinf.pdf]]
 
 *** Comments                                               :B_column:BMCOL:

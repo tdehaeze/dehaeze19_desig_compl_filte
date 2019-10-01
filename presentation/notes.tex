@@ -1,4 +1,4 @@
-% Created 2019-08-28 mer. 16:01
+% Created 2019-10-01 mar. 09:57
 % Intended LaTeX compiler: pdflatex
 \documentclass[hangsection=false, titlepage=false, tocnp=false]{cleanreport}
 \usepackage[utf8]{inputenc}
@@ -20,7 +20,7 @@
 \newcommand{\authorLastName}{Dehaeze}
 \newcommand{\authorEmail}{dehaeze.thomas@gmail.com}
 \author{Dehaeze Thomas}
-\date{2019-08-28}
+\date{2019-10-01}
 \title{Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis\\\medskip
 \large Control System Working Group meeting}
 \hypersetup{
@@ -28,15 +28,15 @@
  pdftitle={Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis},
  pdfkeywords={complementary filters, h-infinity, sensor fusion},
  pdfsubject={Complementary Filters Shaping Using H-Infinity Synthesis. Presentation during a Control System Working Group Meeting at LIGO.},
- pdfcreator={Emacs 26.2 (Org mode 9.2.5)},
+ pdfcreator={Emacs 26.3 (Org mode 9.2.6)},
  pdflang={English}}
 \begin{document}
 
 \maketitle
 
 \section{Title Slide - Introduction}
-\label{sec:org2616a5c}
-Hi everyone,
+\label{sec:orgda5d0ad}
+Hello everyone,
 
 Thank you for the invitation.
 
@@ -45,7 +45,7 @@ My name is Thomas Dehaeze and I am a PhD student working in the Precision Mechat
 I will present you recent work that myself, my supervisor Christophe Collette and a post-doc colleague Mohit Verma have done about sensor fusion and the synthesis of complementary filters.
 
 \section{Sensor Fusion Architecture - Noise Filtering}
-\label{sec:org3776d94}
+\label{sec:org498fb95}
 A typical sensor fusion architecture is represented here where the signal of two sensors measuring the same quantity \(x\) are filtered out by two filters \(H_1\) and \(H_2\) and then combined to give a estimate \(\hat{x}\) of \(x\).
 
 Each sensor have different noise characteristics \(n_1\) and \(n_2\) and dynamics \(G_1\) and \(G_2\).
@@ -59,7 +59,7 @@ The Power Spectral Density of the super sensor noise then depends on both the PS
 Thus, it is usually wanted that the filters are designed such that the norm of \(H_1\) is small when \(n_1\) is larger than \(n_2\) and the norm of \(H_2\) is small when \(n_2\) is large than \(n_1\). We can then obtain a super sensor that has overall less noise than both individual sensors.
 
 \section{Sensor Fusion Architecture - Robustness}
-\label{sec:org75a0990}
+\label{sec:org0b2c003}
 However, in practical systems, the sensor dynamics is never exactly known and cannot be perfectly inverted.
 
 We can represent this by a multiplicative uncertainty on the dynamics of each sensor where
@@ -86,7 +86,7 @@ With these two simple examples, we see that the norm of the complementary filter
 This is why we worked on the development of a synthesis method that permits to shape the norms of the complementary filters.
 
 \section{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
-\label{sec:org4d70a51}
+\label{sec:org6d76257}
 The design objective is thus to design two complementary filters \(H_1\) and \(H_2\) such that the norms of \(H_1\) and \(H_2\) are below some defined weights \(W_1\) and \(W_2\).
 
 If apply the \(\mathcal{H}_\infty\) synthesis on the shown generalized plant that includes the two weights \(W_1\) and \(W_2\), the algorithm will find a stable filter \(H_2\) such that the \(\mathcal{H}_\infty\) norm between \(w\) and \([z_1,\ z_2]\) is less than 1.
@@ -94,7 +94,7 @@ If apply the \(\mathcal{H}_\infty\) synthesis on the shown generalized plant tha
 By then defining \(H_1\) to be the complementary of \(H_2\), we see that this \(\mathcal{H}_\infty\) synthesis problem corresponds to the design objective.
 
 \section{Validation of the proposed synthesis method}
-\label{sec:orgd012b55}
+\label{sec:org4885e1d}
 We then used this synthesis method to design complementary filters.
 
 We started with relatively simple complementary filters.
@@ -102,7 +102,7 @@ Here, the dashed curves are the inverse magnitude of the chosen weights that def
 The solid curves represents the synthesized complementary filters using the \(\mathcal{H}_\infty\) synthesis.
 
 \section{Complementary Filters Used at LIGO - Specifications}
-\label{sec:orgc32f967}
+\label{sec:org2cb9d01}
 We then wanted to validate this synthesis method for the design of more complex complementary filters.
 
 We chose one pair of complementary filters that are designed in the PhD thesis of Hua and used at the LIGO.
@@ -115,7 +115,7 @@ Also, the order of the weights are kept reasonably small as the synthesized comp
 The weighting functions used are a custom designed 7th order transfer function for the high pass filter and a Type I chebyshev filter of order 20 for the low pass filter.
 
 \section{\(\mathcal{H}_\infty\) Synthesis - Comparison with LIGO's FIR filters}
-\label{sec:orgdb88b2c}
+\label{sec:org5ec32cc}
 After synthesis, we obtain the complementary filters shown by the dashed curves which are of order 27.
 The FIR filters of order 512 develop in the PhD thesis of Hua are also shown by the solid curves.
 The filters are quite similar both in phase and in magnitude.
