@@ -199,6 +199,7 @@ As it is generally desired to limit the maximum phase added by the super sensor,
 \begin{equation}
    \max_\omega \big( \left|w_1 H_1\right| + \left|w_2 H_2\right|\big) < \sin\left( \Delta \phi_\text{max} \right)
 \end{equation}
+where $\Delta \phi_\text{max}$ is the maximum allowed added phase.
 
 Thus the norm of the complementary filter $|H_i|$ should be made small at frequencies where $|w_i|$ is large.
 
