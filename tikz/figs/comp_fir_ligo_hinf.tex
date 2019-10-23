@@ -24,16 +24,16 @@
     legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
     ]
     \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
     \addlegendentry{$H_H(s)$ - $\mathcal{H}_\infty$}
     \addplot [color=mycolor1, dashed, line width=1.5pt]
-      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     \addlegendentry{$H_H(s)$ - FIR}
     \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
     \addlegendentry{$H_L(s)$ - $\mathcal{H}_\infty$}
     \addplot [color=mycolor2, dashed, line width=1.5pt]
-      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     \addlegendentry{$H_L(s)$ - FIR}
   \end{axis}
 
@@ -55,12 +55,12 @@
     xminorgrids,
     ]
     \addplot [color=mycolor1, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
     \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     \addplot [color=mycolor2, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
     \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+      table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
   \end{axis}
 \end{tikzpicture}

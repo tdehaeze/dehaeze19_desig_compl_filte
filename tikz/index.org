@@ -10,7 +10,7 @@
 #+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script src="../js/readtheorg.js"></script>
 
-#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
+#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/tikz}{config.tex}")
 #+PROPERTY: header-args:latex+ :imagemagick t :fit yes
 #+PROPERTY: header-args:latex+ :iminoptions -scale 100% -density 150
 #+PROPERTY: header-args:latex+ :imoutoptions -quality 100
@@ -233,7 +233,7 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=black, line width=1.5pt, forget plot]
-      table [x=freqs, y=ampl, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/weight_formula.csv};
+      table [x=freqs, y=ampl, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matweight_formula.csv};
 
       \addplot [color=black, dashed, line width=1.5pt]
       table[row sep=crcr]{%
@@ -303,16 +303,16 @@ Configuration file is accessible [[file:config.org][here]].
       yminorgrids,
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
-      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_filters_results.csv};
 
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
-      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_filters_results.csv};
 
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_weights.csv};
 
       \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_weights.csv};
     \end{axis}
 
     \begin{axis}[%
@@ -338,10 +338,10 @@ Configuration file is accessible [[file:config.org][here]].
       \addlegendimage{color=mycolor2, dashed, line width=1.5pt}
       \addlegendentry{$W_2^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_filters_results.csv};
       \addlegendentry{$H_1$};
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_filters_results.csv};
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_filters_results.csv};
       \addlegendentry{$H_2$};
     \end{axis}
   \end{tikzpicture}
@@ -430,25 +430,25 @@ Configuration file is accessible [[file:config.org][here]].
       },
       ]
       \addplot [color=mycolor1, dashed, line width=1.5pt]
-      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W1, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_weights.csv};
       \addlegendentry{${W_1}^{-1}$};
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H1, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
       \addlegendentry{$H_1$};
 
 
       \addplot [color=mycolor2, dashed, line width=1.5pt]
-      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W2, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_weights.csv};
       \addlegendentry{${W_2}^{-1}$};
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H2, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
       \addlegendentry{$H_2$};
 
       \addplot [color=mycolor3, dashed, line width=1.5pt]
-      table [x=freqs, y=W3, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_weights.csv};
+      table [x=freqs, y=W3, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_weights.csv};
       \addlegendentry{${W_3}^{-1}$};
       \addplot [color=mycolor3, line width=1.5pt]
-      table [x=freqs, y=H3, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H3, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
       \addlegendentry{$H_3$};
     \end{axis}
 
@@ -470,13 +470,13 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=mycolor1, line width=1.5pt]
-      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H1p, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
 
       \addplot [color=mycolor2, line width=1.5pt]
-      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H2p, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
 
       \addplot [color=mycolor3, line width=1.5pt]
-      table [x=freqs, y=H3p, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/hinf_three_results.csv};
+      table [x=freqs, y=H3p, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/mathinf_three_results.csv};
     \end{axis}
   \end{tikzpicture}
 #+end_src
@@ -523,11 +523,11 @@ Configuration file is accessible [[file:config.org][here]].
       ]
 
       \addplot [color=mycolor1, line width=1.5pt]
-        table [x=freqs, y=wHm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+        table [x=freqs, y=wHm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matligo_weights.csv};
       \addlegendentry{$|w_H|^{-1}$}
 
       \addplot [color=mycolor2, line width=1.5pt]
-        table [x=freqs, y=wLm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/ligo_weights.csv};
+        table [x=freqs, y=wLm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matligo_weights.csv};
       \addlegendentry{$|w_L|^{-1}$}
 
       \addplot [color=black, dotted, line width=1.5pt]
@@ -589,16 +589,16 @@ Configuration file is accessible [[file:config.org][here]].
       legend style={at={(1,0)}, outer sep=2pt, anchor=south east, legend cell align=left, align=left, draw=black, nodes={scale=0.7, transform shape}}
       ]
       \addplot [color=mycolor1, line width=1.5pt]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
       \addlegendentry{$H_H(s)$ - $\mathcal{H}_\infty$}
       \addplot [color=mycolor1, dashed, line width=1.5pt]
-        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
       \addlegendentry{$H_H(s)$ - FIR}
       \addplot [color=mycolor2, line width=1.5pt]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
       \addlegendentry{$H_L(s)$ - $\mathcal{H}_\infty$}
       \addplot [color=mycolor2, dashed, line width=1.5pt]
-        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
       \addlegendentry{$H_L(s)$ - FIR}
     \end{axis}
 
@@ -620,13 +620,13 @@ Configuration file is accessible [[file:config.org][here]].
       xminorgrids,
       ]
       \addplot [color=mycolor1, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
       \addplot [color=mycolor1, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hhp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
       \addplot [color=mycolor2, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_hinf.csv};
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
       \addplot [color=mycolor2, dashed, line width=1.5pt, forget plot]
-        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/These/Papers/dehaeze19_desig_compl_filte/matlab/mat/comp_ligo_fir.csv};
+        table [x=freqs, y=Hlp, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     \end{axis}
   \end{tikzpicture}
 #+end_src
