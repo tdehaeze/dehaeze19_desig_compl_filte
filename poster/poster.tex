@@ -1,21 +1,29 @@
 \documentclass[%
-    a0paper,%
-    20pt,%
+    a1paper,%
+    17pt,%
     portait,%
     margin=0mm,%
-    innermargin=10mm,%
-    blockverticalspace=10mm,%
-    colspace=10mm,%
-    subcolspace=5mm%
+    innermargin=5mm,%
+    blockverticalspace=5mm,%
+    colspace=5mm,%
+    subcolspace=2mm%
 ]{tikzposter}
+
+\usetitlestyle[]{Wave}
 
 \input{config.tex}
 
 \addbibresource{ref.bib}
 
-\author{Dehaeze Thomas, Verma Mohit and Collette Christophe}
+\author[1,2]{Dehaeze Thomas}
+\author[1,3]{Verma Mohit}
+\author[1,3]{Collette Christophe}
+\affil[1]{Precision Mechatronics Laboratory, A\&M Department, University of Liege, Belgium}
+\affil[2]{European Synchrotron Radiation Facility, Grenoble, France}
+\affil[3]{BEAMS Department, Free University of Brussels, Belgium}
+
 \date{2019-11-06}
-\title{Complementary Filters Shaping Using \scalebox{2}{$\mathcal{H}_\infty$} Synthesis}
+\title{Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis}
 \institute{}
 
 \useblockstyle{customstyle}
@@ -25,7 +33,7 @@
 \maketitle[%
     roundedcorners=2,
     linewidth=2mm,
-    innersep=10mm,
+    innersep=5mm,
     titletotopverticalspace=10mm,
     titletoblockverticalspace=10mm]
 
@@ -33,7 +41,8 @@
 
 \begin{columns}
 \column{0.5}
-\block[]{Introduction}{\input{introduction.tex}}
+% \block[]{Introduction}{\input{introduction.tex}}
+\block[]{Sensor Fusion Architecture}{\input{architecture.tex}}
 \block[]{Complementary Filters Requirements}{\input{requirements.tex}}
 
 \column{0.5}
