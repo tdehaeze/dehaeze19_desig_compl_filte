@@ -2,16 +2,18 @@
 %%% TeX-master: "poster"
 %%% End:
 
+The synthesis objective is to shape the norm of two filters \(H_1(s)\) and \(H_2(s)\) while ensuring their complementary property.
+This is equivalent as to finding stable transfer functions \(H_1(s)\) and
+\(H_2(s)\) such that the following conditions are satisfied.
+\[ \left\{
+    \begin{array}{ll}
+      H_1(s) + H_2(s) = 1 \\
+      |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \\
+      |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega
+    \end{array}
+  \right.  \]
+
 \begin{minipage}[t]{0.49\linewidth}
-  The synthesis objective is to shape the norm of two filters \(H_1(s)\) and \(H_2(s)\) while ensuring their complementary property.
-  This is equivalent as to finding stable transfer functions \(H_1(s)\) and \(H_2(s)\) such that conditions \eqref{eq:comp_filter_problem_form} are satisfied.
-  \[ \left\{
-      \begin{array}{ll}
-        H_1(s) + H_2(s) = 1 \\
-        |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \\
-        |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega
-      \end{array}
-    \right.  \]
 
   \begin{tikzfigure}[Architecture used for $\mathcal{H}_\infty$ synthesis]
     \label{fig:h_infinity_robust_fusion}
@@ -24,7 +26,7 @@
   \begin{tikzfigure}[Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis]
     \label{fig:hinf_synthesis_results}
     \centering
-    \includegraphics[scale=1.8]{figs/hinf_synthesis_results.pdf}
+    \includegraphics[width=\linewidth]{figs/hinf_synthesis_results.pdf}
   \end{tikzfigure}
 \end{minipage}
 
@@ -43,7 +45,7 @@
   \begin{tikzfigure}[Magnitude of a weighting function generated using the proposed formula \eqref{eq:weight_formula}, $G_0 = 1e^{-3}$, $G_\infty = 10$, $\omega_c = \SI{10}{Hz}$, $G_c = 2$, $n = 3$]
     \label{fig:weight_formula}
     \centering
-    \includegraphics[scale=1.8]{figs/weight_formula.pdf}
+    \includegraphics[width=\linewidth]{figs/weight_formula.pdf}
   \end{tikzfigure}
 \end{minipage}
 
