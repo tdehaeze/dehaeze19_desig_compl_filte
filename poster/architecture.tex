@@ -1,11 +1,12 @@
 Let's consider two sensors measuring the same physical quantity \(x\) with
 dynamics \(G_1(s)\) and \(G_2(s)\), and with uncorrelated noise characteristics
-\(n_1\) and \(n_2\).\newline
+\(n_1\) and \(n_2\).
+
+\bigskip
 
 The signals from both sensors are fed into two \textbf{complementary filters} \(H_1(s)\)
 and \(H_2(s)\) and then combined to yield an estimate \(\hat{x}\) of \(x\) as
 shown in Fig.~\ref{fig:fusion_super_sensor}.
-
 \begin{equation*}
   \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
 \end{equation*}
@@ -15,10 +16,8 @@ The complementary property of \(H_1(s)\) and \(H_2(s)\) implies that their trans
   \tcmbox{H_1(s) + H_2(s) = 1}
 \end{equation*}
 
-The combined sensors forms a so called \textbf{super sensor}.
-Let's determine the noise property and dynamical uncertainty of such super
-sensor.
-
+The combined sensors forms a so called \textbf{super sensor} with noise property
+and dynamical uncertainty described below.
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "poster"
