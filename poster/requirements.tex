@@ -20,7 +20,7 @@
     \includegraphics[height=6cm]{figs/fusion_super_sensor.pdf}
   \end{tikzfigure}
 
-  First suppose \textbf{perfectly known sensor dynamics} such that is can be
+  First suppose \textbf{perfectly known sensor dynamics} such that it can be
   inverted:
   \[ G_1(s) = G_2(s) = 1 \]
 
@@ -35,7 +35,7 @@
   The estimate error $\delta x$ is:
   \[ \delta x \triangleq \hat{x} - x = H_1 n_1 + H_2 n_2 \]
 
-  The PSD of the super sensor noise depends on the \textbf{norm} of the
+  The PSD of the super sensor \textbf{noise} depends on the \textbf{norm} of the
   complementary filters:
   \[ \tcmbox{\Phi_{\delta x} = \left|H_1\right|^2 \Phi_{n_1} +
       \left|H_2\right|^2 \Phi_{n_2}} \]
@@ -56,7 +56,7 @@
   The dynamics of the super sensor is:
   \[ \tcmbox{\frac{\hat{x}}{x} = 1 + w_1 H_1 \Delta_1 + w_2 H_2 \Delta_2} \]
 
-  The obtained dynamic uncertainty depends on the \textbf{norm} of the filters (Fig.~\ref{fig:uncertainty_set_super_sensor}).
+  The obtained \textbf{dynamic uncertainty} depends on the \textbf{norm} of the filters (Fig.~\ref{fig:uncertainty_set_super_sensor}).
 
   \begin{tikzfigure}[Uncertainty set of the super sensor dynamics]
     \label{fig:uncertainty_set_super_sensor}
