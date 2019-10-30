@@ -57,6 +57,11 @@
   This method is shown to be easily applicable for the synthesis of complex complementary filters.
 #+end_abstract
 
+* Keywords                                                           :ignore:
+#+begin_keywords
+  Complementary Filters, Sensor Fusion
+#+end_keywords
+
 * Introduction
 <<sec:introduction>>
 *** Establish the importance of the research topic                 :ignore:

@@ -1,4 +1,4 @@
-% Created 2019-10-02 mer. 10:48
+% Created 2019-10-30 mer. 08:56
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 10 pt, conference]{ieeeconf}
 \usepackage[utf8]{inputenc}
@@ -26,7 +26,7 @@
 \renewcommand{\citedash}{--}
 \IEEEoverridecommandlockouts
 \author{Dehaeze Thomas\textsuperscript{1,2,$\dagger$}, Verma Mohit\textsuperscript{1,3} and Collette Christophe\textsuperscript{1,3}  \thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, University of Liege, Belgium} \thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France} \thanks{\textsuperscript{3} BEAMS Department, Free University of Brussels, Belgium} \thanks{\textsuperscript{$\dagger$} Corresponding Author. Email: {\tt\small thomas.dehaeze@esrf.fr}}}
-\date{2019-10-02}
+\date{2019-10-30}
 \title{Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis}
 \hypersetup{
  pdfauthor={Dehaeze Thomas\textsuperscript{1,2,$\dagger$}, Verma Mohit\textsuperscript{1,3} and Collette Christophe\textsuperscript{1,3}  \thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, University of Liege, Belgium} \thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France} \thanks{\textsuperscript{3} BEAMS Department, Free University of Brussels, Belgium} \thanks{\textsuperscript{$\dagger$} Corresponding Author. Email: {\tt\small thomas.dehaeze@esrf.fr}}},
@@ -46,8 +46,12 @@ This paper presents a method for designing these complementary filters using \(\
 This method is shown to be easily applicable for the synthesis of complex complementary filters.
 \end{abstract}
 
+\begin{keywords}
+Complementary Filters, Sensor Fusion
+\end{keywords}
+
 \section{Introduction}
-\label{sec:orgcdf7cd8}
+\label{sec:org1b840ec}
 \label{sec:introduction}
 A set of filters is said to be complementary if the sum of their transfer functions is equal to one at all frequencies.
 These filters are used when two or more sensors are measuring the same physical quantity with different noise characteristics. Unreliable frequencies of each sensor are filtered out by the complementary filters and then combined to form a super sensor giving a better estimate of the physical quantity over a wider bandwidth.
@@ -72,10 +76,10 @@ In section \ref{sec:application_ligo}, the method is used to design complex comp
 Our conclusions are drawn in the final section.
 
 \section{Complementary Filters Requirements}
-\label{sec:org13ec550}
+\label{sec:org8b454e9}
 \label{sec:requirements}
 \subsection{Sensor Fusion Architecture}
-\label{sec:org4ac72bf}
+\label{sec:org999c052}
 \label{sec:sensor_fusion}
 
 Let's consider two sensors measuring the same physical quantity \(x\) with dynamics \(G_1(s)\) and \(G_2(s)\), and with uncorrelated noise characteristics \(n_1\) and \(n_2\).
@@ -100,7 +104,7 @@ The complementary property of \(H_1(s)\) and \(H_2(s)\) implies that their trans
 \end{equation}
 
 \subsection{Noise Sensor Filtering}
-\label{sec:org0582aab}
+\label{sec:orga56631d}
 \label{sec:noise_filtering}
 
 Let's first consider sensors with perfect dynamics
@@ -134,7 +138,7 @@ Usually, the two sensors have high noise levels over distinct frequency regions.
 In order to lower the noise of the super sensor, the value of the norm \(|H_1|\) has to be lowered when \(\Phi_{n_1}\) is larger than \(\Phi_{n_2}\) and that of \(|H_2|\) lowered when \(\Phi_{n_2}\) is larger than \(\Phi_{n_1}\).
 
 \subsection{Robustness of the Fusion}
-\label{sec:orgf6c05ff}
+\label{sec:orgd30bfcc}
 \label{sec:fusion_robustness}
 
 In practical systems the sensor dynamics is not perfect and \eqref{eq:perfect_dynamics} is not verified.
@@ -181,12 +185,12 @@ where \(\Delta \phi_\text{max}\) is the maximum allowed added phase.
 Thus the norm of the complementary filter \(|H_i|\) should be made small at frequencies where \(|w_i|\) is large.
 
 \section{Complementary Filters Shaping using \(\mathcal{H}_\infty\) Synthesis}
-\label{sec:org81f8565}
+\label{sec:orgea18e62}
 \label{sec:hinf_method}
 As shown in Sec. \ref{sec:requirements}, the performance and robustness of the sensor fusion architecture depends on the complementary filters norms.
 Therefore, the development of a synthesis method of complementary filters that allows the shaping of their norm is necessary.
 \subsection{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
-\label{sec:org9d70247}
+\label{sec:org8e45959}
 \label{sec:hinf_synthesis}
 The synthesis objective is to shape the norm of two filters \(H_1(s)\) and \(H_2(s)\) while ensuring their complementary property \eqref{eq:comp_filter}.
 This is equivalent as to finding stable transfer functions \(H_1(s)\) and \(H_2(s)\) such that conditions \eqref{eq:comp_filter_problem_form} are satisfied.
@@ -235,7 +239,7 @@ The conditions \eqref{eq:hinf_cond_h1} and \eqref{eq:hinf_cond_h2} on the filter
 Therefore, all the conditions \eqref{eq:comp_filter_problem_form} are satisfied using this synthesis method based on \(\mathcal{H}_\infty\) synthesis, and thus it permits to shape complementary filters as desired.
 
 \subsection{Weighting Functions Design}
-\label{sec:org8c5136c}
+\label{sec:org5d5576d}
 \label{sec:hinf_weighting_func}
 The proper design of the weighting functions is of primary importance for the success of the presented complementary filters \(\mathcal{H}_\infty\) synthesis.
 
@@ -281,7 +285,7 @@ Magnitude of a weighting function generated using the proposed formula \eqref{eq
 \end{figure}
 
 \subsection{Validation of the proposed synthesis method}
-\label{sec:org4e3f54d}
+\label{sec:org3be3645}
 \label{sec:hinf_example}
 Let's validate the proposed design method of complementary filters with a simple example where two complementary filters \(H_1(s)\) and \(H_2(s)\) have to be designed such that:
 \begin{itemize}
@@ -325,7 +329,7 @@ Frequency response of the weighting functions and complementary filters obtained
 \end{figure}
 
 \subsection{Synthesis of Three Complementary Filters}
-\label{sec:org5f386ad}
+\label{sec:org93952e5}
 \label{sec:hinf_three_comp_filters}
 Some applications may require to merge more than two sensors.
 In such a case, it is necessary to design as many complementary filters as the number of sensors used.
@@ -365,7 +369,7 @@ Frequency response of the weighting functions and three complementary filters ob
 \end{figure}
 
 \section{Application: Design of Complementary Filters used in the Active Vibration Isolation System at the LIGO}
-\label{sec:orgfe04f1b}
+\label{sec:org5125b8e}
 \label{sec:application_ligo}
 Several complementary filters are used in the active isolation system at the LIGO \cite{hua05_low_ligo,hua04_polyp_fir_compl_filter_contr_system}.
 The requirements on those filters are very tight and thus their design is complex.
@@ -374,7 +378,7 @@ The obtained FIR filters are compliant with the requirements. However they are o
 
 The effectiveness of the proposed method is demonstrated by designing complementary filters with the same requirements as the one described in \cite{hua05_low_ligo}.
 \subsection{Complementary Filters Specifications}
-\label{sec:org8f509cf}
+\label{sec:org1db5e2d}
 \label{sec:ligo_specifications}
 The specifications for one pair of complementary filters used at the LIGO are summarized below (for further details, refer to \cite{hua04_polyp_fir_compl_filter_contr_system}) and shown in Fig. \ref{fig:ligo_weights}:
 \begin{itemize}
@@ -385,7 +389,7 @@ The specifications for one pair of complementary filters used at the LIGO are su
 \end{itemize}
 
 \subsection{Weighting Functions Design}
-\label{sec:orgb52dd7a}
+\label{sec:org57ec892}
 \label{sec:ligo_weights}
 The weighting functions should be designed such that their inverse magnitude is as close as possible to the specifications in order to not over-constrain the synthesis problem.
 However, the order of each weight should stay reasonably small in order to reduce the computational costs of the optimization problem as well as for the physical implementation of the filters.
@@ -402,7 +406,7 @@ Specifications and weighting functions magnitudes}
 \end{figure}
 
 \subsection{\(\mathcal{H}_\infty\) Synthesis}
-\label{sec:org50df805}
+\label{sec:orgdcb8564}
 \label{sec:ligo_results}
 \(\mathcal{H}_\infty\) synthesis is performed using the architecture shown in Fig. \ref{eq:generalized_plant}.
 The complementary filters obtained are of order \(27\).
@@ -417,7 +421,7 @@ Comparison of the FIR filters (solid) designed in \cite{hua05_low_ligo} with the
 \end{figure}
 
 \section{Conclusion}
-\label{sec:org18942f6}
+\label{sec:org355ba3e}
   \label{sec:conclusion}
 This paper has shown how complementary filters can be used to combine multiple sensors in order to obtain a super sensor.
 Typical specification on the super sensor noise and on the robustness of the sensor fusion has been shown to be linked to the norm of the complementary filters.
@@ -425,7 +429,7 @@ Therefore, a synthesis method that permits the shaping of the complementary filt
 Future work will aim at further developing this synthesis method for the robust and optimal synthesis of complementary filters used in sensor fusion.
 
 \section{Acknowledgment}
-\label{sec:org9dd5fff}
+\label{sec:org5f427b3}
 This research benefited from a FRIA grant from the French Community of Belgium.
 
 \bibliography{ref}
