@@ -1,26 +1,54 @@
-#+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis
+#+TITLE: Complementary Filters Shaping @@latex:\\@@ Using $\mathcal{H}_\infty$ Synthesis
 :DRAWER:
-#+LATEX_CLASS: ieeeconf
-#+LATEX_CLASS_OPTIONS: [letterpaper, 10 pt, conference]
+
+#+TITLE: \thanks{This work is funded by the FNRS.}
+#+LATEX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [conference]
 #+OPTIONS: toc:nil todo:nil
 #+STARTUP: overview
 
 #+DATE: {{{time(%Y-%m-%d)}}}
-#+AUTHOR: @@latex:Dehaeze Thomas\textsuperscript{1,2,$\dagger$}, Verma Mohit\textsuperscript{1,3} and Collette Christophe\textsuperscript{1,3} @@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{1} Precision Mechatronics Laboratory, A\&M Department, University of Liege, Belgium}@@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{2} European Synchrotron Radiation Facility, Grenoble, France}@@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{3} BEAMS Department, Free University of Brussels, Belgium}@@
-#+AUTHOR: @@latex:\thanks{\textsuperscript{$\dagger$} Corresponding Author. Email: {\tt\small thomas.dehaeze@esrf.fr}}@@
 
-#+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts, cases}
-#+LATEX_HEADER: \usepackage[noadjust,space,compress]{cite}
-#+LATEX_HEADER: \usepackage{tabularx,siunitx,booktabs}
-#+LATEX_HEADER: \usepackage{algorithmic, graphicx, textcomp}
-#+LATEX_HEADER: \usepackage{xcolor, import, hyperref}
-#+LATEX_HEADER: \usepackage[USenglish]{babel}
-#+LATEX_HEADER: \setcounter{footnote}{1}
-#+LATEX_HEADER: \renewcommand{\citedash}{--}
+#+AUTHOR: @@latex:\IEEEauthorblockN{Dehaeze Thomas}@@
+#+AUTHOR: @@latex:\IEEEauthorblockA{\textit{European Synchrotron Radiation Facility} \\@@
+#+AUTHOR: @@latex:Grenoble, France\\@@
+#+AUTHOR: @@latex:\textit{Precision Mechatronics Laboratory} \\@@
+#+AUTHOR: @@latex:\textit{University of Liege}, Belgium \\@@
+#+AUTHOR: @@latex:thomas.dehaeze@esrf.fr@@
+#+AUTHOR: @@latex:}\and@@
+#+AUTHOR: @@latex:\IEEEauthorblockN{Verma Mohit}@@
+#+AUTHOR: @@latex:\IEEEauthorblockA{\textit{BEAMS Department}\\@@
+#+AUTHOR: @@latex:\textit{Free University of Brussels}, Belgium\\@@
+#+AUTHOR: @@latex:\textit{Precision Mechatronics Laboratory} \\@@
+#+AUTHOR: @@latex:\textit{University of Liege}, Belgium \\@@
+#+AUTHOR: @@latex:mohit.verma@ulb.ac.be@@
+#+AUTHOR: @@latex:}\and@@
+#+AUTHOR: @@latex:\IEEEauthorblockN{Collette Christophe}@@
+#+AUTHOR: @@latex:\IEEEauthorblockA{\textit{BEAMS Department}\\@@
+#+AUTHOR: @@latex:\textit{Free University of Brussels}, Belgium\\@@
+#+AUTHOR: @@latex:\textit{Precision Mechatronics Laboratory} \\@@
+#+AUTHOR: @@latex:\textit{University of Liege}, Belgium \\@@
+#+AUTHOR: @@latex:ccollett@ulb.ac.be@@
+#+AUTHOR: @@latex:}@@
+
 #+LATEX_HEADER: \IEEEoverridecommandlockouts
+#+LATEX_HEADER: \usepackage{cite}
+# #+LATEX_HEADER: \usepackage[noadjust,space,compress]{cite}
+#+LATEX_HEADER: \usepackage{amsmath,amssymb,amsfonts}
+#+LATEX_HEADER: \usepackage{algorithmic}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{textcomp}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{cases}
+#+LATEX_HEADER: \usepackage{tabularx,siunitx,booktabs}
+#+LATEX_HEADER: \usepackage{algorithmic}
+#+LATEX_HEADER: \usepackage{import, hyperref}
+# #+LATEX_HEADER: \usepackage[USenglish]{babel}
+# #+LATEX_HEADER: \setcounter{footnote}{1}
+#+LATEX_HEADER: \renewcommand{\citedash}{--}
+# #+LATEX_HEADER: \IEEEoverridecommandlockouts
+
+#+LATEX_HEADER: \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \bibliographystyle{IEEEtran}
 :END:
@@ -29,8 +57,8 @@
 #+NAME: startblock
 #+BEGIN_SRC emacs-lisp :results none
   (add-to-list 'org-latex-classes
-               '("ieeeconf"
-                 "\\documentclass{ieeeconf}"
+               '("IEEEtran"
+                 "\\documentclass{IEEEtran}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -48,6 +76,9 @@
 
   ;; add to export hook
   (add-hook 'org-export-before-processing-hook 'delete-org-comments)
+
+  ;; Remove hypersetup
+  (setq org-latex-with-hyperref nil)
 #+END_SRC
 
 * Abstract                                                           :ignore:
@@ -58,9 +89,9 @@
 #+end_abstract
 
 * Keywords                                                           :ignore:
-#+begin_keywords
-  Complementary Filters, Sensor Fusion
-#+end_keywords
+#+begin_IEEEkeywords
+  Complementary Filters, Sensor Fusion, H-Infinity Synthesis
+#+end_IEEEkeywords
 
 * Introduction
 <<sec:introduction>>
@@ -424,13 +455,16 @@ They are found to be very close to each other and this shows the effectiveness o
 [[file:figs/comp_fir_ligo_hinf.pdf]]
 
 * Conclusion
-  <<sec:conclusion>>
+<<sec:conclusion>>
 This paper has shown how complementary filters can be used to combine multiple sensors in order to obtain a super sensor.
 Typical specification on the super sensor noise and on the robustness of the sensor fusion has been shown to be linked to the norm of the complementary filters.
 Therefore, a synthesis method that permits the shaping of the complementary filters norms has been proposed and has been successfully applied for the design of complex filters.
 Future work will aim at further developing this synthesis method for the robust and optimal synthesis of complementary filters used in sensor fusion.
 
 * Acknowledgment
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 This research benefited from a FRIA grant from the French Community of Belgium.
 
 * Bibliography                                                       :ignore:
