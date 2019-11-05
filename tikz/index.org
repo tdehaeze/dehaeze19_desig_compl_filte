@@ -10,7 +10,7 @@
 #+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script src="../js/readtheorg.js"></script>
 
-#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/tikz}{config.tex}")
+#+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
 #+PROPERTY: header-args:latex+ :imagemagick t :fit yes
 #+PROPERTY: header-args:latex+ :iminoptions -scale 100% -density 150
 #+PROPERTY: header-args:latex+ :imoutoptions -quality 100

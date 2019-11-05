@@ -342,27 +342,6 @@ Used to align all of ylabel of one figure.
   }
 #+end_src
 
-** Upper and Lower bounds
-#+begin_src latex
-  \pgfplotsset{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
-  \pgfplotsset{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
-#+end_src
-
-And we add the corresdonding
-#+begin_src latex
-  \pgfplotsset{
-    /pgfplots/upperbound/.style 1 args={
-      legend image code/.code={
-        \draw[##1, upperbound]
-          plot coordinates {
-          (0cm,0cm)
-          (0.6cm,0cm)
-        }
-      }
-    }
-  }
-#+end_src
-
 ** Pole
 #+begin_src latex
   \pgfplotsset{%

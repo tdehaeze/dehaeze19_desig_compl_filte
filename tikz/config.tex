@@ -259,21 +259,6 @@
   every legend to name picture/.style={west}
 }
 
-\pgfplotsset{upperbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=60}}]
-\pgfplotsset{lowerbound}=[line cap=round, postaction={decorate,draw,decoration={border, segment length=0.2cm, amplitude=0.3cm, angle=-60}}]
-
-\pgfplotsset{
-  /pgfplots/upperbound/.style 1 args={
-    legend image code/.code={
-      \draw[##1, upperbound]
-        plot coordinates {
-        (0cm,0cm)
-        (0.6cm,0cm)
-      }
-    }
-  }
-}
-
 \pgfplotsset{%
   pole/.style{%
     color=red,
@@ -426,10 +411,6 @@
   },
   inertialsensor/.default={0.3}
 }
-
-% \newcommand{\AxisRotator}[1][rotate=0]{%
-%   \tikz [x=0.1cm,y=0.30cm,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
-% }
 
 \tikzstyle{cross}=[path picture={
   \draw[black]
