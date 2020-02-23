@@ -43,29 +43,29 @@ All the figures for the paper have been generated using [[https://sourceforge.ne
 :END:
 The poster has been created using the [[https://www.ctan.org/pkg/tikzposter][tikzposter]] package for [[https://sourceforge.net/projects/latex-beamer/][beamer]].
 
-* Presentation ([[file:presentation/presentation.pdf][link]])
+* Presentation ([[file:talk/talk.pdf][link]])
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
 The presentation for the [[http://iccma.org/][ICCMA 2019]] conference has been created using the [[https://github.com/josephwright/beamer][beamer]] package.
 
-* How to cite this paper
+* Cite this paper
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
 To cite this paper use the following bibtex code.
 #+begin_src bibtex
 @inproceedings{dehaeze19_compl_filter_shapin_using_synth,
-  author =       {Thomas Dehaeze and Mohit Vermat and Christophe Collette},
-  title =        {Complementary Filters Shaping Using $\mathcal{H}_\infty$
-                  Synthesis},
-  booktitle =    {ICCMA'19},
-  year =         2019,
-  language =     {english},
+  author = {Dehaeze, Thomas and Vermat, Mohit and Collette Christophe},
+  title = {Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis},
+  booktitle = {7th International Conference on Control, Mechatronics and Automation (ICCMA)},
+  year = {2019},
+  language = {english},
+  doi = {10.1109/ICCMA46720.2019.8988642},
 }
 #+end_src
 
 You can also use the formatted citation below.
 #+begin_quote
-  Dehaeze, T., Vermat, M., & Collette, C., Complementary filters shaping using $H_\infty$ synthesis, In , ICCMA'19 (pp. ) (2019). : .
+ Dehaeze T., Vermat M., and Collette C., "Complementary Filters Shaping Using ℋ∞ Synthesis," 2019 7th International Conference on Control, Mechatronics and Automation (ICCMA), Delft, Netherlands, 2019, pp. 459-464.
 #+end_quote
