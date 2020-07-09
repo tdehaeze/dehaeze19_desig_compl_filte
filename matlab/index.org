@@ -45,20 +45,6 @@ One use of complementary filter is described below:
   <<sec:h_inf_synthesis_complementary_filters>>
 
 ** Introduction                                                      :ignore:
-** ZIP file containing the data and matlab files                     :ignore:
-#+begin_src bash :exports none :results none
-  if [ matlab/h_inf_synthesis_complementary_filters.m -nt data/h_inf_synthesis_complementary_filters.zip ]; then
-    cp matlab/h_inf_synthesis_complementary_filters.m h_inf_synthesis_complementary_filters.m;
-    zip data/h_inf_synthesis_complementary_filters \
-        h_inf_synthesis_complementary_filters.m
-    rm h_inf_synthesis_complementary_filters.m;
-  fi
-#+end_src
-
-#+begin_note
-  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/h_inf_synthesis_complementary_filters.zip][here]].
-#+end_note
-
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
   <<matlab-dir>>
@@ -143,7 +129,7 @@ The general shape of a weighting function generated using the formula is shown i
   legend('location', 'northeast');
 #+end_src
 
-#+begin_src matlab :exports none :results none
+#+begin_src matlab :exports none :results none :tangle no
   T = table(freqs', ...
             1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), ...
             1./abs(squeeze(freqresp(W2, freqs, 'Hz'))), ...
@@ -254,7 +240,7 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
   xticks([0.1, 1, 10, 100, 1000]);
 #+end_src
 
-#+begin_src matlab :exports none :results none
+#+begin_src matlab :exports none :results none :tangle no
   T = table(freqs', ...
             abs(squeeze(freqresp(H1, freqs, 'Hz'))), ...
             abs(squeeze(freqresp(H2, freqs, 'Hz'))), ...
@@ -279,21 +265,6 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
   :header-args:matlab+: :comments org :mkdirp yes
   :END:
   <<sec:three_comp_filters>>
-
-** Introduction                                                      :ignore:
-** ZIP file containing the data and matlab files                     :ignore:
-#+begin_src bash :exports none :results none
-  if [ matlab/three_comp_filters.m -nt data/three_comp_filters.zip ]; then
-    cp matlab/three_comp_filters.m three_comp_filters.m;
-    zip data/three_comp_filters \
-        three_comp_filters.m
-    rm three_comp_filters.m;
-  fi
-#+end_src
-
-#+begin_note
-  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/three_comp_filters.zip][here]].
-#+end_note
 
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
@@ -361,7 +332,7 @@ First we define the weights.
   legend('location', 'northeast');
 #+end_src
 
-#+begin_src matlab :exports none :results none
+#+begin_src matlab :exports none :results none :tangle no
   T = table(freqs', ...
             1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), ...
             1./abs(squeeze(freqresp(W2, freqs, 'Hz'))), ...
@@ -478,7 +449,7 @@ The obtained filters are:
   xticks([0.1, 1, 10, 100, 1000]);
 #+end_src
 
-#+begin_src matlab :exports none :results none
+#+begin_src matlab :exports none :results none :tangle no
   T = table(freqs', ...
             abs(squeeze(freqresp(H1, freqs, 'Hz'))), ...
             abs(squeeze(freqresp(H2, freqs, 'Hz'))), ...
@@ -510,20 +481,6 @@ The obtained filters are:
 Let's try to design complementary filters that are corresponding to the complementary filters design for the LIGO and described in cite:hua05_low_ligo.
 
 The FIR complementary filters designed in cite:hua05_low_ligo are of order 512.
-
-** ZIP file containing the data and matlab files                     :ignore:
-#+begin_src bash :exports none :results none
-  if [ matlab/comp_filters_ligo.m -nt data/comp_filters_ligo.zip ]; then
-    cp matlab/comp_filters_ligo.m comp_filters_ligo.m;
-    zip data/comp_filters_ligo \
-        comp_filters_ligo.m
-    rm comp_filters_ligo.m;
-  fi
-#+end_src
-
-#+begin_note
-  All the files (data and Matlab scripts) corresponding to this section are accessible [[file:data/comp_filters_ligo.zip][here]].
-#+end_note
 
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
@@ -819,7 +776,7 @@ The bode plot of the weights is shown on figure [[fig:ligo_weights]].
   legend('location', 'southeast');
 #+end_src
 
-#+begin_src matlab :exports none :results none
+#+begin_src matlab :exports none :results none :tangle no
   T = table(freqs', ...
             1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), ...
             1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), ...
