@@ -1,0 +1,143 @@
+#+TITLE: Complementary Filters Shaping\newline Using $\mathcal{H}_\infty$ Synthesis
+:DRAWER:
+#+AUTHOR:    \textbf{Dehaeze Thomas}@@beamer:\textsuperscript{1,2,$\dagger$} \\@@
+#+AUTHOR:    Vermat Mohit @@beamer:\textsuperscript{2} \\@@
+#+AUTHOR:    Collette Christophe @@beamer:\textsuperscript{2} \\@@
+#+AUTHOR:    @@beamer:\vspace{0.5cm}@@
+#+AUTHOR:    @@beamer:\textsuperscript{1}European Synchrotron Radiation Facility, Grenoble, France\\@@
+#+AUTHOR:    @@beamer:\textsuperscript{2}Precision Mechatronics Laboratory, Brussels, Belgium\\@@
+#+AUTHOR:    @@beamer:\textsuperscript{$\dagger$} Email: {\tt\small thomas.dehaeze@esrf.fr}\\@@
+#+AUTHOR:    @@beamer:\vspace{0.5cm}@@
+#+AUTHOR:    08-11-2019
+#+SUBTITLE:  ICCMA 2019
+#+EMAIL:     dehaeze.thomas@gmail.com
+#+DATE:
+
+#+DESCRIPTION: Complementary Filters Shaping Using H-Infinity Synthesis. Presentation at ICCMA 2019.
+#+KEYWORDS: complementary filters, h-infinity, sensor fusion
+#+LANGUAGE:  en
+
+#+STARTUP: beamer
+
+#+LATEX_CLASS: clean-beamer
+#+LATEX_CLASS_OPTIONS: [t]
+
+#+OPTIONS: H:1
+#+OPTIONS: num:t toc:nil ::t |:t ^:{} -:t f:t *:t <:t
+
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+
+#+LATEX_HEADER_EXTRA: \beamertemplatenavigationsymbolsempty
+#+LATEX_HEADER_EXTRA: \addtobeamertemplate{navigation symbols}{}{%
+#+LATEX_HEADER_EXTRA:     \usebeamerfont{footline}%
+#+LATEX_HEADER_EXTRA:     \usebeamercolor[fg]{footline}%
+#+LATEX_HEADER_EXTRA:     \hspace{1em}%
+#+LATEX_HEADER_EXTRA:     \insertframenumber/\inserttotalframenumber
+#+LATEX_HEADER_EXTRA: }
+#+LATEX_HEADER_EXTRA: \setbeamertemplate{itemize items}[circle]
+#+LATEX_HEADER_EXTRA: \usefonttheme[onlymath]{serif}
+:END:
+
+* Motivation - Sensor Fusion Architecture
+\vspace{-1em}
+** Schematic                                                         :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.45
+:END:
+
+\vspace{-1em}
+#+attr_latex: :width 1.1\linewidth
+[[file:figs/fusion_super_sensor.pdf]]
+
+** Equations                                                         :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.55
+:END:
+
+\begin{equation*}
+  \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
+\end{equation*}
+
+*** Complementary Property                                         :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+\begin{equation*}
+  H_1(s) + H_2(s) = 1
+\end{equation*}
+
+** Super Sensor Noise                                      :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+\vspace{0.5em}
+Let's first consider *Perfectly Known Sensor Dynamics*:
+\begin{equation*}
+  G_1(s) = G_2(s) = 1 \Longrightarrow \tcmbox{\hat{x} = x + H_1 n_1 + H_2 n_2}
+\end{equation*}
+
+*** @@latex:@@                                                     :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+We need a synthesis method of complementary filter that allows to *shape the norm of the generated filters*.
+
+* Shaping of Complementary Filters using $\mathcal{H}_\infty$ synthesis
+\vspace{-1em}
+** Equations                                                         :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+*** Design Objective                                               :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{ams nodisplayskip}
+:END:
+\begin{gather*}
+  H_1(s) + H_2(s) = 1 \\
+  |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \\
+  |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega
+\end{gather*}
+
+*** $\mathcal{H}_\infty$ Synthesis                                 :B_cbox:
+:PROPERTIES:
+:BEAMER_env: cbox
+:BEAMER_opt: {blue}{}
+:END:
+Find $H_2(s)$ such that:
+\begin{gather*}
+  \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1 \\
+  H_1(s) \triangleq 1 - H_2(s)
+\end{gather*}
+
+** Schematic                                                         :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+
+#+caption: $\mathcal{H}_\infty$ Architecture used for the shaping of complementary filters
+#+attr_latex: :width \linewidth
+[[file:figs/h_infinity_robust_fusion.pdf]]
+
+* Results - $\mathcal{H}_\infty$ Synthesis of Complementary filters
+** Results                                                           :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.6
+:END:
+
+#+caption: Frequency response of the weighting functions and complementary filters obtained using $\mathcal{H}_\infty$ synthesis
+#+attr_latex: :width \linewidth
+[[file:figs/hinf_synthesis_results.pdf]]
+
+** Poster                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.4
+:END:
+
+\begin{tikzpicture}[remember picture,overlay]
+    \node[fill=white,draw,anchor=east,xshift=-1em,label={above:Poster TF1-114}] at (current page.east){%
+    \includegraphics[width=\linewidth]{../poster/poster.pdf}};
+\end{tikzpicture}

@@ -1,0 +1,120 @@
+% Created 2019-11-07 jeu. 22:43
+% Intended LaTeX compiler: pdflatex
+\documentclass[t]{clean-beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\beamertemplatenavigationsymbolsempty
+\addtobeamertemplate{navigation symbols}{}{%
+\usebeamerfont{footline}%
+\usebeamercolor[fg]{footline}%
+\hspace{1em}%
+\insertframenumber/\inserttotalframenumber
+}
+\setbeamertemplate{itemize items}[circle]
+\usefonttheme[onlymath]{serif}
+\usetheme{default}
+\author{\textbf{Dehaeze Thomas}\textsuperscript{1,2,$\dagger$} \\ Vermat Mohit \textsuperscript{2} \\ Collette Christophe \textsuperscript{2} \\ \vspace{0.5cm} \textsuperscript{1}European Synchrotron Radiation Facility, Grenoble, France\\ \textsuperscript{2}Precision Mechatronics Laboratory, Brussels, Belgium\\ \textsuperscript{$\dagger$} Email: {\tt\small thomas.dehaeze@esrf.fr}\\ \vspace{0.5cm} 08-11-2019}
+\date{}
+\title{Complementary Filters Shaping\newline Using \(\mathcal{H}_\infty\) Synthesis}
+\subtitle{ICCMA 2019}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label={sec:org33dd1ff}]{Motivation - Sensor Fusion Architecture}
+\vspace{-1em}
+\begin{columns}
+\begin{column}{0.45\columnwidth}
+\vspace{-1em}
+\begin{center}
+\includegraphics[scale=1,width=1.1\linewidth]{figs/fusion_super_sensor.pdf}
+\end{center}
+\end{column}
+
+\begin{column}{0.55\columnwidth}
+\begin{equation*}
+  \hat{x} = \left(G_1 H_1 + G_2 H_2\right) x + H_1 n_1 + H_2 n_2
+\end{equation*}
+
+\onslide{\begin{cbox}[Complementary Property]{blue}{}
+\begin{equation*}
+  H_1(s) + H_2(s) = 1
+\end{equation*}
+\end{cbox}}\vspace{0.5em}
+\end{column}
+\end{columns}
+
+\vspace{0.5em}
+Let's first consider \textbf{Perfectly Known Sensor Dynamics}:
+\begin{equation*}
+  G_1(s) = G_2(s) = 1 \Longrightarrow \tcmbox{\hat{x} = x + H_1 n_1 + H_2 n_2}
+\end{equation*}
+
+\onslide{\begin{cbox}[]{blue}{}
+We need a synthesis method of complementary filter that allows to \textbf{shape the norm of the generated filters}.
+\end{cbox}}\vspace{0.5em}
+\end{frame}
+
+\begin{frame}[label={sec:org4ce585d}]{Shaping of Complementary Filters using \(\mathcal{H}_\infty\) synthesis}
+\vspace{-1em}
+\begin{columns}
+\begin{column}{0.5\columnwidth}
+\onslide{\begin{cbox}[Design Objective]{blue}{ams nodisplayskip}
+\begin{gather*}
+  H_1(s) + H_2(s) = 1 \\
+  |H_1(j\omega)| \le \frac{1}{|W_1(j\omega)|} \quad \forall\omega \\
+  |H_2(j\omega)| \le \frac{1}{|W_2(j\omega)|} \quad \forall\omega
+\end{gather*}
+\end{cbox}}\vspace{0.5em}
+
+\onslide{\begin{cbox}[\(\mathcal{H}_\infty\) Synthesis]{blue}{}
+Find \(H_2(s)\) such that:
+\begin{gather*}
+  \left\|\begin{matrix} \left[1 - H_2(s)\right] W_1(s) \\ H_2(s) W_2(s) \end{matrix}\right\|_\infty \le 1 \\
+  H_1(s) \triangleq 1 - H_2(s)
+\end{gather*}
+\end{cbox}}\vspace{0.5em}
+\end{column}
+
+\begin{column}{0.5\columnwidth}
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1,width=\linewidth]{figs/h_infinity_robust_fusion.pdf}
+\caption{\(\mathcal{H}_\infty\) Architecture used for the shaping of complementary filters}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:org7b86e36}]{Results - \(\mathcal{H}_\infty\) Synthesis of Complementary filters}
+\begin{columns}
+\begin{column}{0.6\columnwidth}
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=1,width=\linewidth]{figs/hinf_synthesis_results.pdf}
+\caption{Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis}
+\end{figure}
+\end{column}
+
+\begin{column}{0.4\columnwidth}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[fill=white,draw,anchor=east,xshift=-1em,label={above:Poster TF1-114}] at (current page.east){%
+    \includegraphics[width=\linewidth]{../poster/poster.pdf}};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}
