@@ -1,6 +1,6 @@
 # Complementary Filters Shaping Using H-Infinity Synthesis
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3937395.svg)](https://doi.org/10.5281/zenodo.3937395)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3937394.svg)](https://doi.org/10.5281/zenodo.3937394)
 
 # Paper
 The paper and Matlab scripts are available [here](https://tdehaeze.github.io/dehaeze19_desig_compl_filte/).
