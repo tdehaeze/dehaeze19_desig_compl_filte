@@ -33,9 +33,13 @@ One use of complementary filter is described below:
   To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
 #+end_quote
 
-- in section [[sec:h_inf_synthesis_complementary_filters]], the $\mathcal{H}_\infty$ synthesis is used for generating two complementary filters ([[file:matlab/h_inf_synthesis_complementary_filters.m][matlab code]])
-- in section [[sec:three_comp_filters]], a method using the $\mathcal{H}_\infty$ synthesis is proposed to shape three of more complementary filters ([[file:matlab/three_comp_filters.m][matlab code]])
-- in section [[sec:comp_filters_ligo]], the $\mathcal{H}_\infty$ synthesis is used and compared with FIR complementary filters used for LIGO ([[file:matlab/comp_filters_ligo.m][matlab code]])
+- in section [[sec:h_inf_synthesis_complementary_filters]], the $\mathcal{H}_\infty$ synthesis is used for generating two complementary filters
+- in section [[sec:three_comp_filters]], a method using the $\mathcal{H}_\infty$ synthesis is proposed to shape three of more complementary filters
+- in section [[sec:comp_filters_ligo]], the $\mathcal{H}_\infty$ synthesis is used and compared with FIR complementary filters used for LIGO
+
+#+begin_note
+  Add the Matlab code use to obtain the results presented in the paper are accessible [[file:matlab.zip][here]] and presented below.
+#+end_note
 
 * H-Infinity synthesis of complementary filters
 :PROPERTIES:
