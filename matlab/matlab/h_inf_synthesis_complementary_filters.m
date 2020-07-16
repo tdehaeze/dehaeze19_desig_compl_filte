@@ -7,9 +7,7 @@ s = zpk('s');
 freqs = logspace(-1, 3, 1000);
 
 % Design of Weighting Function
-
-% A formula is proposed to help the design of the weighting functions.
-
+% A formula is proposed to help the design of the weighting functions:
 % \begin{equation}
 %   W(s) = \left( \frac{
 %            \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}

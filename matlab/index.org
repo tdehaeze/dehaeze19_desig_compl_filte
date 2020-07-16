@@ -33,18 +33,22 @@ One use of complementary filter is described below:
   To achieve this, the sensors included in the filter should complement one another by performing better over specific parts of the system bandwidth.
 #+end_quote
 
-- in section [[sec:h_inf_synthesis_complementary_filters]], the $\mathcal{H}_\infty$ synthesis is used for generating two complementary filters
-- in section [[sec:three_comp_filters]], a method using the $\mathcal{H}_\infty$ synthesis is proposed to shape three of more complementary filters
-- in section [[sec:comp_filters_ligo]], the $\mathcal{H}_\infty$ synthesis is used and compared with FIR complementary filters used for LIGO
+- in section [[sec:h_inf_synthesis_complementary_filters]], the $\mathcal{H}_\infty$ synthesis is used for generating two complementary filters ([[file:matlab/h_inf_synthesis_complementary_filters.m][matlab code]])
+- in section [[sec:three_comp_filters]], a method using the $\mathcal{H}_\infty$ synthesis is proposed to shape three of more complementary filters ([[file:matlab/three_comp_filters.m][matlab code]])
+- in section [[sec:comp_filters_ligo]], the $\mathcal{H}_\infty$ synthesis is used and compared with FIR complementary filters used for LIGO ([[file:matlab/comp_filters_ligo.m][matlab code]])
 
 * H-Infinity synthesis of complementary filters
-  :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/h_inf_synthesis_complementary_filters.m
-  :header-args:matlab+: :comments org :mkdirp yes
-  :END:
-  <<sec:h_inf_synthesis_complementary_filters>>
+:PROPERTIES:
+:header-args:matlab+: :tangle matlab/h_inf_synthesis_complementary_filters.m
+:header-args:matlab+: :comments org :mkdirp yes
+:END:
+<<sec:h_inf_synthesis_complementary_filters>>
 
 ** Introduction                                                      :ignore:
+#+begin_note
+  The Matlab file corresponding to this section is accessible [[file:matlab/h_inf_synthesis_complementary_filters.m][here]].
+#+end_note
+
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
   <<matlab-dir>>
@@ -82,9 +86,7 @@ Which is almost (with an maximum error of $\sqrt{2}$) equivalent to:
 We then see that $W_1(s)$ and $W_2(s)$ can be used to shape both $H_1(s)$ and $H_2(s)$ while ensuring their complementary property by the definition of $H_1(s) = 1 - H_2(s)$.
 
 ** Design of Weighting Function
-
-A formula is proposed to help the design of the weighting functions.
-
+A formula is proposed to help the design of the weighting functions:
 \begin{equation}
   W(s) = \left( \frac{
            \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
@@ -260,11 +262,16 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
 [[file:figs/hinf_filters_results.png]]
 
 * Generating 3 complementary filters
-  :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/three_comp_filters.m
-  :header-args:matlab+: :comments org :mkdirp yes
-  :END:
-  <<sec:three_comp_filters>>
+:PROPERTIES:
+:header-args:matlab+: :tangle matlab/three_comp_filters.m
+:header-args:matlab+: :comments org :mkdirp yes
+:END:
+<<sec:three_comp_filters>>
+
+** Introduction                                                      :ignore:
+#+begin_note
+  The Matlab file corresponding to this section is accessible [[file:matlab/three_comp_filters.m][here]].
+#+end_note
 
 ** Matlab Init                                              :noexport:ignore:
 #+begin_src matlab :tangle no :exports none :results silent :noweb yes :var current_dir=(file-name-directory buffer-file-name)
@@ -471,13 +478,17 @@ The obtained filters are:
 [[file:figs/three_complementary_filters_results.png]]
 
 * Try to implement complementary filters for LIGO
-  :PROPERTIES:
-  :header-args:matlab+: :tangle matlab/comp_filters_ligo.m
-  :header-args:matlab+: :comments org :mkdirp yes
-  :END:
-  <<sec:comp_filters_ligo>>
+:PROPERTIES:
+:header-args:matlab+: :tangle matlab/comp_filters_ligo.m
+:header-args:matlab+: :comments org :mkdirp yes
+:END:
+<<sec:comp_filters_ligo>>
 
 ** Introduction                                                      :ignore:
+#+begin_note
+  The Matlab file corresponding to this section is accessible [[file:matlab/comp_filters_ligo.m][here]].
+#+end_note
+
 Let's try to design complementary filters that are corresponding to the complementary filters design for the LIGO and described in cite:hua05_low_ligo.
 
 The FIR complementary filters designed in cite:hua05_low_ligo are of order 512.

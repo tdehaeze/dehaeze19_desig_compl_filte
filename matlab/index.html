@@ -3,270 +3,25 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-08-28 mer. 17:34 -->
+<!-- 2020-07-16 jeu. 14:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Matlab Computation</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
-</style>
 <link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/jquery.stickytableheaders.min.js"></script>
 <script src="../js/readtheorg.js"></script>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
-</script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>MathJax = {
+          tex: {
+            tags: 'ams',
+            macros: {bm: ["\\boldsymbol{#1}",1],}
+            }
+          };
+          </script>
+          <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -279,29 +34,29 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org690e08d">1. H-Infinity synthesis of complementary filters</a>
+<li><a href="#org46404f2">1. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#orga869385">1.1. Synthesis Architecture</a></li>
-<li><a href="#orga38afd7">1.2. Design of Weighting Function</a></li>
-<li><a href="#org84cef88">1.3. H-Infinity Synthesis</a></li>
-<li><a href="#orgcf51d1a">1.4. Obtained Complementary Filters</a></li>
+<li><a href="#org806b4f7">1.1. Synthesis Architecture</a></li>
+<li><a href="#orgabe6aad">1.2. Design of Weighting Function</a></li>
+<li><a href="#org2aaba6e">1.3. H-Infinity Synthesis</a></li>
+<li><a href="#orgcb4ac14">1.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#orgedb70ac">2. Generating 3 complementary filters</a>
+<li><a href="#org2feffce">2. Generating 3 complementary filters</a>
 <ul>
-<li><a href="#org1c9671c">2.1. Theory</a></li>
-<li><a href="#org5cc21e3">2.2. Weights</a></li>
-<li><a href="#orgca4874d">2.3. H-Infinity Synthesis</a></li>
-<li><a href="#org62a4d5c">2.4. Obtained Complementary Filters</a></li>
+<li><a href="#orgb8aee19">2.1. Theory</a></li>
+<li><a href="#org6e5d31d">2.2. Weights</a></li>
+<li><a href="#org9a698ee">2.3. H-Infinity Synthesis</a></li>
+<li><a href="#orgf23da1c">2.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org383650f">3. Try to implement complementary filters for LIGO</a>
+<li><a href="#org0f85e92">3. Try to implement complementary filters for LIGO</a>
 <ul>
-<li><a href="#org204e76d">3.1. Specifications</a></li>
-<li><a href="#org3931aac">3.2. FIR Filter</a></li>
-<li><a href="#org13fe783">3.3. Weights</a></li>
-<li><a href="#orgd6e9661">3.4. H-Infinity Synthesis</a></li>
-<li><a href="#orgde53151">3.5. Compare FIR and H-Infinity Filters</a></li>
+<li><a href="#orgb61077c">3.1. Specifications</a></li>
+<li><a href="#orgbc85105">3.2. FIR Filter</a></li>
+<li><a href="#org7637994">3.3. Weights</a></li>
+<li><a href="#org173e2c3">3.4. H-Infinity Synthesis</a></li>
+<li><a href="#org0e40b72">3.5. Compare FIR and H-Infinity Filters</a></li>
 </ul>
 </li>
 </ul>
@@ -323,27 +78,27 @@ To achieve this, the sensors included in the filter should complement one anothe
 </blockquote>
 
 <ul class="org-ul">
-<li>in section <a href="#orgaeca3fc">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters</li>
-<li>in section <a href="#orgc04f7d5">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
-<li>in section <a href="#org21abbb3">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO</li>
+<li>in section <a href="#org48961a2">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters (<a href="matlab/h_inf_synthesis_complementary_filters.m">matlab code</a>)</li>
+<li>in section <a href="#org37eeb9f">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters (<a href="matlab/three_comp_filters.m">matlab code</a>)</li>
+<li>in section <a href="#orge05d224">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO (<a href="matlab/comp_filters_ligo.m">matlab code</a>)</li>
 </ul>
 
-<div id="outline-container-org690e08d" class="outline-2">
-<h2 id="org690e08d"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div id="outline-container-org46404f2" class="outline-2">
+<h2 id="org46404f2"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="orgaeca3fc"></a>
+<a id="org48961a2"></a>
 </p>
 <div class="note">
 <p>
-All the files (data and Matlab scripts) corresponding to this section are accessible <a href="data/h_inf_synthesis_complementary_filters.zip">here</a>.
+The Matlab file corresponding to this section is accessible <a href="matlab/h_inf_synthesis_complementary_filters.m">here</a>.
 </p>
 
 </div>
 </div>
 
-<div id="outline-container-orga869385" class="outline-3">
-<h3 id="orga869385"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
+<div id="outline-container-org806b4f7" class="outline-3">
+<h3 id="org806b4f7"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 We here synthesize two complementary filters using the \(\mathcal{H}_\infty\) synthesis.
@@ -351,18 +106,18 @@ The goal is to specify upper bounds on the norms of the two complementary filter
 </p>
 
 <p>
-In order to do so, we use the generalized plant shown on figure <a href="#orgfa2061a">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
+In order to do so, we use the generalized plant shown on figure <a href="#org4993735">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
 </p>
 
 
-<div id="orgfa2061a" class="figure">
+<div id="org4993735" class="figure">
 <p><img src="figs-tikz/h_infinity_robust_fusion.png" alt="h_infinity_robust_fusion.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 
 <p>
-The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#orgfa2061a">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
+The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#org4993735">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
 \[ \left\| \begin{array}{c} (1 - H_2(s)) W_1(s) \\ H_2(s) W_2(s) \end{array} \right\|_\infty < 1 \]
 </p>
 
@@ -382,13 +137,12 @@ We then see that \(W_1(s)\) and \(W_2(s)\) can be used to shape both \(H_1(s)\) 
 </div>
 </div>
 
-<div id="outline-container-orga38afd7" class="outline-3">
-<h3 id="orga38afd7"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
+<div id="outline-container-orgabe6aad" class="outline-3">
+<h3 id="orgabe6aad"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-A formula is proposed to help the design of the weighting functions.
+A formula is proposed to help the design of the weighting functions:
 </p>
-
 \begin{equation}
   W(s) = \left( \frac{
            \frac{1}{\omega_0} \sqrt{\frac{1 - \left(\frac{G_0}{G_c}\right)^{\frac{2}{n}}}{1 - \left(\frac{G_c}{G_\infty}\right)^{\frac{2}{n}}}} s + \left(\frac{G_0}{G_c}\right)^{\frac{1}{n}}
@@ -408,27 +162,27 @@ The parameters permits to specify:
 </ul>
 
 <p>
-The general shape of a weighting function generated using the formula is shown in figure <a href="#org2c6eff8">2</a>.
+The general shape of a weighting function generated using the formula is shown in figure <a href="#orge551da2">2</a>.
 </p>
 
 
-<div id="org2c6eff8" class="figure">
+<div id="orge551da2" class="figure">
 <p><img src="figs-tikz/weight_formula.png" alt="weight_formula.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Amplitude of the proposed formula for the weighting functions</p>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-matlab">n = <span class="org-highlight-numbers-number">2</span>; w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">11</span>; G0 = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">10</span>; G1 = <span class="org-highlight-numbers-number">1000</span>; Gc = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">2</span>;
-W1 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span>n;
+<pre class="src src-matlab">n = 2; w0 = 2*pi*11; G0 = 1/10; G1 = 1000; Gc = 1/2;
+W1 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
 
-n = <span class="org-highlight-numbers-number">3</span>; w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">10</span>; G0 = <span class="org-highlight-numbers-number">1000</span>; G1 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">1</span>; Gc = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">2</span>;
-W2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span>n;
+n = 3; w0 = 2*pi*10; G0 = 1000; G1 = 0.1; Gc = 1/2;
+W2 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
 </pre>
 </div>
 
 
-<div id="org5202a01" class="figure">
+<div id="org8791cc6" class="figure">
 <p><img src="figs/weights_W1_W2.png" alt="weights_W1_W2.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Weights on the complementary filters \(W_1\) and \(W_2\) and the associated performance weights (<a href="./figs/weights_W1_W2.png">png</a>, <a href="./figs/weights_W1_W2.pdf">pdf</a>)</p>
@@ -436,16 +190,16 @@ W2 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainb
 </div>
 </div>
 
-<div id="outline-container-org84cef88" class="outline-3">
-<h3 id="org84cef88"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org2aaba6e" class="outline-3">
+<h3 id="org2aaba6e"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 We define the generalized plant \(P\) on matlab.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span>W1 <span class="org-type">-</span>W1;
-     <span class="org-highlight-numbers-number">0</span>   W2;
-     <span class="org-highlight-numbers-number">1</span>   <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+<pre class="src src-matlab">P = [W1 -W1;
+     0   W2;
+     1   0];
 </pre>
 </div>
 
@@ -453,7 +207,7 @@ We define the generalized plant \(P\) on matlab.
 And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> command.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H2, <span class="org-type">~</span>, gamma, <span class="org-type">~</span><span class="org-rainbow-delimiters-depth-1">]</span> = hinfsyn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span>,'TOLGAM', <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">001</span>, 'METHOD', 'ric', 'DISPLAY', 'on'<span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-matlab">[H2, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 </pre>
 </div>
 
@@ -491,25 +245,25 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </pre>
 
 <p>
-We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#org603f6dd">4</a>.
+We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#org4f60b38">4</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-matlab">H1 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> H2;
+<pre class="src src-matlab">H1 = 1 - H2;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcf51d1a" class="outline-3">
-<h3 id="orgcf51d1a"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-orgcb4ac14" class="outline-3">
+<h3 id="orgcb4ac14"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
-The obtained complementary filters are shown on figure <a href="#org603f6dd">4</a>.
+The obtained complementary filters are shown on figure <a href="#org4f60b38">4</a>.
 </p>
 
 
-<div id="org603f6dd" class="figure">
+<div id="org4f60b38" class="figure">
 <p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
@@ -518,22 +272,22 @@ The obtained complementary filters are shown on figure <a href="#org603f6dd">4</
 </div>
 </div>
 
-<div id="outline-container-orgedb70ac" class="outline-2">
-<h2 id="orgedb70ac"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
+<div id="outline-container-org2feffce" class="outline-2">
+<h2 id="org2feffce"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgc04f7d5"></a>
+<a id="org37eeb9f"></a>
 </p>
 <div class="note">
 <p>
-All the files (data and Matlab scripts) corresponding to this section are accessible <a href="data/three_comp_filters.zip">here</a>.
+The Matlab file corresponding to this section is accessible <a href="matlab/three_comp_filters.m">here</a>.
 </p>
 
 </div>
 </div>
 
-<div id="outline-container-org1c9671c" class="outline-3">
-<h3 id="org1c9671c"><span class="section-number-3">2.1</span> Theory</h3>
+<div id="outline-container-orgb8aee19" class="outline-3">
+<h3 id="orgb8aee19"><span class="section-number-3">2.1</span> Theory</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 We want:
@@ -546,11 +300,11 @@ We want:
 \end{align*}
 
 <p>
-For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org3e36641">5</a>.
+For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#orgd8125a2">5</a>.
 </p>
 
 
-<div id="org3e36641" class="figure">
+<div id="orgd8125a2" class="figure">
 <p><img src="figs-tikz/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Generalized architecture for generating 3 complementary filters</p>
@@ -571,25 +325,25 @@ And thus if we choose \(H_1 = 1 - H_2 - H_3\) we have solved the problem.
 </div>
 </div>
 
-<div id="outline-container-org5cc21e3" class="outline-3">
-<h3 id="org5cc21e3"><span class="section-number-3">2.2</span> Weights</h3>
+<div id="outline-container-org6e5d31d" class="outline-3">
+<h3 id="org6e5d31d"><span class="section-number-3">2.2</span> Weights</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 First we define the weights.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">n = <span class="org-highlight-numbers-number">2</span>; w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">1</span>; G0 = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">10</span>; G1 = <span class="org-highlight-numbers-number">1000</span>; Gc = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">2</span>;
-W1 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span>n;
+<pre class="src src-matlab">n = 2; w0 = 2*pi*1; G0 = 1/10; G1 = 1000; Gc = 1/2;
+W1 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
 
-W2 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">22</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span>sqrt<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">10</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span> <span class="org-type">+</span> s<span class="org-type">/</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span><span class="org-highlight-numbers-number">1000</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">2</span>;
+W2 = 0.22*(1 + s/2/pi/1)^2/(sqrt(1e-4) + s/2/pi/1)^2*(1 + s/2/pi/10)^2/(1 + s/2/pi/1000)^2;
 
-n = <span class="org-highlight-numbers-number">3</span>; w0 = <span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span><span class="org-highlight-numbers-number">10</span>; G0 = <span class="org-highlight-numbers-number">1000</span>; G1 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">1</span>; Gc = <span class="org-highlight-numbers-number">1</span><span class="org-type">/</span><span class="org-highlight-numbers-number">2</span>;
-W3 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>w0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>sqrt<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>G0<span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">-</span><span class="org-rainbow-delimiters-depth-5">(</span>Gc<span class="org-type">/</span>G1<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-5">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">*</span>s <span class="org-type">+</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>Gc<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-type">^</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-highlight-numbers-number">1</span><span class="org-type">/</span>n<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span>n;
+n = 3; w0 = 2*pi*10; G0 = 1000; G1 = 0.1; Gc = 1/2;
+W3 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
 </pre>
 </div>
 
 
-<div id="orgea1b192" class="figure">
+<div id="orgfaded1f" class="figure">
 <p><img src="figs/three_weighting_functions.png" alt="three_weighting_functions.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
@@ -597,17 +351,17 @@ W3 = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainb
 </div>
 </div>
 
-<div id="outline-container-orgca4874d" class="outline-3">
-<h3 id="orgca4874d"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org9a698ee" class="outline-3">
+<h3 id="org9a698ee"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Then we create the generalized plant <code>P</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span>W1 <span class="org-type">-</span>W1 <span class="org-type">-</span>W1;
-     <span class="org-highlight-numbers-number">0</span>   W2  <span class="org-highlight-numbers-number">0</span> ;
-     <span class="org-highlight-numbers-number">0</span>   <span class="org-highlight-numbers-number">0</span>   W3;
-     <span class="org-highlight-numbers-number">1</span>   <span class="org-highlight-numbers-number">0</span>   <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+<pre class="src src-matlab">P = [W1 -W1 -W1;
+     0   W2  0 ;
+     0   0   W3;
+     1   0   0];
 </pre>
 </div>
 
@@ -615,7 +369,7 @@ Then we create the generalized plant <code>P</code>.
 And we do the \(\mathcal{H}_\infty\) synthesis.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>H, <span class="org-type">~</span>, gamma, <span class="org-type">~</span><span class="org-rainbow-delimiters-depth-1">]</span> = hinfsyn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>,'TOLGAM', <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">001</span>, 'METHOD', 'ric', 'DISPLAY', 'on'<span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-matlab">[H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 </pre>
 </div>
 
@@ -654,21 +408,21 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </div>
 </div>
 
-<div id="outline-container-org62a4d5c" class="outline-3">
-<h3 id="org62a4d5c"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-orgf23da1c" class="outline-3">
+<h3 id="orgf23da1c"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 The obtained filters are:
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">H2 = tf<span class="org-rainbow-delimiters-depth-1">(</span>H<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-H3 = tf<span class="org-rainbow-delimiters-depth-1">(</span>H<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-H1 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> H2 <span class="org-type">-</span> H3;
+<pre class="src src-matlab">H2 = tf(H(1));
+H3 = tf(H(2));
+H1 = 1 - H2 - H3;
 </pre>
 </div>
 
 
-<div id="org1f412a1" class="figure">
+<div id="org2bb2f66" class="figure">
 <p><img src="figs/three_complementary_filters_results.png" alt="three_complementary_filters_results.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
@@ -677,29 +431,30 @@ H1 = <span class="org-highlight-numbers-number">1</span> <span class="org-type">
 </div>
 </div>
 
-<div id="outline-container-org383650f" class="outline-2">
-<h2 id="org383650f"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
+<div id="outline-container-org0f85e92" class="outline-2">
+<h2 id="org0f85e92"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org21abbb3"></a>
-</p>
-<p>
-Let's try to design complementary filters that are corresponding to the complementary filters design for the LIGO and described in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a>.
-</p>
-
-<p>
-The FIR complementary filters designed in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a> are of order 512.
+<a id="orge05d224"></a>
 </p>
 <div class="note">
 <p>
-All the files (data and Matlab scripts) corresponding to this section are accessible <a href="data/comp_filters_ligo.zip">here</a>.
+The Matlab file corresponding to this section is accessible <a href="matlab/comp_filters_ligo.m">here</a>.
 </p>
 
 </div>
+
+<p>
+Let&rsquo;s try to design complementary filters that are corresponding to the complementary filters design for the LIGO and described in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
+</p>
+
+<p>
+The FIR complementary filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) are of order 512.
+</p>
 </div>
 
-<div id="outline-container-org204e76d" class="outline-3">
-<h3 id="org204e76d"><span class="section-number-3">3.1</span> Specifications</h3>
+<div id="outline-container-orgb61077c" class="outline-3">
+<h3 id="orgb61077c"><span class="section-number-3">3.1</span> Specifications</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The specifications for the filters are:
@@ -708,15 +463,15 @@ The specifications for the filters are:
 <li>From \(0\) to \(0.008\text{ Hz}\),the magnitude of the filter’s transfer function should be less than or equal to \(8 \times 10^{-3}\)</li>
 <li>From \(0.008\text{ Hz}\) to \(0.04\text{ Hz}\), it attenuates the input signal proportional to frequency cubed</li>
 <li>Between \(0.04\text{ Hz}\) and \(0.1\text{ Hz}\), the magnitude of the transfer function should be less than 3</li>
-<li>Above \(0.1\text{ Hz}\), the maximum of the magnitude of the complement filter should be as close to zero as possible. In our system, we would like to have the magnitude of the complementary filter to be less than \(0.1\). As the filters obtained in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a> have a magnitude of \(0.045\), we will set that as our requirement</li>
+<li>Above \(0.1\text{ Hz}\), the maximum of the magnitude of the complement filter should be as close to zero as possible. In our system, we would like to have the magnitude of the complementary filter to be less than \(0.1\). As the filters obtained in (<a href="#citeproc_bib_item_1">Hua 2005</a>) have a magnitude of \(0.045\), we will set that as our requirement</li>
 </ol>
 
 <p>
-The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#orgae0cc25">8</a>.
+The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#org480bed5">8</a>.
 </p>
 
 
-<div id="orgae0cc25" class="figure">
+<div id="org480bed5" class="figure">
 <p><img src="figs/ligo_specifications.png" alt="ligo_specifications.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
@@ -724,11 +479,11 @@ The specifications are translated in upper bounds of the complementary filters a
 </div>
 </div>
 
-<div id="outline-container-org3931aac" class="outline-3">
-<h3 id="org3931aac"><span class="section-number-3">3.2</span> FIR Filter</h3>
+<div id="outline-container-orgbc85105" class="outline-3">
+<h3 id="orgbc85105"><span class="section-number-3">3.2</span> FIR Filter</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-We here try to implement the FIR complementary filter synthesis as explained in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a>.
+We here try to implement the FIR complementary filter synthesis as explained in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
 For that, we use the <a href="http://cvxr.com/cvx/">CVX matlab Toolbox</a>.
 </p>
 
@@ -745,10 +500,10 @@ cvx_solver sedumi;
 We define the frequency vectors on which we will constrain the norm of the FIR filter.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">w1 = <span class="org-highlight-numbers-number">0</span><span class="org-type">:</span><span class="org-highlight-numbers-number">4</span>.<span class="org-highlight-numbers-number">06e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span><span class="org-type">:</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">008</span>;
-w2 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">008</span><span class="org-type">:</span><span class="org-highlight-numbers-number">4</span>.<span class="org-highlight-numbers-number">06e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span><span class="org-type">:</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">04</span>;
-w3 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">04</span><span class="org-type">:</span><span class="org-highlight-numbers-number">8</span>.<span class="org-highlight-numbers-number">12e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span><span class="org-type">:</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">1</span>;
-w4 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">1</span><span class="org-type">:</span><span class="org-highlight-numbers-number">8</span>.<span class="org-highlight-numbers-number">12e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">4</span><span class="org-type">:</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">83</span>;
+<pre class="src src-matlab">w1 = 0:4.06e-4:0.008;
+w2 = 0.008:4.06e-4:0.04;
+w3 = 0.04:8.12e-4:0.1;
+w4 = 0.1:8.12e-4:0.83;
 </pre>
 </div>
 
@@ -756,20 +511,20 @@ w4 = <span class="org-highlight-numbers-number">0</span>.<span class="org-highli
 We then define the order of the FIR filter.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">n = <span class="org-highlight-numbers-number">512</span>;
+<pre class="src src-matlab">n = 512;
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-matlab">A1 = <span class="org-rainbow-delimiters-depth-1">[</span>ones<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w1<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>,  cos<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w1'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-A2 = <span class="org-rainbow-delimiters-depth-1">[</span>ones<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w2<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>,  cos<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w2'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-A3 = <span class="org-rainbow-delimiters-depth-1">[</span>ones<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w3<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>,  cos<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w3'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-A4 = <span class="org-rainbow-delimiters-depth-1">[</span>ones<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w4<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>,  cos<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w4'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+<pre class="src src-matlab">A1 = [ones(length(w1),1),  cos(kron(w1'.*(2*pi),[1:n-1]))];
+A2 = [ones(length(w2),1),  cos(kron(w2'.*(2*pi),[1:n-1]))];
+A3 = [ones(length(w3),1),  cos(kron(w3'.*(2*pi),[1:n-1]))];
+A4 = [ones(length(w4),1),  cos(kron(w4'.*(2*pi),[1:n-1]))];
 
-B1 = <span class="org-rainbow-delimiters-depth-1">[</span>zeros<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w1<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>, sin<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w1'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-B2 = <span class="org-rainbow-delimiters-depth-1">[</span>zeros<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w2<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>, sin<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w2'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-B3 = <span class="org-rainbow-delimiters-depth-1">[</span>zeros<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w3<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>, sin<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w3'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
-B4 = <span class="org-rainbow-delimiters-depth-1">[</span>zeros<span class="org-rainbow-delimiters-depth-2">(</span>length<span class="org-rainbow-delimiters-depth-3">(</span>w4<span class="org-rainbow-delimiters-depth-3">)</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>, sin<span class="org-rainbow-delimiters-depth-2">(</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w4'<span class="org-type">.*</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-4">)</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">1</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+B1 = [zeros(length(w1),1), sin(kron(w1'.*(2*pi),[1:n-1]))];
+B2 = [zeros(length(w2),1), sin(kron(w2'.*(2*pi),[1:n-1]))];
+B3 = [zeros(length(w3),1), sin(kron(w3'.*(2*pi),[1:n-1]))];
+B4 = [zeros(length(w4),1), sin(kron(w4'.*(2*pi),[1:n-1]))];
 </pre>
 </div>
 
@@ -779,30 +534,30 @@ We run the convex optimization.
 <div class="org-src-container">
 <pre class="src src-matlab">cvx_begin
 
-variable y<span class="org-rainbow-delimiters-depth-1">(</span>n<span class="org-type">+</span><span class="org-highlight-numbers-number">1</span>,<span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>
+variable y(n+1,1)
 
-<span class="org-comment">% t</span>
-maximize<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">-</span>y<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+% t
+maximize(-y(1))
 
-<span class="org-keyword">for</span> <span class="org-variable-name">i</span> = <span class="org-constant"><span class="org-highlight-numbers-number">1</span></span><span class="org-constant">:length</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-constant">w1</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">)</span></span>
-    norm<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-highlight-numbers-number">0</span> A1<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span>; <span class="org-highlight-numbers-number">0</span> B1<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-type">*</span>y<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-type">&lt;=</span> <span class="org-highlight-numbers-number">8e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">3</span>;
-<span class="org-keyword">end</span>
+for i = 1:length(w1)
+    norm([0 A1(i,:); 0 B1(i,:)]*y) &lt;= 8e-3;
+end
 
-<span class="org-keyword">for</span>  <span class="org-variable-name">i</span> = <span class="org-constant"><span class="org-highlight-numbers-number">1</span></span><span class="org-constant">:length</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-constant">w2</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">)</span></span>
-    norm<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-highlight-numbers-number">0</span> A2<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span>; <span class="org-highlight-numbers-number">0</span> B2<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-type">*</span>y<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-type">&lt;=</span> <span class="org-highlight-numbers-number">8e</span><span class="org-type">-</span><span class="org-highlight-numbers-number">3</span><span class="org-type">*</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>w2<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-constant">i</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-type">/</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">008</span><span class="org-type">*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-type">^</span><span class="org-highlight-numbers-number">3</span>;
-<span class="org-keyword">end</span>
+for  i = 1:length(w2)
+    norm([0 A2(i,:); 0 B2(i,:)]*y) &lt;= 8e-3*(2*pi*w2(i)/(0.008*2*pi))^3;
+end
 
-<span class="org-keyword">for</span> <span class="org-variable-name">i</span> = <span class="org-constant"><span class="org-highlight-numbers-number">1</span></span><span class="org-constant">:length</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-constant">w3</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">)</span></span>
-    norm<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-highlight-numbers-number">0</span> A3<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span>; <span class="org-highlight-numbers-number">0</span> B3<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-type">*</span>y<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-type">&lt;=</span> <span class="org-highlight-numbers-number">3</span>;
-<span class="org-keyword">end</span>
+for i = 1:length(w3)
+    norm([0 A3(i,:); 0 B3(i,:)]*y) &lt;= 3;
+end
 
-<span class="org-keyword">for</span> <span class="org-variable-name">i</span> = <span class="org-constant"><span class="org-highlight-numbers-number">1</span></span><span class="org-constant">:length</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">(</span></span><span class="org-constant">w4</span><span class="org-constant"><span class="org-rainbow-delimiters-depth-1">)</span></span>
-    norm<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">[</span><span class="org-rainbow-delimiters-depth-3">[</span><span class="org-highlight-numbers-number">1</span> <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-3">]</span>'<span class="org-type">-</span> <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-highlight-numbers-number">0</span> A4<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-4">)</span>; <span class="org-highlight-numbers-number">0</span> B4<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-constant">i</span>,<span class="org-type">:</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-type">*</span>y<span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-type">&lt;=</span> y<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-keyword">end</span>
+for i = 1:length(w4)
+    norm([[1 0]'- [0 A4(i,:); 0 B4(i,:)]*y]) &lt;= y(1);
+end
 
 cvx_end
 
-h = y<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">2</span><span class="org-type">:</span>end<span class="org-rainbow-delimiters-depth-1">)</span>;
+h = y(2:end);
 </pre>
 </div>
 
@@ -883,17 +638,17 @@ h = y(2:end);
 </pre>
 
 <p>
-Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#org856d02c">9</a> which is very close to the filters obtain in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a>.
+Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#org94db411">9</a> which is very close to the filters obtain in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-matlab">w = <span class="org-rainbow-delimiters-depth-1">[</span>w1 w2 w3 w4<span class="org-rainbow-delimiters-depth-1">]</span>;
-H = <span class="org-rainbow-delimiters-depth-1">[</span>exp<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">-</span><span class="org-constant">j</span><span class="org-type">*</span>kron<span class="org-rainbow-delimiters-depth-3">(</span>w'<span class="org-type">.*</span><span class="org-highlight-numbers-number">2</span><span class="org-type">*</span><span class="org-constant">pi</span>,<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-highlight-numbers-number">0</span><span class="org-type">:</span>n<span class="org-type">-</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">]</span><span class="org-type">*</span>h;
+<pre class="src src-matlab">w = [w1 w2 w3 w4];
+H = [exp(-j*kron(w'.*2*pi,[0:n-1]))]*h;
 </pre>
 </div>
 
 
-<div id="org856d02c" class="figure">
+<div id="org94db411" class="figure">
 <p><img src="figs/fir_filter_ligo.png" alt="fir_filter_ligo.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>FIR Complementary filters obtain after convex optimization (<a href="./figs/fir_filter_ligo.png">png</a>, <a href="./figs/fir_filter_ligo.pdf">pdf</a>)</p>
@@ -901,8 +656,8 @@ H = <span class="org-rainbow-delimiters-depth-1">[</span>exp<span class="org-rai
 </div>
 </div>
 
-<div id="outline-container-org13fe783" class="outline-3">
-<h3 id="org13fe783"><span class="section-number-3">3.3</span> Weights</h3>
+<div id="outline-container-org7637994" class="outline-3">
+<h3 id="org7637994"><span class="section-number-3">3.3</span> Weights</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 We design weights that will be used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters.
@@ -916,11 +671,11 @@ Here are the requirements on the filters:
 </ul>
 
 <p>
-The bode plot of the weights is shown on figure <a href="#orgb339fe7">10</a>.
+The bode plot of the weights is shown on figure <a href="#org05a38e8">10</a>.
 </p>
 
 
-<div id="orgb339fe7" class="figure">
+<div id="org05a38e8" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
@@ -928,16 +683,16 @@ The bode plot of the weights is shown on figure <a href="#orgb339fe7">10</a>.
 </div>
 </div>
 
-<div id="outline-container-orgd6e9661" class="outline-3">
-<h3 id="orgd6e9661"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org173e2c3" class="outline-3">
+<h3 id="org173e2c3"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
-We define the generalized plant as shown on figure <a href="#orgfa2061a">1</a>.
+We define the generalized plant as shown on figure <a href="#org4993735">1</a>.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">P = <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-highlight-numbers-number">0</span>   wL;
-     wH <span class="org-type">-</span>wH;
-     <span class="org-highlight-numbers-number">1</span>   <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-1">]</span>;
+<pre class="src src-matlab">P = [0   wL;
+     wH -wH;
+     1   0];
 </pre>
 </div>
 
@@ -945,7 +700,7 @@ We define the generalized plant as shown on figure <a href="#orgfa2061a">1</a>.
 And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> command.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab"><span class="org-rainbow-delimiters-depth-1">[</span>Hl, <span class="org-type">~</span>, gamma, <span class="org-type">~</span><span class="org-rainbow-delimiters-depth-1">]</span> = hinfsyn<span class="org-rainbow-delimiters-depth-1">(</span>P, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span>,'TOLGAM', <span class="org-highlight-numbers-number">0</span>.<span class="org-highlight-numbers-number">001</span>, 'METHOD', 'ric', 'DISPLAY', 'on'<span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-matlab">[Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 </pre>
 </div>
 
@@ -976,7 +731,7 @@ Test bounds:      0.3276 &lt;  gamma  &lt;=      1.8063
 The high pass filter is defined as \(H_H = 1 - H_L\).
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">Hh = <span class="org-highlight-numbers-number">1</span> <span class="org-type">-</span> Hl;
+<pre class="src src-matlab">Hh = 1 - Hl;
 </pre>
 </div>
 
@@ -991,11 +746,11 @@ State-space model with 1 outputs, 1 inputs, and 27 states.
 </pre>
 
 <p>
-The bode plot of the obtained filters as shown on figure <a href="#org47b03a1">11</a>.
+The bode plot of the obtained filters as shown on figure <a href="#orgc5e003d">11</a>.
 </p>
 
 
-<div id="org47b03a1" class="figure">
+<div id="orgc5e003d" class="figure">
 <p><img src="figs/hinf_synthesis_ligo_results.png" alt="hinf_synthesis_ligo_results.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
@@ -1003,15 +758,15 @@ The bode plot of the obtained filters as shown on figure <a href="#org47b03a1">1
 </div>
 </div>
 
-<div id="outline-container-orgde53151" class="outline-3">
-<h3 id="orgde53151"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
+<div id="outline-container-org0e40b72" class="outline-3">
+<h3 id="org0e40b72"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
-Let's now compare the FIR filters designed in <a class='org-ref-reference' href="#hua05_low_ligo">hua05_low_ligo</a> and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#org479b761">12</a>.
+Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#org9922782">12</a>.
 </p>
 
 
-<div id="org479b761" class="figure">
+<div id="org9922782" class="figure">
 <p><img src="figs/comp_fir_ligo_hinf.png" alt="comp_fir_ligo_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>Comparison between the FIR filters developped for LIGO and the \(\mathcal{H}_\infty\) complementary filters (<a href="./figs/comp_fir_ligo_hinf.png">png</a>, <a href="./figs/comp_fir_ligo_hinf.pdf">pdf</a>)</p>
@@ -1022,21 +777,16 @@ Let's now compare the FIR filters designed in <a class='org-ref-reference' href=
 
 <p>
 
-<h1 class='org-ref-bib-h1'>Bibliography</h1>
-<ul class='org-ref-bib'><li><a id="hua05_low_ligo">[hua05_low_ligo]</a> <a name="hua05_low_ligo"></a>@phdthesishua05_low_ligo,
-  author =       Hua, Wensheng,
-  school =       stanford university,
-  title =        Low frequency vibration isolation and alignment system for
-                  advanced LIGO,
-  year =         2005,
-</li>
-</ul>
 </p>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><h2 class='citeproc-org-bib-h2'>Bibliography</h2>
+<div class="csl-bib-body">
+  <div class="csl-entry"><a name="citeproc_bib_item_1"></a>Hua, Wensheng. 2005. “Low Frequency Vibration Isolation and Alignment System for Advanced LIGO.” stanford university.</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-08-28 mer. 17:34</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-07-16 jeu. 14:54</p>
 </div>
 </body>
 </html>
