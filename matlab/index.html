@@ -3,17 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-07-16 jeu. 14:59 -->
+<!-- 2020-11-12 jeu. 10:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Matlab Computation</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
-<link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.stickytableheaders.min.js"></script>
-<script src="../js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+<script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
 <script>MathJax = {
           tex: {
             tags: 'ams',
@@ -34,29 +30,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org572bfb6">1. H-Infinity synthesis of complementary filters</a>
+<li><a href="#orgbe70763">1. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#org82eca6b">1.1. Synthesis Architecture</a></li>
-<li><a href="#org0030590">1.2. Design of Weighting Function</a></li>
-<li><a href="#org4aa1049">1.3. H-Infinity Synthesis</a></li>
-<li><a href="#org9c89267">1.4. Obtained Complementary Filters</a></li>
+<li><a href="#org15b668c">1.1. Synthesis Architecture</a></li>
+<li><a href="#org1bb920c">1.2. Design of Weighting Function</a></li>
+<li><a href="#org778c435">1.3. H-Infinity Synthesis</a></li>
+<li><a href="#org6c55f84">1.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org2da98fb">2. Generating 3 complementary filters</a>
+<li><a href="#orgee2667d">2. Generating 3 complementary filters</a>
 <ul>
-<li><a href="#org0abd7a4">2.1. Theory</a></li>
-<li><a href="#org752b7ef">2.2. Weights</a></li>
-<li><a href="#org28adeaa">2.3. H-Infinity Synthesis</a></li>
-<li><a href="#org1366f58">2.4. Obtained Complementary Filters</a></li>
+<li><a href="#org774f715">2.1. Theory</a></li>
+<li><a href="#org0ae66b6">2.2. Weights</a></li>
+<li><a href="#orgcd90722">2.3. H-Infinity Synthesis</a></li>
+<li><a href="#orgd2db36a">2.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org4f214f0">3. Try to implement complementary filters for LIGO</a>
+<li><a href="#org5bcb919">3. Try to implement complementary filters for LIGO</a>
 <ul>
-<li><a href="#orga7890e4">3.1. Specifications</a></li>
-<li><a href="#org3e8a45e">3.2. FIR Filter</a></li>
-<li><a href="#orgb67b5e5">3.3. Weights</a></li>
-<li><a href="#org7521851">3.4. H-Infinity Synthesis</a></li>
-<li><a href="#org8f5b230">3.5. Compare FIR and H-Infinity Filters</a></li>
+<li><a href="#orge1988db">3.1. Specifications</a></li>
+<li><a href="#org3248dae">3.2. FIR Filter</a></li>
+<li><a href="#orgda2ce10">3.3. Weights</a></li>
+<li><a href="#orgf343cbe">3.4. H-Infinity Synthesis</a></li>
+<li><a href="#org1a0d849">3.5. Compare FIR and H-Infinity Filters</a></li>
 </ul>
 </li>
 </ul>
@@ -78,25 +74,25 @@ To achieve this, the sensors included in the filter should complement one anothe
 </blockquote>
 
 <ul class="org-ul">
-<li>in section <a href="#orgee3ddb1">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters</li>
-<li>in section <a href="#orgaa807e4">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
-<li>in section <a href="#org9d61b55">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO</li>
+<li>in section <a href="#orgcc94ca4">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters</li>
+<li>in section <a href="#org7ee6b3d">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
+<li>in section <a href="#org4503401">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO</li>
 </ul>
 
-<div class="note">
+<div class="note" id="org35094b4">
 <p>
 Add the Matlab code use to obtain the results presented in the paper are accessible <a href="matlab.zip">here</a> and presented below.
 </p>
 
 </div>
 
-<div id="outline-container-org572bfb6" class="outline-2">
-<h2 id="org572bfb6"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div id="outline-container-orgbe70763" class="outline-2">
+<h2 id="orgbe70763"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="orgee3ddb1"></a>
+<a id="orgcc94ca4"></a>
 </p>
-<div class="note">
+<div class="note" id="org2a3c2bf">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/h_inf_synthesis_complementary_filters.m">here</a>.
 </p>
@@ -104,8 +100,8 @@ The Matlab file corresponding to this section is accessible <a href="matlab/h_in
 </div>
 </div>
 
-<div id="outline-container-org82eca6b" class="outline-3">
-<h3 id="org82eca6b"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
+<div id="outline-container-org15b668c" class="outline-3">
+<h3 id="org15b668c"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 We here synthesize two complementary filters using the \(\mathcal{H}_\infty\) synthesis.
@@ -113,18 +109,18 @@ The goal is to specify upper bounds on the norms of the two complementary filter
 </p>
 
 <p>
-In order to do so, we use the generalized plant shown on figure <a href="#orge288ab9">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
+In order to do so, we use the generalized plant shown on figure <a href="#org6e6716f">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
 </p>
 
 
-<div id="orge288ab9" class="figure">
+<div id="org6e6716f" class="figure">
 <p><img src="figs-tikz/h_infinity_robust_fusion.png" alt="h_infinity_robust_fusion.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 
 <p>
-The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#orge288ab9">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
+The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#org6e6716f">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
 \[ \left\| \begin{array}{c} (1 - H_2(s)) W_1(s) \\ H_2(s) W_2(s) \end{array} \right\|_\infty < 1 \]
 </p>
 
@@ -144,8 +140,8 @@ We then see that \(W_1(s)\) and \(W_2(s)\) can be used to shape both \(H_1(s)\) 
 </div>
 </div>
 
-<div id="outline-container-org0030590" class="outline-3">
-<h3 id="org0030590"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
+<div id="outline-container-org1bb920c" class="outline-3">
+<h3 id="org1bb920c"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 A formula is proposed to help the design of the weighting functions:
@@ -169,27 +165,27 @@ The parameters permits to specify:
 </ul>
 
 <p>
-The general shape of a weighting function generated using the formula is shown in figure <a href="#org652b9ee">2</a>.
+The general shape of a weighting function generated using the formula is shown in figure <a href="#org38084a8">2</a>.
 </p>
 
 
-<div id="org652b9ee" class="figure">
+<div id="org38084a8" class="figure">
 <p><img src="figs-tikz/weight_formula.png" alt="weight_formula.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Amplitude of the proposed formula for the weighting functions</p>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-matlab">n = 2; w0 = 2*pi*11; G0 = 1/10; G1 = 1000; Gc = 1/2;
-W1 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
+<pre class="src src-matlab">n = 2; w0 = 2<span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>11; G0 = 1<span class="org-type">/</span>10; G1 = 1000; Gc = 1<span class="org-type">/</span>2;
+W1 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n))<span class="org-type">/</span>((1<span class="org-type">/</span>G1)<span class="org-type">^</span>(1<span class="org-type">/</span>n)<span class="org-type">*</span>(1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (1<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n)))<span class="org-type">^</span>n;
 
-n = 3; w0 = 2*pi*10; G0 = 1000; G1 = 0.1; Gc = 1/2;
-W2 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
+n = 3; w0 = 2<span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>10; G0 = 1000; G1 = 0.1; Gc = 1<span class="org-type">/</span>2;
+W2 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n))<span class="org-type">/</span>((1<span class="org-type">/</span>G1)<span class="org-type">^</span>(1<span class="org-type">/</span>n)<span class="org-type">*</span>(1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (1<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n)))<span class="org-type">^</span>n;
 </pre>
 </div>
 
 
-<div id="orge154b03" class="figure">
+<div id="orgfb027df" class="figure">
 <p><img src="figs/weights_W1_W2.png" alt="weights_W1_W2.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Weights on the complementary filters \(W_1\) and \(W_2\) and the associated performance weights (<a href="./figs/weights_W1_W2.png">png</a>, <a href="./figs/weights_W1_W2.pdf">pdf</a>)</p>
@@ -197,14 +193,14 @@ W2 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G
 </div>
 </div>
 
-<div id="outline-container-org4aa1049" class="outline-3">
-<h3 id="org4aa1049"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org778c435" class="outline-3">
+<h3 id="org778c435"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 We define the generalized plant \(P\) on matlab.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">P = [W1 -W1;
+<pre class="src src-matlab">P = [W1 <span class="org-type">-</span>W1;
      0   W2;
      1   0];
 </pre>
@@ -214,11 +210,11 @@ We define the generalized plant \(P\) on matlab.
 And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> command.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">[H2, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+<pre class="src src-matlab">[H2, <span class="org-type">~</span>, gamma, <span class="org-type">~</span>] = hinfsyn(P, 1, 1,<span class="org-string">'TOLGAM'</span>, 0.001, <span class="org-string">'METHOD'</span>, <span class="org-string">'ric'</span>, <span class="org-string">'DISPLAY'</span>, <span class="org-string">'on'</span>);
 </pre>
 </div>
 
-<pre class="example">
+<pre class="example" id="org07bb4f3">
 [H2, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -252,25 +248,25 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </pre>
 
 <p>
-We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#org0a27d96">4</a>.
+We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#orge94528b">4</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-matlab">H1 = 1 - H2;
+<pre class="src src-matlab">H1 = 1 <span class="org-type">-</span> H2;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9c89267" class="outline-3">
-<h3 id="org9c89267"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-org6c55f84" class="outline-3">
+<h3 id="org6c55f84"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
-The obtained complementary filters are shown on figure <a href="#org0a27d96">4</a>.
+The obtained complementary filters are shown on figure <a href="#orge94528b">4</a>.
 </p>
 
 
-<div id="org0a27d96" class="figure">
+<div id="orge94528b" class="figure">
 <p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
@@ -279,13 +275,13 @@ The obtained complementary filters are shown on figure <a href="#org0a27d96">4</
 </div>
 </div>
 
-<div id="outline-container-org2da98fb" class="outline-2">
-<h2 id="org2da98fb"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
+<div id="outline-container-orgee2667d" class="outline-2">
+<h2 id="orgee2667d"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgaa807e4"></a>
+<a id="org7ee6b3d"></a>
 </p>
-<div class="note">
+<div class="note" id="org4337efe">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/three_comp_filters.m">here</a>.
 </p>
@@ -293,8 +289,8 @@ The Matlab file corresponding to this section is accessible <a href="matlab/thre
 </div>
 </div>
 
-<div id="outline-container-org0abd7a4" class="outline-3">
-<h3 id="org0abd7a4"><span class="section-number-3">2.1</span> Theory</h3>
+<div id="outline-container-org774f715" class="outline-3">
+<h3 id="org774f715"><span class="section-number-3">2.1</span> Theory</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 We want:
@@ -307,11 +303,11 @@ We want:
 \end{align*}
 
 <p>
-For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#orgf60646a">5</a>.
+For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org5bd5c64">5</a>.
 </p>
 
 
-<div id="orgf60646a" class="figure">
+<div id="org5bd5c64" class="figure">
 <p><img src="figs-tikz/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Generalized architecture for generating 3 complementary filters</p>
@@ -332,25 +328,25 @@ And thus if we choose \(H_1 = 1 - H_2 - H_3\) we have solved the problem.
 </div>
 </div>
 
-<div id="outline-container-org752b7ef" class="outline-3">
-<h3 id="org752b7ef"><span class="section-number-3">2.2</span> Weights</h3>
+<div id="outline-container-org0ae66b6" class="outline-3">
+<h3 id="org0ae66b6"><span class="section-number-3">2.2</span> Weights</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 First we define the weights.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">n = 2; w0 = 2*pi*1; G0 = 1/10; G1 = 1000; Gc = 1/2;
-W1 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
+<pre class="src src-matlab">n = 2; w0 = 2<span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>1; G0 = 1<span class="org-type">/</span>10; G1 = 1000; Gc = 1<span class="org-type">/</span>2;
+W1 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n))<span class="org-type">/</span>((1<span class="org-type">/</span>G1)<span class="org-type">^</span>(1<span class="org-type">/</span>n)<span class="org-type">*</span>(1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (1<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n)))<span class="org-type">^</span>n;
 
-W2 = 0.22*(1 + s/2/pi/1)^2/(sqrt(1e-4) + s/2/pi/1)^2*(1 + s/2/pi/10)^2/(1 + s/2/pi/1000)^2;
+W2 = 0.22<span class="org-type">*</span>(1 <span class="org-type">+</span> s<span class="org-type">/</span>2<span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span>1)<span class="org-type">^</span>2<span class="org-type">/</span>(sqrt(1e<span class="org-type">-</span>4) <span class="org-type">+</span> s<span class="org-type">/</span>2<span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span>1)<span class="org-type">^</span>2<span class="org-type">*</span>(1 <span class="org-type">+</span> s<span class="org-type">/</span>2<span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span>10)<span class="org-type">^</span>2<span class="org-type">/</span>(1 <span class="org-type">+</span> s<span class="org-type">/</span>2<span class="org-type">/</span><span class="org-constant">pi</span><span class="org-type">/</span>1000)<span class="org-type">^</span>2;
 
-n = 3; w0 = 2*pi*10; G0 = 1000; G1 = 0.1; Gc = 1/2;
-W3 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G1)^(1/n)*(1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (1/Gc)^(1/n)))^n;
+n = 3; w0 = 2<span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>10; G0 = 1000; G1 = 0.1; Gc = 1<span class="org-type">/</span>2;
+W3 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n))<span class="org-type">/</span>((1<span class="org-type">/</span>G1)<span class="org-type">^</span>(1<span class="org-type">/</span>n)<span class="org-type">*</span>(1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((1<span class="org-type">-</span>(G0<span class="org-type">/</span>Gc)<span class="org-type">^</span>(2<span class="org-type">/</span>n))<span class="org-type">/</span>(1<span class="org-type">-</span>(Gc<span class="org-type">/</span>G1)<span class="org-type">^</span>(2<span class="org-type">/</span>n)))<span class="org-type">*</span>s <span class="org-type">+</span> (1<span class="org-type">/</span>Gc)<span class="org-type">^</span>(1<span class="org-type">/</span>n)))<span class="org-type">^</span>n;
 </pre>
 </div>
 
 
-<div id="orgbe161b9" class="figure">
+<div id="orgea9b10d" class="figure">
 <p><img src="figs/three_weighting_functions.png" alt="three_weighting_functions.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
@@ -358,14 +354,14 @@ W3 = (((1/w0)*sqrt((1-(G0/Gc)^(2/n))/(1-(Gc/G1)^(2/n)))*s + (G0/Gc)^(1/n))/((1/G
 </div>
 </div>
 
-<div id="outline-container-org28adeaa" class="outline-3">
-<h3 id="org28adeaa"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-orgcd90722" class="outline-3">
+<h3 id="orgcd90722"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Then we create the generalized plant <code>P</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">P = [W1 -W1 -W1;
+<pre class="src src-matlab">P = [W1 <span class="org-type">-</span>W1 <span class="org-type">-</span>W1;
      0   W2  0 ;
      0   0   W3;
      1   0   0];
@@ -376,11 +372,11 @@ Then we create the generalized plant <code>P</code>.
 And we do the \(\mathcal{H}_\infty\) synthesis.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">[H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+<pre class="src src-matlab">[H, <span class="org-type">~</span>, gamma, <span class="org-type">~</span>] = hinfsyn(P, 1, 2,<span class="org-string">'TOLGAM'</span>, 0.001, <span class="org-string">'METHOD'</span>, <span class="org-string">'ric'</span>, <span class="org-string">'DISPLAY'</span>, <span class="org-string">'on'</span>);
 </pre>
 </div>
 
-<pre class="example">
+<pre class="example" id="org244b7e8">
 [H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -415,8 +411,8 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </div>
 </div>
 
-<div id="outline-container-org1366f58" class="outline-3">
-<h3 id="org1366f58"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-orgd2db36a" class="outline-3">
+<h3 id="orgd2db36a"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 The obtained filters are:
@@ -424,12 +420,12 @@ The obtained filters are:
 <div class="org-src-container">
 <pre class="src src-matlab">H2 = tf(H(1));
 H3 = tf(H(2));
-H1 = 1 - H2 - H3;
+H1 = 1 <span class="org-type">-</span> H2 <span class="org-type">-</span> H3;
 </pre>
 </div>
 
 
-<div id="org4580cd5" class="figure">
+<div id="orga9840dd" class="figure">
 <p><img src="figs/three_complementary_filters_results.png" alt="three_complementary_filters_results.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
@@ -438,13 +434,13 @@ H1 = 1 - H2 - H3;
 </div>
 </div>
 
-<div id="outline-container-org4f214f0" class="outline-2">
-<h2 id="org4f214f0"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
+<div id="outline-container-org5bcb919" class="outline-2">
+<h2 id="org5bcb919"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org9d61b55"></a>
+<a id="org4503401"></a>
 </p>
-<div class="note">
+<div class="note" id="orgf5ae99b">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/comp_filters_ligo.m">here</a>.
 </p>
@@ -460,8 +456,8 @@ The FIR complementary filters designed in (<a href="#citeproc_bib_item_1">Hua 20
 </p>
 </div>
 
-<div id="outline-container-orga7890e4" class="outline-3">
-<h3 id="orga7890e4"><span class="section-number-3">3.1</span> Specifications</h3>
+<div id="outline-container-orge1988db" class="outline-3">
+<h3 id="orge1988db"><span class="section-number-3">3.1</span> Specifications</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The specifications for the filters are:
@@ -474,11 +470,11 @@ The specifications for the filters are:
 </ol>
 
 <p>
-The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#org66a1abf">8</a>.
+The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#org6d5a7bd">8</a>.
 </p>
 
 
-<div id="org66a1abf" class="figure">
+<div id="org6d5a7bd" class="figure">
 <p><img src="figs/ligo_specifications.png" alt="ligo_specifications.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
@@ -486,8 +482,8 @@ The specifications are translated in upper bounds of the complementary filters a
 </div>
 </div>
 
-<div id="outline-container-org3e8a45e" class="outline-3">
-<h3 id="org3e8a45e"><span class="section-number-3">3.2</span> FIR Filter</h3>
+<div id="outline-container-org3248dae" class="outline-3">
+<h3 id="org3248dae"><span class="section-number-3">3.2</span> FIR Filter</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 We here try to implement the FIR complementary filter synthesis as explained in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
@@ -507,10 +503,10 @@ cvx_solver sedumi;
 We define the frequency vectors on which we will constrain the norm of the FIR filter.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">w1 = 0:4.06e-4:0.008;
-w2 = 0.008:4.06e-4:0.04;
-w3 = 0.04:8.12e-4:0.1;
-w4 = 0.1:8.12e-4:0.83;
+<pre class="src src-matlab">w1 = 0<span class="org-type">:</span>4.06e<span class="org-type">-</span>4<span class="org-type">:</span>0.008;
+w2 = 0.008<span class="org-type">:</span>4.06e<span class="org-type">-</span>4<span class="org-type">:</span>0.04;
+w3 = 0.04<span class="org-type">:</span>8.12e<span class="org-type">-</span>4<span class="org-type">:</span>0.1;
+w4 = 0.1<span class="org-type">:</span>8.12e<span class="org-type">-</span>4<span class="org-type">:</span>0.83;
 </pre>
 </div>
 
@@ -523,15 +519,15 @@ We then define the order of the FIR filter.
 </div>
 
 <div class="org-src-container">
-<pre class="src src-matlab">A1 = [ones(length(w1),1),  cos(kron(w1'.*(2*pi),[1:n-1]))];
-A2 = [ones(length(w2),1),  cos(kron(w2'.*(2*pi),[1:n-1]))];
-A3 = [ones(length(w3),1),  cos(kron(w3'.*(2*pi),[1:n-1]))];
-A4 = [ones(length(w4),1),  cos(kron(w4'.*(2*pi),[1:n-1]))];
+<pre class="src src-matlab">A1 = [ones(length(w1),1),  cos(kron(w1<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+A2 = [ones(length(w2),1),  cos(kron(w2<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+A3 = [ones(length(w3),1),  cos(kron(w3<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+A4 = [ones(length(w4),1),  cos(kron(w4<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
 
-B1 = [zeros(length(w1),1), sin(kron(w1'.*(2*pi),[1:n-1]))];
-B2 = [zeros(length(w2),1), sin(kron(w2'.*(2*pi),[1:n-1]))];
-B3 = [zeros(length(w3),1), sin(kron(w3'.*(2*pi),[1:n-1]))];
-B4 = [zeros(length(w4),1), sin(kron(w4'.*(2*pi),[1:n-1]))];
+B1 = [zeros(length(w1),1), sin(kron(w1<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+B2 = [zeros(length(w2),1), sin(kron(w2<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+B3 = [zeros(length(w3),1), sin(kron(w3<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
+B4 = [zeros(length(w4),1), sin(kron(w4<span class="org-type">'.*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span>),[1<span class="org-type">:</span>n<span class="org-type">-</span>1]))];
 </pre>
 </div>
 
@@ -541,34 +537,34 @@ We run the convex optimization.
 <div class="org-src-container">
 <pre class="src src-matlab">cvx_begin
 
-variable y(n+1,1)
+variable y(n<span class="org-type">+</span>1,1)
 
-% t
-maximize(-y(1))
+<span class="org-comment">% t</span>
+maximize(<span class="org-type">-</span>y(1))
 
-for i = 1:length(w1)
-    norm([0 A1(i,:); 0 B1(i,:)]*y) &lt;= 8e-3;
-end
+<span class="org-keyword">for</span> <span class="org-variable-name"><span class="org-constant">i</span></span> = <span class="org-constant">1:length(w1)</span>
+    norm([0 A1(<span class="org-constant">i</span>,<span class="org-type">:</span>); 0 B1(<span class="org-constant">i</span>,<span class="org-type">:</span>)]<span class="org-type">*</span>y) <span class="org-type">&lt;=</span> 8e<span class="org-type">-</span>3;
+<span class="org-keyword">end</span>
 
-for  i = 1:length(w2)
-    norm([0 A2(i,:); 0 B2(i,:)]*y) &lt;= 8e-3*(2*pi*w2(i)/(0.008*2*pi))^3;
-end
+<span class="org-keyword">for</span>  <span class="org-variable-name"><span class="org-constant">i</span></span> = <span class="org-constant">1:length(w2)</span>
+    norm([0 A2(<span class="org-constant">i</span>,<span class="org-type">:</span>); 0 B2(<span class="org-constant">i</span>,<span class="org-type">:</span>)]<span class="org-type">*</span>y) <span class="org-type">&lt;=</span> 8e<span class="org-type">-</span>3<span class="org-type">*</span>(2<span class="org-type">*</span><span class="org-constant">pi</span><span class="org-type">*</span>w2(<span class="org-constant">i</span>)<span class="org-type">/</span>(0.008<span class="org-type">*</span>2<span class="org-type">*</span><span class="org-constant">pi</span>))<span class="org-type">^</span>3;
+<span class="org-keyword">end</span>
 
-for i = 1:length(w3)
-    norm([0 A3(i,:); 0 B3(i,:)]*y) &lt;= 3;
-end
+<span class="org-keyword">for</span> <span class="org-variable-name"><span class="org-constant">i</span></span> = <span class="org-constant">1:length(w3)</span>
+    norm([0 A3(<span class="org-constant">i</span>,<span class="org-type">:</span>); 0 B3(<span class="org-constant">i</span>,<span class="org-type">:</span>)]<span class="org-type">*</span>y) <span class="org-type">&lt;=</span> 3;
+<span class="org-keyword">end</span>
 
-for i = 1:length(w4)
-    norm([[1 0]'- [0 A4(i,:); 0 B4(i,:)]*y]) &lt;= y(1);
-end
+<span class="org-keyword">for</span> <span class="org-variable-name"><span class="org-constant">i</span></span> = <span class="org-constant">1:length(w4)</span>
+    norm([[1 0]<span class="org-type">'-</span> [0 A4(<span class="org-constant">i</span>,<span class="org-type">:</span>); 0 B4(<span class="org-constant">i</span>,<span class="org-type">:</span>)]<span class="org-type">*</span>y]) <span class="org-type">&lt;=</span> y(1);
+<span class="org-keyword">end</span>
 
 cvx_end
 
-h = y(2:end);
+h = y(2<span class="org-type">:</span>end);
 </pre>
 </div>
 
-<pre class="example">
+<pre class="example" id="org606c9d7">
 cvx_begin
 variable y(n+1,1)
 % t
@@ -645,17 +641,17 @@ h = y(2:end);
 </pre>
 
 <p>
-Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#org2bf8c02">9</a> which is very close to the filters obtain in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
+Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#orgcda8059">9</a> which is very close to the filters obtain in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
 </p>
 
 <div class="org-src-container">
 <pre class="src src-matlab">w = [w1 w2 w3 w4];
-H = [exp(-j*kron(w'.*2*pi,[0:n-1]))]*h;
+H = [exp(<span class="org-type">-</span><span class="org-constant">j</span><span class="org-type">*</span>kron(w<span class="org-type">'.*</span>2<span class="org-type">*</span><span class="org-constant">pi</span>,[0<span class="org-type">:</span>n<span class="org-type">-</span>1]))]<span class="org-type">*</span>h;
 </pre>
 </div>
 
 
-<div id="org2bf8c02" class="figure">
+<div id="orgcda8059" class="figure">
 <p><img src="figs/fir_filter_ligo.png" alt="fir_filter_ligo.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>FIR Complementary filters obtain after convex optimization (<a href="./figs/fir_filter_ligo.png">png</a>, <a href="./figs/fir_filter_ligo.pdf">pdf</a>)</p>
@@ -663,8 +659,8 @@ H = [exp(-j*kron(w'.*2*pi,[0:n-1]))]*h;
 </div>
 </div>
 
-<div id="outline-container-orgb67b5e5" class="outline-3">
-<h3 id="orgb67b5e5"><span class="section-number-3">3.3</span> Weights</h3>
+<div id="outline-container-orgda2ce10" class="outline-3">
+<h3 id="orgda2ce10"><span class="section-number-3">3.3</span> Weights</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 We design weights that will be used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters.
@@ -678,11 +674,11 @@ Here are the requirements on the filters:
 </ul>
 
 <p>
-The bode plot of the weights is shown on figure <a href="#orgbfc5afc">10</a>.
+The bode plot of the weights is shown on figure <a href="#org0958f5b">10</a>.
 </p>
 
 
-<div id="orgbfc5afc" class="figure">
+<div id="org0958f5b" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
@@ -690,15 +686,15 @@ The bode plot of the weights is shown on figure <a href="#orgbfc5afc">10</a>.
 </div>
 </div>
 
-<div id="outline-container-org7521851" class="outline-3">
-<h3 id="org7521851"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
+<div id="outline-container-orgf343cbe" class="outline-3">
+<h3 id="orgf343cbe"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
-We define the generalized plant as shown on figure <a href="#orge288ab9">1</a>.
+We define the generalized plant as shown on figure <a href="#org6e6716f">1</a>.
 </p>
 <div class="org-src-container">
 <pre class="src src-matlab">P = [0   wL;
-     wH -wH;
+     wH <span class="org-type">-</span>wH;
      1   0];
 </pre>
 </div>
@@ -707,11 +703,11 @@ We define the generalized plant as shown on figure <a href="#orge288ab9">1</a>.
 And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> command.
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">[Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
+<pre class="src src-matlab">[Hl, <span class="org-type">~</span>, gamma, <span class="org-type">~</span>] = hinfsyn(P, 1, 1,<span class="org-string">'TOLGAM'</span>, 0.001, <span class="org-string">'METHOD'</span>, <span class="org-string">'ric'</span>, <span class="org-string">'DISPLAY'</span>, <span class="org-string">'on'</span>);
 </pre>
 </div>
 
-<pre class="example">
+<pre class="example" id="org8fb0b5a">
 [Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -738,7 +734,7 @@ Test bounds:      0.3276 &lt;  gamma  &lt;=      1.8063
 The high pass filter is defined as \(H_H = 1 - H_L\).
 </p>
 <div class="org-src-container">
-<pre class="src src-matlab">Hh = 1 - Hl;
+<pre class="src src-matlab">Hh = 1 <span class="org-type">-</span> Hl;
 </pre>
 </div>
 
@@ -746,18 +742,18 @@ The high pass filter is defined as \(H_H = 1 - H_L\).
 The size of the filters is shown below.
 </p>
 
-<pre class="example">
+<pre class="example" id="org58b790f">
 size(Hh), size(Hl)
 State-space model with 1 outputs, 1 inputs, and 27 states.
 State-space model with 1 outputs, 1 inputs, and 27 states.
 </pre>
 
 <p>
-The bode plot of the obtained filters as shown on figure <a href="#org0f497c3">11</a>.
+The bode plot of the obtained filters as shown on figure <a href="#org8526ebe">11</a>.
 </p>
 
 
-<div id="org0f497c3" class="figure">
+<div id="org8526ebe" class="figure">
 <p><img src="figs/hinf_synthesis_ligo_results.png" alt="hinf_synthesis_ligo_results.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
@@ -765,15 +761,15 @@ The bode plot of the obtained filters as shown on figure <a href="#org0f497c3">1
 </div>
 </div>
 
-<div id="outline-container-org8f5b230" class="outline-3">
-<h3 id="org8f5b230"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
+<div id="outline-container-org1a0d849" class="outline-3">
+<h3 id="org1a0d849"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
-Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#orga9b5d65">12</a>.
+Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#orgb257f50">12</a>.
 </p>
 
 
-<div id="orga9b5d65" class="figure">
+<div id="orgb257f50" class="figure">
 <p><img src="figs/comp_fir_ligo_hinf.png" alt="comp_fir_ligo_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>Comparison between the FIR filters developped for LIGO and the \(\mathcal{H}_\infty\) complementary filters (<a href="./figs/comp_fir_ligo_hinf.png">png</a>, <a href="./figs/comp_fir_ligo_hinf.pdf">pdf</a>)</p>
@@ -793,7 +789,7 @@ Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2020-07-16 jeu. 14:59</p>
+<p class="date">Created: 2020-11-12 jeu. 10:39</p>
 </div>
 </body>
 </html>

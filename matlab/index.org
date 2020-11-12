@@ -1,17 +1,13 @@
 #+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis - Matlab Computation
 :DRAWER:
 #+HTML_LINK_HOME: ../index.html
-#+HTML_LINK_UP: ../index.html
+#+HTML_LINK_UP:   ../index.html
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+#+HTML_HEAD: <script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
 
 #+LATEX_CLASS: cleanreport
 #+LATEX_CLASS_OPTIONS: [tocnp, secbreak, minted]
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
-#+HTML_HEAD: <script src="../js/jquery.min.js"></script>
-#+HTML_HEAD: <script src="../js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
-#+HTML_HEAD: <script src="../js/readtheorg.js"></script>
 
 #+PROPERTY: header-args:matlab  :session *MATLAB*
 #+PROPERTY: header-args:matlab+ :tangle matlab/comp_filters_design.m

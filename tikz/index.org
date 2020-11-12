@@ -1,14 +1,10 @@
 #+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis - Tikz Figures
 :DRAWER:
 #+HTML_LINK_HOME: ../index.html
-#+HTML_LINK_UP: ../index.html
+#+HTML_LINK_UP:   ../index.html
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
-#+HTML_HEAD: <script src="../js/jquery.min.js"></script>
-#+HTML_HEAD: <script src="../js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script src="../js/jquery.stickytableheaders.min.js"></script>
-#+HTML_HEAD: <script src="../js/readtheorg.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+#+HTML_HEAD: <script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
 
 #+PROPERTY: header-args:latex  :headers '("\\usepackage{tikz}" "\\usepackage{import}" "\\import{/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/tikz/}{config.tex}")
 #+PROPERTY: header-args:latex+ :imagemagick t :fit yes

@@ -3,270 +3,21 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-09-26 jeu. 17:46 -->
+<!-- 2020-11-12 jeu. 10:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Tikz Figures</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
-</style>
-<link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.stickytableheaders.min.js"></script>
-<script src="../js/readtheorg.js"></script>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
-</script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+<link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+<script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
+<script>MathJax = {
+          tex: {
+            tags: 'ams',
+            macros: {bm: ["\\boldsymbol{#1}",1],}
+            }
+          };
+          </script>
+          <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -279,36 +30,35 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge7053aa">1. Fig 1: Sensor Fusion Architecture</a></li>
-<li><a href="#org39b5d0c">2. Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</a></li>
-<li><a href="#orgfc9382d">3. Fig 3: Uncertainty set of the super sensor dynamics</a></li>
-<li><a href="#orgb356b70">4. Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</a></li>
-<li><a href="#orgdeaeaf4">5. Fig 5: Magnitude of a weighting function generated using the proposed formula</a></li>
-<li><a href="#org8ce545c">6. Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#orgac21d24">7. Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</a></li>
-<li><a href="#org9688457">8. Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#org8d6867c">9. Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</a></li>
-<li><a href="#orgb6ae2f5">10. Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</a></li>
+<li><a href="#org9076d9c">1. Fig 1: Sensor Fusion Architecture</a></li>
+<li><a href="#org0fe44ba">2. Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</a></li>
+<li><a href="#orgac418bc">3. Fig 3: Uncertainty set of the super sensor dynamics</a></li>
+<li><a href="#orgbe3705d">4. Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</a></li>
+<li><a href="#org8242eee">5. Fig 5: Magnitude of a weighting function generated using the proposed formula</a></li>
+<li><a href="#orga207016">6. Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#org01f42b2">7. Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</a></li>
+<li><a href="#orgb27c669">8. Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#orgd5ddba8">9. Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</a></li>
+<li><a href="#org4671ca5">10. Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</a></li>
 </ul>
 </div>
 </div>
-
 <p>
 Configuration file is accessible <a href="config.html">here</a>.
 </p>
 
-<div id="outline-container-orge7053aa" class="outline-2">
-<h2 id="orge7053aa"><span class="section-number-2">1</span> Fig 1: Sensor Fusion Architecture</h2>
+<div id="outline-container-org9076d9c" class="outline-2">
+<h2 id="org9076d9c"><span class="section-number-2">1</span> Fig 1: Sensor Fusion Architecture</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
   <span class="org-font-latex-sedate">\node</span>[branch] (x) at (0, 0);
-  <span class="org-font-latex-sedate">\node</span>[block, above right=0.5 and 0.5 of x](G1){<span class="org-font-latex-math">$G</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, below right=0.5 and 0.5 of x](G2){<span class="org-font-latex-math">$G</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, above right=0.5 and 0.5 of x](G1){<span class="org-font-latex-math">$G</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, below right=0.5 and 0.5 of x](G2){<span class="org-font-latex-math">$G</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
   <span class="org-font-latex-sedate">\node</span>[addb, right=0.8 of G1](add1){};
   <span class="org-font-latex-sedate">\node</span>[addb, right=0.8 of G2](add2){};
-  <span class="org-font-latex-sedate">\node</span>[block, right=0.8 of add1](H1){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, right=0.8 of add2](H2){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, right=0.8 of add1](H1){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, right=0.8 of add2](H2){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
   <span class="org-font-latex-sedate">\node</span>[addb, right=5 of x](add){};
 
   <span class="org-font-latex-sedate">\draw</span>[] (<span class="org-font-latex-math">$(x)+(-0.7, 0)$</span>) node[above right]{<span class="org-font-latex-math">$x$</span>} -- (x.center);
@@ -316,8 +66,8 @@ Configuration file is accessible <a href="config.html">here</a>.
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (x.center) |- (G2.west);
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (G1.east) -- (add1.west);
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (G2.east) -- (add2.west);
-  <span class="org-font-latex-sedate">\draw</span>[&lt;-] (add1.north) -- ++(0, 0.8)node[below right](n1){<span class="org-font-latex-math">$n</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">$</span>};
-  <span class="org-font-latex-sedate">\draw</span>[&lt;-] (add2.north) -- ++(0, 0.8)node[below right](n2){<span class="org-font-latex-math">$n</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">$</span>};
+  <span class="org-font-latex-sedate">\draw</span>[&lt;-] (add1.north) -- ++(0, 0.8)node[below right](n1){<span class="org-font-latex-math">$n</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1$</span>};
+  <span class="org-font-latex-sedate">\draw</span>[&lt;-] (add2.north) -- ++(0, 0.8)node[below right](n2){<span class="org-font-latex-math">$n</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2$</span>};
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (add1.east) -- (H1.west);
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (add2.east) -- (H2.west);
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (H1) -| (add.north);
@@ -338,7 +88,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgc3d769f" class="figure">
+<div id="orgd9bb787" class="figure">
 <p><img src="figs/fusion_super_sensor.png" alt="fusion_super_sensor.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Sensor Fusion Architecture (<a href="./figs/fusion_super_sensor.png">png</a>, <a href="./figs/fusion_super_sensor.pdf">pdf</a>, <a href="./figs/fusion_super_sensor.tex">tex</a>).</p>
@@ -346,20 +96,20 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org39b5d0c" class="outline-2">
-<h2 id="org39b5d0c"><span class="section-number-2">2</span> Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</h2>
+<div id="outline-container-org0fe44ba" class="outline-2">
+<h2 id="org0fe44ba"><span class="section-number-2">2</span> Fig 2: Sensor fusion architecture with sensor dynamics uncertainty</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
   <span class="org-font-latex-sedate">\node</span>[branch] (x) at (0, 0);
   <span class="org-font-latex-sedate">\node</span>[addb, above right=0.8 and 4 of x](add1){};
   <span class="org-font-latex-sedate">\node</span>[addb, below right=0.8 and 4 of x](add2){};
-  <span class="org-font-latex-sedate">\node</span>[block, above left=0.2 and 0.1 of add1](delta1){<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\Delta</span></span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, above left=0.2 and 0.1 of add2](delta2){<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\Delta</span></span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, left=0.5 of delta1](W1){<span class="org-font-latex-math">$w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, left=0.5 of delta2](W2){<span class="org-font-latex-math">$w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, right=0.5 of add1](H1){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-  <span class="org-font-latex-sedate">\node</span>[block, right=0.5 of add2](H2){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, above left=0.2 and 0.1 of add1](delta1){<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\Delta</span></span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, above left=0.2 and 0.1 of add2](delta2){<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\Delta</span></span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, left=0.5 of delta1](W1){<span class="org-font-latex-math">$w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, left=0.5 of delta2](W2){<span class="org-font-latex-math">$w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, right=0.5 of add1](H1){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+  <span class="org-font-latex-sedate">\node</span>[block, right=0.5 of add2](H2){<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
   <span class="org-font-latex-sedate">\node</span>[addb, right=6 of x](add){};
 
   <span class="org-font-latex-sedate">\draw</span>[] (<span class="org-font-latex-math">$(x)+(-0.7, 0)$</span>) node[above right]{<span class="org-font-latex-math">$x$</span>} -- (x.center);
@@ -388,7 +138,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgde2b8c0" class="figure">
+<div id="orga841775" class="figure">
 <p><img src="figs/sensor_fusion_dynamic_uncertainty.png" alt="sensor_fusion_dynamic_uncertainty.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Sensor fusion architecture with sensor dynamics uncertainty (<a href="./figs/sensor_fusion_dynamic_uncertainty.png">png</a>, <a href="./figs/sensor_fusion_dynamic_uncertainty.pdf">pdf</a>, <a href="./figs/sensor_fusion_dynamic_uncertainty.tex">tex</a>).</p>
@@ -396,8 +146,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgfc9382d" class="outline-2">
-<h2 id="orgfc9382d"><span class="section-number-2">3</span> Fig 3: Uncertainty set of the super sensor dynamics</h2>
+<div id="outline-container-orgac418bc" class="outline-2">
+<h2 id="orgac418bc"><span class="section-number-2">3</span> Fig 3: Uncertainty set of the super sensor dynamics</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
@@ -414,25 +164,20 @@ Configuration file is accessible <a href="config.html">here</a>.
     <span class="org-font-latex-sedate">\draw</span>[&lt;-&gt;, dashed] (0, 0)   node[branch]{} -- coordinate[midway](r1) ++(45:1.0);
     <span class="org-font-latex-sedate">\draw</span>[&lt;-&gt;, dashed] (135:1.0)node[branch]{} -- coordinate[midway](r2) ++(90:0.8);
 
-    <span class="org-font-latex-sedate">\node</span>[] (l1) at (2, 1.5) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math"> H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">|$</span>};
+    <span class="org-font-latex-sedate">\node</span>[] (l1) at (2, 1.5) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1 H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1|$</span>};
     <span class="org-font-latex-sedate">\draw</span>[-&gt;, dashed, out=-90, in=0] (l1.south) to (r1);
 
-    <span class="org-font-latex-sedate">\node</span>[] (l2) at (0, 2.0) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math"> H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">|$</span>};
-    <span class="org-font-latex-sedate">\draw</span>[-&gt;, dashed, out=-90, in=0] (l2.south) to (r2);
+    <span class="org-font-latex-sedate">\node</span>[] (l2) at (-2.5, 1.5) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2 H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2|$</span>};
+    <span class="org-font-latex-sedate">\draw</span>[-&gt;, dashed, out=0, in=-180] (l2.east) to (r2);
 
     <span class="org-font-latex-sedate">\draw</span>[&lt;-&gt;, dashed] (0, 0) -- coordinate[near end](r3) ++(200:1.8);
-    <span class="org-font-latex-sedate">\node</span>[] (l3) at (-2.5, -1.5) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math"> H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">| + |w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math"> H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">|$</span>};
+    <span class="org-font-latex-sedate">\node</span>[] (l3) at (-2.5, -1.5) {<span class="org-font-latex-math">$|w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1 H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1| + |w</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2 H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2|$</span>};
     <span class="org-font-latex-sedate">\draw</span>[-&gt;, dashed, out=90, in=-90] (l3.north) to (r3);
-
-    <span class="org-comment">% % Uncertainty Regions</span>
-    <span class="org-comment">% </span><span class="org-font-latex-sedate"><span class="org-comment">\node</span></span><span class="org-comment">[below left] at (45:1.8) {$</span><span class="org-font-latex-sedate"><span class="org-comment">\Pi</span></span><span class="org-comment">_{</span><span class="org-font-latex-sedate"><span class="org-comment">\text</span></span><span class="org-comment">{ss}}$};</span>
-    <span class="org-comment">% </span><span class="org-font-latex-sedate"><span class="org-comment">\node</span></span><span class="org-comment">[above left] at (-45:1.0) {$</span><span class="org-font-latex-sedate"><span class="org-comment">\Pi</span></span><span class="org-comment">_{1}$};</span>
-    <span class="org-comment">% </span><span class="org-font-latex-sedate"><span class="org-comment">\node</span></span><span class="org-comment">[below] at ($(135:1.0)+(0, 0.8)$) {$</span><span class="org-font-latex-sedate"><span class="org-comment">\Pi</span></span><span class="org-comment">_{2}$};</span>
   <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">scope</span>}
 
   <span class="org-comment">% Real and Imaginary Axis</span>
   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (-0.5, 0) -- (7.0, 0) node[below left]{Re};
-  <span class="org-font-latex-sedate">\draw</span>[-&gt;] (0, -1.8) -- (0, 2.0) node[below left]{Im};
+  <span class="org-font-latex-sedate">\draw</span>[-&gt;] (0, -1.7) -- (0, 1.7) node[below left]{Im};
 
   <span class="org-font-latex-sedate">\draw</span>[dashed] (0, 0) -- (tangent cs:node=c,point={(0, 0)},solution=2);
   <span class="org-font-latex-sedate">\draw</span>[dashed] (1, 0) arc (0:28:1) node[midway, right]{<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\Delta</span></span><span class="org-font-latex-math"> </span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\phi</span></span><span class="org-font-latex-math">$</span>};
@@ -441,7 +186,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgf3182a4" class="figure">
+<div id="org4bb934b" class="figure">
 <p><img src="figs/uncertainty_set_super_sensor.png" alt="uncertainty_set_super_sensor.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Uncertainty region of the super sensor dynamics in the complex plane (solid circle), of the sensor 1 (dotted circle) and of the sensor 2 (dashed circle) (<a href="./figs/uncertainty_set_super_sensor.png">png</a>, <a href="./figs/uncertainty_set_super_sensor.pdf">pdf</a>, <a href="./figs/uncertainty_set_super_sensor.tex">tex</a>).</p>
@@ -449,8 +194,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgb356b70" class="outline-2">
-<h2 id="orgb356b70"><span class="section-number-2">4</span> Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</h2>
+<div id="outline-container-orgbe3705d" class="outline-2">
+<h2 id="orgbe3705d"><span class="section-number-2">4</span> Fig 4: Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
@@ -464,25 +209,25 @@ Configuration file is accessible <a href="config.html">here</a>.
    <span class="org-font-latex-sedate">\coordinate</span>[] (output2) at (<span class="org-font-latex-math">$(P.south east)!0.35!(P.north east) + ( 0.7, 0)$</span>);
    <span class="org-font-latex-sedate">\coordinate</span>[] (outputv) at (<span class="org-font-latex-math">$(P.south east)!0.1!(P.north east) + ( 0.7, 0)$</span>);
 
-   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output1] (W1){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output2] (W2){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output1] (W1){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output2] (W2){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
    <span class="org-font-latex-sedate">\node</span>[addb={+}{}{}{}{-}, left=of W1] (sub) {};
 
-   <span class="org-font-latex-sedate">\node</span>[block, below=0.3 of P] (H2) {<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, below=0.3 of P] (H2) {<span class="org-font-latex-math">$H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
 
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (inputw) node[above right]{<span class="org-font-latex-math">$w$</span>} -- (sub.west);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (H2.west) -| (<span class="org-font-latex-math">$(inputu)+(0.35, 0)$</span>) node[above]{<span class="org-font-latex-math">$u$</span>} -- (W2.west);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (inputu-|sub) node[branch]{} -- (sub.south);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (sub.east) -- (W1.west);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (<span class="org-font-latex-math">$(sub.west)+(-0.6, 0)$</span>) node[branch]{} |- (<span class="org-font-latex-math">$(outputv)+(-0.35, 0)$</span>) node[above]{<span class="org-font-latex-math">$v$</span>} |- (H2.east);
-   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W1.east) -- (output1)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">$</span>};
-   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W2.east) -- (output2)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">$</span>};
+   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W1.east) -- (output1)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1$</span>};
+   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W2.east) -- (output2)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2$</span>};
 <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">tikzpicture</span>}
 </pre>
 </div>
 
 
-<div id="org3cb8226" class="figure">
+<div id="org092450f" class="figure">
 <p><img src="figs/h_infinity_robust_fusion.png" alt="h_infinity_robust_fusion.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Architecture used for \(\mathcal{H}_\infty\) synthesis of complementary filters (<a href="./figs/h_infinity_robust_fusion.png">png</a>, <a href="./figs/h_infinity_robust_fusion.pdf">pdf</a>, <a href="./figs/h_infinity_robust_fusion.tex">tex</a>).</p>
@@ -490,8 +235,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgdeaeaf4" class="outline-2">
-<h2 id="orgdeaeaf4"><span class="section-number-2">5</span> Fig 5: Magnitude of a weighting function generated using the proposed formula</h2>
+<div id="outline-container-org8242eee" class="outline-2">
+<h2 id="org8242eee"><span class="section-number-2">5</span> Fig 5: Magnitude of a weighting function generated using the proposed formula</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fwidth</span></span>{<span class="org-variable-name">6.5cm</span>}
@@ -545,7 +290,7 @@ Configuration file is accessible <a href="config.html">here</a>.
       10  1<span class="org-font-latex-warning">\\</span>
     };
 
-    <span class="org-font-latex-sedate">\node</span>[below] at (2, 10) {<span class="org-font-latex-math">$G_\infty$</span>};
+    <span class="org-font-latex-sedate">\node</span>[below] at (2, 10) {<span class="org-font-latex-math">$G_</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\infty</span></span><span class="org-font-latex-math">$</span>};
     <span class="org-font-latex-sedate">\node</span>[above] at (2, 0.001) {<span class="org-font-latex-math">$G_0$</span>};
 
     <span class="org-font-latex-sedate">\node</span>[branch] at (10, 2){};
@@ -560,7 +305,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orga3a1174" class="figure">
+<div id="org31e1ef4" class="figure">
 <p><img src="figs/weight_formula.png" alt="weight_formula.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Magnitude of a weighting function generated using the proposed formula (<a href="./figs/weight_formula.png">png</a>, <a href="./figs/weight_formula.pdf">pdf</a>, <a href="./figs/weight_formula.tex">tex</a>).</p>
@@ -568,8 +313,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org8ce545c" class="outline-2">
-<h2 id="org8ce545c"><span class="section-number-2">6</span> Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-orga207016" class="outline-2">
+<h2 id="orga207016"><span class="section-number-2">6</span> Fig 6: Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fwidth</span></span>{<span class="org-variable-name">6.5cm</span>}
@@ -579,7 +324,7 @@ Configuration file is accessible <a href="config.html">here</a>.
   <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">axis</span>}[<span class="org-comment">%</span>
     width=1.0<span class="org-font-latex-sedate">\fwidth</span>,
     height=0.5<span class="org-font-latex-sedate">\fheight</span>,
-    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.5<span class="org-font-latex-sedate">\fheight</span>)},
+    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.47<span class="org-font-latex-sedate">\fheight</span>)},
     scale only axis,
     xmode=log,
     xmin=0.1,
@@ -643,7 +388,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org49f0f1e" class="figure">
+<div id="orgf6e5228" class="figure">
 <p><img src="figs/hinf_synthesis_results.png" alt="hinf_synthesis_results.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Frequency response of the weighting functions and complementary filters obtained using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_results.png">png</a>, <a href="./figs/hinf_synthesis_results.pdf">pdf</a>, <a href="./figs/hinf_synthesis_results.tex">tex</a>).</p>
@@ -651,8 +396,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgac21d24" class="outline-2">
-<h2 id="orgac21d24"><span class="section-number-2">7</span> Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</h2>
+<div id="outline-container-org01f42b2" class="outline-2">
+<h2 id="org01f42b2"><span class="section-number-2">7</span> Fig 7: Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
@@ -667,13 +412,13 @@ Configuration file is accessible <a href="config.html">here</a>.
    <span class="org-font-latex-sedate">\coordinate</span>[] (output3) at (<span class="org-font-latex-math">$(P.south east)!0.3!(P.north east)  + (0.7, 0)$</span>);
    <span class="org-font-latex-sedate">\coordinate</span>[] (outputv) at (<span class="org-font-latex-math">$(P.south east)!0.1!(P.north east)  + (0.7, 0)$</span>);
 
-   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output1] (W1){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">(s)$</span>};
-   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output2] (W2){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s)$</span>};
-   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output3] (W3){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_3</span></span><span class="org-font-latex-math">(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output1] (W1){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output2] (W2){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s)$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, left=1.4 of output3] (W3){<span class="org-font-latex-math">$W</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">3(s)$</span>};
    <span class="org-font-latex-sedate">\node</span>[addb={+}{}{}{}{-}, left=of W1] (sub1) {};
    <span class="org-font-latex-sedate">\node</span>[addb={+}{}{}{}{-}, left=of sub1] (sub2) {};
 
-   <span class="org-font-latex-sedate">\node</span>[block, below=0.3 of P] (H) {<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-keyword"><span class="org-font-latex-math">\begin</span></span></span><span class="org-font-latex-math">{</span><span class="org-function-name"><span class="org-font-latex-math">bmatrix</span></span><span class="org-font-latex-math">}H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">(s) \\ H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_3</span></span><span class="org-font-latex-math">(s)</span><span class="org-font-latex-sedate"><span class="org-keyword"><span class="org-font-latex-math">\end</span></span></span><span class="org-font-latex-math">{</span><span class="org-function-name"><span class="org-font-latex-math">bmatrix</span></span><span class="org-font-latex-math">}$</span>};
+   <span class="org-font-latex-sedate">\node</span>[block, below=0.3 of P] (H) {<span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-keyword"><span class="org-font-latex-math">\begin</span></span></span><span class="org-font-latex-math">{</span><span class="org-function-name"><span class="org-font-latex-math">bmatrix</span></span><span class="org-font-latex-math">}H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2(s) \\ H</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">3(s)</span><span class="org-font-latex-sedate"><span class="org-keyword"><span class="org-font-latex-math">\end</span></span></span><span class="org-font-latex-math">{</span><span class="org-function-name"><span class="org-font-latex-math">bmatrix</span></span><span class="org-font-latex-math">}$</span>};
 
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (inputw) node[above right](w){<span class="org-font-latex-math">$w$</span>} -- (sub2.west);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W3-|sub1)node[branch]{} -- (sub1.south);
@@ -684,18 +429,18 @@ Configuration file is accessible <a href="config.html">here</a>.
 
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (sub2.east) -- (sub1.west);
    <span class="org-font-latex-sedate">\draw</span>[-&gt;] (sub1.east) -- (W1.west);
-   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W1.east) -- (output1)node[above left](z){<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">$</span>};
-   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W2.east) -- (output2)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">$</span>};
-   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W3.east) -- (output3)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_3</span></span><span class="org-font-latex-math">$</span>};
-   <span class="org-font-latex-sedate">\node</span>[above] at (W2-|w){<span class="org-font-latex-math">$u</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_1</span></span><span class="org-font-latex-math">$</span>};
-   <span class="org-font-latex-sedate">\node</span>[above] at (W3-|w){<span class="org-font-latex-math">$u</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_2</span></span><span class="org-font-latex-math">$</span>};
+   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W1.east) -- (output1)node[above left](z){<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1$</span>};
+   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W2.east) -- (output2)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2$</span>};
+   <span class="org-font-latex-sedate">\draw</span>[-&gt;] (W3.east) -- (output3)node[above left]{<span class="org-font-latex-math">$z</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">3$</span>};
+   <span class="org-font-latex-sedate">\node</span>[above] at (W2-|w){<span class="org-font-latex-math">$u</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">1$</span>};
+   <span class="org-font-latex-sedate">\node</span>[above] at (W3-|w){<span class="org-font-latex-math">$u</span><span class="org-font-latex-math"><span class="org-font-latex-script-char">_</span></span><span class="org-font-latex-math">2$</span>};
    <span class="org-font-latex-sedate">\node</span>[above] at (outputv-|z){<span class="org-font-latex-math">$v$</span>};
 <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">tikzpicture</span>}
 </pre>
 </div>
 
 
-<div id="orgd2b8673" class="figure">
+<div id="org2b60924" class="figure">
 <p><img src="figs/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Architecture for \(\mathcal{H}_\infty\) synthesis of three complementary filters (<a href="./figs/comp_filter_three_hinf.png">png</a>, <a href="./figs/comp_filter_three_hinf.pdf">pdf</a>, <a href="./figs/comp_filter_three_hinf.tex">tex</a>).</p>
@@ -703,8 +448,8 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org9688457" class="outline-2">
-<h2 id="org9688457"><span class="section-number-2">8</span> Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-orgb27c669" class="outline-2">
+<h2 id="orgb27c669"><span class="section-number-2">8</span> Fig 8: Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fwidth</span></span>{<span class="org-variable-name">6.5cm</span>}
@@ -714,7 +459,7 @@ Configuration file is accessible <a href="config.html">here</a>.
   <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">axis</span>}[<span class="org-comment">%</span>
     width=1.0<span class="org-font-latex-sedate">\fwidth</span>,
     height=0.55<span class="org-font-latex-sedate">\fheight</span>,
-    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.45<span class="org-font-latex-sedate">\fheight</span>)},
+    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.42<span class="org-font-latex-sedate">\fheight</span>)},
     scale only axis,
     xmode=log,
     xmin=0.1,
@@ -791,7 +536,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="org044b17c" class="figure">
+<div id="org80f25db" class="figure">
 <p><img src="figs/hinf_three_synthesis_results.png" alt="hinf_three_synthesis_results.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Frequency response of the weighting functions and three complementary filters obtained using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_three_synthesis_results.png">png</a>, <a href="./figs/hinf_three_synthesis_results.pdf">pdf</a>, <a href="./figs/hinf_three_synthesis_results.tex">tex</a>).</p>
@@ -799,12 +544,12 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-org8d6867c" class="outline-2">
-<h2 id="org8d6867c"><span class="section-number-2">9</span> Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</h2>
+<div id="outline-container-orgd5ddba8" class="outline-2">
+<h2 id="orgd5ddba8"><span class="section-number-2">9</span> Fig 9: Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fwidth</span></span>{<span class="org-variable-name">6.5cm</span>}
-<span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fheight</span></span>{<span class="org-variable-name">4cm</span>}
+<span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fheight</span></span>{<span class="org-variable-name">3.2cm</span>}
 
 <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
   <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">axis</span>}[<span class="org-comment">%</span>
@@ -847,7 +592,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 
     <span class="org-font-latex-sedate">\addplot</span> [color=black, dotted, line width=1.5pt]
     table[row sep=crcr]{<span class="org-comment">%</span>
-      0.0005  0.008<span class="org-font-latex-warning">\\</span>
+      0.0005    0.008<span class="org-font-latex-warning">\\</span>
       0.008   0.008<span class="org-font-latex-warning">\\</span>
     };
     <span class="org-font-latex-sedate">\addlegendentry</span>{Specifications}
@@ -864,7 +609,7 @@ Configuration file is accessible <a href="config.html">here</a>.
     };
     <span class="org-font-latex-sedate">\addplot</span> [color=black, dotted, line width=1.5pt]
     table[row sep=crcr]{<span class="org-comment">%</span>
-      0.1 0.045<span class="org-font-latex-warning">\\</span>
+      0.1   0.045<span class="org-font-latex-warning">\\</span>
       2   0.045<span class="org-font-latex-warning">\\</span>
     };
   <span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">axis</span>}
@@ -873,7 +618,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgb9647cd" class="figure">
+<div id="orgc58f9b4" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>Specifications and weighting functions magnitude used for \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>, <a href="./figs/ligo_weights.tex">tex</a>).</p>
@@ -881,18 +626,18 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 </div>
 
-<div id="outline-container-orgb6ae2f5" class="outline-2">
-<h2 id="orgb6ae2f5"><span class="section-number-2">10</span> Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</h2>
+<div id="outline-container-org4671ca5" class="outline-2">
+<h2 id="org4671ca5"><span class="section-number-2">10</span> Fig 10: Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed)</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fwidth</span></span>{<span class="org-variable-name">6.5cm</span>}
-<span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fheight</span></span>{<span class="org-variable-name">7cm</span>}
+<span class="org-font-latex-sedate"><span class="org-keyword">\setlength</span></span><span class="org-font-latex-sedate"><span class="org-variable-name">\fheight</span></span>{<span class="org-variable-name">6.8cm</span>}
 
 <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">tikzpicture</span>}
   <span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">axis</span>}[<span class="org-comment">%</span>
     width=1.0<span class="org-font-latex-sedate">\fwidth</span>,
     height=0.60<span class="org-font-latex-sedate">\fheight</span>,
-    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.35<span class="org-font-latex-sedate">\fheight</span>)},
+    at={(0.0<span class="org-font-latex-sedate">\fwidth</span>, 0.32<span class="org-font-latex-sedate">\fheight</span>)},
     scale only axis,
     xmode=log,
     xmin=0.001,
@@ -912,13 +657,13 @@ Configuration file is accessible <a href="config.html">here</a>.
     ]
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, line width=1.5pt]
       table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
-    <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_H(s)$</span> - <span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\mathcal</span></span><span class="org-font-latex-math">{H}_\infty$</span>}
+    <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_H(s)$</span> - <span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\mathcal</span></span><span class="org-font-latex-math">{H}_</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\infty</span></span><span class="org-font-latex-math">$</span>}
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor1, dashed, line width=1.5pt]
       table [x=freqs, y=Hhm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_H(s)$</span> - FIR}
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, line width=1.5pt]
       table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_hinf.csv};
-    <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_L(s)$</span> - <span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\mathcal</span></span><span class="org-font-latex-math">{H}_\infty$</span>}
+    <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_L(s)$</span> - <span class="org-font-latex-math">$</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\mathcal</span></span><span class="org-font-latex-math">{H}_</span><span class="org-font-latex-sedate"><span class="org-font-latex-math">\infty</span></span><span class="org-font-latex-math">$</span>}
     <span class="org-font-latex-sedate">\addplot</span> [color=mycolor2, dashed, line width=1.5pt]
       table [x=freqs, y=Hlm, col sep=comma] {/home/thomas/Cloud/thesis/papers/dehaeze19_desig_compl_filte/matlab/matcomp_ligo_fir.csv};
     <span class="org-font-latex-sedate">\addlegendentry</span>{<span class="org-font-latex-math">$H_L(s)$</span> - FIR}
@@ -955,7 +700,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 
 
-<div id="orgc99b299" class="figure">
+<div id="org73058d1" class="figure">
 <p><img src="figs/comp_fir_ligo_hinf.png" alt="comp_fir_ligo_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Comparison of the FIR filters (solid) with the filters obtained with \(\mathcal{H}_\infty\) synthesis (dashed) (<a href="./figs/comp_fir_ligo_hinf.png">png</a>, <a href="./figs/comp_fir_ligo_hinf.pdf">pdf</a>, <a href="./figs/comp_fir_ligo_hinf.tex">tex</a>).</p>
@@ -965,8 +710,7 @@ Configuration file is accessible <a href="config.html">here</a>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-09-26 jeu. 17:46</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-11-12 jeu. 10:39</p>
 </div>
 </body>
 </html>

@@ -3,308 +3,77 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-11-05 mar. 17:27 -->
+<!-- 2020-11-12 jeu. 10:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LaTeX Configuration for Tikz Figures</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
-</style>
-<link rel="stylesheet" type="text/css" href="../css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="../css/readtheorg.css"/>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.stickytableheaders.min.js"></script>
-<script src="../js/readtheorg.js"></script>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
+<link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+<script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
 </head>
 <body>
-<div id="content">
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../index.html"> HOME </a>
+</div><div id="content">
 <h1 class="title">LaTeX Configuration for Tikz Figures</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1dd6f76">1. Packages</a></li>
-<li><a href="#orgb097669">2. Tikz related packages</a></li>
-<li><a href="#orgef8c9ec">3. Tikz Libraries</a></li>
-<li><a href="#org8ca068a">4. PGF Plot libraries and config</a></li>
-<li><a href="#org4eb0de4">5. Setup size of figures</a></li>
-<li><a href="#orga3a90aa">6. Setup Arrows style</a></li>
-<li><a href="#orge17acf4">7. Colors</a></li>
-<li><a href="#orgee5bb97">8. Control</a>
+<li><a href="#orgc90d0e6">1. Packages</a></li>
+<li><a href="#orgc054722">2. Tikz related packages</a></li>
+<li><a href="#orgd527e80">3. Tikz Libraries</a></li>
+<li><a href="#orga05e1c3">4. PGF Plot libraries and config</a></li>
+<li><a href="#org1f7590d">5. Setup size of figures</a></li>
+<li><a href="#org9fc4634">6. Setup Arrows style</a></li>
+<li><a href="#org3099c13">7. Colors</a></li>
+<li><a href="#orgaf22be5">8. Control</a>
 <ul>
-<li><a href="#orgea8451a">8.1. Blocks</a></li>
-<li><a href="#org7ce8263">8.2. Branches</a></li>
-<li><a href="#org28a7366">8.3. Hand Writen Style</a></li>
-<li><a href="#org71f1934">8.4. DAC</a></li>
-<li><a href="#org3701401">8.5. ADC</a></li>
-<li><a href="#orgb647158">8.6. Gain</a></li>
-<li><a href="#orgf9c3aa6">8.7. Add / Substract / Divide / Multiply block</a></li>
+<li><a href="#org6c6db88">8.1. Blocks</a></li>
+<li><a href="#org0f6e58c">8.2. Branches</a></li>
+<li><a href="#orgfd194ac">8.3. Hand Writen Style</a></li>
+<li><a href="#orgdf8733a">8.4. DAC</a></li>
+<li><a href="#org80ee1f0">8.5. ADC</a></li>
+<li><a href="#org13c5a0b">8.6. Gain</a></li>
+<li><a href="#org59db8c0">8.7. Add / Substract / Divide / Multiply block</a></li>
 </ul>
 </li>
-<li><a href="#org29efc5d">9. Plots</a>
+<li><a href="#orga25db34">9. Plots</a>
 <ul>
-<li><a href="#org9add0aa">9.1. Default line caps</a></li>
-<li><a href="#orge810969">9.2. Grid</a></li>
-<li><a href="#org1e383fb">9.3. Lines</a></li>
-<li><a href="#org5ebbe78">9.4. Ticks</a></li>
-<li><a href="#org999fa62">9.5. Size</a></li>
-<li><a href="#org85d084a">9.6. Label</a></li>
-<li><a href="#org29946e8">9.7. Legend</a></li>
+<li><a href="#org1c4a360">9.1. Default line caps</a></li>
+<li><a href="#org36ce525">9.2. Grid</a></li>
+<li><a href="#orgcfb5089">9.3. Lines</a></li>
+<li><a href="#orgcb80f51">9.4. Ticks</a></li>
+<li><a href="#org2d820db">9.5. Size</a></li>
+<li><a href="#org491f6f3">9.6. Label</a></li>
+<li><a href="#orge826f1a">9.7. Legend</a></li>
 </ul>
 </li>
-<li><a href="#org407f0ee">10. Mechanical</a>
+<li><a href="#org070b7e2">10. Mechanical</a>
 <ul>
-<li><a href="#orgffe197b">10.1. Spring</a></li>
-<li><a href="#org1f14fa9">10.2. Coil</a></li>
-<li><a href="#org1622011">10.3. Damper</a></li>
-<li><a href="#org5b48f92">10.4. Actuator</a></li>
-<li><a href="#orgf654c5a">10.5. Ground</a></li>
-<li><a href="#org6be18b5">10.6. Force Sensor</a></li>
-<li><a href="#org3655499">10.7. Inertial Sensor</a></li>
-<li><a href="#org2072839">10.8. Cross</a></li>
-<li><a href="#org551a108">10.9. Piezoelectric actuator</a></li>
-<li><a href="#org9769616">10.10. Voice coil</a></li>
+<li><a href="#orgd0d57b2">10.1. Spring</a></li>
+<li><a href="#orgd33ae3c">10.2. Coil</a></li>
+<li><a href="#orgbfb67b5">10.3. Damper</a></li>
+<li><a href="#org3c28d35">10.4. Actuator</a></li>
+<li><a href="#org1d16e92">10.5. Ground</a></li>
+<li><a href="#orgab00cb8">10.6. Force Sensor</a></li>
+<li><a href="#orgb238e6b">10.7. Inertial Sensor</a></li>
+<li><a href="#org0f68266">10.8. Cross</a></li>
+<li><a href="#org86fe274">10.9. Piezoelectric actuator</a></li>
+<li><a href="#org39f0c1e">10.10. Voice coil</a></li>
 </ul>
 </li>
-<li><a href="#orgd9f02f9">11. Optics</a></li>
-<li><a href="#orgb27c58d">12. Misc</a></li>
-<li><a href="#org17bab25">13. More Defaults specific to this paper</a></li>
+<li><a href="#org91221a8">11. Optics</a></li>
+<li><a href="#org81635af">12. Misc</a></li>
+<li><a href="#orgc5c94a0">13. More Defaults specific to this paper</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org1dd6f76" class="outline-2">
-<h2 id="org1dd6f76"><span class="section-number-2">1</span> Packages</h2>
+<div id="outline-container-orgc90d0e6" class="outline-2">
+<h2 id="orgc90d0e6"><span class="section-number-2">1</span> Packages</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\usepackage</span></span>[<span class="org-variable-name">utf8</span>]{<span class="org-function-name">inputenc</span>}
@@ -350,8 +119,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgb097669" class="outline-2">
-<h2 id="orgb097669"><span class="section-number-2">2</span> Tikz related packages</h2>
+<div id="outline-container-orgc054722" class="outline-2">
+<h2 id="orgc054722"><span class="section-number-2">2</span> Tikz related packages</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\usepackage</span></span>{<span class="org-function-name">tikz</span>}       <span class="org-comment">% Tikz</span>
@@ -365,8 +134,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgef8c9ec" class="outline-2">
-<h2 id="orgef8c9ec"><span class="section-number-2">3</span> Tikz Libraries</h2>
+<div id="outline-container-orgd527e80" class="outline-2">
+<h2 id="orgd527e80"><span class="section-number-2">3</span> Tikz Libraries</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\usetikzlibrary</span>{arrows}                   <span class="org-comment">% Arrow tip library</span>
@@ -393,8 +162,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org8ca068a" class="outline-2">
-<h2 id="org8ca068a"><span class="section-number-2">4</span> PGF Plot libraries and config</h2>
+<div id="outline-container-orga05e1c3" class="outline-2">
+<h2 id="orga05e1c3"><span class="section-number-2">4</span> PGF Plot libraries and config</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\usepgfplotslibrary</span>{patchplots}
@@ -407,8 +176,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org4eb0de4" class="outline-2">
-<h2 id="org4eb0de4"><span class="section-number-2">5</span> Setup size of figures</h2>
+<div id="outline-container-org1f7590d" class="outline-2">
+<h2 id="org1f7590d"><span class="section-number-2">5</span> Setup size of figures</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\newlength</span></span>{<span class="org-font-latex-sedate"><span class="org-function-name">\fheight</span></span>}
@@ -421,8 +190,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orga3a90aa" class="outline-2">
-<h2 id="orga3a90aa"><span class="section-number-2">6</span> Setup Arrows style</h2>
+<div id="outline-container-org9fc4634" class="outline-2">
+<h2 id="org9fc4634"><span class="section-number-2">6</span> Setup Arrows style</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{&gt;=Stealth}
@@ -433,8 +202,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orge17acf4" class="outline-2">
-<h2 id="orge17acf4"><span class="section-number-2">7</span> Colors</h2>
+<div id="outline-container-org3099c13" class="outline-2">
+<h2 id="org3099c13"><span class="section-number-2">7</span> Colors</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate"><span class="org-keyword">\usepackage</span></span>{<span class="org-function-name">xcolor</span>}<span class="org-comment">% Color extension</span>
@@ -447,12 +216,12 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgee5bb97" class="outline-2">
-<h2 id="orgee5bb97"><span class="section-number-2">8</span> Control</h2>
+<div id="outline-container-orgaf22be5" class="outline-2">
+<h2 id="orgaf22be5"><span class="section-number-2">8</span> Control</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-orgea8451a" class="outline-3">
-<h3 id="orgea8451a"><span class="section-number-3">8.1</span> Blocks</h3>
+<div id="outline-container-org6c6db88" class="outline-3">
+<h3 id="org6c6db88"><span class="section-number-3">8.1</span> Blocks</h3>
 <div class="outline-text-3" id="text-8-1">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -469,8 +238,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org7ce8263" class="outline-3">
-<h3 id="org7ce8263"><span class="section-number-3">8.2</span> Branches</h3>
+<div id="outline-container-org0f6e58c" class="outline-3">
+<h3 id="org0f6e58c"><span class="section-number-3">8.2</span> Branches</h3>
 <div class="outline-text-3" id="text-8-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzstyle</span>{branch}=[fill,shape=circle,minimum size=4pt,inner sep=0pt]
@@ -481,8 +250,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org28a7366" class="outline-3">
-<h3 id="org28a7366"><span class="section-number-3">8.3</span> Hand Writen Style</h3>
+<div id="outline-container-orgfd194ac" class="outline-3">
+<h3 id="orgfd194ac"><span class="section-number-3">8.3</span> Hand Writen Style</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 Usefull for schematic plots
@@ -494,8 +263,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org71f1934" class="outline-3">
-<h3 id="org71f1934"><span class="section-number-3">8.4</span> DAC</h3>
+<div id="outline-container-orgdf8733a" class="outline-3">
+<h3 id="orgdf8733a"><span class="section-number-3">8.4</span> DAC</h3>
 <div class="outline-text-3" id="text-8-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -509,8 +278,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org3701401" class="outline-3">
-<h3 id="org3701401"><span class="section-number-3">8.5</span> ADC</h3>
+<div id="outline-container-org80ee1f0" class="outline-3">
+<h3 id="org80ee1f0"><span class="section-number-3">8.5</span> ADC</h3>
 <div class="outline-text-3" id="text-8-5">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -525,8 +294,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-orgb647158" class="outline-3">
-<h3 id="orgb647158"><span class="section-number-3">8.6</span> Gain</h3>
+<div id="outline-container-org13c5a0b" class="outline-3">
+<h3 id="org13c5a0b"><span class="section-number-3">8.6</span> Gain</h3>
 <div class="outline-text-3" id="text-8-6">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -564,8 +333,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-orgf9c3aa6" class="outline-3">
-<h3 id="orgf9c3aa6"><span class="section-number-3">8.7</span> Add / Substract / Divide / Multiply block</h3>
+<div id="outline-container-org59db8c0" class="outline-3">
+<h3 id="org59db8c0"><span class="section-number-3">8.7</span> Add / Substract / Divide / Multiply block</h3>
 <div class="outline-text-3" id="text-8-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">% Add block with Circled operations</span>
@@ -630,12 +399,12 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org29efc5d" class="outline-2">
-<h2 id="org29efc5d"><span class="section-number-2">9</span> Plots</h2>
+<div id="outline-container-orga25db34" class="outline-2">
+<h2 id="orga25db34"><span class="section-number-2">9</span> Plots</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org9add0aa" class="outline-3">
-<h3 id="org9add0aa"><span class="section-number-3">9.1</span> Default line caps</h3>
+<div id="outline-container-org1c4a360" class="outline-3">
+<h3 id="org1c4a360"><span class="section-number-3">9.1</span> Default line caps</h3>
 <div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\pgfplotsset</span>{
@@ -647,8 +416,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-orge810969" class="outline-3">
-<h3 id="orge810969"><span class="section-number-3">9.2</span> Grid</h3>
+<div id="outline-container-org36ce525" class="outline-3">
+<h3 id="org36ce525"><span class="section-number-3">9.2</span> Grid</h3>
 <div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\pgfplotsset</span>{grid style={black}}
@@ -661,8 +430,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org1e383fb" class="outline-3">
-<h3 id="org1e383fb"><span class="section-number-3">9.3</span> Lines</h3>
+<div id="outline-container-orgcfb5089" class="outline-3">
+<h3 id="orgcfb5089"><span class="section-number-3">9.3</span> Lines</h3>
 <div class="outline-text-3" id="text-9-3">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\pgfplotsset</span>{separate axis lines=false} <span class="org-comment">% draw axis as rectangle and not as 4 lines</span>
@@ -676,8 +445,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org5ebbe78" class="outline-3">
-<h3 id="org5ebbe78"><span class="section-number-3">9.4</span> Ticks</h3>
+<div id="outline-container-orgcb80f51" class="outline-3">
+<h3 id="orgcb80f51"><span class="section-number-3">9.4</span> Ticks</h3>
 <div class="outline-text-3" id="text-9-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\pgfplotsset</span>{every y tick label/.append style={font=<span class="org-font-latex-sedate">\color</span>{black}}}
@@ -689,8 +458,8 @@ Usefull for schematic plots
 </div>
 </div>
 
-<div id="outline-container-org999fa62" class="outline-3">
-<h3 id="org999fa62"><span class="section-number-3">9.5</span> Size</h3>
+<div id="outline-container-org2d820db" class="outline-3">
+<h3 id="org2d820db"><span class="section-number-3">9.5</span> Size</h3>
 <div class="outline-text-3" id="text-9-5">
 <p>
 If <code>scale only axis=false</code> (the default), pgfplots will try to produce the desired width including labels, titles and ticks.
@@ -702,8 +471,8 @@ If <code>scale only axis=false</code> (the default), pgfplots will try to produc
 </div>
 </div>
 
-<div id="outline-container-org85d084a" class="outline-3">
-<h3 id="org85d084a"><span class="section-number-3">9.6</span> Label</h3>
+<div id="outline-container-org491f6f3" class="outline-3">
+<h3 id="org491f6f3"><span class="section-number-3">9.6</span> Label</h3>
 <div class="outline-text-3" id="text-9-6">
 <p>
 Used to align all of ylabel of one figure.
@@ -715,8 +484,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org29946e8" class="outline-3">
-<h3 id="org29946e8"><span class="section-number-3">9.7</span> Legend</h3>
+<div id="outline-container-orge826f1a" class="outline-3">
+<h3 id="orge826f1a"><span class="section-number-3">9.7</span> Legend</h3>
 <div class="outline-text-3" id="text-9-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-comment-delimiter">% </span><span class="org-comment">https://tex.stackexchange.com/questions/54794/using-a-pgfplots-style-legend-in-a-plain-old-tikzpicture#54834</span>
@@ -754,12 +523,12 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org407f0ee" class="outline-2">
-<h2 id="org407f0ee"><span class="section-number-2">10</span> Mechanical</h2>
+<div id="outline-container-org070b7e2" class="outline-2">
+<h2 id="org070b7e2"><span class="section-number-2">10</span> Mechanical</h2>
 <div class="outline-text-2" id="text-10">
 </div>
-<div id="outline-container-orgffe197b" class="outline-3">
-<h3 id="orgffe197b"><span class="section-number-3">10.1</span> Spring</h3>
+<div id="outline-container-orgd0d57b2" class="outline-3">
+<h3 id="orgd0d57b2"><span class="section-number-3">10.1</span> Spring</h3>
 <div class="outline-text-3" id="text-10-1">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -780,8 +549,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org1f14fa9" class="outline-3">
-<h3 id="org1f14fa9"><span class="section-number-3">10.2</span> Coil</h3>
+<div id="outline-container-orgd33ae3c" class="outline-3">
+<h3 id="orgd33ae3c"><span class="section-number-3">10.2</span> Coil</h3>
 <div class="outline-text-3" id="text-10-2">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -802,8 +571,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org1622011" class="outline-3">
-<h3 id="org1622011"><span class="section-number-3">10.3</span> Damper</h3>
+<div id="outline-container-orgbfb67b5" class="outline-3">
+<h3 id="orgbfb67b5"><span class="section-number-3">10.3</span> Damper</h3>
 <div class="outline-text-3" id="text-10-3">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -830,8 +599,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org5b48f92" class="outline-3">
-<h3 id="org5b48f92"><span class="section-number-3">10.4</span> Actuator</h3>
+<div id="outline-container-org3c28d35" class="outline-3">
+<h3 id="org3c28d35"><span class="section-number-3">10.4</span> Actuator</h3>
 <div class="outline-text-3" id="text-10-4">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -861,8 +630,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-orgf654c5a" class="outline-3">
-<h3 id="orgf654c5a"><span class="section-number-3">10.5</span> Ground</h3>
+<div id="outline-container-org1d16e92" class="outline-3">
+<h3 id="org1d16e92"><span class="section-number-3">10.5</span> Ground</h3>
 <div class="outline-text-3" id="text-10-5">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -884,8 +653,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org6be18b5" class="outline-3">
-<h3 id="org6be18b5"><span class="section-number-3">10.6</span> Force Sensor</h3>
+<div id="outline-container-orgab00cb8" class="outline-3">
+<h3 id="orgab00cb8"><span class="section-number-3">10.6</span> Force Sensor</h3>
 <div class="outline-text-3" id="text-10-6">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -914,8 +683,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org3655499" class="outline-3">
-<h3 id="org3655499"><span class="section-number-3">10.7</span> Inertial Sensor</h3>
+<div id="outline-container-orgb238e6b" class="outline-3">
+<h3 id="orgb238e6b"><span class="section-number-3">10.7</span> Inertial Sensor</h3>
 <div class="outline-text-3" id="text-10-7">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -943,8 +712,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org2072839" class="outline-3">
-<h3 id="org2072839"><span class="section-number-3">10.8</span> Cross</h3>
+<div id="outline-container-org0f68266" class="outline-3">
+<h3 id="org0f68266"><span class="section-number-3">10.8</span> Cross</h3>
 <div class="outline-text-3" id="text-10-8">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzstyle</span>{cross}=[path picture={
@@ -957,8 +726,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org551a108" class="outline-3">
-<h3 id="org551a108"><span class="section-number-3">10.9</span> Piezoelectric actuator</h3>
+<div id="outline-container-org86fe274" class="outline-3">
+<h3 id="org86fe274"><span class="section-number-3">10.9</span> Piezoelectric actuator</h3>
 <div class="outline-text-3" id="text-10-9">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -986,8 +755,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org9769616" class="outline-3">
-<h3 id="org9769616"><span class="section-number-3">10.10</span> Voice coil</h3>
+<div id="outline-container-org39f0c1e" class="outline-3">
+<h3 id="org39f0c1e"><span class="section-number-3">10.10</span> Voice coil</h3>
 <div class="outline-text-3" id="text-10-10">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\def\voicecoil</span>#1#2#3{
@@ -1058,8 +827,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-orgd9f02f9" class="outline-2">
-<h2 id="orgd9f02f9"><span class="section-number-2">11</span> Optics</h2>
+<div id="outline-container-org91221a8" class="outline-2">
+<h2 id="org91221a8"><span class="section-number-2">11</span> Optics</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -1087,8 +856,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-orgb27c58d" class="outline-2">
-<h2 id="orgb27c58d"><span class="section-number-2">12</span> Misc</h2>
+<div id="outline-container-org81635af" class="outline-2">
+<h2 id="org81635af"><span class="section-number-2">12</span> Misc</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{<span class="org-comment">%</span>
@@ -1105,8 +874,8 @@ Used to align all of ylabel of one figure.
 </div>
 </div>
 
-<div id="outline-container-org17bab25" class="outline-2">
-<h2 id="org17bab25"><span class="section-number-2">13</span> More Defaults specific to this paper</h2>
+<div id="outline-container-orgc5c94a0" class="outline-2">
+<h2 id="orgc5c94a0"><span class="section-number-2">13</span> More Defaults specific to this paper</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-latex"><span class="org-font-latex-sedate">\tikzset</span>{block/.default={0.8cm}{0.8cm}}
@@ -1119,8 +888,7 @@ Used to align all of ylabel of one figure.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2019-11-05 mar. 17:27</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-11-12 jeu. 10:39</p>
 </div>
 </body>
 </html>

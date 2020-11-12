@@ -3,17 +3,13 @@
 #+SUBTITLE: Dehaeze Thomas, Verma Mohit and Collette Christophe
 
 #+HTML_LINK_HOME: ../index.html
-#+HTML_LINK_UP: ../index.html
+#+HTML_LINK_UP:   ../index.html
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+#+HTML_HEAD: <script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
 
 #+OPTIONS: toc:nil
 #+OPTIONS: html-postamble:nil
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/readtheorg.css"/>
-#+HTML_HEAD: <script src="js/jquery.min.js"></script>
-#+HTML_HEAD: <script src="js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script src="js/jquery.stickytableheaders.min.js"></script>
-#+HTML_HEAD: <script src="js/readtheorg.js"></script>
 :END:
 
 #+begin_quote
