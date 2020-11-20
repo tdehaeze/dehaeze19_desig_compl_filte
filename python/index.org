@@ -1,0 +1,126 @@
+#+TITLE: Complementary Filters Shaping Using $\mathcal{H}_\infty$ Synthesis - Python Computation
+:DRAWER:
+#+HTML_LINK_HOME: ../index.html
+#+HTML_LINK_UP:   ../index.html
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+#+HTML_HEAD: <script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
+
+#+LATEX_CLASS: cleanreport
+#+LATEX_CLASS_OPTIONS: [tocnp, secbreak, minted]
+
+#+PROPERTY: header-args:python  :session *Python*
+#+PROPERTY: header-args:python+ :tangle test.py
+#+PROPERTY: header-args:python+ :comments org
+#+PROPERTY: header-args:python+ :exports both
+#+PROPERTY: header-args:python+ :results none
+#+PROPERTY: header-args:python+ :eval no-export
+#+PROPERTY: header-args:python+ :noweb yes
+#+PROPERTY: header-args:python+ :mkdirp yes
+#+PROPERTY: header-args:python+ :output-dir figs
+:END:
+
+* H-Infinity synthesis of complementary filters
+** Imports Necessary Python Modules
+#+begin_src python
+  import os
+  from math import pi, sqrt
+
+  import numpy as np
+
+  import matplotlib as mpl
+  import matplotlib.pyplot as plt
+
+  from control import *
+#+end_src
+
+#+begin_src python
+  # mpl.use('TKAgg')
+  mpl.use('Agg')
+#+end_src
+
+#+begin_src python
+  # mpl.style.use('ggplot')
+  mpl.style.use('seaborn-colorblind')
+#+end_src
+
+** Design of Weighting Function
+#+begin_src python
+  A1 = 1e-2;
+  M1 = 10;
+  w1 = 1*2*pi;
+
+  W1 = tf([1, 2*w1*sqrt(A1), (w1**2)*A1], [1/M1, 2*w1/sqrt(M1), w1**2]);
+#+end_src
+
+#+begin_src python
+  A2 = 1e-1;
+  M2 = 100;
+  w2 = 2*2*pi;
+
+  W2 = tf([1/M2, 2*w2/sqrt(M2), w2**2], [1, 2*w2*sqrt(A2), (w2**2)*A2]);
+#+end_src
+
+#+begin_src python
+  fig=plt.figure()
+  bode_plot(W1, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='${W_1}^{-1}$', color='tab:blue')
+  bode_plot(W2, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='${W_2}^{-1}$', color='tab:red')
+  plt.legend(loc='upper right')
+  plt.show(block=False)
+#+end_src
+
+#+begin_src python :exports results :results file replace
+  fig.tight_layout()
+  filename = "figs/weights.png"
+  plt.savefig(filename)
+  filename
+#+end_src
+
+#+RESULTS:
+[[file:figs/weights.png]]
+
+** H-Infinity Synthesis
+#+begin_src python
+  P = tf([[W1.den[0][0], -W1.den[0][0]],
+          [[0],           W2.den[0][0]],
+          [[1],           [0]]],
+         [[W1.num[0][0],  W1.num[0][0]],
+          [[1],           W2.num[0][0]],
+          [[1],           [1]]])
+#+end_src
+
+#+begin_src python
+  H2, CL, gam, rcond = hinfsyn(tf2ss(P), 1, 1)
+#+end_src
+
+#+begin_src python :results value replace :exports results
+  gam
+#+end_src
+
+#+RESULTS:
+: 0.9676461123885229
+
+#+begin_src python
+  H1 = 1 - H2
+#+end_src
+
+** Obtained Complementary Filters
+#+begin_src python
+  fig=plt.figure()
+  bode_plot(W1, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='${W_1}^{-1}$', color='tab:blue')
+  bode_plot(W2, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='${W_2}^{-1}$', color='tab:red')
+  bode_plot(H1, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='$H_1$', color='tab:blue', linestyle='--')
+  bode_plot(H2, Hz=True, omega_limits=[0.01, 100.0], Plot=True, label='$H_2$', color='tab:red', linestyle='--')
+  plt.legend(loc='upper right')
+  plt.show(block=False)
+#+end_src
+
+#+begin_src python :exports results :results file replace
+  fig.tight_layout()
+  filename = "figs/results.png"
+  plt.savefig(filename)
+  filename
+#+end_src
+
+#+RESULTS:
+[[file:figs/results.png]]

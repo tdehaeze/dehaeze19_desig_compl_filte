@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-20 ven. 19:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Python Computation</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas Dehaeze" />
+<link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
+<script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Python Computation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8df2f86">1. H-Infinity synthesis of complementary filters</a>
+<ul>
+<li><a href="#orgaee18cf">1.1. Imports Necessary Python Modules</a></li>
+<li><a href="#org7c67afe">1.2. Design of Weighting Function</a></li>
+<li><a href="#orge32abdb">1.3. H-Infinity Synthesis</a></li>
+<li><a href="#orgd3603b4">1.4. Obtained Complementary Filters</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8df2f86" class="outline-2">
+<h2 id="org8df2f86"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgaee18cf" class="outline-3">
+<h3 id="orgaee18cf"><span class="section-number-3">1.1</span> Imports Necessary Python Modules</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-keyword">import</span> os
+<span class="org-keyword">from</span> math <span class="org-keyword">import</span> pi, sqrt
+
+<span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+
+<span class="org-keyword">import</span> matplotlib <span class="org-keyword">as</span> mpl
+<span class="org-keyword">import</span> matplotlib.pyplot <span class="org-keyword">as</span> plt
+
+<span class="org-keyword">from</span> control <span class="org-keyword">import</span> *
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">mpl.use('TKAgg')</span>
+mpl.use(<span class="org-string">'Agg'</span>)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">mpl.style.use('ggplot')</span>
+mpl.style.use(<span class="org-string">'seaborn-colorblind'</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7c67afe" class="outline-3">
+<h3 id="org7c67afe"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">A1</span> = 1e-<span class="org-highlight-numbers-number">2</span>;
+<span class="org-variable-name">M1</span> = <span class="org-highlight-numbers-number">10</span>;
+<span class="org-variable-name">w1</span> = <span class="org-highlight-numbers-number">1</span>*<span class="org-highlight-numbers-number">2</span>*pi;
+
+<span class="org-variable-name">W1</span> = tf([<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>*w1*sqrt(A1), (w1**<span class="org-highlight-numbers-number">2</span>)*A1], [<span class="org-highlight-numbers-number">1</span>/M1, <span class="org-highlight-numbers-number">2</span>*w1/sqrt(M1), w1**<span class="org-highlight-numbers-number">2</span>]);
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">A2</span> = 1e-<span class="org-highlight-numbers-number">1</span>;
+<span class="org-variable-name">M2</span> = <span class="org-highlight-numbers-number">100</span>;
+<span class="org-variable-name">w2</span> = <span class="org-highlight-numbers-number">2</span>*<span class="org-highlight-numbers-number">2</span>*pi;
+
+<span class="org-variable-name">W2</span> = tf([<span class="org-highlight-numbers-number">1</span>/M2, <span class="org-highlight-numbers-number">2</span>*w2/sqrt(M2), w2**<span class="org-highlight-numbers-number">2</span>], [<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>*w2*sqrt(A2), (w2**<span class="org-highlight-numbers-number">2</span>)*A2]);
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">fig</span>=plt.figure()
+bode_plot(W1, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'${W_1}^{-1}$'</span>, color=<span class="org-string">'tab:blue'</span>)
+bode_plot(W2, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'${W_2}^{-1}$'</span>, color=<span class="org-string">'tab:red'</span>)
+plt.legend(loc=<span class="org-string">'upper right'</span>)
+plt.show(block=<span class="org-constant">False</span>)
+</pre>
+</div>
+
+
+<div id="org82b1a26" class="figure">
+<p><img src="figs/weights.png" alt="weights.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge32abdb" class="outline-3">
+<h3 id="orge32abdb"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">P</span> = tf([[W1.den[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>], -W1.den[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>]],
+        [[<span class="org-highlight-numbers-number">0</span>],           W2.den[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>]],
+        [[<span class="org-highlight-numbers-number">1</span>],           [<span class="org-highlight-numbers-number">0</span>]]],
+       [[W1.num[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>],  W1.num[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>]],
+        [[<span class="org-highlight-numbers-number">1</span>],           W2.num[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>]],
+        [[<span class="org-highlight-numbers-number">1</span>],           [<span class="org-highlight-numbers-number">1</span>]]])
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">H2</span>, <span class="org-variable-name">CL</span>, <span class="org-variable-name">gam</span>, <span class="org-variable-name">rcond</span> = hinfsyn(tf2ss(P), <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">1</span>)
+</pre>
+</div>
+
+<pre class="example">
+0.9676461123885229
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">H1</span> = <span class="org-highlight-numbers-number">1</span> - H2
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3603b4" class="outline-3">
+<h3 id="orgd3603b4"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-variable-name">fig</span>=plt.figure()
+bode_plot(W1, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'${W_1}^{-1}$'</span>, color=<span class="org-string">'tab:blue'</span>)
+bode_plot(W2, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'${W_2}^{-1}$'</span>, color=<span class="org-string">'tab:red'</span>)
+bode_plot(H1, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'$H_1$'</span>, color=<span class="org-string">'tab:blue'</span>, linestyle=<span class="org-string">'--'</span>)
+bode_plot(H2, Hz=<span class="org-constant">True</span>, omega_limits=[<span class="org-highlight-numbers-number">0.01</span>, <span class="org-highlight-numbers-number">100.0</span>], Plot=<span class="org-constant">True</span>, label=<span class="org-string">'$H_2$'</span>, color=<span class="org-string">'tab:red'</span>, linestyle=<span class="org-string">'--'</span>)
+plt.legend(loc=<span class="org-string">'upper right'</span>)
+plt.show(block=<span class="org-constant">False</span>)
+</pre>
+</div>
+
+
+<div id="org02ae686" class="figure">
+<p><img src="figs/results.png" alt="results.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas Dehaeze</p>
+<p class="date">Created: 2020-11-20 ven. 19:01</p>
+</div>
+</body>
+</html>
