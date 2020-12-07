@@ -46,8 +46,7 @@ xlabel('Frequency [Hz]'); ylabel('Magnitude');
 hold off;
 xlim([freqs(1), freqs(end)]);
 ylim([5e-4, 20]);
-xticks([0.1, 1, 10, 100, 1000]);
-legend('location', 'northeast');
+legend('location', 'northeast', 'FontSize', 8);
 
 % H-Infinity Synthesis
 % We define the generalized plant $P$ on matlab.
@@ -108,8 +107,10 @@ H1 = 1 - H2;
 
 
 figure;
+tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
 
-ax1 = subplot(2,1,1);
+% Magnitude
+ax1 = nexttile([2,1]);
 hold on;
 set(gca,'ColorOrderIndex',1)
 plot(freqs, 1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
@@ -125,10 +126,11 @@ hold off;
 set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 ylabel('Magnitude');
 set(gca, 'XTickLabel',[]);
-ylim([5e-4, 20]);
-legend('location', 'northeast');
+ylim([1e-4, 20]);
+legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
 
-ax2 = subplot(2,1,2);
+% Phase
+ax2 = nexttile;
 hold on;
 set(gca,'ColorOrderIndex',1)
 plot(freqs, 180/pi*phase(squeeze(freqresp(H1, freqs, 'Hz'))), '-');
@@ -140,5 +142,3 @@ set(gca, 'XScale', 'log');
 yticks([-360:90:360]);
 
 linkaxes([ax1,ax2],'x');
-xlim([freqs(1), freqs(end)]);
-xticks([0.1, 1, 10, 100, 1000]);

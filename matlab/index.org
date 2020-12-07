@@ -127,25 +127,16 @@ The general shape of a weighting function generated using the formula is shown i
   hold off;
   xlim([freqs(1), freqs(end)]);
   ylim([5e-4, 20]);
-  xticks([0.1, 1, 10, 100, 1000]);
-  legend('location', 'northeast');
+  legend('location', 'northeast', 'FontSize', 8);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), ...
-            1./abs(squeeze(freqresp(W2, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'W1', 'W2'});
-  writetable(T, 'mat/hinf_weights.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/weights_W1_W2.pdf', 'width', 'wide', 'height', 'normal');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/weights_W1_W2.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:weights_W1_W2
-#+CAPTION: Weights on the complementary filters $W_1$ and $W_2$ and the associated performance weights ([[./figs/weights_W1_W2.png][png]], [[./figs/weights_W1_W2.pdf][pdf]])
+#+name: fig:weights_W1_W2
+#+CAPTION: Weights on the complementary filters $W_1$ and $W_2$ and the associated performance weights
+#+RESULTS:
 [[file:figs/weights_W1_W2.png]]
 
 ** H-Infinity Synthesis
@@ -206,8 +197,10 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
 
 #+begin_src matlab :exports none
   figure;
+  tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
 
-  ax1 = subplot(2,1,1);
+  % Magnitude
+  ax1 = nexttile([2,1]);
   hold on;
   set(gca,'ColorOrderIndex',1)
   plot(freqs, 1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), '--', 'DisplayName', '$w_1$');
@@ -223,10 +216,11 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   ylabel('Magnitude');
   set(gca, 'XTickLabel',[]);
-  ylim([5e-4, 20]);
-  legend('location', 'northeast');
+  ylim([1e-4, 20]);
+  legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
 
-  ax2 = subplot(2,1,2);
+  % Phase
+  ax2 = nexttile;
   hold on;
   set(gca,'ColorOrderIndex',1)
   plot(freqs, 180/pi*phase(squeeze(freqresp(H1, freqs, 'Hz'))), '-');
@@ -238,27 +232,15 @@ The obtained complementary filters are shown on figure [[fig:hinf_filters_result
   yticks([-360:90:360]);
 
   linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-  xticks([0.1, 1, 10, 100, 1000]);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            abs(squeeze(freqresp(H1, freqs, 'Hz'))), ...
-            abs(squeeze(freqresp(H2, freqs, 'Hz'))), ...
-            180/pi*phase(squeeze(freqresp(H1, freqs, 'Hz'))), ...
-            180/pi*phase(squeeze(freqresp(H2, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'H1', 'H2', 'H1p', 'H2p'});
-  writetable(T, 'mat/hinf_filters_results.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/hinf_filters_results.pdf', 'width', 'wide', 'height', 'tall');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/hinf_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:hinf_filters_results
-#+CAPTION: Obtained complementary filters using $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_filters_results.png][png]], [[./figs/hinf_filters_results.pdf][pdf]])
+#+name: fig:hinf_filters_results
+#+CAPTION: Obtained complementary filters using $\mathcal{H}_\infty$ synthesis
+#+RESULTS:
 [[file:figs/hinf_filters_results.png]]
 
 * Generating 3 complementary filters
@@ -334,27 +316,16 @@ First we define the weights.
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
-  xlim([freqs(1), freqs(end)]);
-  xticks([0.01, 0.1, 1, 10, 100, 1000]);
-  legend('location', 'northeast');
+  legend('location', 'northeast', 'FontSize', 8);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), ...
-            1./abs(squeeze(freqresp(W2, freqs, 'Hz'))), ...
-            1./abs(squeeze(freqresp(W3, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'W1', 'W2', 'W3'});
-  writetable(T, 'mat/hinf_three_weights.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/three_weighting_functions.pdf', 'width', 'wide', 'height', 'normal');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/three_weighting_functions.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:three_weighting_functions
-#+CAPTION: Three weighting functions used for the $\mathcal{H}_\infty$ synthesis of the complementary filters ([[./figs/three_weighting_functions.png][png]], [[./figs/three_weighting_functions.pdf][pdf]])
+#+name: fig:three_weighting_functions
+#+caption: Three weighting functions used for the $\mathcal{H}_\infty$ synthesis of the complementary filters
+#+RESULTS:
 [[file:figs/three_weighting_functions.png]]
 
 ** H-Infinity Synthesis
@@ -415,8 +386,10 @@ The obtained filters are:
 
 #+begin_src matlab :exports none
   figure;
+  tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
 
-  ax1 = subplot(2,1,1);
+  % Magnitude
+  ax1 = nexttile([2,1]);
   hold on;
   set(gca,'ColorOrderIndex',1)
   plot(freqs, 1./abs(squeeze(freqresp(W1, freqs, 'Hz'))), '--', 'DisplayName', '$|W_1|^{-1}$');
@@ -435,10 +408,10 @@ The obtained filters are:
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   ylabel('Magnitude');
   set(gca, 'XTickLabel',[]);
-  ylim([5e-4, 20]);
-  legend('location', 'northeast');
+  ylim([1e-4, 20]);
+  legend('location', 'northeast', 'FontSize', 8, 'NumColumns', 2);
 
-  ax2 = subplot(2,1,2);
+  ax2 = nexttile;
   hold on;
   set(gca,'ColorOrderIndex',1)
   plot(freqs, 180/pi*phase(squeeze(freqresp(H1, freqs, 'Hz'))));
@@ -452,29 +425,15 @@ The obtained filters are:
   yticks([-360:90:360]);
 
   linkaxes([ax1,ax2],'x');
-  xlim([freqs(1), freqs(end)]);
-  xticks([0.1, 1, 10, 100, 1000]);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            abs(squeeze(freqresp(H1, freqs, 'Hz'))), ...
-            abs(squeeze(freqresp(H2, freqs, 'Hz'))), ...
-            abs(squeeze(freqresp(H3, freqs, 'Hz'))), ...
-            180/pi*phase(squeeze(freqresp(H1, freqs, 'Hz'))), ...
-            180/pi*phase(squeeze(freqresp(H2, freqs, 'Hz'))), ...
-            180/pi*phase(squeeze(freqresp(H3, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'H1', 'H2', 'H3', 'H1p', 'H2p', 'H3p'});
-  writetable(T, 'mat/hinf_three_results.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/three_complementary_filters_results.pdf', 'width', 'wide', 'height', 'tall');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/three_complementary_filters_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:three_complementary_filters_results
-#+CAPTION: The three complementary filters obtained after $\mathcal{H}_\infty$ synthesis ([[./figs/three_complementary_filters_results.png][png]], [[./figs/three_complementary_filters_results.pdf][pdf]])
+#+name: fig:three_complementary_filters_results
+#+CAPTION: The three complementary filters obtained after $\mathcal{H}_\infty$ synthesis
+#+RESULTS:
 [[file:figs/three_complementary_filters_results.png]]
 
 * Try to implement complementary filters for LIGO
@@ -530,17 +489,17 @@ The specifications are translated in upper bounds of the complementary filters a
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
   xlim([freqs(1), freqs(end)]);
-  ylim([1e-4, 10]);
-  legend('location', 'northeast');
+  ylim([1e-3, 10]);
+  legend('location', 'southeast', 'FontSize', 8);
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/ligo_specifications.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/ligo_specifications.pdf', 'width', 'wide', 'height', 'normal');
 #+end_src
 
-#+NAME: fig:ligo_specifications
-#+CAPTION: Specification for the LIGO complementary filters ([[./figs/ligo_specificationss.png][png]], [[./figs/ligo_specificationss.pdf][pdf]])
+#+name: fig:ligo_specifications
+#+caption: Specification for the LIGO complementary filters
+#+RESULTS:
 [[file:figs/ligo_specifications.png]]
 
 ** FIR Filter
@@ -694,38 +653,38 @@ Finally, we compute the filter response over the frequency vector defined and th
 
 #+begin_src matlab :exports none
   figure;
+  tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
 
-  ax1 = subplot(2,1,1);
+  % Magnitude
+  ax1 = nexttile([2,1]);
   hold on;
   plot(w, abs(H), 'k-');
   plot(w, abs(1-H), 'k--');
   hold off;
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  ylabel('Magnitude');
-  set(gca, 'XTickLabel',[]);
-  ylim([5e-3, 5]);
+  ylabel('Magnitude'); set(gca, 'XTickLabel',[]);
+  ylim([1e-3, 1e1]);
 
-  ax2 = subplot(2,1,2);
+  ax2 = nexttile;
   hold on;
   plot(w, 180/pi*angle(H), 'k-');
   plot(w, 180/pi*angle(1-H), 'k--');
   hold off;
   xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
   set(gca, 'XScale', 'log');
-  yticks([-540:90:360]);
+  yticks([-180:90:180]);
 
   linkaxes([ax1,ax2],'x');
   xlim([1e-3, 1]);
-  xticks([0.01, 0.1, 1, 10, 100, 1000]);
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/fir_filter_ligo.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/fir_filter_ligo.pdf', 'width', 'wide', 'height', 'tall');
 #+end_src
 
-#+NAME: fig:fir_filter_ligo
-#+CAPTION: FIR Complementary filters obtain after convex optimization ([[./figs/fir_filter_ligo.png][png]], [[./figs/fir_filter_ligo.pdf][pdf]])
+#+name: fig:fir_filter_ligo
+#+caption: FIR Complementary filters obtain after convex optimization
+#+RESULTS:
 [[file:figs/fir_filter_ligo.png]]
 
 ** Weights
@@ -782,26 +741,17 @@ The bode plot of the weights is shown on figure [[fig:ligo_weights]].
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Magnitude');
   hold off;
-  xlim([freqs(1), freqs(end)]);
-  ylim([1e-3, 10]);
-  legend('location', 'southeast');
+  xlim([1e-3, 1e0]); ylim([1e-3, 10]);
+  legend('location', 'southeast', 'FontSize', 8);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            1./abs(squeeze(freqresp(wH, freqs, 'Hz'))), ...
-            1./abs(squeeze(freqresp(wL, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'wHm', 'wLm'});
-  writetable(T, 'mat/ligo_weights.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/ligo_weights.pdf', 'width', 'wide', 'height', 'normal');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/ligo_weights.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:ligo_weights
-#+CAPTION: Weights for the $\mathcal{H}_\infty$ synthesis ([[./figs/ligo_weights.png][png]], [[./figs/ligo_weights.pdf][pdf]])
+#+name: fig:ligo_weights
+#+caption: Weights for the $\mathcal{H}_\infty$ synthesis
+#+RESULTS:
 [[file:figs/ligo_weights.png]]
 
 ** H-Infinity Synthesis
@@ -859,9 +809,8 @@ The size of the filters is shown below.
 
 #+RESULTS:
 #+begin_example
-size(Hh), size(Hl)
-State-space model with 1 outputs, 1 inputs, and 27 states.
-State-space model with 1 outputs, 1 inputs, and 27 states.
+  State-space model with 1 outputs, 1 inputs, and 27 states.
+  State-space model with 1 outputs, 1 inputs, and 27 states.
 #+end_example
 
 The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_ligo_results]].
@@ -889,16 +838,16 @@ The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_li
   hold off;
   xlim([freqs(1), freqs(end)]);
   ylim([1e-3, 10]);
-  legend('location', 'southeast');
+  legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/hinf_synthesis_ligo_results.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/hinf_synthesis_ligo_results.pdf', 'width', 'wide', 'height', 'normal');
 #+end_src
 
-#+NAME: fig:hinf_synthesis_ligo_results
-#+CAPTION: Obtained complementary filters using the $\mathcal{H}_\infty$ synthesis ([[./figs/hinf_synthesis_ligo_results.png][png]], [[./figs/hinf_synthesis_ligo_results.pdf][pdf]])
+#+name: fig:hinf_synthesis_ligo_results
+#+caption: Obtained complementary filters using the $\mathcal{H}_\infty$ synthesis
+#+RESULTS:
 [[file:figs/hinf_synthesis_ligo_results.png]]
 
 ** Compare FIR and H-Infinity Filters
@@ -906,70 +855,53 @@ Let's now compare the FIR filters designed in cite:hua05_low_ligo and the one ob
 
 #+begin_src matlab :exports none
   figure;
-  ax1 = subplot(2,1,1);
+  tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
+
+  % Magnitude
+  ax1 = nexttile([2,1]);
   hold on;
   set(gca,'ColorOrderIndex',1);
-  plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-');
+  plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - $\mathcal{H}_\infty$');
   set(gca,'ColorOrderIndex',2);
-  plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-');
+  plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - $\mathcal{H}_\infty$');
 
   set(gca,'ColorOrderIndex',1);
-  plot(w, abs(H), '--');
+  plot(w, abs(H), '--', 'DisplayName', '$H_L$ - FIR');
   set(gca,'ColorOrderIndex',2);
-  plot(w, abs(1-H), '--');
+  plot(w, abs(1-H), '--', 'DisplayName', '$H_H$ - FIR');
   hold off;
   set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-  ylabel('Magnitude');
-  set(gca, 'XTickLabel',[]);
+  ylabel('Magnitude'); set(gca, 'XTickLabel',[]);
+  legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
   ylim([1e-3, 10]);
 
-  ax2 = subplot(2,1,2);
+  ax2 = nexttile;
   hold on;
   set(gca,'ColorOrderIndex',1);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$\mathcal{H}_\infty$ filters');
+  plot(freqs, 180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), '-');
   set(gca,'ColorOrderIndex',2);
-  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'HandleVisibility', 'off');
+  plot(freqs, 180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), '-');
 
   set(gca,'ColorOrderIndex',1);
-  plot(w, 180/pi*angle(H), '--', 'DisplayName', 'FIR filters');
+  plot(w, 180/pi*angle(H), '--');
   set(gca,'ColorOrderIndex',2);
-  plot(w, 180/pi*angle(1-H), '--', 'HandleVisibility', 'off');
+  plot(w, 180/pi*angle(1-H), '--');
   set(gca, 'XScale', 'log');
   xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
   hold off;
   yticks([-540:90:360]);
-  legend('location', 'northeast');
 
   linkaxes([ax1,ax2],'x');
   xlim([freqs(1), freqs(end)]);
-  xticks([0.001, 0.01, 0.1, 1]);
 #+end_src
 
-#+begin_src matlab :exports none :results none :tangle no
-  T = table(freqs', ...
-            abs(squeeze(freqresp(Hh, freqs, 'Hz'))), ...
-            abs(squeeze(freqresp(Hl, freqs, 'Hz'))), ...
-            180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), ...
-            180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), ...
-            'VariableNames', {'freqs', 'Hhm', 'Hlm', 'Hhp', 'Hlp'});
-  writetable(T, 'mat/comp_ligo_hinf.csv');
-
-  T = table(w', ...
-            abs(H), ...
-            abs(1-H), ...
-            180/pi*angle(H), ...
-            180/pi*angle(1-H), ...
-            'VariableNames', {'freqs', 'Hhm', 'Hlm', 'Hhp', 'Hlp'});
-  writetable(T, 'mat/comp_ligo_ligo.csv');
+#+begin_src matlab :tangle no :exports results :results file replace
+  exportFig('figs/comp_fir_ligo_hinf.pdf', 'width', 'wide', 'height', 'tall');
 #+end_src
 
-#+HEADER: :tangle no :exports results :results none :noweb yes
-#+begin_src matlab :var filepath="figs/comp_fir_ligo_hinf.pdf" :var figsize="full-tall" :post pdf2svg(file=*this*, ext="png")
-  <<plt-matlab>>
-#+end_src
-
-#+NAME: fig:comp_fir_ligo_hinf
-#+CAPTION: Comparison between the FIR filters developped for LIGO and the $\mathcal{H}_\infty$ complementary filters ([[./figs/comp_fir_ligo_hinf.png][png]], [[./figs/comp_fir_ligo_hinf.pdf][pdf]])
+#+name: fig:comp_fir_ligo_hinf
+#+caption: Comparison between the FIR filters developped for LIGO and the $\mathcal{H}_\infty$ complementary filters
+#+RESULTS:
 [[file:figs/comp_fir_ligo_hinf.png]]
 
 * Bibliography                                                       :ignore:

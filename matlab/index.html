@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-12 jeu. 10:39 -->
+<!-- 2020-12-07 lun. 11:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Matlab Computation</title>
 <meta name="generator" content="Org mode" />
@@ -30,29 +30,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgbe70763">1. H-Infinity synthesis of complementary filters</a>
+<li><a href="#org35a496e">1. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#org15b668c">1.1. Synthesis Architecture</a></li>
-<li><a href="#org1bb920c">1.2. Design of Weighting Function</a></li>
-<li><a href="#org778c435">1.3. H-Infinity Synthesis</a></li>
-<li><a href="#org6c55f84">1.4. Obtained Complementary Filters</a></li>
+<li><a href="#orgeeb4278">1.1. Synthesis Architecture</a></li>
+<li><a href="#org93a696e">1.2. Design of Weighting Function</a></li>
+<li><a href="#orgef65bee">1.3. H-Infinity Synthesis</a></li>
+<li><a href="#orgebcc25d">1.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#orgee2667d">2. Generating 3 complementary filters</a>
+<li><a href="#org78c2308">2. Generating 3 complementary filters</a>
 <ul>
-<li><a href="#org774f715">2.1. Theory</a></li>
-<li><a href="#org0ae66b6">2.2. Weights</a></li>
-<li><a href="#orgcd90722">2.3. H-Infinity Synthesis</a></li>
-<li><a href="#orgd2db36a">2.4. Obtained Complementary Filters</a></li>
+<li><a href="#org3ecbecd">2.1. Theory</a></li>
+<li><a href="#org1c36dab">2.2. Weights</a></li>
+<li><a href="#org0eaccc7">2.3. H-Infinity Synthesis</a></li>
+<li><a href="#org9bf63d6">2.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
-<li><a href="#org5bcb919">3. Try to implement complementary filters for LIGO</a>
+<li><a href="#org81f44ec">3. Try to implement complementary filters for LIGO</a>
 <ul>
-<li><a href="#orge1988db">3.1. Specifications</a></li>
-<li><a href="#org3248dae">3.2. FIR Filter</a></li>
-<li><a href="#orgda2ce10">3.3. Weights</a></li>
-<li><a href="#orgf343cbe">3.4. H-Infinity Synthesis</a></li>
-<li><a href="#org1a0d849">3.5. Compare FIR and H-Infinity Filters</a></li>
+<li><a href="#orga4105bd">3.1. Specifications</a></li>
+<li><a href="#org96dcf0f">3.2. FIR Filter</a></li>
+<li><a href="#org4e24e97">3.3. Weights</a></li>
+<li><a href="#org31e477e">3.4. H-Infinity Synthesis</a></li>
+<li><a href="#org63e4690">3.5. Compare FIR and H-Infinity Filters</a></li>
 </ul>
 </li>
 </ul>
@@ -74,25 +74,25 @@ To achieve this, the sensors included in the filter should complement one anothe
 </blockquote>
 
 <ul class="org-ul">
-<li>in section <a href="#orgcc94ca4">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters</li>
-<li>in section <a href="#org7ee6b3d">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
-<li>in section <a href="#org4503401">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO</li>
+<li>in section <a href="#org764b26c">1</a>, the \(\mathcal{H}_\infty\) synthesis is used for generating two complementary filters</li>
+<li>in section <a href="#orgc2b6a36">2</a>, a method using the \(\mathcal{H}_\infty\) synthesis is proposed to shape three of more complementary filters</li>
+<li>in section <a href="#org9bc307b">3</a>, the \(\mathcal{H}_\infty\) synthesis is used and compared with FIR complementary filters used for LIGO</li>
 </ul>
 
-<div class="note" id="org35094b4">
+<div class="note" id="org5351151">
 <p>
 Add the Matlab code use to obtain the results presented in the paper are accessible <a href="matlab.zip">here</a> and presented below.
 </p>
 
 </div>
 
-<div id="outline-container-orgbe70763" class="outline-2">
-<h2 id="orgbe70763"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div id="outline-container-org35a496e" class="outline-2">
+<h2 id="org35a496e"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="orgcc94ca4"></a>
+<a id="org764b26c"></a>
 </p>
-<div class="note" id="org2a3c2bf">
+<div class="note" id="org121464c">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/h_inf_synthesis_complementary_filters.m">here</a>.
 </p>
@@ -100,8 +100,8 @@ The Matlab file corresponding to this section is accessible <a href="matlab/h_in
 </div>
 </div>
 
-<div id="outline-container-org15b668c" class="outline-3">
-<h3 id="org15b668c"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
+<div id="outline-container-orgeeb4278" class="outline-3">
+<h3 id="orgeeb4278"><span class="section-number-3">1.1</span> Synthesis Architecture</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 We here synthesize two complementary filters using the \(\mathcal{H}_\infty\) synthesis.
@@ -109,18 +109,18 @@ The goal is to specify upper bounds on the norms of the two complementary filter
 </p>
 
 <p>
-In order to do so, we use the generalized plant shown on figure <a href="#org6e6716f">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
+In order to do so, we use the generalized plant shown on figure <a href="#orgd8e6384">1</a> where \(W_1(s)\) and \(W_2(s)\) are weighting transfer functions that will be used to shape \(H_1(s)\) and \(H_2(s)\) respectively.
 </p>
 
 
-<div id="org6e6716f" class="figure">
+<div id="orgd8e6384" class="figure">
 <p><img src="figs-tikz/h_infinity_robust_fusion.png" alt="h_infinity_robust_fusion.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 
 <p>
-The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#org6e6716f">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
+The \(\mathcal{H}_\infty\) synthesis applied on this generalized plant will give a transfer function \(H_2\) (figure <a href="#orgd8e6384">1</a>) such that the \(\mathcal{H}_\infty\) norm of the transfer function from \(w\) to \([z_1,\ z_2]\) is less than one:
 \[ \left\| \begin{array}{c} (1 - H_2(s)) W_1(s) \\ H_2(s) W_2(s) \end{array} \right\|_\infty < 1 \]
 </p>
 
@@ -140,8 +140,8 @@ We then see that \(W_1(s)\) and \(W_2(s)\) can be used to shape both \(H_1(s)\) 
 </div>
 </div>
 
-<div id="outline-container-org1bb920c" class="outline-3">
-<h3 id="org1bb920c"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
+<div id="outline-container-org93a696e" class="outline-3">
+<h3 id="org93a696e"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 A formula is proposed to help the design of the weighting functions:
@@ -165,11 +165,11 @@ The parameters permits to specify:
 </ul>
 
 <p>
-The general shape of a weighting function generated using the formula is shown in figure <a href="#org38084a8">2</a>.
+The general shape of a weighting function generated using the formula is shown in figure <a href="#orgd4f14dd">2</a>.
 </p>
 
 
-<div id="org38084a8" class="figure">
+<div id="orgd4f14dd" class="figure">
 <p><img src="figs-tikz/weight_formula.png" alt="weight_formula.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Amplitude of the proposed formula for the weighting functions</p>
@@ -185,16 +185,16 @@ W2 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((
 </div>
 
 
-<div id="orgfb027df" class="figure">
+<div id="org104ddf3" class="figure">
 <p><img src="figs/weights_W1_W2.png" alt="weights_W1_W2.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>Weights on the complementary filters \(W_1\) and \(W_2\) and the associated performance weights (<a href="./figs/weights_W1_W2.png">png</a>, <a href="./figs/weights_W1_W2.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 3: </span>Weights on the complementary filters \(W_1\) and \(W_2\) and the associated performance weights</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org778c435" class="outline-3">
-<h3 id="org778c435"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-orgef65bee" class="outline-3">
+<h3 id="orgef65bee"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 We define the generalized plant \(P\) on matlab.
@@ -214,7 +214,7 @@ And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> co
 </pre>
 </div>
 
-<pre class="example" id="org07bb4f3">
+<pre class="example" id="orga18cbc9">
 [H2, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -248,7 +248,7 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </pre>
 
 <p>
-We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#orge94528b">4</a>.
+We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H_1\) and \(H_2\) is shown on figure <a href="#org96ff133">4</a>.
 </p>
 
 <div class="org-src-container">
@@ -258,30 +258,30 @@ We then define the high pass filter \(H_1 = 1 - H_2\). The bode plot of both \(H
 </div>
 </div>
 
-<div id="outline-container-org6c55f84" class="outline-3">
-<h3 id="org6c55f84"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-orgebcc25d" class="outline-3">
+<h3 id="orgebcc25d"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
-The obtained complementary filters are shown on figure <a href="#orge94528b">4</a>.
+The obtained complementary filters are shown on figure <a href="#org96ff133">4</a>.
 </p>
 
 
-<div id="orge94528b" class="figure">
+<div id="org96ff133" class="figure">
 <p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_filters_results.png">png</a>, <a href="./figs/hinf_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 4: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgee2667d" class="outline-2">
-<h2 id="orgee2667d"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
+<div id="outline-container-org78c2308" class="outline-2">
+<h2 id="org78c2308"><span class="section-number-2">2</span> Generating 3 complementary filters</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="org7ee6b3d"></a>
+<a id="orgc2b6a36"></a>
 </p>
-<div class="note" id="org4337efe">
+<div class="note" id="orgf6264f9">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/three_comp_filters.m">here</a>.
 </p>
@@ -289,8 +289,8 @@ The Matlab file corresponding to this section is accessible <a href="matlab/thre
 </div>
 </div>
 
-<div id="outline-container-org774f715" class="outline-3">
-<h3 id="org774f715"><span class="section-number-3">2.1</span> Theory</h3>
+<div id="outline-container-org3ecbecd" class="outline-3">
+<h3 id="org3ecbecd"><span class="section-number-3">2.1</span> Theory</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 We want:
@@ -303,11 +303,11 @@ We want:
 \end{align*}
 
 <p>
-For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org5bd5c64">5</a>.
+For that, we use the \(\mathcal{H}_\infty\) synthesis with the architecture shown on figure <a href="#org36378ec">5</a>.
 </p>
 
 
-<div id="org5bd5c64" class="figure">
+<div id="org36378ec" class="figure">
 <p><img src="figs-tikz/comp_filter_three_hinf.png" alt="comp_filter_three_hinf.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Generalized architecture for generating 3 complementary filters</p>
@@ -328,8 +328,8 @@ And thus if we choose \(H_1 = 1 - H_2 - H_3\) we have solved the problem.
 </div>
 </div>
 
-<div id="outline-container-org0ae66b6" class="outline-3">
-<h3 id="org0ae66b6"><span class="section-number-3">2.2</span> Weights</h3>
+<div id="outline-container-org1c36dab" class="outline-3">
+<h3 id="org1c36dab"><span class="section-number-3">2.2</span> Weights</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 First we define the weights.
@@ -346,16 +346,16 @@ W3 = (((1<span class="org-type">/</span>w0)<span class="org-type">*</span>sqrt((
 </div>
 
 
-<div id="orgea9b10d" class="figure">
+<div id="org51a7361" class="figure">
 <p><img src="figs/three_weighting_functions.png" alt="three_weighting_functions.png" />
 </p>
-<p><span class="figure-number">Figure 6: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters (<a href="./figs/three_weighting_functions.png">png</a>, <a href="./figs/three_weighting_functions.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 6: </span>Three weighting functions used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcd90722" class="outline-3">
-<h3 id="orgcd90722"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org0eaccc7" class="outline-3">
+<h3 id="org0eaccc7"><span class="section-number-3">2.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Then we create the generalized plant <code>P</code>.
@@ -376,7 +376,7 @@ And we do the \(\mathcal{H}_\infty\) synthesis.
 </pre>
 </div>
 
-<pre class="example" id="org244b7e8">
+<pre class="example" id="orgb51691e">
 [H, ~, gamma, ~] = hinfsyn(P, 1, 2,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -411,8 +411,8 @@ Test bounds:      0.1000 &lt;  gamma  &lt;=   1050.0000
 </div>
 </div>
 
-<div id="outline-container-orgd2db36a" class="outline-3">
-<h3 id="orgd2db36a"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-org9bf63d6" class="outline-3">
+<h3 id="org9bf63d6"><span class="section-number-3">2.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 The obtained filters are:
@@ -425,22 +425,22 @@ H1 = 1 <span class="org-type">-</span> H2 <span class="org-type">-</span> H3;
 </div>
 
 
-<div id="orga9840dd" class="figure">
+<div id="orge0ba82e" class="figure">
 <p><img src="figs/three_complementary_filters_results.png" alt="three_complementary_filters_results.png" />
 </p>
-<p><span class="figure-number">Figure 7: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis (<a href="./figs/three_complementary_filters_results.png">png</a>, <a href="./figs/three_complementary_filters_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 7: </span>The three complementary filters obtained after \(\mathcal{H}_\infty\) synthesis</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5bcb919" class="outline-2">
-<h2 id="org5bcb919"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
+<div id="outline-container-org81f44ec" class="outline-2">
+<h2 id="org81f44ec"><span class="section-number-2">3</span> Try to implement complementary filters for LIGO</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org4503401"></a>
+<a id="org9bc307b"></a>
 </p>
-<div class="note" id="orgf5ae99b">
+<div class="note" id="org2925a6c">
 <p>
 The Matlab file corresponding to this section is accessible <a href="matlab/comp_filters_ligo.m">here</a>.
 </p>
@@ -456,8 +456,8 @@ The FIR complementary filters designed in (<a href="#citeproc_bib_item_1">Hua 20
 </p>
 </div>
 
-<div id="outline-container-orge1988db" class="outline-3">
-<h3 id="orge1988db"><span class="section-number-3">3.1</span> Specifications</h3>
+<div id="outline-container-orga4105bd" class="outline-3">
+<h3 id="orga4105bd"><span class="section-number-3">3.1</span> Specifications</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The specifications for the filters are:
@@ -470,20 +470,20 @@ The specifications for the filters are:
 </ol>
 
 <p>
-The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#org6d5a7bd">8</a>.
+The specifications are translated in upper bounds of the complementary filters are shown on figure <a href="#org4c48fec">8</a>.
 </p>
 
 
-<div id="org6d5a7bd" class="figure">
+<div id="org4c48fec" class="figure">
 <p><img src="figs/ligo_specifications.png" alt="ligo_specifications.png" />
 </p>
-<p><span class="figure-number">Figure 8: </span>Specification for the LIGO complementary filters (<a href="./figs/ligo_specificationss.png">png</a>, <a href="./figs/ligo_specificationss.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 8: </span>Specification for the LIGO complementary filters</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3248dae" class="outline-3">
-<h3 id="org3248dae"><span class="section-number-3">3.2</span> FIR Filter</h3>
+<div id="outline-container-org96dcf0f" class="outline-3">
+<h3 id="org96dcf0f"><span class="section-number-3">3.2</span> FIR Filter</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 We here try to implement the FIR complementary filter synthesis as explained in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
@@ -564,7 +564,7 @@ h = y(2<span class="org-type">:</span>end);
 </pre>
 </div>
 
-<pre class="example" id="org606c9d7">
+<pre class="example" id="orga2c82eb">
 cvx_begin
 variable y(n+1,1)
 % t
@@ -641,7 +641,7 @@ h = y(2:end);
 </pre>
 
 <p>
-Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#orgcda8059">9</a> which is very close to the filters obtain in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
+Finally, we compute the filter response over the frequency vector defined and the result is shown on figure <a href="#org5cfba53">9</a> which is very close to the filters obtain in (<a href="#citeproc_bib_item_1">Hua 2005</a>).
 </p>
 
 <div class="org-src-container">
@@ -651,16 +651,16 @@ H = [exp(<span class="org-type">-</span><span class="org-constant">j</span><span
 </div>
 
 
-<div id="orgcda8059" class="figure">
+<div id="org5cfba53" class="figure">
 <p><img src="figs/fir_filter_ligo.png" alt="fir_filter_ligo.png" />
 </p>
-<p><span class="figure-number">Figure 9: </span>FIR Complementary filters obtain after convex optimization (<a href="./figs/fir_filter_ligo.png">png</a>, <a href="./figs/fir_filter_ligo.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 9: </span>FIR Complementary filters obtain after convex optimization</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgda2ce10" class="outline-3">
-<h3 id="orgda2ce10"><span class="section-number-3">3.3</span> Weights</h3>
+<div id="outline-container-org4e24e97" class="outline-3">
+<h3 id="org4e24e97"><span class="section-number-3">3.3</span> Weights</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 We design weights that will be used for the \(\mathcal{H}_\infty\) synthesis of the complementary filters.
@@ -674,23 +674,23 @@ Here are the requirements on the filters:
 </ul>
 
 <p>
-The bode plot of the weights is shown on figure <a href="#org0958f5b">10</a>.
+The bode plot of the weights is shown on figure <a href="#org67cc584">10</a>.
 </p>
 
 
-<div id="org0958f5b" class="figure">
+<div id="org67cc584" class="figure">
 <p><img src="figs/ligo_weights.png" alt="ligo_weights.png" />
 </p>
-<p><span class="figure-number">Figure 10: </span>Weights for the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/ligo_weights.png">png</a>, <a href="./figs/ligo_weights.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 10: </span>Weights for the \(\mathcal{H}_\infty\) synthesis</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf343cbe" class="outline-3">
-<h3 id="orgf343cbe"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org31e477e" class="outline-3">
+<h3 id="org31e477e"><span class="section-number-3">3.4</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
-We define the generalized plant as shown on figure <a href="#org6e6716f">1</a>.
+We define the generalized plant as shown on figure <a href="#orgd8e6384">1</a>.
 </p>
 <div class="org-src-container">
 <pre class="src src-matlab">P = [0   wL;
@@ -707,7 +707,7 @@ And we do the \(\mathcal{H}_\infty\) synthesis using the <code>hinfsyn</code> co
 </pre>
 </div>
 
-<pre class="example" id="org8fb0b5a">
+<pre class="example" id="org016d8a9">
 [Hl, ~, gamma, ~] = hinfsyn(P, 1, 1,'TOLGAM', 0.001, 'METHOD', 'ric', 'DISPLAY', 'on');
 Resetting value of Gamma min based on D_11, D_12, D_21 terms
 
@@ -742,37 +742,36 @@ The high pass filter is defined as \(H_H = 1 - H_L\).
 The size of the filters is shown below.
 </p>
 
-<pre class="example" id="org58b790f">
-size(Hh), size(Hl)
+<pre class="example" id="org490d276">
 State-space model with 1 outputs, 1 inputs, and 27 states.
 State-space model with 1 outputs, 1 inputs, and 27 states.
 </pre>
 
 <p>
-The bode plot of the obtained filters as shown on figure <a href="#org8526ebe">11</a>.
+The bode plot of the obtained filters as shown on figure <a href="#orgadabff9">11</a>.
 </p>
 
 
-<div id="org8526ebe" class="figure">
+<div id="orgadabff9" class="figure">
 <p><img src="figs/hinf_synthesis_ligo_results.png" alt="hinf_synthesis_ligo_results.png" />
 </p>
-<p><span class="figure-number">Figure 11: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis (<a href="./figs/hinf_synthesis_ligo_results.png">png</a>, <a href="./figs/hinf_synthesis_ligo_results.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 11: </span>Obtained complementary filters using the \(\mathcal{H}_\infty\) synthesis</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1a0d849" class="outline-3">
-<h3 id="org1a0d849"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
+<div id="outline-container-org63e4690" class="outline-3">
+<h3 id="org63e4690"><span class="section-number-3">3.5</span> Compare FIR and H-Infinity Filters</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
-Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#orgb257f50">12</a>.
+Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item_1">Hua 2005</a>) and the one obtained with the \(\mathcal{H}_\infty\) synthesis on figure <a href="#orgcdb6233">12</a>.
 </p>
 
 
-<div id="orgb257f50" class="figure">
+<div id="orgcdb6233" class="figure">
 <p><img src="figs/comp_fir_ligo_hinf.png" alt="comp_fir_ligo_hinf.png" />
 </p>
-<p><span class="figure-number">Figure 12: </span>Comparison between the FIR filters developped for LIGO and the \(\mathcal{H}_\infty\) complementary filters (<a href="./figs/comp_fir_ligo_hinf.png">png</a>, <a href="./figs/comp_fir_ligo_hinf.pdf">pdf</a>)</p>
+<p><span class="figure-number">Figure 12: </span>Comparison between the FIR filters developped for LIGO and the \(\mathcal{H}_\infty\) complementary filters</p>
 </div>
 </div>
 </div>
@@ -789,7 +788,7 @@ Let&rsquo;s now compare the FIR filters designed in (<a href="#citeproc_bib_item
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2020-11-12 jeu. 10:39</p>
+<p class="date">Created: 2020-12-07 lun. 11:45</p>
 </div>
 </body>
 </html>

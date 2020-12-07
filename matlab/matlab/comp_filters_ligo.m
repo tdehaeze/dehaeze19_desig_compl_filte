@@ -1,4 +1,4 @@
-%% Clear Workspace and Close figures test
+%% Clear Workspace and Close figures
 clear; close all; clc;
 
 %% Intialize Laplace variable
@@ -30,8 +30,8 @@ set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 xlabel('Frequency [Hz]'); ylabel('Magnitude');
 hold off;
 xlim([freqs(1), freqs(end)]);
-ylim([1e-4, 10]);
-legend('location', 'northeast');
+ylim([1e-3, 10]);
+legend('location', 'southeast', 'FontSize', 8);
 
 % FIR Filter
 % We here try to implement the FIR complementary filter synthesis as explained in cite:hua05_low_ligo.
@@ -184,29 +184,29 @@ w = [w1 w2 w3 w4];
 H = [exp(-j*kron(w'.*2*pi,[0:n-1]))]*h;
 
 figure;
+tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
 
-ax1 = subplot(2,1,1);
+% Magnitude
+ax1 = nexttile([2,1]);
 hold on;
 plot(w, abs(H), 'k-');
 plot(w, abs(1-H), 'k--');
 hold off;
 set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-ylabel('Magnitude');
-set(gca, 'XTickLabel',[]);
-ylim([5e-3, 5]);
+ylabel('Magnitude'); set(gca, 'XTickLabel',[]);
+ylim([1e-3, 1e1]);
 
-ax2 = subplot(2,1,2);
+ax2 = nexttile;
 hold on;
 plot(w, 180/pi*angle(H), 'k-');
 plot(w, 180/pi*angle(1-H), 'k--');
 hold off;
 xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
 set(gca, 'XScale', 'log');
-yticks([-540:90:360]);
+yticks([-180:90:180]);
 
 linkaxes([ax1,ax2],'x');
 xlim([1e-3, 1]);
-xticks([0.01, 0.1, 1, 10, 100, 1000]);
 
 % Weights
 % We design weights that will be used for the $\mathcal{H}_\infty$ synthesis of the complementary filters.
@@ -258,9 +258,8 @@ plot([0.1, 10], [0.045, 0.045], 'k--', 'HandleVisibility', 'off');
 set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 xlabel('Frequency [Hz]'); ylabel('Magnitude');
 hold off;
-xlim([freqs(1), freqs(end)]);
-ylim([1e-3, 10]);
-legend('location', 'southeast');
+xlim([1e-3, 1e0]); ylim([1e-3, 10]);
+legend('location', 'southeast', 'FontSize', 8);
 
 % H-Infinity Synthesis
 % We define the generalized plant as shown on figure [[fig:h_infinity_robst_fusion]].
@@ -319,9 +318,8 @@ size(Hh), size(Hl)
 
 % #+RESULTS:
 % #+begin_example
-% size(Hh), size(Hl)
-% State-space model with 1 outputs, 1 inputs, and 27 states.
-% State-space model with 1 outputs, 1 inputs, and 27 states.
+%   State-space model with 1 outputs, 1 inputs, and 27 states.
+%   State-space model with 1 outputs, 1 inputs, and 27 states.
 % #+end_example
 
 % The bode plot of the obtained filters as shown on figure [[fig:hinf_synthesis_ligo_results]].
@@ -349,47 +347,48 @@ xlabel('Frequency [Hz]'); ylabel('Magnitude');
 hold off;
 xlim([freqs(1), freqs(end)]);
 ylim([1e-3, 10]);
-legend('location', 'southeast');
+legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
 
 % Compare FIR and H-Infinity Filters
 % Let's now compare the FIR filters designed in cite:hua05_low_ligo and the one obtained with the $\mathcal{H}_\infty$ synthesis on figure [[fig:comp_fir_ligo_hinf]].
 
 
 figure;
-ax1 = subplot(2,1,1);
+tiledlayout(3, 1, 'TileSpacing', 'None', 'Padding', 'None');
+
+% Magnitude
+ax1 = nexttile([2,1]);
 hold on;
 set(gca,'ColorOrderIndex',1);
-plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-');
+plot(freqs, abs(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$H_L$ - $\mathcal{H}_\infty$');
 set(gca,'ColorOrderIndex',2);
-plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-');
+plot(freqs, abs(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'DisplayName', '$H_H$ - $\mathcal{H}_\infty$');
 
 set(gca,'ColorOrderIndex',1);
-plot(w, abs(H), '--');
+plot(w, abs(H), '--', 'DisplayName', '$H_L$ - FIR');
 set(gca,'ColorOrderIndex',2);
-plot(w, abs(1-H), '--');
+plot(w, abs(1-H), '--', 'DisplayName', '$H_H$ - FIR');
 hold off;
 set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-ylabel('Magnitude');
-set(gca, 'XTickLabel',[]);
+ylabel('Magnitude'); set(gca, 'XTickLabel',[]);
+legend('location', 'southeast', 'FontSize', 8, 'NumColumns', 2);
 ylim([1e-3, 10]);
 
-ax2 = subplot(2,1,2);
+ax2 = nexttile;
 hold on;
 set(gca,'ColorOrderIndex',1);
-plot(freqs, 180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), '-', 'DisplayName', '$\mathcal{H}_\infty$ filters');
+plot(freqs, 180/pi*angle(squeeze(freqresp(Hh, freqs, 'Hz'))), '-');
 set(gca,'ColorOrderIndex',2);
-plot(freqs, 180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), '-', 'HandleVisibility', 'off');
+plot(freqs, 180/pi*angle(squeeze(freqresp(Hl, freqs, 'Hz'))), '-');
 
 set(gca,'ColorOrderIndex',1);
-plot(w, 180/pi*angle(H), '--', 'DisplayName', 'FIR filters');
+plot(w, 180/pi*angle(H), '--');
 set(gca,'ColorOrderIndex',2);
-plot(w, 180/pi*angle(1-H), '--', 'HandleVisibility', 'off');
+plot(w, 180/pi*angle(1-H), '--');
 set(gca, 'XScale', 'log');
 xlabel('Frequency [Hz]'); ylabel('Phase [deg]');
 hold off;
 yticks([-540:90:360]);
-legend('location', 'northeast');
 
 linkaxes([ax1,ax2],'x');
 xlim([freqs(1), freqs(end)]);
-xticks([0.001, 0.01, 0.1, 1]);
