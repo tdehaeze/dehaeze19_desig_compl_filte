@@ -3,13 +3,21 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-20 ven. 19:01 -->
+<!-- 2020-11-20 ven. 19:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>Complementary Filters Shaping Using \(\mathcal{H}_\infty\) Synthesis - Python Computation</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Thomas Dehaeze" />
 <link rel="stylesheet" type="text/css" href="https://research.tdehaeze.xyz/css/style.css"/>
 <script type="text/javascript" src="https://research.tdehaeze.xyz/js/script.js"></script>
+<script>MathJax = {
+          tex: {
+            tags: 'ams',
+            macros: {bm: ["\\boldsymbol{#1}",1],}
+            }
+          };
+          </script>
+          <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -22,24 +30,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8df2f86">1. H-Infinity synthesis of complementary filters</a>
+<li><a href="#orgc1e00b7">1. H-Infinity synthesis of complementary filters</a>
 <ul>
-<li><a href="#orgaee18cf">1.1. Imports Necessary Python Modules</a></li>
-<li><a href="#org7c67afe">1.2. Design of Weighting Function</a></li>
-<li><a href="#orge32abdb">1.3. H-Infinity Synthesis</a></li>
-<li><a href="#orgd3603b4">1.4. Obtained Complementary Filters</a></li>
+<li><a href="#org5cc0669">1.1. Imports Necessary Python Modules</a></li>
+<li><a href="#org48f25d4">1.2. Design of Weighting Function</a></li>
+<li><a href="#org406aa5f">1.3. H-Infinity Synthesis</a></li>
+<li><a href="#org35170ea">1.4. Obtained Complementary Filters</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8df2f86" class="outline-2">
-<h2 id="org8df2f86"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
+<div id="outline-container-orgc1e00b7" class="outline-2">
+<h2 id="orgc1e00b7"><span class="section-number-2">1</span> H-Infinity synthesis of complementary filters</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgaee18cf" class="outline-3">
-<h3 id="orgaee18cf"><span class="section-number-3">1.1</span> Imports Necessary Python Modules</h3>
+<div id="outline-container-org5cc0669" class="outline-3">
+<h3 id="org5cc0669"><span class="section-number-3">1.1</span> Imports Necessary Python Modules</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-keyword">import</span> os
@@ -68,8 +76,8 @@ mpl.style.use(<span class="org-string">'seaborn-colorblind'</span>)
 </div>
 </div>
 
-<div id="outline-container-org7c67afe" class="outline-3">
-<h3 id="org7c67afe"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
+<div id="outline-container-org48f25d4" class="outline-3">
+<h3 id="org48f25d4"><span class="section-number-3">1.2</span> Design of Weighting Function</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-variable-name">A1</span> = 1e-<span class="org-highlight-numbers-number">2</span>;
@@ -99,15 +107,16 @@ plt.show(block=<span class="org-constant">False</span>)
 </div>
 
 
-<div id="org82b1a26" class="figure">
-<p><img src="figs/weights.png" alt="weights.png" />
+<div id="org68ba2c5" class="figure">
+<p><img src="figs/weights_W1_W2.png" alt="weights_W1_W2.png" />
 </p>
+<p><span class="figure-number">Figure 1: </span>Weights \(W_1\) and \(W_2\) on the complementary filters</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge32abdb" class="outline-3">
-<h3 id="orge32abdb"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
+<div id="outline-container-org406aa5f" class="outline-3">
+<h3 id="org406aa5f"><span class="section-number-3">1.3</span> H-Infinity Synthesis</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-variable-name">P</span> = tf([[W1.den[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>], -W1.den[<span class="org-highlight-numbers-number">0</span>][<span class="org-highlight-numbers-number">0</span>]],
@@ -136,8 +145,8 @@ plt.show(block=<span class="org-constant">False</span>)
 </div>
 </div>
 
-<div id="outline-container-orgd3603b4" class="outline-3">
-<h3 id="orgd3603b4"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
+<div id="outline-container-org35170ea" class="outline-3">
+<h3 id="org35170ea"><span class="section-number-3">1.4</span> Obtained Complementary Filters</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-variable-name">fig</span>=plt.figure()
@@ -151,9 +160,10 @@ plt.show(block=<span class="org-constant">False</span>)
 </div>
 
 
-<div id="org02ae686" class="figure">
-<p><img src="figs/results.png" alt="results.png" />
+<div id="org8efca42" class="figure">
+<p><img src="figs/hinf_filters_results.png" alt="hinf_filters_results.png" />
 </p>
+<p><span class="figure-number">Figure 2: </span>Obtained complementary filters using \(\mathcal{H}_\infty\) synthesis</p>
 </div>
 </div>
 </div>
@@ -161,7 +171,7 @@ plt.show(block=<span class="org-constant">False</span>)
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Thomas Dehaeze</p>
-<p class="date">Created: 2020-11-20 ven. 19:01</p>
+<p class="date">Created: 2020-11-20 ven. 19:03</p>
 </div>
 </body>
 </html>

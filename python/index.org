@@ -71,13 +71,15 @@
 
 #+begin_src python :exports results :results file replace
   fig.tight_layout()
-  filename = "figs/weights.png"
+  filename = "figs/weights_W1_W2.png"
   plt.savefig(filename)
   filename
 #+end_src
 
+#+name: fig:weights_W1_W2
+#+caption: Weights $W_1$ and $W_2$ on the complementary filters
 #+RESULTS:
-[[file:figs/weights.png]]
+[[file:figs/weights_W1_W2.png]]
 
 ** H-Infinity Synthesis
 #+begin_src python
@@ -117,10 +119,12 @@
 
 #+begin_src python :exports results :results file replace
   fig.tight_layout()
-  filename = "figs/results.png"
+  filename = "figs/hinf_filters_results.png"
   plt.savefig(filename)
   filename
 #+end_src
 
+#+name: fig:hinf_filters_results
+#+CAPTION: Obtained complementary filters using $\mathcal{H}_\infty$ synthesis
 #+RESULTS:
-[[file:figs/results.png]]
+[[file:figs/hinf_filters_results.png]]
